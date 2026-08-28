@@ -157,6 +157,19 @@ $$\text{EffectiveClassEvent} + \text{CoachingBrief} \xrightarrow{\text{Authorize
 
 ---
 
+## Live Calendar Setup
+
+For interactive authentication and controlled live integration testing against real Google Calendars:
+
+1. **OAuth Credentials**: Obtain a Desktop application client secrets JSON file from Google Cloud Console.
+2. **Environment Configuration**: Set `GOOGLE_CALENDAR_CREDENTIALS_FILE` and `GOOGLE_CALENDAR_TOKEN_FILE` in your `.env` file (never commit credentials or token files).
+3. **Authorize Read Access**: Run `python scripts/google_calendar_smoke.py` to list accessible calendars.
+4. **Authorize Write Access**: Run `python scripts/google_calendar_write_smoke.py --calendar-id <ID> --execute` to test controlled event publishing with dry-run protection and ownership tracking.
+
+For full step-by-step instructions, see [docs/google-calendar-live-setup.md](docs/google-calendar-live-setup.md).
+
+---
+
 ## Quickstart & Development
 
 ### 1. Prerequisites
