@@ -111,6 +111,20 @@ $$\text{Schedule} + \text{Syllabus} + \text{Teaching History} + \text{Target Dat
 
 ---
 
+## Google Calendar Integration (Read-Only)
+
+External Google Calendar events are ingested via the narrowest read-only OAuth 2.0 scope (`https://www.googleapis.com/auth/calendar.readonly`):
+
+$$\text{Google Calendar API Resource} \xrightarrow{\text{Mapper}} \text{OperationalCalendarEvent} \xrightarrow{\text{Alias Filter}} \text{Course Events}$$
+
+- **Boundary Isolation**: Raw Google API dictionary structures are strictly mapped into immutable domain models (`OperationalCalendarEvent`, `CalendarDescriptor`). Provider schemas never leak into core services.
+- **Timezone Awareness**: All mapped calendar events enforce timezone-aware `datetime` objects. All-day events with exclusive Google end dates are converted to boundary timestamps via explicit `ZoneInfo`.
+- **Baseline Schedule Non-Authority**: Google Calendar events are ingested for operational visibility and course alias filtering; they are **not yet authoritative** over baseline syllabus schedules.
+- **Read-Only Invariant**: Calendar write operations (`events.insert`, `update`, `delete`) and write scopes are intentionally not enabled.
+- **Developer Smoke Tool**: An interactive CLI tool [`scripts/google_calendar_smoke.py`](scripts/google_calendar_smoke.py) is available for local verification without impacting automated test suites.
+
+---
+
 ## Quickstart & Development
 
 ### 1. Prerequisites

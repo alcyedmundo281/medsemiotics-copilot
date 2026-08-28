@@ -16,9 +16,16 @@ from medsemiotics.domain.academic_state import (
     TopicProgress,
     TopicProgressStatus,
 )
+from medsemiotics.domain.calendar import (
+    CourseCalendarConfig,
+    OperationalCalendarEvent,
+)
 from medsemiotics.domain.exceptions import (
     AcademicStateError,
     AcademicValidationError,
+    CalendarConfigError,
+    CalendarConfigNotFoundError,
+    CalendarConfigValidationError,
     MedSemioticsError,
     ScheduleError,
     ScheduleNotFoundError,
@@ -56,14 +63,19 @@ from medsemiotics.domain.topics import Topic, TopicId, validate_and_normalize_to
 __all__ = [
     "AcademicStateError",
     "AcademicValidationError",
+    "CalendarConfigError",
+    "CalendarConfigNotFoundError",
+    "CalendarConfigValidationError",
     "ClassMeetingRule",
     "ClassWeekday",
     "Course",
     "CourseAcademicState",
+    "CourseCalendarConfig",
     "CourseCode",
     "CourseTeachingSchedule",
     "CoverageStatus",
     "MedSemioticsError",
+    "OperationalCalendarEvent",
     "ScheduleError",
     "ScheduleException",
     "ScheduleExceptionType",

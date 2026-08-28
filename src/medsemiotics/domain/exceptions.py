@@ -59,3 +59,15 @@ class ScheduleNotFoundError(ScheduleError):
 
 class ScheduleValidationError(ScheduleError):
     """Raised when a teaching schedule fails schema or structural validation."""
+
+
+class CalendarConfigError(MedSemioticsError):
+    """Base exception for calendar configuration and repository errors."""
+
+
+class CalendarConfigNotFoundError(CalendarConfigError):
+    """Raised when a course calendar configuration file cannot be found."""
+
+
+class CalendarConfigValidationError(CalendarConfigError):
+    """Raised when a course calendar configuration fails validation."""
