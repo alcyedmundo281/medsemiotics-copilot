@@ -1,0 +1,56 @@
+"""Integration tests verifying the actual project configuration files on disk."""
+
+from pathlib import Path
+
+from medsemiotics.services.semester_config import (
+    load_current_semester_id,
+    load_semester_config,
+)
+from medsemiotics.services.semester_repository import SemesterRepository
+
+
+def test_real_semester_2026_2_config() -> None:
+    """Verify config/semesters/2026-2.yaml contains valid semester configuration."""
+    project_root = Path(__file__).resolve().parent.parent
+    config_path = project_root / "config" / "semesters" / "2026-2.yaml"
+
+    assert config_path.is_file(), f"Expected config file at {config_path}"
+
+    config = load_semester_config(config_path)
+
+    assert config.semester_id == "2026-2"
+    assert config.display_name == "2026-2"
+    assert config.active is True
+
+    course_codes = {course.code for course in config.courses}
+    assert course_codes == {"NEURO", "GASTRO"}
+
+    course_map = {course.code: course for course in config.courses}
+    assert course_map["NEURO"].name == "Neurología"
+    assert course_map["NEURO"].active is True
+    assert course_map["GASTRO"].name == "Gastroenterología"
+    assert course_map["GASTRO"].active is True
+
+
+def test_real_current_semester_pointer() -> None:
+    """Verify config/current_semester.yaml points to an active valid semester."""
+    project_root = Path(__file__).resolve().parent.parent
+    pointer_path = project_root / "config" / "current_semester.yaml"
+
+    assert pointer_path.is_file(), f"Expected pointer file at {pointer_path}"
+
+    current_id = load_current_semester_id(pointer_path)
+    assert current_id == "2026-2"
+
+
+def test_real_repository_resolution() -> None:
+    """Verify SemesterRepository resolves real config directory properly."""
+    project_root = Path(__file__).resolve().parent.parent
+    semesters_dir = project_root / "config" / "semesters"
+
+    repo = SemesterRepository(semesters_dir)
+    assert repo.exists("2026-2") is True
+    assert "2026-2" in repo.list_semesters()
+
+    config = repo.get("2026-2")
+    assert config.semester_id == "2026-2"

@@ -28,6 +28,9 @@ MedSemiotics Teaching Copilot is designed on a core architectural principle: the
 The **KNOW** layer holds the authoritative domain representations, data models, state storage, and invariant rules of the academic environment.
 
 - **Academic State**: Course configurations, semesters, enrollment definitions, grading schemes.
+- **Academic Domain Entities**: `Course`, `SemesterConfig`, `CourseCode`, and `SemesterId` representing validated academic structures.
+- **Semester Configuration Repository & Pointer**: `SemesterRepository` providing pure read-only access to semester definitions on disk, and `current_semester.yaml` holding the active semester pointer.
+- **Configuration vs. Integration**: Semester YAML files (`config/semesters/*.yaml`) represent static domain configuration and state, **not** an external integration.
 - **Syllabus**: Planned vs. actual taught syllabus tracking, topic hierarchies, competency mappings for Neurology and Gastroenterology.
 - **Teaching Logs**: Chronological lecture/seminar logs, instructor notes, clinical vignette associations.
 - **Assignments & Rubrics**: Assessment structures, rubric criteria, submission schema definitions.
@@ -38,6 +41,7 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
 - Contains immutable schemas and pure domain state models (Pydantic / SQL / YAML).
 - Does not execute agentic reasoning or LLM inference.
 - Does not perform external mutating operations.
+- Purely read-only data access without external network dependencies.
 
 ---
 
