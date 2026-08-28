@@ -138,6 +138,25 @@ $$\text{Baseline Schedule} + \text{Operational Google Calendar Events} \longrigh
 
 ---
 
+## Calendar Coaching Publishing (Controlled Write)
+
+Pedagogical briefings and session materials can be published to Google Calendar as structured, tracked events:
+
+$$\text{EffectiveClassEvent} + \text{CoachingBrief} \xrightarrow{\text{Authorized Plan}} \text{CalendarPublishRequest} \xrightarrow{\text{Writer}} \text{Google Calendar}$$
+
+- **Strict Ownership Invariant**: MedSemiotics only mutates calendar events that it explicitly owns. Ownership is tracked strictly via Google Calendar private extended properties (`medsemiotics_managed="true"`, `medsemiotics_semester_id`, `medsemiotics_course_code`, `medsemiotics_class_date`, `medsemiotics_schema_version`), never inferred from display titles.
+- **Explicit Authorization Required**: All write workflows require explicit, auditable authorization (`authorized=True`). Unauthorized calls immediately abort with zero external calls.
+- **Idempotent Mutation Semantics**:
+  - **`created`**: Inserts a new event if no owned event exists for that course and date.
+  - **`updated`**: Patches owned fields (`summary`, `description`, `start`, `end`, `location`, `reminders`, `extendedProperties`) if changes are detected. Unrelated fields (attendees, conferenceData, colors) are preserved.
+  - **`unchanged`**: Skips API mutations entirely if the existing owned event is already identical.
+- **No Destructive Actions**: Event deletions (`events.delete`) are intentionally not implemented.
+- **No Bulk Publishing**: Publishing operates strictly on one class session at a time to prevent accidental mass mutations.
+- **Minimal Write Scope**: Uses `https://www.googleapis.com/auth/calendar.events` (narrower than full calendar access).
+- **Developer Write Smoke Tool**: [`scripts/google_calendar_write_smoke.py`](scripts/google_calendar_write_smoke.py) runs in dry-run mode by default and requires `--execute` for live testing.
+
+---
+
 ## Quickstart & Development
 
 ### 1. Prerequisites

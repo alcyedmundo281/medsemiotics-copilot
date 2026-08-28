@@ -17,3 +17,11 @@ class GoogleCalendarReadError(GoogleCalendarError):
 
 class GoogleCalendarMappingError(GoogleCalendarError):
     """Raised when a raw Google Calendar event fails mapping to OperationalCalendarEvent."""
+
+
+class GoogleCalendarWriteError(GoogleCalendarError):
+    """Raised when creating, updating, or patching a Google Calendar event fails."""
+
+
+class GoogleCalendarOwnershipError(GoogleCalendarError):
+    """Raised when event ownership integrity fails or multiple managed events conflict."""

@@ -65,7 +65,7 @@ select = [
     "PTH",    # flake8-use-pathlib
     "RUF",    # Ruff-specific rules
 ]
-ignore = []
+ignore = ["E501"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["medsemiotics"]
@@ -74,6 +74,7 @@ known-first-party = ["medsemiotics"]
 python_version = "3.12"
 mypy_path = "src"
 packages = ["medsemiotics"]
+plugins = ["pydantic.mypy"]
 strict = true
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
@@ -85,6 +86,16 @@ warn_return_any = true
 warn_unreachable = true
 show_error_codes = true
 pretty = true
+
+[[tool.mypy.overrides]]
+module = [
+    "googleapiclient.*",
+    "google_auth_oauthlib.*",
+    "google.auth.*",
+    "google.oauth2.*",
+]
+ignore_missing_imports = true
+disallow_untyped_calls = false
 
 [[tool.mypy.overrides]]
 module = "tests.*"

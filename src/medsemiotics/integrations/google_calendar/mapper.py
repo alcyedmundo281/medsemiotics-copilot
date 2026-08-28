@@ -13,7 +13,7 @@ from medsemiotics.integrations.google_calendar.exceptions import (
 
 
 def map_google_event(
-    raw_event: dict[str, Any],
+    raw_event: object,
     *,
     calendar_id: str,
     default_timezone: ZoneInfo,
