@@ -11,7 +11,13 @@ from medsemiotics.domain.academic import (
     validate_and_normalize_course_code,
     validate_and_normalize_semester_id,
 )
+from medsemiotics.domain.academic_state import (
+    CourseAcademicState,
+    TopicProgress,
+    TopicProgressStatus,
+)
 from medsemiotics.domain.exceptions import (
+    AcademicStateError,
     AcademicValidationError,
     MedSemioticsError,
     SemesterConfigError,
@@ -34,8 +40,10 @@ from medsemiotics.domain.teaching_log import (
 from medsemiotics.domain.topics import Topic, TopicId, validate_and_normalize_topic_id
 
 __all__ = [
+    "AcademicStateError",
     "AcademicValidationError",
     "Course",
+    "CourseAcademicState",
     "CourseCode",
     "CoverageStatus",
     "MedSemioticsError",
@@ -56,6 +64,8 @@ __all__ = [
     "TeachingSessionTopic",
     "Topic",
     "TopicId",
+    "TopicProgress",
+    "TopicProgressStatus",
     "validate_and_normalize_course_code",
     "validate_and_normalize_semester_id",
     "validate_and_normalize_session_id",
