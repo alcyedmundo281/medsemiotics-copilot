@@ -28,12 +28,17 @@ MedSemiotics Teaching Copilot is designed on a core architectural principle: the
 The **KNOW** layer holds the authoritative domain representations, data models, state storage, and invariant rules of the academic environment.
 
 - **Academic State**: Course configurations, semesters, enrollment definitions, grading schemes.
-- **Academic Domain Entities**: `Course`, `SemesterConfig`, `CourseCode`, and `SemesterId` representing validated academic structures.
-- **Semester Configuration Repository & Pointer**: `SemesterRepository` providing pure read-only access to semester definitions on disk, and `current_semester.yaml` holding the active semester pointer.
-- **Configuration vs. Integration**: Semester YAML files (`config/semesters/*.yaml`) represent static domain configuration and state, **not** an external integration.
-- **Syllabus**: Planned vs. actual taught syllabus tracking, topic hierarchies, competency mappings for Neurology and Gastroenterology.
-- **Teaching Logs**: Chronological lecture/seminar logs, instructor notes, clinical vignette associations.
-- **Assignments & Rubrics**: Assessment structures, rubric criteria, submission schema definitions.
+- **Academic Domain Entities**: `Course`, `SemesterConfig`, `Topic`, `CourseCode`, `SemesterId`, and `TopicId` representing validated academic building blocks.
+- **Curriculum Planning vs. Teaching Reality**:
+  - `SyllabusPlan` & `SyllabusTopic`: The intended sequential curriculum structure (`planned_order`, `planned_week`).
+  - `TeachingSession` & `TeachingSessionTopic` (`CoverageStatus`): Historical log of actual class meetings and coverage achieved (`introduced`, `partial`, `completed`, `reviewed`, `skipped`).
+  - **Core Invariant**: **"Planned curriculum and actual teaching history are separate sources of truth."**
+- **Repositories & Storage**:
+  - `SemesterRepository`: Read-only access to semester definitions on disk (`config/semesters/`).
+  - `SyllabusRepository`: Read-only access to planned syllabi (`config/syllabi/<semester_id>/<course_code>.yaml`).
+  - `TeachingLogRepository`: Read-only access to historical teaching sessions (`config/teaching_logs/<semester_id>/<course_code>.yaml`).
+  - `current_semester.yaml`: Active semester pointer file.
+- **Configuration vs. Integration**: Semester and syllabus YAML files represent static domain configuration and state, **not** external integrations.
 - **Evidence & Literature**: PubMed, PMC, DOI, and Crossref metadata and citation records.
 - **Media & Assets**: Wikimedia Commons media indexing, medical illustrations, attribution records, and licensing metadata.
 

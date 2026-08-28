@@ -1,0 +1,23 @@
+semester_id: "2026-2"
+course_code: "NEURO"
+topics:
+  - topic_id: "neuro-intro"
+    planned_order: 1
+    planned_week: 1
+    required: true
+  - topic_id: "mental-status"
+    planned_order: 2
+    planned_week: 2
+    required: true
+  - topic_id: "cranial-nerves"
+    planned_order: 3
+    planned_week: 3
+    required: true
+  - topic_id: "motor-system"
+    planned_order: 4
+    planned_week: 4
+    required: true
+  - topic_id: "coordination-cerebellum"
+    planned_order: 5
+    planned_week: 5
+    required: true

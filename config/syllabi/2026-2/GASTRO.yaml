@@ -1,0 +1,23 @@
+semester_id: "2026-2"
+course_code: "GASTRO"
+topics:
+  - topic_id: "gastro-intro"
+    planned_order: 1
+    planned_week: 1
+    required: true
+  - topic_id: "abdominal-pain"
+    planned_order: 2
+    planned_week: 2
+    required: true
+  - topic_id: "dysphagia"
+    planned_order: 3
+    planned_week: 3
+    required: true
+  - topic_id: "jaundice"
+    planned_order: 4
+    planned_week: 4
+    required: true
+  - topic_id: "ascites"
+    planned_order: 5
+    planned_week: 5
+    required: true

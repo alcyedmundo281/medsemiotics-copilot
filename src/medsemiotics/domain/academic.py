@@ -12,6 +12,37 @@ type CourseCode = str
 type SemesterId = str
 
 
+def validate_and_normalize_course_code(value: object) -> str:
+    """Validate and normalize a course code to uppercase without whitespace."""
+    if not isinstance(value, str):
+        msg = "Course code must be a string"
+        raise ValueError(msg)
+    cleaned = value.strip()
+    if not cleaned:
+        msg = "Course code cannot be empty or blank"
+        raise ValueError(msg)
+    normalized = cleaned.upper()
+    if not COURSE_CODE_PATTERN.match(normalized):
+        msg = (
+            f"Course code '{normalized}' is invalid. "
+            "Allowed characters are letters, numbers, underscores, and hyphens."
+        )
+        raise ValueError(msg)
+    return normalized
+
+
+def validate_and_normalize_semester_id(value: object) -> str:
+    """Validate and normalize a semester ID adhering to YYYY-1 or YYYY-2 format."""
+    if not isinstance(value, str):
+        msg = "Semester ID must be a string"
+        raise ValueError(msg)
+    cleaned = value.strip()
+    if not SEMESTER_ID_PATTERN.match(cleaned):
+        msg = f"Invalid semester_id '{cleaned}'. Must match format YYYY-1 or YYYY-2."
+        raise ValueError(msg)
+    return cleaned
+
+
 class Course(BaseModel):
     """Domain model representing an academic course."""
 
@@ -24,22 +55,8 @@ class Course(BaseModel):
     @field_validator("code", mode="before")
     @classmethod
     def validate_and_normalize_code(cls, value: object) -> str:
-        """Validate and normalize the course code to uppercase without whitespace."""
-        if not isinstance(value, str):
-            msg = "Course code must be a string"
-            raise ValueError(msg)
-        cleaned = value.strip()
-        if not cleaned:
-            msg = "Course code cannot be empty or blank"
-            raise ValueError(msg)
-        normalized = cleaned.upper()
-        if not COURSE_CODE_PATTERN.match(normalized):
-            msg = (
-                f"Course code '{normalized}' is invalid. "
-                "Allowed characters are letters, numbers, underscores, and hyphens."
-            )
-            raise ValueError(msg)
-        return normalized
+        """Validate and normalize course code."""
+        return validate_and_normalize_course_code(value)
 
     @field_validator("name", mode="before")
     @classmethod
@@ -69,14 +86,7 @@ class SemesterConfig(BaseModel):
     @classmethod
     def validate_and_normalize_semester_id(cls, value: object) -> str:
         """Validate that semester_id conforms to the YYYY-1 or YYYY-2 format."""
-        if not isinstance(value, str):
-            msg = "Semester ID must be a string"
-            raise ValueError(msg)
-        cleaned = value.strip()
-        if not SEMESTER_ID_PATTERN.match(cleaned):
-            msg = f"Invalid semester_id '{cleaned}'. Must match format YYYY-1 or YYYY-2."
-            raise ValueError(msg)
-        return cleaned
+        return validate_and_normalize_semester_id(value)
 
     @field_validator("display_name", mode="before")
     @classmethod
