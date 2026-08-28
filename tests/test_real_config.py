@@ -5,6 +5,9 @@ from pathlib import Path
 
 from medsemiotics.domain.academic_state import TopicProgressStatus
 from medsemiotics.domain.teaching_position import TeachingPaceStatus
+from medsemiotics.services.calendar_config_repository import (
+    CalendarConfigRepository,
+)
 from medsemiotics.services.course_state_service import CourseStateService
 from medsemiotics.services.schedule_repository import ScheduleRepository
 from medsemiotics.services.semester_config import (
@@ -160,3 +163,25 @@ def test_real_teaching_position_disabled_schedules() -> None:
     gastro_pos = service.get_position("2026-2", "GASTRO", date(2026, 8, 15))
     assert gastro_pos.pace_status == TeachingPaceStatus.UNAVAILABLE
     assert service.get_topic_for_date("2026-2", "GASTRO", date(2026, 8, 15)) is None
+
+
+def test_real_calendar_config_2026_2() -> None:
+    """Verify real calendar config files for NEURO and GASTRO exist with enabled: false."""
+    project_root = Path(__file__).resolve().parent.parent
+    calendar_dir = project_root / "config" / "calendar"
+
+    repo = CalendarConfigRepository(calendar_dir)
+
+    neuro_cfg = repo.get("2026-2", "NEURO")
+    assert neuro_cfg.semester_id == "2026-2"
+    assert neuro_cfg.course_code == "NEURO"
+    assert neuro_cfg.enabled is False
+    assert neuro_cfg.calendar_id is None
+    assert "Neurología" in neuro_cfg.aliases
+
+    gastro_cfg = repo.get("2026-2", "GASTRO")
+    assert gastro_cfg.semester_id == "2026-2"
+    assert gastro_cfg.course_code == "GASTRO"
+    assert gastro_cfg.enabled is False
+    assert gastro_cfg.calendar_id is None
+    assert "Gastroenterología" in gastro_cfg.aliases

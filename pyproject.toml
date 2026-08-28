@@ -16,8 +16,13 @@ authors = [
 ]
 dependencies = [
     "fastapi>=0.110.0",
+    "google-api-python-client>=2.199.0",
+    "google-auth>=2.57.0",
+    "google-auth-httplib2>=0.4.2",
+    "google-auth-oauthlib>=1.4.1",
     "pydantic>=2.6.0",
     "pyyaml>=6.0.1",
+    "tzdata>=2026.3",
 ]
 
 [dependency-groups]
