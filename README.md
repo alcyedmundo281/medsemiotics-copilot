@@ -98,6 +98,19 @@ The projection engine explicitly distinguishes:
 
 ---
 
+## Teaching Schedule and Position
+
+The platform combines course meeting rules with syllabus and actual teaching history to resolve pacing for any explicit reference date:
+
+$$\text{Schedule} + \text{Syllabus} + \text{Teaching History} + \text{Target Date} \longrightarrow \text{TeachingPosition}$$
+
+- **`CourseTeachingSchedule`**: Defines term boundaries (`teaching_start_date` .. `teaching_end_date`), recurring weekly meeting rules (`ClassMeetingRule`), and overrides (`ScheduleException`: `cancelled`, `no_class`, `makeup`).
+- **`TeachingPosition`**: Evaluates whether the target date is a class date, computes `expected_session_count`, `actual_session_count`, `expected_topic_order`, `current_topic_id`, and pacing assessment (`TeachingPaceStatus`: `ahead`, `on_track`, `behind`, `not_started`, `complete`, `unavailable`).
+- **Placeholder Schedules**: Default schedule files in `config/schedules/` are initialized with `enabled: false` as structural placeholders until actual institutional timetables are configured.
+- **Deterministic Date Invariant**: All date calculations require an explicit `target_date` argument. No service silently queries the system clock (`date.today()` or `datetime.now()`).
+
+---
+
 ## Quickstart & Development
 
 ### 1. Prerequisites

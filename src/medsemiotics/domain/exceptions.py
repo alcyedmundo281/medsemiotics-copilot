@@ -47,3 +47,15 @@ class AcademicValidationError(MedSemioticsError):
 
 class AcademicStateError(MedSemioticsError):
     """Raised when academic state projection fails or scope mismatches."""
+
+
+class ScheduleError(MedSemioticsError):
+    """Base exception for schedule configuration and repository errors."""
+
+
+class ScheduleNotFoundError(ScheduleError):
+    """Raised when a teaching schedule file cannot be found."""
+
+
+class ScheduleValidationError(ScheduleError):
+    """Raised when a teaching schedule fails schema or structural validation."""

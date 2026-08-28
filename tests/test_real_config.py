@@ -1,15 +1,19 @@
 """Integration tests verifying the actual project configuration files on disk."""
 
+from datetime import date
 from pathlib import Path
 
 from medsemiotics.domain.academic_state import TopicProgressStatus
+from medsemiotics.domain.teaching_position import TeachingPaceStatus
 from medsemiotics.services.course_state_service import CourseStateService
+from medsemiotics.services.schedule_repository import ScheduleRepository
 from medsemiotics.services.semester_config import (
     load_current_semester_id,
     load_semester_config,
 )
 from medsemiotics.services.semester_repository import SemesterRepository
 from medsemiotics.services.syllabus_repository import SyllabusRepository
+from medsemiotics.services.teaching_day_service import TeachingDayService
 from medsemiotics.services.teaching_log_repository import TeachingLogRepository
 
 
@@ -134,3 +138,25 @@ def test_real_academic_state_gastro_2026_2() -> None:
 
     unplanned = service.get_unplanned_taught_topic_ids("2026-2", "GASTRO")
     assert unplanned == []
+
+
+def test_real_teaching_position_disabled_schedules() -> None:
+    """Verify real placeholder schedule files resolve to UNAVAILABLE."""
+    project_root = Path(__file__).resolve().parent.parent
+    sched_dir = project_root / "config" / "schedules"
+    syll_dir = project_root / "config" / "syllabi"
+    log_dir = project_root / "config" / "teaching_logs"
+
+    service = TeachingDayService(
+        ScheduleRepository(sched_dir),
+        SyllabusRepository(syll_dir),
+        TeachingLogRepository(log_dir),
+    )
+
+    neuro_pos = service.get_position("2026-2", "NEURO", date(2026, 8, 15))
+    assert neuro_pos.pace_status == TeachingPaceStatus.UNAVAILABLE
+    assert service.get_topic_for_date("2026-2", "NEURO", date(2026, 8, 15)) is None
+
+    gastro_pos = service.get_position("2026-2", "GASTRO", date(2026, 8, 15))
+    assert gastro_pos.pace_status == TeachingPaceStatus.UNAVAILABLE
+    assert service.get_topic_for_date("2026-2", "GASTRO", date(2026, 8, 15)) is None
