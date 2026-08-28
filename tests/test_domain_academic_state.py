@@ -74,7 +74,7 @@ class TestTopicProgressDomainModel:
 
     def test_invalid_date_ordering_rejected(self) -> None:
         """Verify error when first_taught_date is later than last_taught_date."""
-        with pytest.raises(ValidationError, match="first_taught_date .* > last_taught_date"):
+        with pytest.raises(ValidationError, match=r"first_taught_date .* > last_taught_date"):
             TopicProgress(
                 topic_id="neuro-intro",
                 planned_order=1,

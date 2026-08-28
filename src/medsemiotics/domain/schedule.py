@@ -1,7 +1,7 @@
 """Domain models for class meeting rules, calendar schedules, and exceptions."""
 
 from datetime import date, time, timedelta
-from enum import Enum
+from enum import StrEnum
 from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
@@ -12,7 +12,7 @@ from medsemiotics.domain.academic import (
 )
 
 
-class ClassWeekday(str, Enum):
+class ClassWeekday(StrEnum):
     """Day of the week for recurring class meetings."""
 
     MONDAY = "monday"
@@ -63,14 +63,20 @@ class ClassMeetingRule(BaseModel):
     @model_validator(mode="after")
     def validate_times(self) -> "ClassMeetingRule":
         """Validate that start_time is strictly before end_time if both are provided."""
-        if self.start_time is not None and self.end_time is not None:
-            if self.start_time >= self.end_time:
-                msg = f"start_time ({self.start_time}) must be strictly before end_time ({self.end_time})."
-                raise ValueError(msg)
+        if (
+            self.start_time is not None
+            and self.end_time is not None
+            and self.start_time >= self.end_time
+        ):
+            msg = (
+                f"start_time ({self.start_time}) must be strictly before "
+                f"end_time ({self.end_time})."
+            )
+            raise ValueError(msg)
         return self
 
 
-class ScheduleExceptionType(str, Enum):
+class ScheduleExceptionType(StrEnum):
     """Types of calendar exceptions overriding standard weekly meeting rules."""
 
     CANCELLED = "cancelled"
@@ -108,7 +114,9 @@ class CourseTeachingSchedule(BaseModel):
     semester_id: Annotated[str, Field(description="Semester identifier, e.g. '2026-2'")]
     course_code: Annotated[str, Field(description="Course code, e.g. 'NEURO'")]
     enabled: bool = True
-    teaching_start_date: Annotated[date, Field(description="First calendar day of the academic term")]
+    teaching_start_date: Annotated[
+        date, Field(description="First calendar day of the academic term")
+    ]
     teaching_end_date: Annotated[date, Field(description="Last calendar day of the academic term")]
     meeting_rules: list[ClassMeetingRule]
     exceptions: list[ScheduleException] = []
@@ -136,20 +144,29 @@ class CourseTeachingSchedule(BaseModel):
             raise ValueError(msg)
 
         if not self.meeting_rules:
-            msg = f"Schedule for {self.course_code} ({self.semester_id}) must have at least one meeting rule."
+            msg = (
+                f"Schedule for {self.course_code} ({self.semester_id}) "
+                "must have at least one meeting rule."
+            )
             raise ValueError(msg)
 
         seen_weekdays: set[ClassWeekday] = set()
         for rule in self.meeting_rules:
             if rule.weekday in seen_weekdays:
-                msg = f"Duplicate meeting rule for weekday '{rule.weekday.value}' in schedule {self.course_code}."
+                msg = (
+                    f"Duplicate meeting rule for weekday '{rule.weekday.value}' "
+                    f"in schedule {self.course_code}."
+                )
                 raise ValueError(msg)
             seen_weekdays.add(rule.weekday)
 
         seen_exceptions: set[date] = set()
         for exc in self.exceptions:
             if exc.date in seen_exceptions:
-                msg = f"Duplicate schedule exception for date '{exc.date}' in schedule {self.course_code}."
+                msg = (
+                    f"Duplicate schedule exception for date '{exc.date}' "
+                    f"in schedule {self.course_code}."
+                )
                 raise ValueError(msg)
             seen_exceptions.add(exc.date)
 
@@ -192,7 +209,7 @@ class CourseTeachingSchedule(BaseModel):
         return target_weekday in scheduled_weekdays
 
     def class_dates_through(self, target_date: date) -> list[date]:
-        """Enumerate all scheduled class dates from teaching_start_date through target_date inclusive.
+        """Enumerate scheduled class dates through target_date.
 
         Returns empty list if schedule is disabled or target_date is before start.
         """

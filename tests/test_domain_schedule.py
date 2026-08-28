@@ -57,7 +57,9 @@ class TestClassMeetingRule:
 
     def test_invalid_rule_start_time_after_end_time(self) -> None:
         """Verify start_time >= end_time raises ValidationError."""
-        with pytest.raises(ValidationError, match="start_time .* must be strictly before end_time"):
+        with pytest.raises(
+            ValidationError, match=r"start_time .* must be strictly before end_time"
+        ):
             ClassMeetingRule(
                 weekday=ClassWeekday.THURSDAY,
                 start_time=time(16, 0),
@@ -66,7 +68,9 @@ class TestClassMeetingRule:
 
     def test_invalid_rule_equal_times(self) -> None:
         """Verify start_time == end_time raises ValidationError."""
-        with pytest.raises(ValidationError, match="start_time .* must be strictly before end_time"):
+        with pytest.raises(
+            ValidationError, match=r"start_time .* must be strictly before end_time"
+        ):
             ClassMeetingRule(
                 weekday=ClassWeekday.THURSDAY,
                 start_time=time(14, 0),
@@ -118,7 +122,9 @@ class TestCourseTeachingSchedule:
         assert active_schedule.is_class_date(date(2026, 8, 4)) is True
         assert active_schedule.is_class_date(date(2026, 8, 6)) is True
 
-    def test_is_class_date_non_matching_weekday(self, active_schedule: CourseTeachingSchedule) -> None:
+    def test_is_class_date_non_matching_weekday(
+        self, active_schedule: CourseTeachingSchedule
+    ) -> None:
         """Verify non-scheduled weekdays return False."""
         # Aug 3 is Monday, Aug 5 is Wednesday, Aug 7 is Friday
         assert active_schedule.is_class_date(date(2026, 8, 3)) is False
@@ -151,14 +157,14 @@ class TestCourseTeachingSchedule:
         ]
 
     def test_all_class_dates(self, active_schedule: CourseTeachingSchedule) -> None:
-        """Verify all_class_dates covers the whole month with makeup added and cancellations removed."""
+        """Verify all_class_dates covers the whole month with makeup added and cancels removed."""
         all_dates = active_schedule.all_class_dates
         assert date(2026, 8, 11) not in all_dates  # Cancelled
         assert date(2026, 8, 18) not in all_dates  # No class
-        assert date(2026, 8, 21) in all_dates      # Makeup Friday
+        assert date(2026, 8, 21) in all_dates  # Makeup Friday
         assert all_dates == sorted(all_dates)
 
-    def test_disabled_schedule_always_empty(self, active_schedule: CourseTeachingSchedule) -> None:
+    def test_disabled_schedule_always_empty(self) -> None:
         """Verify disabled schedule returns False for all dates and empty lists for date queries."""
         disabled = CourseTeachingSchedule(
             semester_id="2026-2",
@@ -213,8 +219,12 @@ class TestCourseTeachingSchedule:
                 teaching_end_date=date(2026, 8, 31),
                 meeting_rules=[ClassMeetingRule(weekday=ClassWeekday.TUESDAY)],
                 exceptions=[
-                    ScheduleException(date=date(2026, 8, 11), exception_type=ScheduleExceptionType.CANCELLED),
-                    ScheduleException(date=date(2026, 8, 11), exception_type=ScheduleExceptionType.NO_CLASS),
+                    ScheduleException(
+                        date=date(2026, 8, 11), exception_type=ScheduleExceptionType.CANCELLED
+                    ),
+                    ScheduleException(
+                        date=date(2026, 8, 11), exception_type=ScheduleExceptionType.NO_CLASS
+                    ),
                 ],
             )
 
@@ -228,7 +238,9 @@ class TestCourseTeachingSchedule:
                 teaching_end_date=date(2026, 8, 31),
                 meeting_rules=[ClassMeetingRule(weekday=ClassWeekday.TUESDAY)],
                 exceptions=[
-                    ScheduleException(date=date(2026, 9, 5), exception_type=ScheduleExceptionType.CANCELLED),
+                    ScheduleException(
+                        date=date(2026, 9, 5), exception_type=ScheduleExceptionType.CANCELLED
+                    ),
                 ],
             )
 

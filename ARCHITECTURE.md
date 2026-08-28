@@ -93,6 +93,13 @@ The **REASON** layer contains the intelligence, evaluation algorithms, and agent
 
 The **ACT** layer executes write actions, mutations, and integrations with external systems.
 
+- **Google Calendar Coaching Publishing**:
+  - `CoachingBrief` & `CalendarPublishRequest`: Structured domain models for pedagogical session briefings and provider-neutral write intents.
+  - `GoogleCalendarWriter`: External integration client executing controlled creates and patches using `calendar.events` write scope.
+  - `CalendarCoachingService`: Service enforcing authorization gates and managing class briefing publications.
+  - **Core Invariant**: **"MedSemiotics may mutate only Calendar events it explicitly owns."** Event ownership is identified exclusively via private extended properties (`medsemiotics_*`).
+  - **Core Invariant**: **"Ownership must never be inferred from display text."**
+  - **Core Invariant**: **"Calendar write operations require explicit authorization."** `authorized=True` is required for any external write call.
 - **Google Classroom**: Creating coursework, posting announcements, updating assignments, synchronizing grades.
 - **Google Drive**: Reading/writing classroom folders, organizing exported materials, managing backups.
 - **Publishing & Distribution**: Exporting semester packages, syndicating syllabus updates to PowerSemiotics.

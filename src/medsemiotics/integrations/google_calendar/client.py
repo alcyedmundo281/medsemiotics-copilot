@@ -23,7 +23,9 @@ class CalendarDescriptor(BaseModel):
     calendar_id: str = Field(description="Google Calendar identifier")
     name: str = Field(description="Display summary or name of the calendar")
     primary: bool = Field(default=False, description="Whether this is the user's primary calendar")
-    selected: bool | None = Field(default=None, description="Whether the calendar is selected in the UI")
+    selected: bool | None = Field(
+        default=None, description="Whether the calendar is selected in the UI"
+    )
 
 
 class GoogleCalendarReader:

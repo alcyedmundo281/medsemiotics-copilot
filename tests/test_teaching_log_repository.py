@@ -186,10 +186,14 @@ sessions:
         )
 
         repo = TeachingLogRepository(root)
-        with pytest.raises(TeachingLogValidationError, match="Validation failed for teaching session"):
+        with pytest.raises(
+            TeachingLogValidationError, match="Validation failed for teaching session"
+        ):
             repo.get_sessions("2026-2", "NEURO")
 
-    def test_session_inner_identifier_mismatch_raises_validation_error(self, tmp_path: Path) -> None:
+    def test_session_inner_identifier_mismatch_raises_validation_error(
+        self, tmp_path: Path
+    ) -> None:
         """Verify inner session mismatch raises TeachingLogValidationError."""
         root = tmp_path / "teaching_logs"
         sem_dir = root / "2026-2"
@@ -215,7 +219,9 @@ sessions:
         with pytest.raises(TeachingLogValidationError, match="mismatched identifiers"):
             repo.get_sessions("2026-2", "NEURO")
 
-    def test_io_error_raises_teaching_log_error(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    def test_io_error_raises_teaching_log_error(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
         """Verify OSError raises controlled TeachingLogError."""
         root = tmp_path / "teaching_logs"
         sem_dir = root / "2026-2"

@@ -18,7 +18,8 @@ def validate_syllabus_topics(
         known_topics: Collection of Topic domain models representing the candidate topic universe.
 
     Raises:
-        AcademicValidationError: If a syllabus topic is missing from known_topics or has a mismatched course_code.
+        AcademicValidationError: If a syllabus topic is missing from known_topics
+            or has a mismatched course_code.
     """
     topic_map: dict[str, Topic] = {topic.topic_id: topic for topic in known_topics}
 
@@ -34,7 +35,7 @@ def validate_syllabus_topics(
         if topic.course_code != syllabus.course_code:
             msg = (
                 f"Referential integrity failure in syllabus {syllabus.course_code} "
-                f"({syllabus.semester_id}): Topic '{item.topic_id}' belongs to course '{topic.course_code}', "
-                f"not '{syllabus.course_code}'."
+                f"({syllabus.semester_id}): Topic '{item.topic_id}' belongs to course "
+                f"'{topic.course_code}', not '{syllabus.course_code}'."
             )
             raise AcademicValidationError(msg)

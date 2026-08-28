@@ -1,8 +1,11 @@
 """Application service orchestrating effective teaching schedule reconciliation."""
 
 from datetime import date, datetime
+from typing import TYPE_CHECKING
 
-from medsemiotics.domain.calendar import OperationalCalendarEvent
+if TYPE_CHECKING:
+    from medsemiotics.domain.calendar import OperationalCalendarEvent
+
 from medsemiotics.domain.effective_schedule import EffectiveTeachingSchedule
 from medsemiotics.domain.exceptions import CalendarConfigError
 from medsemiotics.integrations.google_calendar.client import GoogleCalendarReader
@@ -18,7 +21,7 @@ from medsemiotics.services.semester_repository import SemesterRepository
 
 
 class EffectiveScheduleService:
-    """Read-only orchestration service for reconciling baseline schedules and Google Calendar events."""
+    """Read-only orchestration service for reconciling schedules and Calendar events."""
 
     def __init__(
         self,
@@ -64,11 +67,16 @@ class EffectiveScheduleService:
 
         if calendar_config.enabled:
             if self._calendar_reader is None:
-                msg = f"Calendar integration is enabled for {course_code} but no GoogleCalendarReader was provided."
+                msg = (
+                    f"Calendar integration is enabled for {course_code} "
+                    "but no GoogleCalendarReader was provided."
+                )
                 raise CalendarConfigError(msg)
 
             if not calendar_config.calendar_id:
-                msg = f"Calendar integration is enabled for {course_code} but calendar_id is missing."
+                msg = (
+                    f"Calendar integration is enabled for {course_code} but calendar_id is missing."
+                )
                 raise CalendarConfigError(msg)
 
             raw_events = self._calendar_reader.list_events(

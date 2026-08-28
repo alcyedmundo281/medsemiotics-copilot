@@ -1,4 +1,4 @@
-"""Application service for resolving daily teaching positions from reconciled effective schedules."""
+"""Application service for resolving daily teaching positions from effective schedules."""
 
 from datetime import date, datetime
 
@@ -14,7 +14,7 @@ from medsemiotics.services.teaching_position import (
 
 
 class EffectiveTeachingDayService:
-    """Read-only application service for resolving teaching positions against reconciled schedules."""
+    """Read-only service for resolving teaching positions against reconciled schedules."""
 
     def __init__(
         self,

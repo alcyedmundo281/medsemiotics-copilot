@@ -1,7 +1,7 @@
 """Domain models for effective teaching schedules reconciled from baseline and calendar events."""
 
 from datetime import date, datetime
-from enum import Enum
+from enum import StrEnum
 from typing import Annotated
 from zoneinfo import ZoneInfo
 
@@ -13,7 +13,7 @@ from medsemiotics.domain.academic import (
 )
 
 
-class EffectiveClassSource(str, Enum):
+class EffectiveClassSource(StrEnum):
     """Origin source of the reconciled effective class event."""
 
     BASELINE = "baseline"
@@ -21,7 +21,7 @@ class EffectiveClassSource(str, Enum):
     BASELINE_AND_CALENDAR = "baseline_and_calendar"
 
 
-class EffectiveClassStatus(str, Enum):
+class EffectiveClassStatus(StrEnum):
     """Operational status of the effective class event."""
 
     SCHEDULED = "scheduled"
@@ -51,11 +51,15 @@ class EffectiveClassEvent(BaseModel):
     course_code: Annotated[str, Field(description="Course code")]
     source: Annotated[EffectiveClassSource, Field(description="Origin source of event")]
     status: Annotated[EffectiveClassStatus, Field(description="Operational outcome status")]
-    calendar_event_id: Annotated[str | None, Field(default=None, description="Linked external event ID")]
-    title: Annotated[str | None, Field(default=None, description="Event display title")]
-    start: Annotated[datetime | None, Field(default=None, description="Timezone-aware start timestamp")]
-    end: Annotated[datetime | None, Field(default=None, description="Timezone-aware end timestamp")]
-    notes: Annotated[str | None, Field(default=None, description="Reconciliation notes")]
+    calendar_event_id: Annotated[
+        str | None, Field(description="Linked external event ID")
+    ] = None
+    title: Annotated[str | None, Field(description="Event display title")] = None
+    start: Annotated[
+        datetime | None, Field(description="Timezone-aware start timestamp")
+    ] = None
+    end: Annotated[datetime | None, Field(description="Timezone-aware end timestamp")] = None
+    notes: Annotated[str | None, Field(description="Reconciliation notes")] = None
 
     @field_validator("semester_id", mode="before")
     @classmethod
@@ -96,7 +100,10 @@ class EffectiveClassEvent(BaseModel):
                 raise ValueError(msg)
 
             if self.date != self.start.date():
-                msg = f"Event date ({self.date}) does not match start timestamp date ({self.start.date()})."
+                msg = (
+                    f"Event date ({self.date}) does not match "
+                    f"start timestamp date ({self.start.date()})."
+                )
                 raise ValueError(msg)
 
         return self
@@ -110,7 +117,9 @@ class EffectiveTeachingSchedule(BaseModel):
     semester_id: Annotated[str, Field(description="Semester identifier")]
     course_code: Annotated[str, Field(description="Course code")]
     timezone: Annotated[str, Field(description="Academic IANA timezone identifier")]
-    events: Annotated[list[EffectiveClassEvent], Field(default_factory=list, description="Reconciled events")]
+    events: Annotated[
+        list[EffectiveClassEvent], Field(default_factory=list, description="Reconciled events")
+    ]
 
     @field_validator("semester_id", mode="before")
     @classmethod
@@ -146,7 +155,7 @@ class EffectiveTeachingSchedule(BaseModel):
 
     @property
     def ordered_events(self) -> list[EffectiveClassEvent]:
-        """Return all reconciled events deterministically sorted by date, start time, and event ID."""
+        """Return all reconciled events sorted by date, start time, and event ID."""
         # Use a timezone-aware baseline start for sorting when start is None
         min_tz_dt = datetime.min.replace(tzinfo=self.tz)
         return sorted(

@@ -51,7 +51,7 @@ class TestEffectiveTeachingPosition:
     def test_reconciled_cancelled_class_reduces_expected_session_count(
         self, syllabus: SyllabusPlan
     ) -> None:
-        """Verify cancelled class on Aug 11 does not count toward expected_session_count on Aug 13."""
+        """Verify cancelled class on Aug 11 does not count toward count on Aug 13."""
         # Aug 4 (scheduled), Aug 11 (cancelled), Aug 13 (scheduled)
         effective = EffectiveTeachingSchedule(
             semester_id="2026-2",
@@ -141,7 +141,7 @@ class TestEffectiveTeachingPosition:
     def test_calendar_only_schedule_establishes_expected_sessions(
         self, syllabus: SyllabusPlan
     ) -> None:
-        """Verify effective schedule consisting only of calendar events calculates pacing correctly."""
+        """Verify effective schedule with only calendar events calculates pacing correctly."""
         effective = EffectiveTeachingSchedule(
             semester_id="2026-2",
             course_code="NEURO",
@@ -184,13 +184,11 @@ class TestEffectiveTeachingPosition:
         assert pos.expected_topic_order == 2
         assert pos.actual_session_count == 1
         assert pos.current_topic_id == "t2"
-        # expected_topic_order = 2 -> expected completed = 1; actual completed = 1 (t1) -> delta = 0 -> on_track
+        # expected_topic_order = 2 -> expected completed = 1; actual completed = 1 (t1) -> delta 0
         assert pos.pace_status == TeachingPaceStatus.ON_TRACK
         assert pos.topic_delta == 0
 
-    def test_empty_effective_schedule_returns_unavailable(
-        self, syllabus: SyllabusPlan
-    ) -> None:
+    def test_empty_effective_schedule_returns_unavailable(self, syllabus: SyllabusPlan) -> None:
         """Verify empty effective schedule returns pace_status UNAVAILABLE."""
         empty_schedule = EffectiveTeachingSchedule(
             semester_id="2026-2",
@@ -208,9 +206,7 @@ class TestEffectiveTeachingPosition:
         assert pos.is_class_date is False
         assert pos.expected_session_count == 0
 
-    def test_scope_mismatch_raises_academic_state_error(
-        self, syllabus: SyllabusPlan
-    ) -> None:
+    def test_scope_mismatch_raises_academic_state_error(self, syllabus: SyllabusPlan) -> None:
         """Verify mismatched semester, course, or session raises AcademicStateError."""
         from medsemiotics.domain.exceptions import AcademicStateError
 
@@ -263,7 +259,7 @@ class TestEffectiveTeachingDayService:
     """Test suite for EffectiveTeachingDayService orchestration."""
 
     def test_get_position_and_topic_for_date(self) -> None:
-        """Verify EffectiveTeachingDayService coordinates services and returns position and current topic."""
+        """Verify EffectiveTeachingDayService coordinates services and returns position."""
         mock_eff_service = MagicMock(spec=EffectiveScheduleService)
         mock_syll_repo = MagicMock(spec=SyllabusRepository)
         mock_log_repo = MagicMock(spec=TeachingLogRepository)

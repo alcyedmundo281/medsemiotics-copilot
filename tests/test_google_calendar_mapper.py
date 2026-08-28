@@ -63,7 +63,7 @@ class TestGoogleCalendarMapper:
             "start": {"dateTime": "2026-08-04T10:00:00Z"},
             "end": {"dateTime": "2026-08-04T12:00:00Z"},
         }
-        with pytest.raises(GoogleCalendarMappingError, match="missing .* 'id' field"):
+        with pytest.raises(GoogleCalendarMappingError, match=r"missing .* 'id' field"):
             map_google_event(raw_event, calendar_id="c1", default_timezone=default_tz)
 
     def test_naive_datetime_raises_mapping_error(self, default_tz: ZoneInfo) -> None:

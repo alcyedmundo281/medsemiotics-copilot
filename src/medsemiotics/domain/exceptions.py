@@ -78,4 +78,12 @@ class EffectiveScheduleError(MedSemioticsError):
 
 
 class EffectiveScheduleAmbiguityError(EffectiveScheduleError):
-    """Raised when ambiguous or conflicting operational calendar evidence occurs on the same date."""
+    """Raised when ambiguous or conflicting calendar evidence occurs on the same date."""
+
+
+class CalendarPublishPlanError(MedSemioticsError):
+    """Raised when constructing a calendar publish request fails validation or requirements."""
+
+
+class CalendarWriteAuthorizationError(MedSemioticsError):
+    """Raised when a calendar write action is attempted without explicit authorization."""

@@ -134,7 +134,7 @@ class TestEffectiveScheduleReconciliation:
         baseline_schedule: CourseTeachingSchedule,
         calendar_config: CourseCalendarConfig,
     ) -> None:
-        """Example A: Baseline Tuesday Aug 18 + Calendar 'Neurología' Aug 18 -> baseline_and_calendar, scheduled."""
+        """Example A: Baseline Tue Aug 18 + Calendar event -> baseline_and_calendar, scheduled."""
         tz = ZoneInfo("America/Guayaquil")
         cal_event = OperationalCalendarEvent(
             event_id="cal_18",
@@ -164,7 +164,7 @@ class TestEffectiveScheduleReconciliation:
         baseline_schedule: CourseTeachingSchedule,
         calendar_config: CourseCalendarConfig,
     ) -> None:
-        """Example B: Baseline Tuesday Aug 25 + Calendar 'Neurología - Clase cancelada' -> cancelled."""
+        """Example B: Baseline Tuesday Aug 25 + Calendar cancellation -> cancelled."""
         tz = ZoneInfo("America/Guayaquil")
         cal_event = OperationalCalendarEvent(
             event_id="cal_25",
@@ -193,7 +193,7 @@ class TestEffectiveScheduleReconciliation:
         baseline_schedule: CourseTeachingSchedule,
         calendar_config: CourseCalendarConfig,
     ) -> None:
-        """Example C: Calendar event on Friday Aug 21 (non-baseline weekday) -> source=calendar, status=makeup."""
+        """Example C: Event on Friday Aug 21 (non-baseline) -> source=calendar, status=makeup."""
         tz = ZoneInfo("America/Guayaquil")
         cal_event = OperationalCalendarEvent(
             event_id="cal_21",
@@ -222,7 +222,7 @@ class TestEffectiveScheduleReconciliation:
         baseline_schedule: CourseTeachingSchedule,
         calendar_config: CourseCalendarConfig,
     ) -> None:
-        """Example D: Baseline Tuesday Aug 4 without Calendar event remains active scheduled with source=baseline."""
+        """Example D: Baseline Tue Aug 4 without Calendar event remains active scheduled."""
         effective = build_effective_teaching_schedule(
             semester=semester,
             schedule=baseline_schedule,
@@ -241,7 +241,7 @@ class TestEffectiveScheduleReconciliation:
         baseline_schedule: CourseTeachingSchedule,
         calendar_config: CourseCalendarConfig,
     ) -> None:
-        """Verify UTC timestamp 2026-08-28T01:00:00Z converts to local date 2026-08-27 in America/Guayaquil (UTC-5)."""
+        """Verify UTC timestamp converts to local date in America/Guayaquil (UTC-5)."""
         utc_start = datetime(2026, 8, 28, 1, 0, tzinfo=ZoneInfo("UTC"))
         utc_end = datetime(2026, 8, 28, 3, 0, tzinfo=ZoneInfo("UTC"))
 
@@ -272,7 +272,7 @@ class TestEffectiveScheduleReconciliation:
         baseline_schedule: CourseTeachingSchedule,
         calendar_config: CourseCalendarConfig,
     ) -> None:
-        """Verify cancellation marker on non-baseline date (e.g. Wednesday Aug 12) does not invent a cancelled class."""
+        """Verify cancellation marker on non-baseline date does not invent a cancelled class."""
         tz = ZoneInfo("America/Guayaquil")
         cal_event = OperationalCalendarEvent(
             event_id="cal_cancel_wed",
@@ -299,7 +299,7 @@ class TestEffectiveScheduleReconciliation:
         baseline_schedule: CourseTeachingSchedule,
         calendar_config: CourseCalendarConfig,
     ) -> None:
-        """Case A: 1 normal event + 1 cancellation marker event on baseline date -> cancelled override."""
+        """Case A: 1 normal event + 1 cancellation on baseline date -> cancelled override."""
         tz = ZoneInfo("America/Guayaquil")
         cal_normal = OperationalCalendarEvent(
             event_id="cal_normal_18",
@@ -474,7 +474,7 @@ class TestEffectiveScheduleReconciliation:
         baseline_schedule: CourseTeachingSchedule,
         calendar_config: CourseCalendarConfig,
     ) -> None:
-        """Verify scope mismatch between semester, schedule, and calendar config raises EffectiveScheduleError."""
+        """Verify scope mismatch raises EffectiveScheduleError."""
         wrong_semester = semester.model_copy(update={"semester_id": "2026-1"})
         with pytest.raises(EffectiveScheduleError, match="Semester mismatch"):
             build_effective_teaching_schedule(
@@ -508,7 +508,7 @@ class TestEffectiveScheduleReconciliation:
         baseline_schedule: CourseTeachingSchedule,
         calendar_config: CourseCalendarConfig,
     ) -> None:
-        """Verify when baseline is disabled and calendar is enabled, matching calendar events become makeups."""
+        """Verify when baseline is disabled, matching calendar events become makeups."""
         tz = ZoneInfo("America/Guayaquil")
         disabled_sched = baseline_schedule.model_copy(update={"enabled": False})
 

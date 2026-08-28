@@ -126,7 +126,9 @@ topics:
         with pytest.raises(SyllabusValidationError, match="mismatched identifiers"):
             repo.get("2026-2", "NEURO")
 
-    def test_io_error_raises_syllabus_error(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    def test_io_error_raises_syllabus_error(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
         """Verify OSError raises controlled SyllabusError."""
         root = tmp_path / "syllabi"
         sem_dir = root / "2026-2"

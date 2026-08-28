@@ -1,7 +1,6 @@
 """Mapper for translating raw Google Calendar API JSON responses to domain models."""
 
 from datetime import date, datetime, time
-from typing import Any
 from zoneinfo import ZoneInfo
 
 from pydantic import ValidationError
@@ -13,7 +12,7 @@ from medsemiotics.integrations.google_calendar.exceptions import (
 
 
 def map_google_event(
-    raw_event: dict[str, Any],
+    raw_event: object,
     *,
     calendar_id: str,
     default_timezone: ZoneInfo,
@@ -85,7 +84,10 @@ def map_google_event(
             end_dt = datetime.combine(end_d, time.min, tzinfo=default_timezone)
             all_day = True
         else:
-            msg = f"Event '{event_id}' has unrecognized start format (neither dateTime nor date found)."
+            msg = (
+                f"Event '{event_id}' has unrecognized start format "
+                "(neither dateTime nor date found)."
+            )
             raise GoogleCalendarMappingError(msg)
 
         return OperationalCalendarEvent(

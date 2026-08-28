@@ -73,7 +73,7 @@ def build_effective_teaching_schedule(
 
     Raises:
         EffectiveScheduleError: If scopes mismatch or timezone is invalid.
-        EffectiveScheduleAmbiguityError: If conflicting multiple calendar events occur on the same date.
+        EffectiveScheduleAmbiguityError: If conflicting calendar events occur on the same date.
     """
     _validate_reconciliation_scope(semester, schedule, calendar_config)
 
@@ -113,7 +113,8 @@ def build_effective_teaching_schedule(
             elif curr in exception_map:
                 exc = exception_map[curr]
                 if (
-                    exc.exception_type in (ScheduleExceptionType.CANCELLED, ScheduleExceptionType.NO_CLASS)
+                    exc.exception_type
+                    in (ScheduleExceptionType.CANCELLED, ScheduleExceptionType.NO_CLASS)
                     and curr_weekday in scheduled_weekdays
                 ):
                     cancelled_baseline[curr] = exc.notes
@@ -129,14 +130,10 @@ def build_effective_teaching_schedule(
 
             title_lower = event.title.lower()
             is_cancel = any(
-                m.lower() in title_lower
-                for m in calendar_config.cancellation_markers
-                if m.strip()
+                m.lower() in title_lower for m in calendar_config.cancellation_markers if m.strip()
             )
             is_makeup = any(
-                m.lower() in title_lower
-                for m in calendar_config.makeup_markers
-                if m.strip()
+                m.lower() in title_lower for m in calendar_config.makeup_markers if m.strip()
             )
 
             cal_events_by_date.setdefault(local_date, []).append((event, is_cancel, is_makeup))
@@ -147,7 +144,7 @@ def build_effective_teaching_schedule(
         if len(evts) == 1:
             cal_single_by_date[d] = evts[0]
         elif len(evts) == 2 and d in active_baseline:
-            # Narrow deterministic exception: 1 normal event + 1 explicit cancellation event on active baseline date
+            # Narrow deterministic exception: 1 normal + 1 cancellation on baseline date
             cancel_events = [e for e in evts if e[1] is True]
             normal_events = [e for e in evts if e[1] is False and e[2] is False]
             if len(cancel_events) == 1 and len(normal_events) == 1:
@@ -155,11 +152,17 @@ def build_effective_teaching_schedule(
                 cal_single_by_date[d] = cancel_events[0]
             else:
                 titles = [e[0].title for e in evts]
-                msg = f"Ambiguous calendar evidence: multiple events found on date {d} for {course_code}: {titles}"
+                msg = (
+                    f"Ambiguous calendar evidence: multiple events found on date {d} "
+                    f"for {course_code}: {titles}"
+                )
                 raise EffectiveScheduleAmbiguityError(msg)
         else:
             titles = [e[0].title for e in evts]
-            msg = f"Ambiguous calendar evidence: multiple events found on date {d} for {course_code}: {titles}"
+            msg = (
+                f"Ambiguous calendar evidence: multiple events found on date {d} "
+                f"for {course_code}: {titles}"
+            )
             raise EffectiveScheduleAmbiguityError(msg)
 
     # 3. Perform reconciliation

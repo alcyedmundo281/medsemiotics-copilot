@@ -1,4 +1,4 @@
-"""Unit tests for Teaching Log domain models (CoverageStatus, TeachingSessionTopic, TeachingSession)."""
+"""Unit tests for Teaching Log domain models."""
 
 from datetime import date
 
@@ -69,7 +69,9 @@ class TestTeachingLogDomainModel:
                 course_code="NEURO",
                 session_date=date(2026, 8, 15),
                 sequence_number=invalid_seq,
-                topics=[TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.COMPLETED)],
+                topics=[
+                    TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.COMPLETED)
+                ],
             )
 
     def test_duplicate_topic_in_same_session_rejected(self) -> None:
@@ -116,7 +118,9 @@ class TestTeachingLogDomainModel:
             course_code="NEURO",
             session_date=date(2026, 8, 18),
             sequence_number=2,
-            topics=[TeachingSessionTopic(topic_id="cranial-nerves", status=CoverageStatus.COMPLETED)],
+            topics=[
+                TeachingSessionTopic(topic_id="cranial-nerves", status=CoverageStatus.COMPLETED)
+            ],
         )
 
         assert session1.topics[0].topic_id == session2.topics[0].topic_id == "cranial-nerves"

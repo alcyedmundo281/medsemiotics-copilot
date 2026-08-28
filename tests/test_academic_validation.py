@@ -62,5 +62,7 @@ class TestAcademicValidation:
             ],
         )
 
-        with pytest.raises(AcademicValidationError, match="belongs to course 'GASTRO', not 'NEURO'"):
+        with pytest.raises(
+            AcademicValidationError, match="belongs to course 'GASTRO', not 'NEURO'"
+        ):
             validate_syllabus_topics(plan, all_topics)

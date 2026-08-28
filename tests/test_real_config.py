@@ -195,7 +195,7 @@ def test_real_calendar_config_2026_2() -> None:
 
 
 def test_real_effective_schedule_empty() -> None:
-    """Verify that with real placeholder configs (both disabled), effective schedule has no active class dates."""
+    """Verify that with real placeholder configs, effective schedule has no active class dates."""
     project_root = Path(__file__).resolve().parent.parent
     sem_dir = project_root / "config" / "semesters"
     sched_dir = project_root / "config" / "schedules"

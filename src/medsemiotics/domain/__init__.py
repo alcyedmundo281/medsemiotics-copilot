@@ -20,6 +20,23 @@ from medsemiotics.domain.calendar import (
     CourseCalendarConfig,
     OperationalCalendarEvent,
 )
+from medsemiotics.domain.coaching import (
+    CalendarPublishAction,
+    CalendarPublishRequest,
+    CalendarPublishResult,
+    CoachingBrief,
+    ManagedCalendarEvent,
+)
+from medsemiotics.domain.constants import (
+    MANAGED_TRUE_VALUE,
+    PROP_CLASS_DATE,
+    PROP_COURSE_CODE,
+    PROP_MANAGED,
+    PROP_SCHEMA_VERSION,
+    PROP_SEMESTER_ID,
+    PROP_TOPIC_ID,
+    SCHEMA_VERSION_VALUE,
+)
 from medsemiotics.domain.effective_schedule import (
     EffectiveClassEvent,
     EffectiveClassSource,
@@ -32,6 +49,8 @@ from medsemiotics.domain.exceptions import (
     CalendarConfigError,
     CalendarConfigNotFoundError,
     CalendarConfigValidationError,
+    CalendarPublishPlanError,
+    CalendarWriteAuthorizationError,
     EffectiveScheduleAmbiguityError,
     EffectiveScheduleError,
     MedSemioticsError,
@@ -69,13 +88,27 @@ from medsemiotics.domain.teaching_position import (
 from medsemiotics.domain.topics import Topic, TopicId, validate_and_normalize_topic_id
 
 __all__ = [
+    "MANAGED_TRUE_VALUE",
+    "PROP_CLASS_DATE",
+    "PROP_COURSE_CODE",
+    "PROP_MANAGED",
+    "PROP_SCHEMA_VERSION",
+    "PROP_SEMESTER_ID",
+    "PROP_TOPIC_ID",
+    "SCHEMA_VERSION_VALUE",
     "AcademicStateError",
     "AcademicValidationError",
     "CalendarConfigError",
     "CalendarConfigNotFoundError",
     "CalendarConfigValidationError",
+    "CalendarPublishAction",
+    "CalendarPublishPlanError",
+    "CalendarPublishRequest",
+    "CalendarPublishResult",
+    "CalendarWriteAuthorizationError",
     "ClassMeetingRule",
     "ClassWeekday",
+    "CoachingBrief",
     "Course",
     "CourseAcademicState",
     "CourseCalendarConfig",
@@ -88,6 +121,7 @@ __all__ = [
     "EffectiveScheduleAmbiguityError",
     "EffectiveScheduleError",
     "EffectiveTeachingSchedule",
+    "ManagedCalendarEvent",
     "MedSemioticsError",
     "OperationalCalendarEvent",
     "ScheduleError",

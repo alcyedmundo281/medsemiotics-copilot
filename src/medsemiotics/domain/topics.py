@@ -25,7 +25,7 @@ def validate_and_normalize_topic_id(value: object) -> str:
     if not TOPIC_ID_PATTERN.match(normalized):
         msg = (
             f"Topic ID '{normalized}' is invalid. "
-            "Allowed characters are lowercase letters, numbers, underscores, and hyphens without spaces."
+            "Allowed characters: lowercase letters, numbers, underscores, hyphens without spaces."
         )
         raise ValueError(msg)
     return normalized
@@ -36,10 +36,16 @@ class Topic(BaseModel):
 
     model_config = ConfigDict(frozen=True, extra="forbid")
 
-    topic_id: Annotated[str, Field(description="Unique normalized topic identifier, e.g. 'neuro-intro'")]
-    course_code: Annotated[str, Field(description="Course code to which this topic belongs, e.g. 'NEURO'")]
+    topic_id: Annotated[
+        str, Field(description="Unique normalized topic identifier, e.g. 'neuro-intro'")
+    ]
+    course_code: Annotated[
+        str, Field(description="Course code to which this topic belongs, e.g. 'NEURO'")
+    ]
     title: Annotated[str, Field(description="Human-readable topic title")]
-    description: Annotated[str | None, Field(default=None, description="Optional topic description")]
+    description: Annotated[
+        str | None, Field(default=None, description="Optional topic description")
+    ]
     active: bool = True
 
     @field_validator("topic_id", mode="before")

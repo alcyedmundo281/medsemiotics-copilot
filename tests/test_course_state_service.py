@@ -104,9 +104,7 @@ sessions:
         with pytest.raises(SyllabusNotFoundError):
             service.get_state("2026-2", "CARDIO")
 
-    def test_missing_teaching_log_raises_project_exception(
-        self, tmp_path: Path
-    ) -> None:
+    def test_missing_teaching_log_raises_project_exception(self, tmp_path: Path) -> None:
         """Verify missing teaching log raises TeachingLogNotFoundError."""
         syllabi_dir = tmp_path / "syllabi"
         logs_dir = tmp_path / "teaching_logs"
