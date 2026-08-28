@@ -1,0 +1,12 @@
+semester_id: "2026-2"
+display_name: "2026-2"
+active: true
+
+courses:
+  - code: "NEURO"
+    name: "Neurología"
+    active: true
+
+  - code: "GASTRO"
+    name: "Gastroenterología"
+    active: true

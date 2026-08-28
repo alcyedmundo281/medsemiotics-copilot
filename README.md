@@ -62,6 +62,15 @@ medsemiotics-teaching-copilot/
 
 ---
 
+## Semester Configuration
+
+- **Semester Files**: Individual semester definitions are located under `config/semesters/` (e.g. `config/semesters/2026-2.yaml`).
+- **Active Semester Pointer**: `config/current_semester.yaml` points to the active semester ID without duplicating configuration.
+- **Local State**: Semester configuration is stored as pure, validated local YAML files within the repository.
+- **Integration Decoupling**: External integrations (such as Google Drive folders or Classroom sync) are intentionally separated and not part of this domain configuration layer.
+
+---
+
 ## Quickstart & Development
 
 ### 1. Prerequisites
