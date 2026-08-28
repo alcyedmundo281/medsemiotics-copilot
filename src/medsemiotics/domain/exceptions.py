@@ -71,3 +71,11 @@ class CalendarConfigNotFoundError(CalendarConfigError):
 
 class CalendarConfigValidationError(CalendarConfigError):
     """Raised when a course calendar configuration fails validation."""
+
+
+class EffectiveScheduleError(MedSemioticsError):
+    """Base exception for effective teaching schedule errors."""
+
+
+class EffectiveScheduleAmbiguityError(EffectiveScheduleError):
+    """Raised when ambiguous or conflicting operational calendar evidence occurs on the same date."""

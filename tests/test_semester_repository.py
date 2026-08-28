@@ -1,4 +1,4 @@
-"""Unit tests for SemesterRepository."""
+"""Unit tests for SemesterRepository filesystem operations."""
 
 from pathlib import Path
 
@@ -26,6 +26,7 @@ class TestSemesterRepository:
 semester_id: "2026-1"
 display_name: "2026-1"
 active: false
+timezone: "America/Guayaquil"
 courses:
   - code: "NEURO"
     name: "Neurología"
@@ -37,6 +38,7 @@ courses:
 semester_id: "2026-2"
 display_name: "2026-2"
 active: true
+timezone: "America/Guayaquil"
 courses:
   - code: "NEURO"
     name: "Neurología"
@@ -50,6 +52,7 @@ courses:
 semester_id: "2027-1"
 display_name: "2027-1"
 active: false
+timezone: "America/Guayaquil"
 courses:
   - code: "GASTRO"
     name: "Gastroenterología"
@@ -75,6 +78,7 @@ courses:
 
         assert config.semester_id == "2026-2"
         assert config.active is True
+        assert config.timezone == "America/Guayaquil"
         assert len(config.courses) == 2
 
     def test_get_missing_semester_raises_not_found(self, setup_semesters_dir: Path) -> None:
@@ -134,6 +138,7 @@ courses:
 semester_id: "2026-2"
 display_name: "2026-2"
 active: true
+timezone: "America/Guayaquil"
 courses:
   - code: "NEURO"
     name: "Neurología"

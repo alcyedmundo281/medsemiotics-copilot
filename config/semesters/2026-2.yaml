@@ -1,6 +1,7 @@
 semester_id: "2026-2"
 display_name: "2026-2"
 active: true
+timezone: "America/Guayaquil"
 
 courses:
   - code: "NEURO"

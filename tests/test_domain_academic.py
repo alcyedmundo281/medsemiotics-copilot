@@ -1,61 +1,66 @@
-"""Unit tests for academic domain models (Course, SemesterConfig)."""
+"""Unit tests for academic domain models (Course, SemesterConfig, validation rules)."""
 
 import pytest
 from pydantic import ValidationError
 
-from medsemiotics.domain.academic import Course, SemesterConfig
+from medsemiotics.domain.academic import (
+    Course,
+    SemesterConfig,
+    validate_and_normalize_course_code,
+    validate_and_normalize_semester_id,
+)
 
 
-class TestCourseDomainModel:
-    """Test suite for Course domain model validation and normalization."""
+class TestValidationHelpers:
+    """Test suite for helper validation functions."""
 
-    def test_valid_course(self) -> None:
-        """Verify standard valid course creation."""
-        course = Course(code="NEURO", name="Neurología", active=True)
-        assert course.code == "NEURO"
-        assert course.name == "Neurología"
-        assert course.active is True
-
-    def test_course_default_active(self) -> None:
-        """Verify active defaults to True."""
-        course = Course(code="GASTRO", name="Gastroenterología")
-        assert course.active is True
-
-    def test_course_code_normalization_uppercase_and_trim(self) -> None:
-        """Verify course code is normalized to uppercase and whitespace stripped."""
-        course = Course(code="  neuro_101  ", name="Neurología Clínica")
-        assert course.code == "NEURO_101"
+    def test_validate_and_normalize_course_code_valid(self) -> None:
+        """Verify normalization of valid course codes."""
+        assert validate_and_normalize_course_code("neuro") == "NEURO"
+        assert validate_and_normalize_course_code("  gastro  ") == "GASTRO"
+        assert validate_and_normalize_course_code("NEURO_CLIN-1") == "NEURO_CLIN-1"
 
     @pytest.mark.parametrize(
         "invalid_code",
-        [
-            "",
-            "   ",
-            "NEURO@MED",
-            "NEURO 101",
-            "GASTRO#1",
-            "GASTRO.MED",
-        ],
+        ["", "   ", "NEURO@CLIN", "NEURO CLIN", "NEURO.CLIN", 123, None],
     )
-    def test_invalid_course_codes(self, invalid_code: str) -> None:
-        """Verify rejection of invalid course code patterns."""
-        with pytest.raises(ValidationError):
-            Course(code=invalid_code, name="Valid Course Name")
+    def test_validate_and_normalize_course_code_invalid(self, invalid_code: object) -> None:
+        """Verify invalid course codes raise ValueError."""
+        with pytest.raises(ValueError):
+            validate_and_normalize_course_code(invalid_code)
+
+    def test_validate_and_normalize_semester_id_valid(self) -> None:
+        """Verify normalization of valid semester IDs."""
+        assert validate_and_normalize_semester_id("2026-1") == "2026-1"
+        assert validate_and_normalize_semester_id(" 2026-2 ") == "2026-2"
 
     @pytest.mark.parametrize(
-        "invalid_name",
-        [
-            "",
-            "   ",
-        ],
+        "invalid_semester",
+        ["", "2026", "2026-0", "2026-3", "2026-SPRING", 20261, None],
     )
-    def test_invalid_course_name_empty(self, invalid_name: str) -> None:
-        """Verify rejection of empty or whitespace-only course names."""
-        with pytest.raises(ValidationError):
-            Course(code="NEURO", name=invalid_name)
+    def test_validate_and_normalize_semester_id_invalid(self, invalid_semester: object) -> None:
+        """Verify invalid semester IDs raise ValueError."""
+        with pytest.raises(ValueError):
+            validate_and_normalize_semester_id(invalid_semester)
 
-    def test_course_immutability(self) -> None:
-        """Verify Course instance is frozen."""
+
+class TestCourseDomainModel:
+    """Test suite for Course domain model."""
+
+    def test_valid_course_creation(self) -> None:
+        """Verify creating a valid course model."""
+        course = Course(code="neuro", name="  Neurología Clínica  ", active=True)
+        assert course.code == "NEURO"
+        assert course.name == "Neurología Clínica"
+        assert course.active is True
+
+    def test_course_default_active_is_true(self) -> None:
+        """Verify default active status is True."""
+        course = Course(code="GASTRO", name="Gastroenterología")
+        assert course.active is True
+
+    def test_course_is_immutable(self) -> None:
+        """Verify Course instance is frozen/immutable."""
         course = Course(code="NEURO", name="Neurología")
         with pytest.raises(ValidationError):
             course.active = False  # type: ignore[misc]
@@ -65,11 +70,12 @@ class TestSemesterConfigDomainModel:
     """Test suite for SemesterConfig domain model."""
 
     def test_valid_semester_config(self) -> None:
-        """Verify creating a valid semester configuration."""
+        """Verify creating a valid semester configuration with explicit timezone."""
         config = SemesterConfig(
             semester_id="2026-2",
             display_name="2026-2",
             active=True,
+            timezone="America/Guayaquil",
             courses=[
                 Course(code="NEURO", name="Neurología"),
                 Course(code="GASTRO", name="Gastroenterología"),
@@ -78,7 +84,30 @@ class TestSemesterConfigDomainModel:
         assert config.semester_id == "2026-2"
         assert config.display_name == "2026-2"
         assert config.active is True
+        assert config.timezone == "America/Guayaquil"
+        assert config.tz.key == "America/Guayaquil"
         assert len(config.courses) == 2
+
+    def test_missing_timezone_rejected(self) -> None:
+        """Verify missing timezone field in SemesterConfig raises ValidationError."""
+        with pytest.raises(ValidationError, match="Field required"):
+            SemesterConfig(
+                semester_id="2026-2",
+                display_name="2026-2",
+                active=True,
+                courses=[Course(code="NEURO", name="Neurología")],
+            )  # type: ignore[call-arg]
+
+    def test_invalid_timezone_rejected(self) -> None:
+        """Verify unknown or invalid IANA timezone string raises ValidationError."""
+        with pytest.raises(ValidationError, match="Invalid or unknown IANA timezone"):
+            SemesterConfig(
+                semester_id="2026-2",
+                display_name="2026-2",
+                active=True,
+                timezone="Invalid/NonExistent_TZ",
+                courses=[Course(code="NEURO", name="Neurología")],
+            )
 
     @pytest.mark.parametrize(
         "valid_id",
@@ -90,6 +119,7 @@ class TestSemesterConfigDomainModel:
             semester_id=valid_id,
             display_name="Semester Display",
             active=True,
+            timezone="America/Guayaquil",
             courses=[Course(code="NEURO", name="Neurología")],
         )
         assert config.semester_id == valid_id.strip()
@@ -115,6 +145,7 @@ class TestSemesterConfigDomainModel:
                 semester_id=invalid_id,
                 display_name="Display Name",
                 active=True,
+                timezone="America/Guayaquil",
                 courses=[Course(code="NEURO", name="Neurología")],
             )
 
@@ -125,6 +156,7 @@ class TestSemesterConfigDomainModel:
                 semester_id="2026-2",
                 display_name="2026-2",
                 active=True,
+                timezone="America/Guayaquil",
                 courses=[],
             )
 
@@ -135,6 +167,7 @@ class TestSemesterConfigDomainModel:
                 semester_id="2026-2",
                 display_name="2026-2",
                 active=True,
+                timezone="America/Guayaquil",
                 courses=[
                     Course(code="NEURO", name="Neurología A"),
                     Course(code="neuro", name="Neurología B"),  # normalizes to NEURO
@@ -163,6 +196,7 @@ class TestSemesterConfigDomainModel:
                 semester_id=invalid_type_value,  # type: ignore[arg-type]
                 display_name="Display",
                 active=True,
+                timezone="America/Guayaquil",
                 courses=[Course(code="NEURO", name="Neurología")],
             )
         with pytest.raises(ValidationError):
@@ -170,6 +204,7 @@ class TestSemesterConfigDomainModel:
                 semester_id="2026-2",
                 display_name=invalid_type_value,  # type: ignore[arg-type]
                 active=True,
+                timezone="America/Guayaquil",
                 courses=[Course(code="NEURO", name="Neurología")],
             )
 
@@ -181,5 +216,6 @@ class TestSemesterConfigDomainModel:
                 semester_id="2026-2",
                 display_name=blank_display,
                 active=True,
+                timezone="America/Guayaquil",
                 courses=[Course(code="NEURO", name="Neurología")],
             )

@@ -11,6 +11,15 @@ from medsemiotics.services.academic_validation import validate_syllabus_topics
 from medsemiotics.services.calendar_config_repository import CalendarConfigRepository
 from medsemiotics.services.calendar_filter import filter_course_calendar_events
 from medsemiotics.services.course_state_service import CourseStateService
+from medsemiotics.services.effective_schedule import (
+    build_effective_teaching_schedule,
+)
+from medsemiotics.services.effective_schedule_service import (
+    EffectiveScheduleService,
+)
+from medsemiotics.services.effective_teaching_day_service import (
+    EffectiveTeachingDayService,
+)
 from medsemiotics.services.schedule_repository import ScheduleRepository
 from medsemiotics.services.semester_config import (
     load_current_semester_id,
@@ -20,21 +29,28 @@ from medsemiotics.services.semester_repository import SemesterRepository
 from medsemiotics.services.syllabus_repository import SyllabusRepository
 from medsemiotics.services.teaching_day_service import TeachingDayService
 from medsemiotics.services.teaching_log_repository import TeachingLogRepository
-from medsemiotics.services.teaching_position import resolve_teaching_position
+from medsemiotics.services.teaching_position import (
+    resolve_teaching_position,
+    resolve_teaching_position_from_effective_schedule,
+)
 
 __all__ = [
     "CalendarConfigRepository",
     "CourseStateService",
+    "EffectiveScheduleService",
+    "EffectiveTeachingDayService",
     "ScheduleRepository",
     "SemesterRepository",
     "SyllabusRepository",
     "TeachingDayService",
     "TeachingLogRepository",
     "build_course_academic_state",
+    "build_effective_teaching_schedule",
     "filter_course_calendar_events",
     "find_unplanned_taught_topic_ids",
     "load_current_semester_id",
     "load_semester_config",
     "resolve_teaching_position",
+    "resolve_teaching_position_from_effective_schedule",
     "validate_syllabus_topics",
 ]
