@@ -14,6 +14,7 @@ from medsemiotics.domain.constants import (
     PROP_SCHEMA_VERSION,
     PROP_SEMESTER_ID,
     PROP_TOPIC_ID,
+    SCHEMA_VERSION_VALUE,
 )
 from medsemiotics.domain.effective_schedule import (
     EffectiveClassEvent,
@@ -80,7 +81,12 @@ class TestCalendarPublishPlan:
         assert req.metadata[PROP_COURSE_CODE] == "NEURO"
         assert req.metadata[PROP_CLASS_DATE] == "2026-08-04"
         assert req.metadata[PROP_SCHEMA_VERSION] == "1"
+        assert req.metadata["medsemiotics_schema_version"] == "1"
         assert req.metadata[PROP_TOPIC_ID] == "t_cerebelo"
+
+    def test_schema_version_constant_is_strictly_string_one(self) -> None:
+        """Verify centralized SCHEMA_VERSION_VALUE is strictly '1'."""
+        assert SCHEMA_VERSION_VALUE == "1"
 
     def test_cancelled_class_rejected(
         self, guayaquil_tz: ZoneInfo, sample_brief: CoachingBrief
