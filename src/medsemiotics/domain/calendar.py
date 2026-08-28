@@ -22,6 +22,34 @@ def _normalize_optional_text(value: object) -> str | None:
     return trimmed if trimmed else None
 
 
+def _clean_string_list(value: object, field_name: str) -> list[str]:
+    """Clean, trim, and deduplicate strings case-insensitively."""
+    if not isinstance(value, list):
+        msg = f"{field_name} must be a list of strings"
+        raise ValueError(msg)
+
+    cleaned: list[str] = []
+    seen_lower: set[str] = set()
+
+    for item in value:
+        if not isinstance(item, str):
+            msg = f"{field_name} items must be strings, got {type(item).__name__}"
+            raise ValueError(msg)
+        trimmed = item.strip()
+        if not trimmed:
+            msg = f"{field_name} item must not be empty or whitespace only"
+            raise ValueError(msg)
+
+        low = trimmed.lower()
+        if low in seen_lower:
+            msg = f"Duplicate {field_name} found (case-insensitive): '{trimmed}'"
+            raise ValueError(msg)
+        seen_lower.add(low)
+        cleaned.append(trimmed)
+
+    return cleaned
+
+
 class OperationalCalendarEvent(BaseModel):
     """Normalized, internal representation of an external calendar event."""
 
@@ -86,6 +114,14 @@ class CourseCalendarConfig(BaseModel):
     enabled: Annotated[bool, Field(default=False, description="Whether calendar integration is active")]
     calendar_id: Annotated[str | None, Field(default=None, description="Google Calendar identifier")]
     aliases: Annotated[list[str], Field(description="Title match aliases for course recognition")]
+    cancellation_markers: Annotated[
+        list[str],
+        Field(default_factory=list, description="Keywords indicating class cancellation"),
+    ]
+    makeup_markers: Annotated[
+        list[str],
+        Field(default_factory=list, description="Keywords indicating makeup class"),
+    ]
 
     @field_validator("semester_id", mode="before")
     @classmethod
@@ -112,27 +148,16 @@ class CourseCalendarConfig(BaseModel):
         if not isinstance(value, list) or not value:
             msg = "aliases must be a non-empty list of strings"
             raise ValueError(msg)
+        return _clean_string_list(value, "alias")
 
-        cleaned_aliases: list[str] = []
-        seen_lower: set[str] = set()
-
-        for item in value:
-            if not isinstance(item, str):
-                msg = f"Alias must be a string, got {type(item).__name__}"
-                raise ValueError(msg)
-            trimmed = item.strip()
-            if not trimmed:
-                msg = "Alias must not be empty or whitespace only"
-                raise ValueError(msg)
-
-            low = trimmed.lower()
-            if low in seen_lower:
-                msg = f"Duplicate alias found (case-insensitive): '{trimmed}'"
-                raise ValueError(msg)
-            seen_lower.add(low)
-            cleaned_aliases.append(trimmed)
-
-        return cleaned_aliases
+    @field_validator("cancellation_markers", "makeup_markers", mode="before")
+    @classmethod
+    def validate_markers(cls, value: object, info: object) -> list[str]:
+        """Validate, trim, and deduplicate optional marker strings."""
+        if value is None:
+            return []
+        field_name = getattr(info, "field_name", "marker")
+        return _clean_string_list(value, field_name)
 
     @model_validator(mode="after")
     def validate_enabled_contract(self) -> "CourseCalendarConfig":

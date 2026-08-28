@@ -3,6 +3,7 @@
 from collections.abc import Collection
 from datetime import date
 
+from medsemiotics.domain.effective_schedule import EffectiveTeachingSchedule
 from medsemiotics.domain.exceptions import AcademicStateError
 from medsemiotics.domain.schedule import CourseTeachingSchedule
 from medsemiotics.domain.syllabus import SyllabusPlan
@@ -14,6 +15,83 @@ from medsemiotics.domain.teaching_position import (
 from medsemiotics.services.academic_state import build_course_academic_state
 
 
+def _compute_position_from_metrics(
+    *,
+    semester_id: str,
+    course_code: str,
+    target_date: date,
+    is_class_date: bool,
+    expected_session_count: int,
+    syllabus: SyllabusPlan,
+    sessions: Collection[TeachingSession],
+) -> TeachingPosition:
+    """Core deterministic calculation for topic order, current topic, and pacing status."""
+    # Filter strictly sessions on or before target date
+    historical_sessions = [s for s in sessions if s.session_date <= target_date]
+    actual_session_count = len(historical_sessions)
+
+    # Derive academic progress through target date
+    state = build_course_academic_state(syllabus, historical_sessions)
+    num_planned_topics = len(syllabus.topics)
+
+    expected_topic_order = (
+        min(expected_session_count, num_planned_topics)
+        if expected_session_count > 0
+        else None
+    )
+
+    current_topic_id = (
+        state.next_required_topic.topic_id
+        if state.next_required_topic is not None
+        else None
+    )
+
+    completed_required = state.completed_required_topics
+    required_topics = state.required_topics
+    all_completed = len(completed_required) == len(required_topics) and len(required_topics) > 0
+
+    if expected_session_count == 0 and actual_session_count == 0:
+        pace_status = TeachingPaceStatus.NOT_STARTED
+        topic_delta: int | None = 0
+    elif all_completed:
+        pace_status = TeachingPaceStatus.COMPLETE
+        actual_completed_pos = max((t.planned_order for t in completed_required), default=0)
+        expected_completed_pos = (
+            max(expected_topic_order - 1, 0)
+            if expected_topic_order is not None
+            else 0
+        )
+        topic_delta = actual_completed_pos - expected_completed_pos
+    else:
+        actual_completed_pos = max((t.planned_order for t in completed_required), default=0)
+        expected_completed_pos = (
+            max(expected_topic_order - 1, 0)
+            if expected_topic_order is not None
+            else 0
+        )
+        topic_delta = actual_completed_pos - expected_completed_pos
+
+        if topic_delta > 0:
+            pace_status = TeachingPaceStatus.AHEAD
+        elif topic_delta == 0:
+            pace_status = TeachingPaceStatus.ON_TRACK
+        else:
+            pace_status = TeachingPaceStatus.BEHIND
+
+    return TeachingPosition(
+        semester_id=semester_id,
+        course_code=course_code,
+        target_date=target_date,
+        is_class_date=is_class_date,
+        expected_session_count=expected_session_count,
+        actual_session_count=actual_session_count,
+        expected_topic_order=expected_topic_order,
+        current_topic_id=current_topic_id,
+        pace_status=pace_status,
+        topic_delta=topic_delta,
+    )
+
+
 def resolve_teaching_position(
     *,
     target_date: date,
@@ -21,20 +99,7 @@ def resolve_teaching_position(
     syllabus: SyllabusPlan,
     sessions: Collection[TeachingSession],
 ) -> TeachingPosition:
-    """Deterministically resolve the teaching position, current topic, and pacing for a target date.
-
-    Args:
-        target_date: Explicit evaluation date.
-        schedule: Institutional teaching schedule for the course.
-        syllabus: Planned course curriculum syllabus.
-        sessions: Complete historical teaching log sessions.
-
-    Returns:
-        TeachingPosition snapshot.
-
-    Raises:
-        AcademicStateError: If schedule, syllabus, or session scopes mismatch.
-    """
+    """Deterministically resolve teaching position from a baseline CourseTeachingSchedule."""
     if schedule.semester_id != syllabus.semester_id or schedule.course_code != syllabus.course_code:
         msg = (
             f"Scope mismatch between schedule ({schedule.semester_id}, {schedule.course_code}) "
@@ -69,67 +134,68 @@ def resolve_teaching_position(
     expected_dates = schedule.class_dates_through(target_date)
     expected_session_count = len(expected_dates)
 
-    # Filter strictly sessions on or before target date
-    historical_sessions = [s for s in sessions if s.session_date <= target_date]
-    actual_session_count = len(historical_sessions)
-
-    # Derive academic progress through target date
-    state = build_course_academic_state(syllabus, historical_sessions)
-    num_planned_topics = len(syllabus.topics)
-
-    expected_topic_order = (
-        min(expected_session_count, num_planned_topics)
-        if expected_session_count > 0
-        else None
-    )
-
-    current_topic_id = (
-        state.next_required_topic.topic_id
-        if state.next_required_topic is not None
-        else None
-    )
-
-    completed_required = state.completed_required_topics
-    required_topics = state.required_topics
-    all_completed = len(completed_required) == len(required_topics) and len(required_topics) > 0
-
-    if expected_session_count == 0 and actual_session_count == 0:
-        pace_status = TeachingPaceStatus.NOT_STARTED
-        topic_delta = 0
-    elif all_completed:
-        pace_status = TeachingPaceStatus.COMPLETE
-        actual_completed_pos = max((t.planned_order for t in completed_required), default=0)
-        expected_completed_pos = (
-            max(expected_topic_order - 1, 0)
-            if expected_topic_order is not None
-            else 0
-        )
-        topic_delta = actual_completed_pos - expected_completed_pos
-    else:
-        actual_completed_pos = max((t.planned_order for t in completed_required), default=0)
-        expected_completed_pos = (
-            max(expected_topic_order - 1, 0)
-            if expected_topic_order is not None
-            else 0
-        )
-        topic_delta = actual_completed_pos - expected_completed_pos
-
-        if topic_delta > 0:
-            pace_status = TeachingPaceStatus.AHEAD
-        elif topic_delta == 0:
-            pace_status = TeachingPaceStatus.ON_TRACK
-        else:
-            pace_status = TeachingPaceStatus.BEHIND
-
-    return TeachingPosition(
+    return _compute_position_from_metrics(
         semester_id=syllabus.semester_id,
         course_code=syllabus.course_code,
         target_date=target_date,
         is_class_date=is_class,
         expected_session_count=expected_session_count,
-        actual_session_count=actual_session_count,
-        expected_topic_order=expected_topic_order,
-        current_topic_id=current_topic_id,
-        pace_status=pace_status,
-        topic_delta=topic_delta,
+        syllabus=syllabus,
+        sessions=sessions,
+    )
+
+
+def resolve_teaching_position_from_effective_schedule(
+    *,
+    target_date: date,
+    effective_schedule: EffectiveTeachingSchedule,
+    syllabus: SyllabusPlan,
+    sessions: Collection[TeachingSession],
+) -> TeachingPosition:
+    """Deterministically resolve teaching position from a reconciled EffectiveTeachingSchedule."""
+    if (
+        effective_schedule.semester_id != syllabus.semester_id
+        or effective_schedule.course_code != syllabus.course_code
+    ):
+        msg = (
+            f"Scope mismatch between effective schedule ({effective_schedule.semester_id}, {effective_schedule.course_code}) "
+            f"and syllabus ({syllabus.semester_id}, {syllabus.course_code})."
+        )
+        raise AcademicStateError(msg)
+
+    for session in sessions:
+        if session.semester_id != syllabus.semester_id or session.course_code != syllabus.course_code:
+            msg = (
+                f"Scope mismatch in teaching session '{session.session_id}': "
+                f"expected ({syllabus.semester_id}, {syllabus.course_code}), "
+                f"got ({session.semester_id}, {session.course_code})."
+            )
+            raise AcademicStateError(msg)
+
+    if not effective_schedule.events:
+        return TeachingPosition(
+            semester_id=syllabus.semester_id,
+            course_code=syllabus.course_code,
+            target_date=target_date,
+            is_class_date=False,
+            expected_session_count=0,
+            actual_session_count=0,
+            expected_topic_order=None,
+            current_topic_id=None,
+            pace_status=TeachingPaceStatus.UNAVAILABLE,
+            topic_delta=None,
+        )
+
+    is_class = effective_schedule.is_class_date(target_date)
+    expected_dates = effective_schedule.class_dates_through(target_date)
+    expected_session_count = len(expected_dates)
+
+    return _compute_position_from_metrics(
+        semester_id=syllabus.semester_id,
+        course_code=syllabus.course_code,
+        target_date=target_date,
+        is_class_date=is_class,
+        expected_session_count=expected_session_count,
+        syllabus=syllabus,
+        sessions=sessions,
     )

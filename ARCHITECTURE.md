@@ -49,7 +49,12 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
   - `TeachingLogRepository`: Read-only access to historical teaching sessions (`config/teaching_logs/<semester_id>/<course_code>.yaml`).
   - `ScheduleRepository`: Read-only access to teaching schedules (`config/schedules/<semester_id>/<course_code>.yaml`).
   - `CalendarConfigRepository`: Read-only access to course calendar bindings (`config/calendar/<semester_id>/<course_code>.yaml`).
-  - `current_semester.yaml`: Active semester pointer file.
+- **Effective Teaching Schedule & Reconciliation**:
+  - `EffectiveClassEvent` (`EffectiveClassSource`: `baseline`, `calendar`, `baseline_and_calendar`; `EffectiveClassStatus`: `scheduled`, `cancelled`, `moved`, `makeup`): Point-in-time reconciled class event.
+  - `EffectiveTeachingSchedule`: Derived, unpersisted schedule reconciling planned baseline rules with operational Google Calendar evidence.
+  - `EffectiveScheduleService` & `EffectiveTeachingDayService`: Application services computing effective dates, positions, and current topics.
+  - **Core Invariant**: **"Baseline schedule is planned truth; Calendar provides operational evidence."** Reconciliation preserves both planned structure and observed reality without mutating either store.
+  - **Core Invariant**: **"Absence of external evidence must not silently negate planned academic state."** Unobserved baseline class dates remain active scheduled classes unless an explicit cancellation marker is present.
 - **External Integration Boundaries**:
   - `GoogleCalendarReader`: Read-only client for Google Calendar API v3 using user OAuth 2.0 with minimal readonly scope.
   - `OperationalCalendarEvent`: Normalized domain model for external calendar events.

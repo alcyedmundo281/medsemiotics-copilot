@@ -2,6 +2,7 @@
 
 import re
 from typing import Annotated
+from zoneinfo import ZoneInfo
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -81,6 +82,7 @@ class SemesterConfig(BaseModel):
     display_name: Annotated[str, Field(description="Display label for the semester")]
     active: bool
     courses: list[Course]
+    timezone: Annotated[str, Field(default="America/Guayaquil", description="Academic IANA timezone")]
 
     @field_validator("semester_id", mode="before")
     @classmethod
@@ -100,6 +102,29 @@ class SemesterConfig(BaseModel):
             msg = "Display name cannot be empty or blank"
             raise ValueError(msg)
         return trimmed
+
+    @field_validator("timezone", mode="before")
+    @classmethod
+    def validate_timezone(cls, value: object) -> str:
+        """Validate that timezone is a valid IANA timezone identifier."""
+        if not isinstance(value, str):
+            msg = f"Timezone must be a string, got {type(value).__name__}"
+            raise ValueError(msg)
+        cleaned = value.strip()
+        if not cleaned:
+            msg = "Timezone cannot be empty or blank"
+            raise ValueError(msg)
+        try:
+            ZoneInfo(cleaned)
+        except Exception as err:
+            msg = f"Invalid or unknown IANA timezone identifier: '{cleaned}'"
+            raise ValueError(msg) from err
+        return cleaned
+
+    @property
+    def tz(self) -> ZoneInfo:
+        """Return the resolved ZoneInfo instance for this semester."""
+        return ZoneInfo(self.timezone)
 
     @model_validator(mode="after")
     def validate_semester_integrity(self) -> "SemesterConfig":

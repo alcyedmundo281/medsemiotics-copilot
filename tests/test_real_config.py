@@ -1,7 +1,8 @@
 """Integration tests verifying the actual project configuration files on disk."""
 
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from medsemiotics.domain.academic_state import TopicProgressStatus
 from medsemiotics.domain.teaching_position import TeachingPaceStatus
@@ -9,6 +10,9 @@ from medsemiotics.services.calendar_config_repository import (
     CalendarConfigRepository,
 )
 from medsemiotics.services.course_state_service import CourseStateService
+from medsemiotics.services.effective_schedule_service import (
+    EffectiveScheduleService,
+)
 from medsemiotics.services.schedule_repository import ScheduleRepository
 from medsemiotics.services.semester_config import (
     load_current_semester_id,
@@ -32,6 +36,8 @@ def test_real_semester_2026_2_config() -> None:
     assert config.semester_id == "2026-2"
     assert config.display_name == "2026-2"
     assert config.active is True
+    assert config.timezone == "America/Guayaquil"
+    assert config.tz.key == "America/Guayaquil"
 
     course_codes = {course.code for course in config.courses}
     assert course_codes == {"NEURO", "GASTRO"}
@@ -65,6 +71,7 @@ def test_real_repository_resolution() -> None:
 
     config = repo.get("2026-2")
     assert config.semester_id == "2026-2"
+    assert config.timezone == "America/Guayaquil"
 
 
 def test_real_syllabi_2026_2() -> None:
@@ -185,3 +192,34 @@ def test_real_calendar_config_2026_2() -> None:
     assert gastro_cfg.enabled is False
     assert gastro_cfg.calendar_id is None
     assert "Gastroenterología" in gastro_cfg.aliases
+
+
+def test_real_effective_schedule_empty() -> None:
+    """Verify that with real placeholder configs (both disabled), effective schedule has no active class dates."""
+    project_root = Path(__file__).resolve().parent.parent
+    sem_dir = project_root / "config" / "semesters"
+    sched_dir = project_root / "config" / "schedules"
+    cal_dir = project_root / "config" / "calendar"
+
+    service = EffectiveScheduleService(
+        SemesterRepository(sem_dir),
+        ScheduleRepository(sched_dir),
+        CalendarConfigRepository(cal_dir),
+    )
+
+    tz = ZoneInfo("America/Guayaquil")
+    neuro_dates = service.get_class_dates(
+        semester_id="2026-2",
+        course_code="NEURO",
+        time_min=datetime(2026, 8, 1, 0, 0, tzinfo=tz),
+        time_max=datetime(2026, 8, 31, 23, 59, tzinfo=tz),
+    )
+    assert neuro_dates == []
+
+    gastro_dates = service.get_class_dates(
+        semester_id="2026-2",
+        course_code="GASTRO",
+        time_min=datetime(2026, 8, 1, 0, 0, tzinfo=tz),
+        time_max=datetime(2026, 8, 31, 23, 59, tzinfo=tz),
+    )
+    assert gastro_dates == []

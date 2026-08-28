@@ -63,6 +63,43 @@ courses:
         config = load_semester_config(yaml_file)
         assert config.courses[0].name == "Semiología Neurológica & Neuroanatomía Clínica"
 
+    def test_load_explicit_timezone(self, tmp_path: Path) -> None:
+        """Verify custom valid timezone is loaded and resolved."""
+        yaml_file = tmp_path / "2026-2.yaml"
+        yaml_file.write_text(
+            """
+semester_id: "2026-2"
+display_name: "2026-2"
+active: true
+timezone: "America/Guayaquil"
+courses:
+  - code: "NEURO"
+    name: "Neurología"
+""",
+            encoding="utf-8",
+        )
+        config = load_semester_config(yaml_file)
+        assert config.timezone == "America/Guayaquil"
+        assert config.tz.key == "America/Guayaquil"
+
+    def test_invalid_timezone_rejected(self, tmp_path: Path) -> None:
+        """Verify invalid or unrecognized timezone identifier is rejected."""
+        yaml_file = tmp_path / "2026-2.yaml"
+        yaml_file.write_text(
+            """
+semester_id: "2026-2"
+display_name: "2026-2"
+active: true
+timezone: "Invalid/Timezone_XYZ"
+courses:
+  - code: "NEURO"
+    name: "Neurología"
+""",
+            encoding="utf-8",
+        )
+        with pytest.raises(SemesterConfigValidationError, match="Invalid or unknown IANA timezone"):
+            load_semester_config(yaml_file)
+
     def test_missing_file_raises_not_found(self, tmp_path: Path) -> None:
         """Verify missing semester file raises SemesterConfigNotFoundError."""
         missing_file = tmp_path / "non_existent.yaml"

@@ -125,6 +125,19 @@ $$\text{Google Calendar API Resource} \xrightarrow{\text{Mapper}} \text{Operatio
 
 ---
 
+## Effective Teaching Schedule
+
+The effective teaching schedule deterministically reconciles institutional planned baseline schedules with operational Google Calendar evidence:
+
+$$\text{Baseline Schedule} + \text{Operational Google Calendar Events} \longrightarrow \text{EffectiveTeachingSchedule}$$
+
+- **Operational Reconciliation**: Planned meeting rules are combined with observed calendar events to establish the actual active class dates.
+- **Calendar Absence Invariant**: The absence of a Google Calendar event **never** implies class cancellation. Unobserved baseline dates remain active scheduled classes (`source=baseline`).
+- **Explicit Cancellation Markers**: Operational cancellations require explicit, configured text markers (e.g. `"cancelada"`, `"sin clase"` in `cancellation_markers`) within matched calendar event titles.
+- **Deterministic and Unpersisted**: `EffectiveTeachingSchedule` is a pure in-memory projection derived on demand; it is never persisted to disk or written back to baseline schedule YAMLs.
+
+---
+
 ## Quickstart & Development
 
 ### 1. Prerequisites

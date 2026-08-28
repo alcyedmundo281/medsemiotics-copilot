@@ -20,12 +20,20 @@ from medsemiotics.domain.calendar import (
     CourseCalendarConfig,
     OperationalCalendarEvent,
 )
+from medsemiotics.domain.effective_schedule import (
+    EffectiveClassEvent,
+    EffectiveClassSource,
+    EffectiveClassStatus,
+    EffectiveTeachingSchedule,
+)
 from medsemiotics.domain.exceptions import (
     AcademicStateError,
     AcademicValidationError,
     CalendarConfigError,
     CalendarConfigNotFoundError,
     CalendarConfigValidationError,
+    EffectiveScheduleAmbiguityError,
+    EffectiveScheduleError,
     MedSemioticsError,
     ScheduleError,
     ScheduleNotFoundError,
@@ -74,6 +82,12 @@ __all__ = [
     "CourseCode",
     "CourseTeachingSchedule",
     "CoverageStatus",
+    "EffectiveClassEvent",
+    "EffectiveClassSource",
+    "EffectiveClassStatus",
+    "EffectiveScheduleAmbiguityError",
+    "EffectiveScheduleError",
+    "EffectiveTeachingSchedule",
     "MedSemioticsError",
     "OperationalCalendarEvent",
     "ScheduleError",
