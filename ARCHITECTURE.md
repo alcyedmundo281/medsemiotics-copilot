@@ -33,6 +33,11 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
   - `SyllabusPlan` & `SyllabusTopic`: The intended sequential curriculum structure (`planned_order`, `planned_week`).
   - `TeachingSession` & `TeachingSessionTopic` (`CoverageStatus`): Historical log of actual class meetings and coverage achieved (`introduced`, `partial`, `completed`, `reviewed`, `skipped`).
   - **Core Invariant**: **"Planned curriculum and actual teaching history are separate sources of truth."**
+- **Teaching Schedule and Position**:
+  - `CourseTeachingSchedule`, `ClassMeetingRule`, and `ScheduleException` (`ScheduleExceptionType`): Calendar schedule rules and exception days (`cancelled`, `no_class`, `makeup`).
+  - `TeachingPosition` (`TeachingPaceStatus`): Point-in-time pacing and topic evaluation (`ahead`, `on_track`, `behind`, `not_started`, `complete`, `unavailable`).
+  - `TeachingDayService`: Application service resolving scheduled class days, pacing deltas, and current topics for explicit evaluation dates.
+  - **Core Invariant**: **"Date-sensitive academic reasoning must receive an explicit target date."** No service in this layer silently queries `datetime.now()` or `date.today()`.
 - **Derived Academic State Projection**:
   - `TopicProgress` (`TopicProgressStatus`): Topic-level progress derived from historical sessions (`session_count`, `first_taught_date`, `last_taught_date`).
   - `CourseAcademicState`: Aggregated deterministic course state exposing filtered progress queries (`completed_topics`, `in_progress_topics`, `not_started_topics`, `skipped_topics`, `next_required_topic`, `completion_ratio`).
@@ -42,8 +47,9 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
   - `SemesterRepository`: Read-only access to semester definitions on disk (`config/semesters/`).
   - `SyllabusRepository`: Read-only access to planned syllabi (`config/syllabi/<semester_id>/<course_code>.yaml`).
   - `TeachingLogRepository`: Read-only access to historical teaching sessions (`config/teaching_logs/<semester_id>/<course_code>.yaml`).
+  - `ScheduleRepository`: Read-only access to teaching schedules (`config/schedules/<semester_id>/<course_code>.yaml`).
   - `current_semester.yaml`: Active semester pointer file.
-- **Configuration vs. Integration**: Semester and syllabus YAML files represent static domain configuration and state, **not** external integrations.
+- **Configuration vs. Integration**: Semester, syllabus, and schedule YAML files represent static domain configuration and state, **not** external integrations.
 - **Evidence & Literature**: PubMed, PMC, DOI, and Crossref metadata and citation records.
 - **Media & Assets**: Wikimedia Commons media indexing, medical illustrations, attribution records, and licensing metadata.
 

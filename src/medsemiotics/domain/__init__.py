@@ -20,6 +20,9 @@ from medsemiotics.domain.exceptions import (
     AcademicStateError,
     AcademicValidationError,
     MedSemioticsError,
+    ScheduleError,
+    ScheduleNotFoundError,
+    ScheduleValidationError,
     SemesterConfigError,
     SemesterConfigNotFoundError,
     SemesterConfigValidationError,
@@ -30,6 +33,13 @@ from medsemiotics.domain.exceptions import (
     TeachingLogNotFoundError,
     TeachingLogValidationError,
 )
+from medsemiotics.domain.schedule import (
+    ClassMeetingRule,
+    ClassWeekday,
+    CourseTeachingSchedule,
+    ScheduleException,
+    ScheduleExceptionType,
+)
 from medsemiotics.domain.syllabus import SyllabusPlan, SyllabusTopic
 from medsemiotics.domain.teaching_log import (
     CoverageStatus,
@@ -37,16 +47,28 @@ from medsemiotics.domain.teaching_log import (
     TeachingSessionTopic,
     validate_and_normalize_session_id,
 )
+from medsemiotics.domain.teaching_position import (
+    TeachingPaceStatus,
+    TeachingPosition,
+)
 from medsemiotics.domain.topics import Topic, TopicId, validate_and_normalize_topic_id
 
 __all__ = [
     "AcademicStateError",
     "AcademicValidationError",
+    "ClassMeetingRule",
+    "ClassWeekday",
     "Course",
     "CourseAcademicState",
     "CourseCode",
+    "CourseTeachingSchedule",
     "CoverageStatus",
     "MedSemioticsError",
+    "ScheduleError",
+    "ScheduleException",
+    "ScheduleExceptionType",
+    "ScheduleNotFoundError",
+    "ScheduleValidationError",
     "SemesterConfig",
     "SemesterConfigError",
     "SemesterConfigNotFoundError",
@@ -60,6 +82,8 @@ __all__ = [
     "TeachingLogError",
     "TeachingLogNotFoundError",
     "TeachingLogValidationError",
+    "TeachingPaceStatus",
+    "TeachingPosition",
     "TeachingSession",
     "TeachingSessionTopic",
     "Topic",

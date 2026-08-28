@@ -1,0 +1,10 @@
+# PLACEHOLDER: replace with actual institutional teaching schedule before enabling.
+semester_id: "2026-2"
+course_code: "GASTRO"
+enabled: false
+teaching_start_date: "2026-08-01"
+teaching_end_date: "2026-12-15"
+meeting_rules:
+  - weekday: "monday"
+  - weekday: "wednesday"
+exceptions: []
