@@ -82,7 +82,7 @@ class SemesterConfig(BaseModel):
     display_name: Annotated[str, Field(description="Display label for the semester")]
     active: bool
     courses: list[Course]
-    timezone: Annotated[str, Field(default="America/Guayaquil", description="Academic IANA timezone")]
+    timezone: Annotated[str, Field(description="Academic IANA timezone identifier")]
 
     @field_validator("semester_id", mode="before")
     @classmethod

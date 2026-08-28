@@ -293,13 +293,55 @@ class TestEffectiveScheduleReconciliation:
         # Should not create any event for Aug 12
         assert not any(e.date == date(2026, 8, 12) for e in effective.events)
 
-    def test_multiple_ambiguous_events_on_same_date_raises_error(
+    def test_same_date_baseline_normal_plus_cancellation_override(
         self,
         semester: SemesterConfig,
         baseline_schedule: CourseTeachingSchedule,
         calendar_config: CourseCalendarConfig,
     ) -> None:
-        """Verify multiple calendar events on the same date raise EffectiveScheduleAmbiguityError."""
+        """Case A: 1 normal event + 1 cancellation marker event on baseline date -> cancelled override."""
+        tz = ZoneInfo("America/Guayaquil")
+        cal_normal = OperationalCalendarEvent(
+            event_id="cal_normal_18",
+            calendar_id="cal_neuro",
+            title="Neurología Clase Ordinaria",
+            start=datetime(2026, 8, 18, 8, 0, tzinfo=tz),
+            end=datetime(2026, 8, 18, 10, 0, tzinfo=tz),
+            all_day=False,
+        )
+        cal_cancel = OperationalCalendarEvent(
+            event_id="cal_cancel_18",
+            calendar_id="cal_neuro",
+            title="Neurología - Clase cancelada por paro docente",
+            start=datetime(2026, 8, 18, 8, 0, tzinfo=tz),
+            end=datetime(2026, 8, 18, 10, 0, tzinfo=tz),
+            all_day=False,
+        )
+
+        effective = build_effective_teaching_schedule(
+            semester=semester,
+            schedule=baseline_schedule,
+            calendar_config=calendar_config,
+            calendar_events=[cal_normal, cal_cancel],
+        )
+
+        # Must produce exactly ONE event for Aug 18
+        aug18_events = [e for e in effective.events if e.date == date(2026, 8, 18)]
+        assert len(aug18_events) == 1
+
+        evt = aug18_events[0]
+        assert evt.status == EffectiveClassStatus.CANCELLED
+        assert evt.source == EffectiveClassSource.BASELINE_AND_CALENDAR
+        assert evt.calendar_event_id == "cal_cancel_18"
+        assert date(2026, 8, 18) not in effective.class_dates
+
+    def test_same_date_baseline_two_normal_events_raises_ambiguity(
+        self,
+        semester: SemesterConfig,
+        baseline_schedule: CourseTeachingSchedule,
+        calendar_config: CourseCalendarConfig,
+    ) -> None:
+        """Case B: 2 normal active course events on same baseline date -> ambiguity error."""
         tz = ZoneInfo("America/Guayaquil")
         cal_1 = OperationalCalendarEvent(
             event_id="cal_1",
@@ -315,6 +357,106 @@ class TestEffectiveScheduleReconciliation:
             title="Neurología Sesión Vespertina",
             start=datetime(2026, 8, 18, 14, 0, tzinfo=tz),
             end=datetime(2026, 8, 18, 16, 0, tzinfo=tz),
+            all_day=False,
+        )
+
+        with pytest.raises(EffectiveScheduleAmbiguityError, match="Ambiguous calendar evidence"):
+            build_effective_teaching_schedule(
+                semester=semester,
+                schedule=baseline_schedule,
+                calendar_config=calendar_config,
+                calendar_events=[cal_1, cal_2],
+            )
+
+    def test_same_date_baseline_two_cancellation_events_raises_ambiguity(
+        self,
+        semester: SemesterConfig,
+        baseline_schedule: CourseTeachingSchedule,
+        calendar_config: CourseCalendarConfig,
+    ) -> None:
+        """Case C: 2 cancellation events on same baseline date -> ambiguity error."""
+        tz = ZoneInfo("America/Guayaquil")
+        cal_1 = OperationalCalendarEvent(
+            event_id="cal_c1",
+            calendar_id="cal_neuro",
+            title="Neurología - cancelada por lluvia",
+            start=datetime(2026, 8, 18, 8, 0, tzinfo=tz),
+            end=datetime(2026, 8, 18, 10, 0, tzinfo=tz),
+            all_day=False,
+        )
+        cal_2 = OperationalCalendarEvent(
+            event_id="cal_c2",
+            calendar_id="cal_neuro",
+            title="Neurología - sin clase aviso de decanato",
+            start=datetime(2026, 8, 18, 8, 0, tzinfo=tz),
+            end=datetime(2026, 8, 18, 10, 0, tzinfo=tz),
+            all_day=False,
+        )
+
+        with pytest.raises(EffectiveScheduleAmbiguityError, match="Ambiguous calendar evidence"):
+            build_effective_teaching_schedule(
+                semester=semester,
+                schedule=baseline_schedule,
+                calendar_config=calendar_config,
+                calendar_events=[cal_1, cal_2],
+            )
+
+    def test_same_date_baseline_normal_plus_makeup_raises_ambiguity(
+        self,
+        semester: SemesterConfig,
+        baseline_schedule: CourseTeachingSchedule,
+        calendar_config: CourseCalendarConfig,
+    ) -> None:
+        """Case D: 1 normal event + 1 makeup event on baseline date -> ambiguity error."""
+        tz = ZoneInfo("America/Guayaquil")
+        cal_normal = OperationalCalendarEvent(
+            event_id="cal_norm",
+            calendar_id="cal_neuro",
+            title="Neurología Clase",
+            start=datetime(2026, 8, 18, 8, 0, tzinfo=tz),
+            end=datetime(2026, 8, 18, 10, 0, tzinfo=tz),
+            all_day=False,
+        )
+        cal_makeup = OperationalCalendarEvent(
+            event_id="cal_make",
+            calendar_id="cal_neuro",
+            title="Neurología - Recuperación",
+            start=datetime(2026, 8, 18, 14, 0, tzinfo=tz),
+            end=datetime(2026, 8, 18, 16, 0, tzinfo=tz),
+            all_day=False,
+        )
+
+        with pytest.raises(EffectiveScheduleAmbiguityError, match="Ambiguous calendar evidence"):
+            build_effective_teaching_schedule(
+                semester=semester,
+                schedule=baseline_schedule,
+                calendar_config=calendar_config,
+                calendar_events=[cal_normal, cal_makeup],
+            )
+
+    def test_same_date_non_baseline_multiple_events_raises_ambiguity(
+        self,
+        semester: SemesterConfig,
+        baseline_schedule: CourseTeachingSchedule,
+        calendar_config: CourseCalendarConfig,
+    ) -> None:
+        """Non-baseline date with multiple events -> ambiguity error."""
+        tz = ZoneInfo("America/Guayaquil")
+        # Aug 21 is Friday (non-baseline)
+        cal_1 = OperationalCalendarEvent(
+            event_id="cal_fri_1",
+            calendar_id="cal_neuro",
+            title="Neurología Tutoría",
+            start=datetime(2026, 8, 21, 10, 0, tzinfo=tz),
+            end=datetime(2026, 8, 21, 12, 0, tzinfo=tz),
+            all_day=False,
+        )
+        cal_2 = OperationalCalendarEvent(
+            event_id="cal_fri_2",
+            calendar_id="cal_neuro",
+            title="Neurología Repaso",
+            start=datetime(2026, 8, 21, 14, 0, tzinfo=tz),
+            end=datetime(2026, 8, 21, 16, 0, tzinfo=tz),
             all_day=False,
         )
 
