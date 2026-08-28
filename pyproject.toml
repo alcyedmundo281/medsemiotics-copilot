@@ -10,8 +10,7 @@ name = "medsemiotics-teaching-copilot"
 version = "0.1.0"
 description = "AI-assisted academic teaching and content-management platform for Neurology and Gastroenterology"
 readme = "README.md"
-requires-python = ">=3.12"
-license = { text = "MIT" }
+requires-python = ">=3.12,<3.13"
 authors = [
     { name = "MedSemiotics Team" },
 ]
@@ -19,6 +18,16 @@ dependencies = [
     "fastapi>=0.110.0",
     "pydantic>=2.6.0",
     "pyyaml>=6.0.1",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.27.0",
+    "mypy>=1.9.0",
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.3.0",
+    "types-pyyaml>=6.0.12.20240311",
 ]
 
 [project.optional-dependencies]
