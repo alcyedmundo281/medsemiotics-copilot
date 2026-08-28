@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+from medsemiotics.domain.academic_state import TopicProgressStatus
+from medsemiotics.services.course_state_service import CourseStateService
 from medsemiotics.services.semester_config import (
     load_current_semester_id,
     load_semester_config,
@@ -88,3 +90,47 @@ def test_real_teaching_logs_2026_2() -> None:
 
     gastro_sessions = repo.get_sessions("2026-2", "GASTRO")
     assert gastro_sessions == []
+
+
+def test_real_academic_state_neuro_2026_2() -> None:
+    """Verify NEURO academic state projection against real configuration."""
+    project_root = Path(__file__).resolve().parent.parent
+    syllabi_dir = project_root / "config" / "syllabi"
+    logs_dir = project_root / "config" / "teaching_logs"
+
+    service = CourseStateService(
+        SyllabusRepository(syllabi_dir),
+        TeachingLogRepository(logs_dir),
+    )
+
+    state = service.get_state("2026-2", "NEURO")
+    assert len(state.topics) == 5
+    assert all(t.status == TopicProgressStatus.NOT_STARTED for t in state.topics)
+    assert state.completion_ratio == 0.0
+    assert state.next_required_topic is not None
+    assert state.next_required_topic.planned_order == 1
+
+    unplanned = service.get_unplanned_taught_topic_ids("2026-2", "NEURO")
+    assert unplanned == []
+
+
+def test_real_academic_state_gastro_2026_2() -> None:
+    """Verify GASTRO academic state projection against real configuration."""
+    project_root = Path(__file__).resolve().parent.parent
+    syllabi_dir = project_root / "config" / "syllabi"
+    logs_dir = project_root / "config" / "teaching_logs"
+
+    service = CourseStateService(
+        SyllabusRepository(syllabi_dir),
+        TeachingLogRepository(logs_dir),
+    )
+
+    state = service.get_state("2026-2", "GASTRO")
+    assert len(state.topics) == 5
+    assert all(t.status == TopicProgressStatus.NOT_STARTED for t in state.topics)
+    assert state.completion_ratio == 0.0
+    assert state.next_required_topic is not None
+    assert state.next_required_topic.planned_order == 1
+
+    unplanned = service.get_unplanned_taught_topic_ids("2026-2", "GASTRO")
+    assert unplanned == []

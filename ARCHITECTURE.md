@@ -33,6 +33,11 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
   - `SyllabusPlan` & `SyllabusTopic`: The intended sequential curriculum structure (`planned_order`, `planned_week`).
   - `TeachingSession` & `TeachingSessionTopic` (`CoverageStatus`): Historical log of actual class meetings and coverage achieved (`introduced`, `partial`, `completed`, `reviewed`, `skipped`).
   - **Core Invariant**: **"Planned curriculum and actual teaching history are separate sources of truth."**
+- **Derived Academic State Projection**:
+  - `TopicProgress` (`TopicProgressStatus`): Topic-level progress derived from historical sessions (`session_count`, `first_taught_date`, `last_taught_date`).
+  - `CourseAcademicState`: Aggregated deterministic course state exposing filtered progress queries (`completed_topics`, `in_progress_topics`, `not_started_topics`, `skipped_topics`, `next_required_topic`, `completion_ratio`).
+  - `CourseStateService`: Read-only orchestration service combining syllabus and log repositories to project current state without persistence.
+  - **Core Invariant**: **"Derived academic state can always be rebuilt from syllabus configuration and teaching history."** `CourseAcademicState` is pure in-memory projection and is never stored in static YAML files.
 - **Repositories & Storage**:
   - `SemesterRepository`: Read-only access to semester definitions on disk (`config/semesters/`).
   - `SyllabusRepository`: Read-only access to planned syllabi (`config/syllabi/<semester_id>/<course_code>.yaml`).

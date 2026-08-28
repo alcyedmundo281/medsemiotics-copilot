@@ -83,6 +83,21 @@ The platform enforces a strict domain distinction between two independent source
 
 ---
 
+## Academic State Projection
+
+Academic state is derived through pure, deterministic domain projection rather than AI inference or probabilistic scoring:
+
+$$\text{SyllabusPlan} + \text{TeachingSession history} \longrightarrow \text{CourseAcademicState}$$
+
+The projection engine explicitly distinguishes:
+- **Planned Topics**: Defined sequentially in `SyllabusPlan` with mandatory/elective flags.
+- **Taught Progress (`TopicProgress`)**: Tracks `session_count`, `first_taught_date`, `last_taught_date`, and status (`not_started`, `in_progress`, `completed`, `skipped`).
+- **Completed as Terminal**: Once a topic reaches `completed` in historical sessions, later events cannot regress its completion status.
+- **Skipped Topics**: Retained explicitly as `skipped` rather than ignored, so pedagogical reviews can evaluate remediation.
+- **Unplanned Taught Content**: Real-world lectures often introduce impromptu clinical topics not in the syllabus; the projector isolates these via `find_unplanned_taught_topic_ids()` without polluting the formal syllabus model.
+
+---
+
 ## Quickstart & Development
 
 ### 1. Prerequisites

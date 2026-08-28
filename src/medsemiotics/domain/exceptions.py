@@ -43,3 +43,7 @@ class TeachingLogValidationError(TeachingLogError):
 
 class AcademicValidationError(MedSemioticsError):
     """Raised when cross-domain referential validation fails."""
+
+
+class AcademicStateError(MedSemioticsError):
+    """Raised when academic state projection fails or scope mismatches."""
