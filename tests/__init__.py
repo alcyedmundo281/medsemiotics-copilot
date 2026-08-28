@@ -1,0 +1,1 @@
+"""MedSemiotics test suite."""
