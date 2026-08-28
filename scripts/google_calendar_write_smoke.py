@@ -71,7 +71,7 @@ def main() -> None:
         "--execute",
         action="store_true",
         default=False,
-        help="Perform the actual write operation against Google Calendar API (Default: False / Dry Run)",
+        help="Perform actual write against Google Calendar API (Default: False / Dry Run)",
     )
 
     args = parser.parse_args()

@@ -56,9 +56,7 @@ aliases:
         with pytest.raises(CalendarConfigNotFoundError, match="Calendar configuration not found"):
             repo.get("2026-2", "GASTRO")
 
-    def test_invalid_parameters_raise_validation_error(
-        self, setup_calendar_dir: Path
-    ) -> None:
+    def test_invalid_parameters_raise_validation_error(self, setup_calendar_dir: Path) -> None:
         """Verify invalid semester or course format raises CalendarConfigValidationError."""
         repo = CalendarConfigRepository(setup_calendar_dir)
         with pytest.raises(CalendarConfigValidationError):
@@ -86,10 +84,8 @@ aliases:
         with pytest.raises(CalendarConfigValidationError, match="Expected YAML mapping"):
             repo.get("2026-2", "NEURO")
 
-    def test_mismatched_internal_identifiers_raises_validation_error(
-        self, tmp_path: Path
-    ) -> None:
-        """Verify mismatch between path and internal YAML fields raises CalendarConfigValidationError."""
+    def test_mismatched_internal_identifiers_raises_validation_error(self, tmp_path: Path) -> None:
+        """Verify mismatch in internal YAML fields raises CalendarConfigValidationError."""
         root = tmp_path / "calendar"
         sem_dir = root / "2026-2"
         sem_dir.mkdir(parents=True)

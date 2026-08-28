@@ -24,7 +24,7 @@ def get_calendar_credentials(
     """Load or refresh OAuth 2.0 user credentials for Google Calendar readonly access.
 
     Args:
-        credentials_path: Path to OAuth client_secrets.json (or reads GOOGLE_CALENDAR_CREDENTIALS_FILE).
+        credentials_path: Path to OAuth client_secrets.json (or GOOGLE_CALENDAR_CREDENTIALS_FILE).
         token_path: Path to saved token.json cache (or reads GOOGLE_CALENDAR_TOKEN_FILE).
         interactive: If True and token is absent/invalid, launch local browser auth flow.
 
@@ -113,7 +113,7 @@ def get_calendar_write_credentials(
     """Load or refresh OAuth 2.0 user credentials explicitly for Google Calendar event write access.
 
     Args:
-        credentials_path: Path to OAuth client_secrets.json (or reads GOOGLE_CALENDAR_CREDENTIALS_FILE).
+        credentials_path: Path to OAuth client_secrets.json (or GOOGLE_CALENDAR_CREDENTIALS_FILE).
         token_path: Path to saved token.json cache (or reads GOOGLE_CALENDAR_TOKEN_FILE).
         interactive: If True and write token is absent/invalid, launch local browser auth flow.
 

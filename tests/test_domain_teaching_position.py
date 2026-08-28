@@ -60,9 +60,7 @@ class TestTeachingPositionResolution:
             ],
         )
 
-    def test_disabled_schedule_returns_unavailable(
-        self, five_topic_syllabus: SyllabusPlan
-    ) -> None:
+    def test_disabled_schedule_returns_unavailable(self, five_topic_syllabus: SyllabusPlan) -> None:
         """Verify disabled schedule produces TeachingPaceStatus.UNAVAILABLE."""
         disabled_schedule = CourseTeachingSchedule(
             semester_id="2026-2",
@@ -276,7 +274,7 @@ class TestTeachingPositionResolution:
         assert pos.current_topic_id == "topic-2"  # topic-2 not completed yet on Aug 6
 
     def test_scope_validation_mismatch_raises_error(
-        self, august_schedule: CourseTeachingSchedule, five_topic_syllabus: SyllabusPlan
+        self, august_schedule: CourseTeachingSchedule
     ) -> None:
         """Verify mismatch between schedule and syllabus raises AcademicStateError."""
         gastro_syllabus = SyllabusPlan(

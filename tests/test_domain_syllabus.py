@@ -15,8 +15,12 @@ class TestSyllabusDomainModel:
             semester_id="2026-2",
             course_code="NEURO",
             topics=[
-                SyllabusTopic(topic_id="neuro-intro", planned_order=1, planned_week=1, required=True),
-                SyllabusTopic(topic_id="mental-status", planned_order=2, planned_week=2, required=True),
+                SyllabusTopic(
+                    topic_id="neuro-intro", planned_order=1, planned_week=1, required=True
+                ),
+                SyllabusTopic(
+                    topic_id="mental-status", planned_order=2, planned_week=2, required=True
+                ),
             ],
         )
         assert plan.semester_id == "2026-2"

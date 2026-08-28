@@ -96,7 +96,9 @@ class TestCalendarPublishPlan:
             end=datetime(2026, 8, 4, 10, 0, tzinfo=guayaquil_tz),
         )
 
-        with pytest.raises(CalendarPublishPlanError, match="Cannot publish coaching brief for cancelled class"):
+        with pytest.raises(
+            CalendarPublishPlanError, match="Cannot publish coaching brief for cancelled class"
+        ):
             build_calendar_publish_request(
                 calendar_id="cal_neuro",
                 semester_timezone=guayaquil_tz,

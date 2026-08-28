@@ -105,7 +105,9 @@ meeting_rules:
         with pytest.raises(ScheduleValidationError, match="mismatched identifiers"):
             repo.get("2026-2", "NEURO")
 
-    def test_io_error_raises_schedule_error(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    def test_io_error_raises_schedule_error(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
         """Verify OSError raises ScheduleError."""
         root = tmp_path / "schedules"
         sem_dir = root / "2026-2"

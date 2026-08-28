@@ -1,5 +1,6 @@
 """Google Calendar event writer for managing MedSemiotics-owned teaching events."""
 
+import contextlib
 from datetime import date, datetime
 from pathlib import Path
 from typing import Any
@@ -62,10 +63,8 @@ def _parse_managed_event(calendar_id: str, item: dict[str, Any]) -> ManagedCalen
     if reminders_obj.get("useDefault") is False:
         for override in reminders_obj.get("overrides", []):
             if isinstance(override, dict) and override.get("method") == "popup":
-                try:
+                with contextlib.suppress(KeyError, ValueError, TypeError):
                     reminders_minutes.append(int(override["minutes"]))
-                except (KeyError, ValueError, TypeError):
-                    pass
 
     # Parse private metadata
     extended_props = item.get("extendedProperties", {})
@@ -115,7 +114,7 @@ class GoogleCalendarWriter:
         course_code: str,
         class_date: date,
     ) -> ManagedCalendarEvent | None:
-        """Query Google Calendar for an existing event owned by MedSemiotics via private extended properties.
+        """Query Google Calendar for an existing event owned by MedSemiotics.
 
         Args:
             calendar_id: Google Calendar identifier.
@@ -127,7 +126,7 @@ class GoogleCalendarWriter:
             ManagedCalendarEvent if exactly one matching event is found; None if zero matches.
 
         Raises:
-            GoogleCalendarOwnershipError: If more than one managed event matches the ownership criteria.
+            GoogleCalendarOwnershipError: If multiple managed events match ownership criteria.
             GoogleCalendarWriteError: If Google API query fails.
         """
         prop_query = [
@@ -171,8 +170,8 @@ class GoogleCalendarWriter:
         if len(matched_items) > 1:
             event_ids = [item.get("id", "unknown") for item in matched_items]
             msg = (
-                f"Multiple managed events found for {course_code} ({semester_id}) on {class_date.isoformat()} "
-                f"in calendar '{calendar_id}': {event_ids}. Ambiguous ownership."
+                f"Multiple managed events found for {course_code} ({semester_id}) "
+                f"on {class_date.isoformat()} in calendar '{calendar_id}': {event_ids}."
             )
             raise GoogleCalendarOwnershipError(msg)
 
@@ -222,15 +221,22 @@ class GoogleCalendarWriter:
                 body["location"] = request.location
 
             try:
-                created = self._service.events().insert(
-                    calendarId=request.calendar_id,
-                    body=body,
-                ).execute()
+                created = (
+                    self._service.events()
+                    .insert(
+                        calendarId=request.calendar_id,
+                        body=body,
+                    )
+                    .execute()
+                )
             except HttpError as err:
                 msg = f"Failed to create teaching event in calendar '{request.calendar_id}': {err}"
                 raise GoogleCalendarWriteError(msg) from err
             except Exception as err:
-                msg = f"Unexpected error creating teaching event in calendar '{request.calendar_id}': {err}"
+                msg = (
+                    f"Unexpected error creating teaching event in calendar "
+                    f"'{request.calendar_id}': {err}"
+                )
                 raise GoogleCalendarWriteError(msg) from err
 
             event_id = str(created.get("id", ""))
@@ -286,7 +292,10 @@ class GoogleCalendarWriter:
                 body=patch_body,
             ).execute()
         except HttpError as err:
-            msg = f"Failed to patch teaching event '{existing.event_id}' in calendar '{request.calendar_id}': {err}"
+            msg = (
+                f"Failed to patch teaching event '{existing.event_id}' in calendar "
+                f"'{request.calendar_id}': {err}"
+            )
             raise GoogleCalendarWriteError(msg) from err
         except Exception as err:
             msg = f"Unexpected error patching teaching event '{existing.event_id}': {err}"

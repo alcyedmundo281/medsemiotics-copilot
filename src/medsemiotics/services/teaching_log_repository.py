@@ -57,7 +57,10 @@ class TeachingLogRepository:
         path, norm_sem, norm_course = self._file_path_for(semester_id, course_code)
 
         if not path.is_file():
-            msg = f"Teaching log file not found for course '{norm_course}' in semester '{norm_sem}': {path}"
+            msg = (
+                f"Teaching log file not found for course '{norm_course}' "
+                f"in semester '{norm_sem}': {path}"
+            )
             raise TeachingLogNotFoundError(msg)
 
         try:
@@ -129,7 +132,8 @@ class TeachingLogRepository:
             if session.semester_id != norm_sem or session.course_code != norm_course:
                 msg = (
                     f"Session '{session.session_id}' in {path} has mismatched identifiers: "
-                    f"expected ({norm_sem}, {norm_course}), got ({session.semester_id}, {session.course_code})."
+                    f"expected ({norm_sem}, {norm_course}), "
+                    f"got ({session.semester_id}, {session.course_code})."
                 )
                 raise TeachingLogValidationError(msg)
 

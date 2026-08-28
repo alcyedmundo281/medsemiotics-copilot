@@ -21,9 +21,7 @@ class TestTeachingDayService:
     """Test suite for TeachingDayService multi-repository orchestration."""
 
     @pytest.fixture
-    def day_service_fixture(
-        self, tmp_path: Path
-    ) -> tuple[TeachingDayService, Path, Path, Path]:
+    def day_service_fixture(self, tmp_path: Path) -> tuple[TeachingDayService, Path, Path, Path]:
         """Create sample schedule, syllabus, and teaching log repository fixtures."""
         sched_dir = tmp_path / "schedules"
         syll_dir = tmp_path / "syllabi"
@@ -112,9 +110,7 @@ sessions:
         with pytest.raises(ScheduleNotFoundError):
             service.get_position("2026-2", "CARDIO", date(2026, 8, 6))
 
-    def test_missing_syllabus_raises_exception(
-        self, tmp_path: Path
-    ) -> None:
+    def test_missing_syllabus_raises_exception(self, tmp_path: Path) -> None:
         """Verify missing syllabus raises SyllabusNotFoundError."""
         sched_dir = tmp_path / "schedules"
         syll_dir = tmp_path / "syllabi"
@@ -154,9 +150,7 @@ sessions: []
         with pytest.raises(SyllabusNotFoundError):
             service.get_position("2026-2", "GASTRO", date(2026, 8, 6))
 
-    def test_missing_teaching_log_raises_exception(
-        self, tmp_path: Path
-    ) -> None:
+    def test_missing_teaching_log_raises_exception(self, tmp_path: Path) -> None:
         """Verify missing log raises TeachingLogNotFoundError."""
         sched_dir = tmp_path / "schedules"
         syll_dir = tmp_path / "syllabi"

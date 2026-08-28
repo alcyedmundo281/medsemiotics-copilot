@@ -56,7 +56,10 @@ class SyllabusPlan(BaseModel):
     def validate_syllabus_integrity(self) -> "SyllabusPlan":
         """Validate that syllabus has at least one topic, unique orders, and unique topic IDs."""
         if not self.topics:
-            msg = f"Syllabus for {self.course_code} ({self.semester_id}) must contain at least one topic."
+            msg = (
+                f"Syllabus for {self.course_code} ({self.semester_id}) "
+                "must contain at least one topic."
+            )
             raise ValueError(msg)
 
         seen_orders: set[int] = set()
@@ -91,5 +94,5 @@ class SyllabusPlan(BaseModel):
 
     @property
     def ordered_topics(self) -> list[SyllabusTopic]:
-        """Return the syllabus topics sorted in ascending planned_order without mutating the input list."""
+        """Return syllabus topics sorted in ascending planned_order."""
         return sorted(self.topics, key=lambda t: t.planned_order)

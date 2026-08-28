@@ -78,7 +78,7 @@ class EffectiveScheduleError(MedSemioticsError):
 
 
 class EffectiveScheduleAmbiguityError(EffectiveScheduleError):
-    """Raised when ambiguous or conflicting operational calendar evidence occurs on the same date."""
+    """Raised when ambiguous or conflicting calendar evidence occurs on the same date."""
 
 
 class CalendarPublishPlanError(MedSemioticsError):

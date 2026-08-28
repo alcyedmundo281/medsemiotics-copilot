@@ -50,9 +50,7 @@ class TestCalendarFilter:
             ),
         ]
 
-    def test_filter_matching_aliases(
-        self, sample_events: list[OperationalCalendarEvent]
-    ) -> None:
+    def test_filter_matching_aliases(self, sample_events: list[OperationalCalendarEvent]) -> None:
         """Verify matching aliases select correct events case-insensitively with Unicode support."""
         aliases = ["Neurología", "Neurologia", "NEURO"]
         filtered = filter_course_calendar_events(
@@ -64,9 +62,7 @@ class TestCalendarFilter:
         assert len(filtered) == 2
         assert [e.event_id for e in filtered] == ["e1", "e3"]
 
-    def test_filter_gastro_matching(
-        self, sample_events: list[OperationalCalendarEvent]
-    ) -> None:
+    def test_filter_gastro_matching(self, sample_events: list[OperationalCalendarEvent]) -> None:
         """Verify GASTRO aliases isolate only the gastroenterology event."""
         aliases = ["Gastroenterología", "GASTRO"]
         filtered = filter_course_calendar_events(
@@ -78,9 +74,7 @@ class TestCalendarFilter:
         assert len(filtered) == 1
         assert filtered[0].event_id == "e2"
 
-    def test_filter_no_matches(
-        self, sample_events: list[OperationalCalendarEvent]
-    ) -> None:
+    def test_filter_no_matches(self, sample_events: list[OperationalCalendarEvent]) -> None:
         """Verify unrelated alias returns empty list."""
         filtered = filter_course_calendar_events(
             sample_events,

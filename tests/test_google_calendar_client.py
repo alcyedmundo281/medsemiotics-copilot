@@ -40,7 +40,12 @@ class TestGoogleCalendarReader:
         mock_req_2 = MagicMock()
         mock_req_2.execute.return_value = {
             "items": [
-                {"id": "cal_2", "summary": "Secondary Calendar", "primary": False, "selected": False},
+                {
+                    "id": "cal_2",
+                    "summary": "Secondary Calendar",
+                    "primary": False,
+                    "selected": False,
+                },
             ],
         }
 
@@ -116,7 +121,9 @@ class TestGoogleCalendarReader:
                 time_max=datetime(2026, 8, 31, 0, 0, tzinfo=tz),
             )
 
-    def test_list_events_time_min_after_time_max_rejected(self, reader: GoogleCalendarReader) -> None:
+    def test_list_events_time_min_after_time_max_rejected(
+        self, reader: GoogleCalendarReader
+    ) -> None:
         """Verify time_min >= time_max raises GoogleCalendarReadError."""
         tz = ZoneInfo("UTC")
         with pytest.raises(GoogleCalendarReadError, match="must be strictly before time_max"):

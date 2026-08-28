@@ -26,10 +26,7 @@ class SemesterRepository:
         """Compute the expected YAML file path for a semester identifier."""
         cleaned_id = semester_id.strip()
         if not SEMESTER_ID_PATTERN.match(cleaned_id):
-            msg = (
-                f"Invalid semester ID format '{semester_id}'. "
-                "Must match format YYYY-1 or YYYY-2."
-            )
+            msg = f"Invalid semester ID format '{semester_id}'. Must match format YYYY-1 or YYYY-2."
             raise SemesterConfigValidationError(msg)
         return self._semesters_dir / f"{cleaned_id}.yaml"
 

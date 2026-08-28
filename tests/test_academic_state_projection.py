@@ -77,7 +77,7 @@ class TestAcademicStateProjection:
         assert intro_prog.last_taught_date == date(2026, 8, 15)
 
     def test_completed_is_terminal(self, neuro_syllabus: SyllabusPlan) -> None:
-        """Verify once completed, subsequent events (partial, introduced, reviewed, skipped) cannot regress status."""
+        """Verify once completed, subsequent events cannot regress status."""
         sessions = [
             TeachingSession(
                 session_id="session-01",
@@ -85,7 +85,9 @@ class TestAcademicStateProjection:
                 course_code="NEURO",
                 session_date=date(2026, 8, 15),
                 sequence_number=1,
-                topics=[TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.COMPLETED)],
+                topics=[
+                    TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.COMPLETED)
+                ],
             ),
             TeachingSession(
                 session_id="session-02",
@@ -93,7 +95,9 @@ class TestAcademicStateProjection:
                 course_code="NEURO",
                 session_date=date(2026, 8, 18),
                 sequence_number=2,
-                topics=[TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.PARTIAL)],
+                topics=[
+                    TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.PARTIAL)
+                ],
             ),
             TeachingSession(
                 session_id="session-03",
@@ -101,7 +105,9 @@ class TestAcademicStateProjection:
                 course_code="NEURO",
                 session_date=date(2026, 8, 20),
                 sequence_number=3,
-                topics=[TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.REVIEWED)],
+                topics=[
+                    TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.REVIEWED)
+                ],
             ),
             TeachingSession(
                 session_id="session-04",
@@ -109,7 +115,9 @@ class TestAcademicStateProjection:
                 course_code="NEURO",
                 session_date=date(2026, 8, 22),
                 sequence_number=4,
-                topics=[TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.SKIPPED)],
+                topics=[
+                    TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.SKIPPED)
+                ],
             ),
         ]
 
@@ -130,7 +138,9 @@ class TestAcademicStateProjection:
                 course_code="NEURO",
                 session_date=date(2026, 8, 15),
                 sequence_number=1,
-                topics=[TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.SKIPPED)],
+                topics=[
+                    TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.SKIPPED)
+                ],
             ),
             TeachingSession(
                 session_id="s2",
@@ -138,7 +148,9 @@ class TestAcademicStateProjection:
                 course_code="NEURO",
                 session_date=date(2026, 8, 18),
                 sequence_number=2,
-                topics=[TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.INTRODUCED)],
+                topics=[
+                    TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.INTRODUCED)
+                ],
             ),
         ]
         state_intro = build_course_academic_state(neuro_syllabus, sessions_intro)
@@ -152,7 +164,9 @@ class TestAcademicStateProjection:
                 course_code="NEURO",
                 session_date=date(2026, 8, 15),
                 sequence_number=1,
-                topics=[TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.SKIPPED)],
+                topics=[
+                    TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.SKIPPED)
+                ],
             ),
             TeachingSession(
                 session_id="s2",
@@ -160,7 +174,9 @@ class TestAcademicStateProjection:
                 course_code="NEURO",
                 session_date=date(2026, 8, 18),
                 sequence_number=2,
-                topics=[TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.COMPLETED)],
+                topics=[
+                    TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.COMPLETED)
+                ],
             ),
         ]
         state_comp = build_course_academic_state(neuro_syllabus, sessions_comp)
@@ -174,7 +190,9 @@ class TestAcademicStateProjection:
                 course_code="NEURO",
                 session_date=date(2026, 8, 15),
                 sequence_number=1,
-                topics=[TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.SKIPPED)],
+                topics=[
+                    TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.SKIPPED)
+                ],
             ),
             TeachingSession(
                 session_id="s2",
@@ -182,7 +200,9 @@ class TestAcademicStateProjection:
                 course_code="NEURO",
                 session_date=date(2026, 8, 18),
                 sequence_number=2,
-                topics=[TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.REVIEWED)],
+                topics=[
+                    TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.REVIEWED)
+                ],
             ),
         ]
         state_rev = build_course_academic_state(neuro_syllabus, sessions_rev)
@@ -260,7 +280,9 @@ class TestScopeValidation:
             course_code="NEURO",
             session_date=date(2026, 8, 15),
             sequence_number=1,
-            topics=[TeachingSessionTopic(topic_id="unplanned-topic", status=CoverageStatus.COMPLETED)],
+            topics=[
+                TeachingSessionTopic(topic_id="unplanned-topic", status=CoverageStatus.COMPLETED)
+            ],
         )
         with pytest.raises(AcademicStateError):
             find_unplanned_taught_topic_ids(sample_syllabus, [session])
@@ -293,9 +315,7 @@ class TestUnplannedTopicsDiscovery:
         unplanned = find_unplanned_taught_topic_ids(syllabus, [session])
         assert unplanned == []
 
-    def test_unplanned_topics_deterministic_and_deduplicated(
-        self, syllabus: SyllabusPlan
-    ) -> None:
+    def test_unplanned_topics_deterministic_and_deduplicated(self, syllabus: SyllabusPlan) -> None:
         """Verify unplanned topics are deduplicated and ordered by first appearance."""
         sessions = [
             TeachingSession(
@@ -305,7 +325,9 @@ class TestUnplannedTopicsDiscovery:
                 session_date=date(2026, 8, 20),
                 sequence_number=2,
                 topics=[
-                    TeachingSessionTopic(topic_id="movement-disorders", status=CoverageStatus.INTRODUCED),
+                    TeachingSessionTopic(
+                        topic_id="movement-disorders", status=CoverageStatus.INTRODUCED
+                    ),
                     TeachingSessionTopic(topic_id="neuro-emergency", status=CoverageStatus.PARTIAL),
                 ],
             ),
@@ -316,7 +338,9 @@ class TestUnplannedTopicsDiscovery:
                 session_date=date(2026, 8, 15),
                 sequence_number=1,
                 topics=[
-                    TeachingSessionTopic(topic_id="clinical-vignette-special", status=CoverageStatus.COMPLETED),
+                    TeachingSessionTopic(
+                        topic_id="clinical-vignette-special", status=CoverageStatus.COMPLETED
+                    ),
                     TeachingSessionTopic(topic_id="neuro-intro", status=CoverageStatus.COMPLETED),
                 ],
             ),
@@ -328,13 +352,16 @@ class TestUnplannedTopicsDiscovery:
                 sequence_number=3,
                 topics=[
                     # Duplicate appearance of clinical-vignette-special
-                    TeachingSessionTopic(topic_id="clinical-vignette-special", status=CoverageStatus.REVIEWED),
+                    TeachingSessionTopic(
+                        topic_id="clinical-vignette-special", status=CoverageStatus.REVIEWED
+                    ),
                 ],
             ),
         ]
 
         unplanned = find_unplanned_taught_topic_ids(syllabus, sessions)
-        # Chronological appearance: s1 (Aug 15: clinical-vignette-special), then s2 (Aug 20: movement-disorders, neuro-emergency)
+        # Chronological appearance: s1 (Aug 15: clinical-vignette-special),
+        # then s2 (Aug 20: movement-disorders, neuro-emergency)
         assert unplanned == [
             "clinical-vignette-special",
             "movement-disorders",

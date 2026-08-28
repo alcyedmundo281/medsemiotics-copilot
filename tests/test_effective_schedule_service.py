@@ -87,7 +87,8 @@ aliases:
         )
 
     def test_disabled_calendar_does_not_call_google_reader(
-        self, setup_repos: tuple[SemesterRepository, ScheduleRepository, CalendarConfigRepository, Path]
+        self,
+        setup_repos: tuple[SemesterRepository, ScheduleRepository, CalendarConfigRepository, Path],
     ) -> None:
         """Verify when calendar_config.enabled is False, GoogleCalendarReader is never called."""
         sem_repo, sched_repo, cal_repo, _ = setup_repos
@@ -113,7 +114,8 @@ aliases:
         assert all(e.source == EffectiveClassSource.BASELINE for e in effective.events)
 
     def test_enabled_calendar_calls_google_reader_and_filters_aliases(
-        self, setup_repos: tuple[SemesterRepository, ScheduleRepository, CalendarConfigRepository, Path]
+        self,
+        setup_repos: tuple[SemesterRepository, ScheduleRepository, CalendarConfigRepository, Path],
     ) -> None:
         """Verify when calendar is enabled, events are fetched and filtered by aliases."""
         sem_repo, sched_repo, cal_repo, root = setup_repos
@@ -175,7 +177,8 @@ cancellation_markers:
         assert evt_aug4.calendar_event_id == "cal_1"
 
     def test_enabled_calendar_without_reader_raises_error(
-        self, setup_repos: tuple[SemesterRepository, ScheduleRepository, CalendarConfigRepository, Path]
+        self,
+        setup_repos: tuple[SemesterRepository, ScheduleRepository, CalendarConfigRepository, Path],
     ) -> None:
         """Verify enabled calendar without GoogleCalendarReader raises CalendarConfigError."""
         sem_repo, sched_repo, cal_repo, root = setup_repos
@@ -209,7 +212,8 @@ aliases:
             )
 
     def test_missing_semester_propagates_not_found_error(
-        self, setup_repos: tuple[SemesterRepository, ScheduleRepository, CalendarConfigRepository, Path]
+        self,
+        setup_repos: tuple[SemesterRepository, ScheduleRepository, CalendarConfigRepository, Path],
     ) -> None:
         """Verify missing semester raises SemesterConfigNotFoundError."""
         sem_repo, sched_repo, cal_repo, _ = setup_repos

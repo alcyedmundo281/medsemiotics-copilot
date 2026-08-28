@@ -49,7 +49,10 @@ def build_calendar_publish_request(
         CalendarPublishPlanError: If class is cancelled, times are missing, or scopes mismatch.
     """
     if class_event.status == EffectiveClassStatus.CANCELLED:
-        msg = f"Cannot publish coaching brief for cancelled class on {class_event.date} ({class_event.course_code})."
+        msg = (
+            f"Cannot publish coaching brief for cancelled class on "
+            f"{class_event.date} ({class_event.course_code})."
+        )
         raise CalendarPublishPlanError(msg)
 
     if (

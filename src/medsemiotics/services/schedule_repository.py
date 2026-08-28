@@ -57,7 +57,10 @@ class ScheduleRepository:
         path, norm_sem, norm_course = self._file_path_for(semester_id, course_code)
 
         if not path.is_file():
-            msg = f"Schedule file not found for course '{norm_course}' in semester '{norm_sem}': {path}"
+            msg = (
+                f"Schedule file not found for course '{norm_course}' "
+                f"in semester '{norm_sem}': {path}"
+            )
             raise ScheduleNotFoundError(msg)
 
         try:
@@ -88,7 +91,8 @@ class ScheduleRepository:
         if schedule.semester_id != norm_sem or schedule.course_code != norm_course:
             msg = (
                 f"Schedule file at {path} contains mismatched identifiers: "
-                f"expected ({norm_sem}, {norm_course}), got ({schedule.semester_id}, {schedule.course_code})."
+                f"expected ({norm_sem}, {norm_course}), "
+                f"got ({schedule.semester_id}, {schedule.course_code})."
             )
             raise ScheduleValidationError(msg)
 

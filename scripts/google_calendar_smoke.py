@@ -44,7 +44,10 @@ def main() -> None:
             primary_cal = next((c for c in calendars if c.primary), calendars[0])
             now = datetime.now(ZoneInfo("UTC"))
             week_later = now + timedelta(days=7)
-            print(f"\nListing events for next 7 days in '{primary_cal.name}' ({primary_cal.calendar_id})...")
+            print(
+                f"\nListing events for next 7 days in '{primary_cal.name}' "
+                f"({primary_cal.calendar_id})..."
+            )
             events = reader.list_events(
                 calendar_id=primary_cal.calendar_id,
                 time_min=now,
@@ -52,7 +55,10 @@ def main() -> None:
             )
             print(f"✓ Retrieved {len(events)} events:")
             for ev in events:
-                print(f"  - [{ev.start.isoformat()} .. {ev.end.isoformat()}] {ev.title} (ID: {ev.event_id})")
+                print(
+                    f"  - [{ev.start.isoformat()} .. {ev.end.isoformat()}] "
+                    f"{ev.title} (ID: {ev.event_id})"
+                )
 
     except GoogleCalendarError as err:
         print(f"✗ Google Calendar API read failed: {err}", file=sys.stderr)

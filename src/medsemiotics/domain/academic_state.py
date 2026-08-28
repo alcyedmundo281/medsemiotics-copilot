@@ -1,7 +1,7 @@
 """Domain models for derived academic progress and course state."""
 
 from datetime import date
-from enum import Enum
+from enum import StrEnum
 from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
@@ -13,7 +13,7 @@ from medsemiotics.domain.academic import (
 from medsemiotics.domain.topics import validate_and_normalize_topic_id
 
 
-class TopicProgressStatus(str, Enum):
+class TopicProgressStatus(StrEnum):
     """Enumeration of derived progression statuses for a planned syllabus topic."""
 
     NOT_STARTED = "not_started"
@@ -31,9 +31,15 @@ class TopicProgress(BaseModel):
     planned_order: Annotated[int, Field(ge=1, description="Sequence order from the syllabus")]
     required: Annotated[bool, Field(description="Whether topic is mandatory for course completion")]
     status: Annotated[TopicProgressStatus, Field(description="Derived topic progress status")]
-    first_taught_date: Annotated[date | None, Field(default=None, description="Earliest teaching session date")]
-    last_taught_date: Annotated[date | None, Field(default=None, description="Latest teaching session date")]
-    session_count: Annotated[int, Field(default=0, ge=0, description="Total distinct teaching sessions")]
+    first_taught_date: Annotated[
+        date | None, Field(default=None, description="Earliest teaching session date")
+    ]
+    last_taught_date: Annotated[
+        date | None, Field(default=None, description="Latest teaching session date")
+    ]
+    session_count: Annotated[
+        int, Field(default=0, ge=0, description="Total distinct teaching sessions")
+    ]
 
     @field_validator("topic_id", mode="before")
     @classmethod
@@ -54,14 +60,16 @@ class TopicProgress(BaseModel):
         else:
             if self.first_taught_date is None or self.last_taught_date is None:
                 msg = (
-                    f"Topic '{self.topic_id}' has session_count={self.session_count} but missing dates "
-                    f"(first: {self.first_taught_date}, last: {self.last_taught_date})."
+                    f"Topic '{self.topic_id}' has session_count={self.session_count} "
+                    f"but missing dates (first: {self.first_taught_date}, "
+                    f"last: {self.last_taught_date})."
                 )
                 raise ValueError(msg)
             if self.first_taught_date > self.last_taught_date:
                 msg = (
                     f"Topic '{self.topic_id}' has invalid date range: "
-                    f"first_taught_date ({self.first_taught_date}) > last_taught_date ({self.last_taught_date})."
+                    f"first_taught_date ({self.first_taught_date}) > "
+                    f"last_taught_date ({self.last_taught_date})."
                 )
                 raise ValueError(msg)
 
@@ -137,7 +145,7 @@ class CourseAcademicState(BaseModel):
 
     @property
     def completion_ratio(self) -> float:
-        """Compute the unrounded ratio of completed required topics over total required topics (0.0 to 1.0).
+        """Compute ratio of completed required topics over total required topics (0.0 to 1.0).
 
         If there are no required topics, returns 1.0.
         """

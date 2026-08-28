@@ -57,7 +57,10 @@ class SyllabusRepository:
         path, norm_sem, norm_course = self._file_path_for(semester_id, course_code)
 
         if not path.is_file():
-            msg = f"Syllabus file not found for course '{norm_course}' in semester '{norm_sem}': {path}"
+            msg = (
+                f"Syllabus file not found for course '{norm_course}' "
+                f"in semester '{norm_sem}': {path}"
+            )
             raise SyllabusNotFoundError(msg)
 
         try:
@@ -88,7 +91,8 @@ class SyllabusRepository:
         if plan.semester_id != norm_sem or plan.course_code != norm_course:
             msg = (
                 f"Syllabus file at {path} contains mismatched identifiers: "
-                f"expected ({norm_sem}, {norm_course}), got ({plan.semester_id}, {plan.course_code})."
+                f"expected ({norm_sem}, {norm_course}), "
+                f"got ({plan.semester_id}, {plan.course_code})."
             )
             raise SyllabusValidationError(msg)
 

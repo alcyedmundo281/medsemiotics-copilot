@@ -1,7 +1,7 @@
 """Domain models for coaching briefing, calendar publishing requests, and publishing results."""
 
 from datetime import date, datetime
-from enum import Enum
+from enum import StrEnum
 from typing import Annotated
 from urllib.parse import urlparse
 
@@ -13,7 +13,7 @@ from medsemiotics.domain.academic import (
 )
 
 
-class CalendarPublishAction(str, Enum):
+class CalendarPublishAction(StrEnum):
     """Action performed when publishing a calendar event."""
 
     CREATED = "created"
@@ -102,7 +102,9 @@ class CoachingBrief(BaseModel):
     ]
     material_notes: Annotated[
         list[str],
-        Field(default_factory=list, description="Required equipment, slides, or clinical materials"),
+        Field(
+            default_factory=list, description="Required equipment, slides, or clinical materials"
+        ),
     ]
     assignment_note: Annotated[
         str | None,
@@ -176,12 +178,16 @@ class CalendarPublishRequest(BaseModel):
     end: Annotated[datetime, Field(description="Timezone-aware end timestamp")]
     title: Annotated[str, Field(description="Event title / summary")]
     description: Annotated[str, Field(description="Formatted event body description")]
-    location: Annotated[str | None, Field(default=None, description="Optional physical or virtual location")]
+    location: Annotated[
+        str | None, Field(default=None, description="Optional physical or virtual location")
+    ]
     reminders_minutes: Annotated[
         list[int],
         Field(default_factory=list, description="Popup reminder lead times in minutes"),
     ]
-    metadata: Annotated[dict[str, str], Field(description="MedSemiotics ownership extended properties")]
+    metadata: Annotated[
+        dict[str, str], Field(description="MedSemiotics ownership extended properties")
+    ]
 
     @field_validator("calendar_id", "title", mode="before")
     @classmethod
@@ -222,7 +228,10 @@ class CalendarPublishRequest(BaseModel):
                 msg = f"Reminder minute must be a positive integer, got {item}"
                 raise ValueError(msg)
             if item > 40320:  # Max 4 weeks
-                msg = f"Reminder minute exceeds supported maximum (40320 minutes / 4 weeks), got {item}"
+                msg = (
+                    "Reminder minute exceeds supported maximum "
+                    f"(40320 minutes / 4 weeks), got {item}"
+                )
                 raise ValueError(msg)
             cleaned_reminders.add(item)
 
@@ -244,7 +253,10 @@ class CalendarPublishRequest(BaseModel):
             raise ValueError(msg)
 
         if self.event_date != self.start.date():
-            msg = f"event_date ({self.event_date}) does not match start timestamp date ({self.start.date()})."
+            msg = (
+                f"event_date ({self.event_date}) does not match "
+                f"start timestamp date ({self.start.date()})."
+            )
             raise ValueError(msg)
 
         return self
@@ -272,5 +284,9 @@ class ManagedCalendarEvent(BaseModel):
     start: Annotated[datetime, Field(description="Timezone-aware start timestamp")]
     end: Annotated[datetime, Field(description="Timezone-aware end timestamp")]
     location: Annotated[str | None, Field(default=None, description="Event location")]
-    reminders_minutes: Annotated[list[int], Field(default_factory=list, description="Configured reminder minutes")]
-    metadata: Annotated[dict[str, str], Field(default_factory=dict, description="Private extended properties")]
+    reminders_minutes: Annotated[
+        list[int], Field(default_factory=list, description="Configured reminder minutes")
+    ]
+    metadata: Annotated[
+        dict[str, str], Field(default_factory=dict, description="Private extended properties")
+    ]

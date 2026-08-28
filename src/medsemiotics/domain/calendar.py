@@ -62,7 +62,9 @@ class OperationalCalendarEvent(BaseModel):
     end: Annotated[datetime, Field(description="Timezone-aware end timestamp")]
     all_day: Annotated[bool, Field(description="True if event represents an all-day date range")]
     description: Annotated[str | None, Field(default=None, description="Optional body/description")]
-    location: Annotated[str | None, Field(default=None, description="Optional physical or virtual location")]
+    location: Annotated[
+        str | None, Field(default=None, description="Optional physical or virtual location")
+    ]
     status: Annotated[str | None, Field(default=None, description="Optional provider status code")]
     source: Annotated[str, Field(default="google_calendar", description="Originating provider")]
 
@@ -90,15 +92,23 @@ class OperationalCalendarEvent(BaseModel):
     def validate_timestamps(self) -> "OperationalCalendarEvent":
         """Validate timezone awareness and timestamp ordering."""
         if self.start.tzinfo is None or self.start.tzinfo.utcoffset(self.start) is None:
-            msg = f"Event '{self.event_id}' start datetime must be timezone-aware (got naive datetime)."
+            msg = (
+                f"Event '{self.event_id}' start datetime must be "
+                "timezone-aware (got naive datetime)."
+            )
             raise ValueError(msg)
 
         if self.end.tzinfo is None or self.end.tzinfo.utcoffset(self.end) is None:
-            msg = f"Event '{self.event_id}' end datetime must be timezone-aware (got naive datetime)."
+            msg = (
+                f"Event '{self.event_id}' end datetime must be timezone-aware (got naive datetime)."
+            )
             raise ValueError(msg)
 
         if self.start >= self.end:
-            msg = f"Event '{self.event_id}' start ({self.start}) must be strictly before end ({self.end})."
+            msg = (
+                f"Event '{self.event_id}' start ({self.start}) "
+                f"must be strictly before end ({self.end})."
+            )
             raise ValueError(msg)
 
         return self
@@ -111,8 +121,12 @@ class CourseCalendarConfig(BaseModel):
 
     semester_id: Annotated[str, Field(description="Semester identifier")]
     course_code: Annotated[str, Field(description="Course code")]
-    enabled: Annotated[bool, Field(default=False, description="Whether calendar integration is active")]
-    calendar_id: Annotated[str | None, Field(default=None, description="Google Calendar identifier")]
+    enabled: Annotated[
+        bool, Field(default=False, description="Whether calendar integration is active")
+    ]
+    calendar_id: Annotated[
+        str | None, Field(default=None, description="Google Calendar identifier")
+    ]
     aliases: Annotated[list[str], Field(description="Title match aliases for course recognition")]
     cancellation_markers: Annotated[
         list[str],

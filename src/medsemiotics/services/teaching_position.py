@@ -35,15 +35,11 @@ def _compute_position_from_metrics(
     num_planned_topics = len(syllabus.topics)
 
     expected_topic_order = (
-        min(expected_session_count, num_planned_topics)
-        if expected_session_count > 0
-        else None
+        min(expected_session_count, num_planned_topics) if expected_session_count > 0 else None
     )
 
     current_topic_id = (
-        state.next_required_topic.topic_id
-        if state.next_required_topic is not None
-        else None
+        state.next_required_topic.topic_id if state.next_required_topic is not None else None
     )
 
     completed_required = state.completed_required_topics
@@ -57,17 +53,13 @@ def _compute_position_from_metrics(
         pace_status = TeachingPaceStatus.COMPLETE
         actual_completed_pos = max((t.planned_order for t in completed_required), default=0)
         expected_completed_pos = (
-            max(expected_topic_order - 1, 0)
-            if expected_topic_order is not None
-            else 0
+            max(expected_topic_order - 1, 0) if expected_topic_order is not None else 0
         )
         topic_delta = actual_completed_pos - expected_completed_pos
     else:
         actual_completed_pos = max((t.planned_order for t in completed_required), default=0)
         expected_completed_pos = (
-            max(expected_topic_order - 1, 0)
-            if expected_topic_order is not None
-            else 0
+            max(expected_topic_order - 1, 0) if expected_topic_order is not None else 0
         )
         topic_delta = actual_completed_pos - expected_completed_pos
 
@@ -108,7 +100,10 @@ def resolve_teaching_position(
         raise AcademicStateError(msg)
 
     for session in sessions:
-        if session.semester_id != syllabus.semester_id or session.course_code != syllabus.course_code:
+        if (
+            session.semester_id != syllabus.semester_id
+            or session.course_code != syllabus.course_code
+        ):
             msg = (
                 f"Scope mismatch in teaching session '{session.session_id}': "
                 f"expected ({syllabus.semester_id}, {syllabus.course_code}), "
@@ -158,13 +153,17 @@ def resolve_teaching_position_from_effective_schedule(
         or effective_schedule.course_code != syllabus.course_code
     ):
         msg = (
-            f"Scope mismatch between effective schedule ({effective_schedule.semester_id}, {effective_schedule.course_code}) "
+            f"Scope mismatch between effective schedule "
+            f"({effective_schedule.semester_id}, {effective_schedule.course_code}) "
             f"and syllabus ({syllabus.semester_id}, {syllabus.course_code})."
         )
         raise AcademicStateError(msg)
 
     for session in sessions:
-        if session.semester_id != syllabus.semester_id or session.course_code != syllabus.course_code:
+        if (
+            session.semester_id != syllabus.semester_id
+            or session.course_code != syllabus.course_code
+        ):
             msg = (
                 f"Scope mismatch in teaching session '{session.session_id}': "
                 f"expected ({syllabus.semester_id}, {syllabus.course_code}), "

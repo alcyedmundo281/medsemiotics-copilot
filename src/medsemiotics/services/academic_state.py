@@ -1,7 +1,10 @@
 """Pure deterministic projection functions for deriving academic course state."""
 
 from collections.abc import Collection
-from datetime import date
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from datetime import date
 
 from medsemiotics.domain.academic_state import (
     CourseAcademicState,

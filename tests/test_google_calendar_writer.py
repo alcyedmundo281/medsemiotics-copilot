@@ -95,7 +95,10 @@ class TestGoogleCalendarWriter:
             "end": {"dateTime": "2026-08-04T10:00:00-05:00"},
             "reminders": {
                 "useDefault": False,
-                "overrides": [{"method": "popup", "minutes": 15}, {"method": "popup", "minutes": 60}],
+                "overrides": [
+                    {"method": "popup", "minutes": 15},
+                    {"method": "popup", "minutes": 60},
+                ],
             },
             "extendedProperties": {
                 "private": {
@@ -126,10 +129,22 @@ class TestGoogleCalendarWriter:
     def test_find_managed_event_multiple_matches_raises_ownership_error(
         self, writer: GoogleCalendarWriter, mock_service: MagicMock
     ) -> None:
-        """Verify multiple managed events for the same date/course raise GoogleCalendarOwnershipError."""
+        """Verify multiple managed events for same date raise GoogleCalendarOwnershipError."""
         mock_items = [
-            {"id": "evt_1", "summary": "Event 1", "status": "confirmed", "start": {"dateTime": "2026-08-04T08:00:00Z"}, "end": {"dateTime": "2026-08-04T10:00:00Z"}},
-            {"id": "evt_2", "summary": "Event 2", "status": "confirmed", "start": {"dateTime": "2026-08-04T08:00:00Z"}, "end": {"dateTime": "2026-08-04T10:00:00Z"}},
+            {
+                "id": "evt_1",
+                "summary": "Event 1",
+                "status": "confirmed",
+                "start": {"dateTime": "2026-08-04T08:00:00Z"},
+                "end": {"dateTime": "2026-08-04T10:00:00Z"},
+            },
+            {
+                "id": "evt_2",
+                "summary": "Event 2",
+                "status": "confirmed",
+                "start": {"dateTime": "2026-08-04T08:00:00Z"},
+                "end": {"dateTime": "2026-08-04T10:00:00Z"},
+            },
         ]
         mock_events = mock_service.events.return_value
         mock_list = mock_events.list.return_value
@@ -172,7 +187,7 @@ class TestGoogleCalendarWriter:
         mock_service: MagicMock,
         publish_request: CalendarPublishRequest,
     ) -> None:
-        """Verify publishing returns UNCHANGED and skips API write when existing event is identical."""
+        """Verify publishing returns UNCHANGED and skips write when existing event is identical."""
         mock_item = {
             "id": "evt_existing_1",
             "summary": publish_request.title,
@@ -182,7 +197,10 @@ class TestGoogleCalendarWriter:
             "end": {"dateTime": publish_request.end.isoformat()},
             "reminders": {
                 "useDefault": False,
-                "overrides": [{"method": "popup", "minutes": 15}, {"method": "popup", "minutes": 60}],
+                "overrides": [
+                    {"method": "popup", "minutes": 15},
+                    {"method": "popup", "minutes": 60},
+                ],
             },
             "extendedProperties": {
                 "private": publish_request.metadata,
@@ -216,7 +234,10 @@ class TestGoogleCalendarWriter:
             "end": {"dateTime": publish_request.end.isoformat()},
             "reminders": {
                 "useDefault": False,
-                "overrides": [{"method": "popup", "minutes": 15}, {"method": "popup", "minutes": 60}],
+                "overrides": [
+                    {"method": "popup", "minutes": 15},
+                    {"method": "popup", "minutes": 60},
+                ],
             },
             "extendedProperties": {
                 "private": publish_request.metadata,

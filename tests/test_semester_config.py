@@ -192,7 +192,9 @@ class TestLoadCurrentSemesterId:
         with pytest.raises(SemesterConfigValidationError):
             load_current_semester_id(bad_pointer)
 
-    def test_load_semester_config_oserror(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    def test_load_semester_config_oserror(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    ) -> None:
         """Verify OS read failures raise SemesterConfigError."""
         from medsemiotics.domain.exceptions import SemesterConfigError
 

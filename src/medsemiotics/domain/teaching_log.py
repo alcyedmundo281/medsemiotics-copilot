@@ -1,7 +1,7 @@
 """Domain models for teaching history and session logs."""
 
 from datetime import date
-from enum import Enum
+from enum import StrEnum
 from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
@@ -16,7 +16,7 @@ from medsemiotics.domain.topics import (
 )
 
 
-class CoverageStatus(str, Enum):
+class CoverageStatus(StrEnum):
     """Enumeration of pedagogical coverage states for a topic within a teaching session."""
 
     INTRODUCED = "introduced"
@@ -39,7 +39,7 @@ def validate_and_normalize_session_id(value: object) -> str:
     if not TOPIC_ID_PATTERN.match(normalized):
         msg = (
             f"Session ID '{normalized}' is invalid. "
-            "Allowed characters are lowercase letters, numbers, underscores, and hyphens without spaces."
+            "Allowed characters: lowercase letters, numbers, underscores, hyphens without spaces."
         )
         raise ValueError(msg)
     return normalized
@@ -82,7 +82,9 @@ class TeachingSession(BaseModel):
     semester_id: Annotated[str, Field(description="Semester identifier, e.g. '2026-2'")]
     course_code: Annotated[str, Field(description="Course code, e.g. 'NEURO'")]
     session_date: Annotated[date, Field(description="Calendar date of the session")]
-    sequence_number: Annotated[int, Field(ge=1, description="Sequential class meeting number (>= 1)")]
+    sequence_number: Annotated[
+        int, Field(ge=1, description="Sequential class meeting number (>= 1)")
+    ]
     notes: Annotated[str | None, Field(default=None, description="General session notes")]
     topics: list[TeachingSessionTopic]
 
@@ -118,7 +120,7 @@ class TeachingSession(BaseModel):
 
     @model_validator(mode="after")
     def validate_session_integrity(self) -> "TeachingSession":
-        """Validate that session contains at least one topic and topic IDs are unique within the session."""
+        """Validate that session contains topics and topic IDs are unique."""
         if not self.topics:
             msg = f"TeachingSession '{self.session_id}' must contain at least one topic."
             raise ValueError(msg)
@@ -131,10 +133,7 @@ class TeachingSession(BaseModel):
             seen_topics.add(topic.topic_id)
 
         if duplicate_topics:
-            msg = (
-                f"Duplicate topic IDs in teaching session '{self.session_id}': "
-                f"{duplicate_topics}"
-            )
+            msg = f"Duplicate topic IDs in teaching session '{self.session_id}': {duplicate_topics}"
             raise ValueError(msg)
 
         return self

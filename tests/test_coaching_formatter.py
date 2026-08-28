@@ -50,8 +50,15 @@ class TestCoachingFormatter:
 
         assert "MEDSEMIOTICS TEACHING COPILOT" in formatted
         assert "Tema:\nSíndrome cerebeloso" in formatted
-        assert "Objetivos:\n• Reconocer los signos cardinales.\n• Diferenciar ataxia cerebelosa de sensitiva." in formatted
-        assert "Coach para la clase:\n• Iniciar con examen de marcha.\n• Hacer énfasis en dismetría." in formatted
+        assert (
+            "Objetivos:\n"
+            "• Reconocer los signos cardinales.\n"
+            "• Diferenciar ataxia cerebelosa de sensitiva."
+        ) in formatted
+        assert (
+            "Coach para la clase:\n• Iniciar con examen de marcha.\n• Hacer énfasis en dismetría."
+            in formatted
+        )
         assert "Preguntas disparadoras:\n• ¿Qué es el temblor intencional?" in formatted
         assert "Errores frecuentes:\n• Confundir dismetría con debilidad piramidal." in formatted
         assert "Material:\n• Martillo de reflejos." in formatted

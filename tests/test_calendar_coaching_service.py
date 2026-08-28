@@ -142,7 +142,7 @@ class TestCalendarCoachingService:
         sample_brief: CoachingBrief,
         guayaquil_tz: ZoneInfo,
     ) -> None:
-        """Verify authorized=False raises CalendarWriteAuthorizationError and performs zero writer calls."""
+        """Verify authorized=False raises CalendarWriteAuthorizationError and blocks write."""
         with pytest.raises(CalendarWriteAuthorizationError, match="require explicit authorization"):
             coaching_service.publish_class_brief(
                 semester_id="2026-2",
@@ -220,7 +220,9 @@ class TestCalendarCoachingService:
             topic_title="Feriado",
         )
 
-        with pytest.raises(CalendarPublishPlanError, match="Cannot publish coaching brief for cancelled class"):
+        with pytest.raises(
+            CalendarPublishPlanError, match="Cannot publish coaching brief for cancelled class"
+        ):
             coaching_service.publish_class_brief(
                 semester_id="2026-2",
                 course_code="NEURO",

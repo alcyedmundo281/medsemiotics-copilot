@@ -1,7 +1,7 @@
 """Domain models for teaching calendar position and pacing analysis."""
 
 from datetime import date
-from enum import Enum
+from enum import StrEnum
 from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -13,7 +13,7 @@ from medsemiotics.domain.academic import (
 from medsemiotics.domain.topics import validate_and_normalize_topic_id
 
 
-class TeachingPaceStatus(str, Enum):
+class TeachingPaceStatus(StrEnum):
     """Evaluation status of actual teaching progress against planned curriculum pacing."""
 
     AHEAD = "ahead"
@@ -32,12 +32,22 @@ class TeachingPosition(BaseModel):
     semester_id: Annotated[str, Field(description="Semester identifier")]
     course_code: Annotated[str, Field(description="Course code")]
     target_date: Annotated[date, Field(description="Reference evaluation date")]
-    is_class_date: Annotated[bool, Field(description="Whether class is scheduled on the target date")]
-    expected_session_count: Annotated[int, Field(ge=0, description="Scheduled class meetings through target date")]
-    actual_session_count: Annotated[int, Field(ge=0, description="Historical class meetings through target date")]
+    is_class_date: Annotated[
+        bool, Field(description="Whether class is scheduled on the target date")
+    ]
+    expected_session_count: Annotated[
+        int, Field(ge=0, description="Scheduled class meetings through target date")
+    ]
+    actual_session_count: Annotated[
+        int, Field(ge=0, description="Historical class meetings through target date")
+    ]
     expected_topic_order: Annotated[
         int | None,
-        Field(default=None, ge=1, description="Expected planned topic order corresponding to session slot"),
+        Field(
+            default=None,
+            ge=1,
+            description="Expected planned topic order corresponding to session slot",
+        ),
     ]
     current_topic_id: Annotated[
         str | None,
@@ -46,7 +56,9 @@ class TeachingPosition(BaseModel):
     pace_status: Annotated[TeachingPaceStatus, Field(description="Pacing assessment")]
     topic_delta: Annotated[
         int | None,
-        Field(default=None, description="Completed topic position minus expected completed position"),
+        Field(
+            default=None, description="Completed topic position minus expected completed position"
+        ),
     ]
 
     @field_validator("semester_id", mode="before")

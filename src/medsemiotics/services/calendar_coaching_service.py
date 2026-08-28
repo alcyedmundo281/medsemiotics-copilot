@@ -105,18 +105,24 @@ class CalendarCoachingService:
         matching_events = [e for e in effective_schedule.events if e.date == class_date]
         if not matching_events:
             msg = (
-                f"No effective class event found on {class_date} for {course_code} ({semester_id}). "
-                "Cannot publish coaching brief."
+                f"No effective class event found on {class_date} for {course_code} "
+                f"({semester_id}). Cannot publish coaching brief."
             )
             raise CalendarPublishPlanError(msg)
 
         if len(matching_events) > 1:
-            msg = f"Multiple effective class events found on {class_date} for {course_code} ({semester_id})."
+            msg = (
+                f"Multiple effective class events found on {class_date} "
+                f"for {course_code} ({semester_id})."
+            )
             raise CalendarPublishPlanError(msg)
 
         target_event = matching_events[0]
         if target_event.status == EffectiveClassStatus.CANCELLED:
-            msg = f"Cannot publish coaching brief for cancelled class on {class_date} ({course_code})."
+            msg = (
+                f"Cannot publish coaching brief for cancelled class on {class_date} "
+                f"({course_code})."
+            )
             raise CalendarPublishPlanError(msg)
 
         publish_request = build_calendar_publish_request(

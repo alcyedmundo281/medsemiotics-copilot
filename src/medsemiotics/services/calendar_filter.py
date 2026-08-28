@@ -25,7 +25,7 @@ def filter_course_calendar_events(
         aliases: Non-empty collection of string aliases to match against the event title.
 
     Returns:
-        List of matching OperationalCalendarEvent objects, deterministically sorted by start and event_id.
+        List of matching OperationalCalendarEvent objects, sorted by start and event_id.
     """
     if not aliases:
         return []
