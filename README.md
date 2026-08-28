@@ -71,6 +71,18 @@ medsemiotics-teaching-copilot/
 
 ---
 
+## Academic State: Planned Curriculum vs. Actual Teaching History
+
+The platform enforces a strict domain distinction between two independent sources of truth:
+
+- **`SyllabusPlan` (Intended Teaching Sequence)**: Models what the official course syllabus intends to teach, in what sequential order (`planned_order`), and target week (`planned_week`).
+- **`TeachingSession` (Actual Teaching History)**: Models historical reality—what was actually delivered in a specific classroom/clinical session, the date, session sequence, and topic coverage status (`CoverageStatus`: introduced, partial, completed, reviewed, skipped).
+
+> [!IMPORTANT]
+> `SyllabusPlan` and `TeachingSession` **must never be treated as equivalent**. A topic may be planned and never taught, taught across multiple sessions, partially delivered, reviewed, or taught out of the planned order.
+
+---
+
 ## Quickstart & Development
 
 ### 1. Prerequisites

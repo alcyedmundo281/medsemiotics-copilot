@@ -7,6 +7,8 @@ from medsemiotics.services.semester_config import (
     load_semester_config,
 )
 from medsemiotics.services.semester_repository import SemesterRepository
+from medsemiotics.services.syllabus_repository import SyllabusRepository
+from medsemiotics.services.teaching_log_repository import TeachingLogRepository
 
 
 def test_real_semester_2026_2_config() -> None:
@@ -54,3 +56,35 @@ def test_real_repository_resolution() -> None:
 
     config = repo.get("2026-2")
     assert config.semester_id == "2026-2"
+
+
+def test_real_syllabi_2026_2() -> None:
+    """Verify config/syllabi/2026-2 NEURO and GASTRO have exactly 5 planned topics each."""
+    project_root = Path(__file__).resolve().parent.parent
+    syllabi_dir = project_root / "config" / "syllabi"
+
+    repo = SyllabusRepository(syllabi_dir)
+
+    neuro_plan = repo.get("2026-2", "NEURO")
+    assert neuro_plan.semester_id == "2026-2"
+    assert neuro_plan.course_code == "NEURO"
+    assert len(neuro_plan.topics) == 5
+
+    gastro_plan = repo.get("2026-2", "GASTRO")
+    assert gastro_plan.semester_id == "2026-2"
+    assert gastro_plan.course_code == "GASTRO"
+    assert len(gastro_plan.topics) == 5
+
+
+def test_real_teaching_logs_2026_2() -> None:
+    """Verify config/teaching_logs/2026-2 NEURO and GASTRO files exist and have empty sessions."""
+    project_root = Path(__file__).resolve().parent.parent
+    logs_dir = project_root / "config" / "teaching_logs"
+
+    repo = TeachingLogRepository(logs_dir)
+
+    neuro_sessions = repo.get_sessions("2026-2", "NEURO")
+    assert neuro_sessions == []
+
+    gastro_sessions = repo.get_sessions("2026-2", "GASTRO")
+    assert gastro_sessions == []
