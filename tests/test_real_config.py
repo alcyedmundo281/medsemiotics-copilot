@@ -5,14 +5,19 @@ from pathlib import Path
 from unittest.mock import MagicMock
 from zoneinfo import ZoneInfo
 
+from medsemiotics.agents.framework import build_default_agent_framework
+from medsemiotics.agents.teaching_coach import TeachingCoachAgent
 from medsemiotics.domain.academic_state import TopicProgressStatus
+from medsemiotics.domain.teaching_coach import TeachingCoachPreviewRequest
 from medsemiotics.services.calendar_config_repository import (
     CalendarConfigRepository,
 )
 from medsemiotics.services.course_state_service import CourseStateService
+from medsemiotics.services.curated_teaching_coach import CuratedTeachingCoachService
 from medsemiotics.services.effective_schedule_service import (
     EffectiveScheduleService,
 )
+from medsemiotics.services.effective_teaching_day_service import EffectiveTeachingDayService
 from medsemiotics.services.schedule_repository import ScheduleRepository
 from medsemiotics.services.semester_config import (
     load_current_semester_id,
@@ -20,6 +25,7 @@ from medsemiotics.services.semester_config import (
 )
 from medsemiotics.services.semester_repository import SemesterRepository
 from medsemiotics.services.syllabus_repository import SyllabusRepository
+from medsemiotics.services.teaching_coach_preview import TeachingCoachPreviewService
 from medsemiotics.services.teaching_guide_repository import TeachingGuideRepository
 from medsemiotics.services.teaching_log_repository import TeachingLogRepository
 
@@ -247,3 +253,72 @@ def test_real_effective_schedule_uses_active_baseline_without_calendar_events() 
     assert date(2026, 8, 31) in gastro_dates
     assert gastro_dates[-1] == date(2026, 12, 14)
     assert calendar_reader.list_events.call_count == 2
+
+
+def test_real_teaching_coach_preview_covers_neuro_and_gastro() -> None:
+    """Verify one-call previews select curated topics for both active teaching courses."""
+    project_root = Path(__file__).resolve().parent.parent
+    config_root = project_root / "config"
+    calendar_reader = MagicMock()
+    calendar_reader.list_events.return_value = []
+
+    semester_repository = SemesterRepository(config_root / "semesters")
+    schedule_repository = ScheduleRepository(config_root / "schedules")
+    calendar_repository = CalendarConfigRepository(config_root / "calendar")
+    syllabus_repository = SyllabusRepository(config_root / "syllabi")
+    teaching_log_repository = TeachingLogRepository(config_root / "teaching_logs")
+    teaching_guide_repository = TeachingGuideRepository(config_root / "teaching_guides")
+    effective_schedule_service = EffectiveScheduleService(
+        semester_repository,
+        schedule_repository,
+        calendar_repository,
+        calendar_reader=calendar_reader,
+    )
+    teaching_day_service = EffectiveTeachingDayService(
+        effective_schedule_service,
+        syllabus_repository,
+        teaching_log_repository,
+    )
+    agent = TeachingCoachAgent(
+        capability_framework=build_default_agent_framework(),
+        teaching_day_service=teaching_day_service,
+        course_state_service=CourseStateService(
+            syllabus_repository,
+            teaching_log_repository,
+        ),
+    )
+    preview_service = TeachingCoachPreviewService(
+        teaching_day_service=teaching_day_service,
+        curated_teaching_coach_service=CuratedTeachingCoachService(
+            teaching_guide_repository,
+            agent,
+        ),
+    )
+    timezone = ZoneInfo("America/Guayaquil")
+
+    cases = (
+        ("NEURO", date(2026, 8, 4), "neuro-intro", "Introducción a la semiología neurológica"),
+        (
+            "GASTRO",
+            date(2026, 8, 3),
+            "gastro-intro",
+            "Introducción a la semiología gastrointestinal",
+        ),
+    )
+    for course_code, class_date, topic_id, topic_title in cases:
+        result = preview_service.preview_class_brief(
+            TeachingCoachPreviewRequest(
+                semester_id="2026-2",
+                course_code=course_code,
+                class_date=class_date,
+                time_min=datetime.combine(class_date, datetime.min.time(), tzinfo=timezone),
+                time_max=datetime.combine(class_date, datetime.max.time(), tzinfo=timezone),
+                requested_by="course-director",
+            )
+        )
+        assert result.draft.brief.topic_id == topic_id
+        assert result.preview_title == f"{course_code} — {topic_title}"
+        assert result.draft.capability_decision.allowed is True
+
+    # Topic discovery and agent revalidation each read the operational schedule once.
+    assert calendar_reader.list_events.call_count == 4

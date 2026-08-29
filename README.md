@@ -56,6 +56,13 @@ enabled reviewed guide and delegates to `TeachingCoachAgent`. Disabled or missin
 before the agent runs, and the agent still verifies that the selected topic is the effective
 topic for the class date. This path exposes no publish operation.
 
+Loop 0.5F adds the usable preview boundary on top of that explicit service.
+`TeachingCoachPreviewService` accepts only semester, course, class date, evaluation window, and
+requester. It derives the current topic from the effective teaching position, loads the matching
+curated guide, asks the existing agent to revalidate and draft, and returns a human-readable title
+and body. The preview service has no Calendar writer, publication method, LLM, or caller-selected
+topic override.
+
 ---
 
 ## Technical Baseline
@@ -214,6 +221,10 @@ class dates until operational events are added.
 
 The historical six-step live result is preserved in
 [`docs/loop-0.4e-live-verification.md`](docs/loop-0.4e-live-verification.md).
+
+The authoritative loop status and the remaining Google Classroom sequence are recorded in
+[`docs/roadmap.md`](docs/roadmap.md). The earlier public course enablement commit is a 0.6
+foundation, not evidence that the complete 0.6A–0.6F series has been implemented.
 
 ---
 

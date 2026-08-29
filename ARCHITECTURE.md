@@ -197,6 +197,25 @@ TeachingCoachDraftResult                reviewable; never auto-published
 A disabled or missing catalog stops the flow before reasoning begins. A valid guide still does
 not override the effective teaching position: topic mismatch remains a controlled agent error.
 
+### Teaching Coach Preview Boundary
+
+Loop 0.5F removes the need for a conversational or mobile caller to know the internal topic ID:
+
+```text
+semester + course + class date + explicit evaluation window
+        ↓
+TeachingCoachPreviewService
+        ├── resolves the effective current topic      KNOW / read only
+        ├── loads the enabled curated topic guide     KNOW / read only
+        ├── delegates to TeachingCoachAgent           REASON / level 2
+        └── formats title + body for human review
+```
+
+The agent deliberately revalidates the position after automatic topic selection. If operational
+state changes between selection and drafting, the request fails closed instead of rendering a
+stale topic. The preview result remains a draft: it contains no approval evidence and cannot call
+Calendar, Classroom, Drive, or any other ACT adapter.
+
 ### Cloud Engineering Agents vs. Product LLMs
 
 Codex cloud and Claude Code on the web are development environments operating on hosted GitHub

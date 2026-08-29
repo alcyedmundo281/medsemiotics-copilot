@@ -37,6 +37,7 @@ from medsemiotics.services.semester_config import (
 )
 from medsemiotics.services.semester_repository import SemesterRepository
 from medsemiotics.services.syllabus_repository import SyllabusRepository
+from medsemiotics.services.teaching_coach_preview import TeachingCoachPreviewService
 from medsemiotics.services.teaching_day_service import TeachingDayService
 from medsemiotics.services.teaching_guide_repository import TeachingGuideRepository
 from medsemiotics.services.teaching_log_repository import TeachingLogRepository
@@ -54,6 +55,7 @@ __all__ = [
     "ScheduleRepository",
     "SemesterRepository",
     "SyllabusRepository",
+    "TeachingCoachPreviewService",
     "TeachingDayService",
     "TeachingGuideRepository",
     "TeachingLogRepository",
