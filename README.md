@@ -45,6 +45,11 @@ an allowed `coaching.class-brief` DRAFT decision, requires a named human approva
 Calendar service still enforces its own authorization, course configuration, and event-ownership
 checks; trusted automation cannot bypass the approval step.
 
+Faculty-curated source content is stored separately under `config/teaching_guides/`. Catalogs
+are validated by semester, course, activation state, and unique topic ID before a guide can reach
+the Teaching Coach. The committed NEURO and GASTRO placeholders remain disabled and empty; the
+repository never generates or fills clinical guidance automatically.
+
 ---
 
 ## Technical Baseline

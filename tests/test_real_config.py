@@ -4,7 +4,10 @@ from datetime import date, datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+import pytest
+
 from medsemiotics.domain.academic_state import TopicProgressStatus
+from medsemiotics.domain.exceptions import TeachingGuideDisabledError
 from medsemiotics.domain.teaching_position import TeachingPaceStatus
 from medsemiotics.services.calendar_config_repository import (
     CalendarConfigRepository,
@@ -21,6 +24,7 @@ from medsemiotics.services.semester_config import (
 from medsemiotics.services.semester_repository import SemesterRepository
 from medsemiotics.services.syllabus_repository import SyllabusRepository
 from medsemiotics.services.teaching_day_service import TeachingDayService
+from medsemiotics.services.teaching_guide_repository import TeachingGuideRepository
 from medsemiotics.services.teaching_log_repository import TeachingLogRepository
 
 
@@ -192,6 +196,22 @@ def test_real_calendar_config_2026_2() -> None:
     assert gastro_cfg.enabled is False
     assert gastro_cfg.calendar_id is None
     assert "Gastroenterología" in gastro_cfg.aliases
+
+
+def test_real_teaching_guide_placeholders_2026_2() -> None:
+    """Verify real guide catalogs exist but remain disabled and empty."""
+    project_root = Path(__file__).resolve().parent.parent
+    repository = TeachingGuideRepository(project_root / "config" / "teaching_guides")
+
+    for course_code in ("NEURO", "GASTRO"):
+        catalog = repository.get_catalog("2026-2", course_code)
+        assert catalog.semester_id == "2026-2"
+        assert catalog.course_code == course_code
+        assert catalog.enabled is False
+        assert catalog.guides == []
+
+        with pytest.raises(TeachingGuideDisabledError):
+            repository.get_guide("2026-2", course_code, "placeholder-topic")
 
 
 def test_real_effective_schedule_empty() -> None:

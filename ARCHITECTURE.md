@@ -169,6 +169,18 @@ Trusted automation does not satisfy the level-3 approval gate, and no one-call
 `draft_and_publish` path exists. A caller must first obtain and review a coherent draft, then
 submit a distinct publication request with an `AgentAuthorizationContext` naming the approver.
 
+### Curated Teaching Guide Repository
+
+Clinical and pedagogical source content is loaded through the read-only
+`TeachingGuideRepository` from `config/teaching_guides/<semester>/<course>.yaml`. Each
+`CourseTeachingGuideCatalog` is scope-validated, rejects duplicate topic IDs, and must contain at
+least one complete `TeachingTopicGuide` before it can be enabled.
+
+The tracked NEURO and GASTRO catalogs are deliberately empty with `enabled: false`. This creates
+the operational boundary without inventing medical teaching content. Topic retrieval from a
+disabled catalog fails explicitly; enabling requires reviewed faculty-authored objectives,
+critical points, questions, pitfalls, and materials.
+
 **Rules for REASON**:
 - Consumes state from the **KNOW** layer.
 - Never directly mutates external platforms (such as Google Classroom, Google Drive, or production databases).

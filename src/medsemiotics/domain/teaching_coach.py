@@ -128,6 +128,47 @@ class TeachingTopicGuide(BaseModel):
         return cleaned
 
 
+class CourseTeachingGuideCatalog(BaseModel):
+    """Validated collection of faculty-curated guides for one course and semester."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    semester_id: str
+    course_code: str
+    enabled: bool = False
+    guides: list[TeachingTopicGuide] = Field(default_factory=list)
+
+    @field_validator("semester_id", mode="before")
+    @classmethod
+    def validate_semester_id(cls, value: object) -> str:
+        """Normalize the catalog semester scope."""
+        return validate_and_normalize_semester_id(value)
+
+    @field_validator("course_code", mode="before")
+    @classmethod
+    def validate_course_code(cls, value: object) -> str:
+        """Normalize the catalog course scope."""
+        return validate_and_normalize_course_code(value)
+
+    @model_validator(mode="after")
+    def validate_catalog(self) -> "CourseTeachingGuideCatalog":
+        """Require content when enabled and reject ambiguous duplicate topic guides."""
+        if self.enabled and not self.guides:
+            msg = "enabled teaching guide catalogs must contain at least one guide"
+            raise ValueError(msg)
+        topic_ids = [guide.topic_id for guide in self.guides]
+        duplicates = sorted({topic_id for topic_id in topic_ids if topic_ids.count(topic_id) > 1})
+        if duplicates:
+            msg = f"duplicate topic guides are not allowed: {duplicates}"
+            raise ValueError(msg)
+        return self
+
+    def find_guide(self, topic_id: str) -> TeachingTopicGuide | None:
+        """Resolve one normalized topic ID without changing catalog state."""
+        normalized = validate_and_normalize_topic_id(topic_id)
+        return next((guide for guide in self.guides if guide.topic_id == normalized), None)
+
+
 class TeachingCoachDraftRequest(BaseModel):
     """Auditable request to draft one class briefing for an explicit date."""
 

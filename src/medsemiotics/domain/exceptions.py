@@ -115,3 +115,19 @@ class TeachingCoachTopicError(TeachingCoachError):
 
 class TeachingCoachScopeError(TeachingCoachError):
     """Raised when a read-only dependency returns state from another academic scope."""
+
+
+class TeachingGuideError(MedSemioticsError):
+    """Base exception for curated Teaching Coach guide storage errors."""
+
+
+class TeachingGuideNotFoundError(TeachingGuideError):
+    """Raised when a guide catalog or requested topic guide does not exist."""
+
+
+class TeachingGuideValidationError(TeachingGuideError):
+    """Raised when a curated guide catalog is malformed or inconsistent."""
+
+
+class TeachingGuideDisabledError(TeachingGuideError):
+    """Raised when guide retrieval is attempted from a disabled catalog."""

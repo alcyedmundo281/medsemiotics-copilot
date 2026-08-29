@@ -1,0 +1,5 @@
+# PLACEHOLDER: enable only after faculty-curated topic guides are reviewed.
+semester_id: "2026-2"
+course_code: "NEURO"
+enabled: false
+guides: []
