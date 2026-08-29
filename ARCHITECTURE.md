@@ -181,6 +181,22 @@ the operational boundary without inventing medical teaching content. Topic retri
 disabled catalog fails explicitly; enabling requires reviewed faculty-authored objectives,
 critical points, questions, pitfalls, and materials.
 
+`CuratedTeachingCoachService` connects this repository to the draft-only agent without crossing
+the ACT boundary:
+
+```text
+CuratedTeachingCoachDraftRequest
+        ↓ explicit semester / course / date / topic
+TeachingGuideRepository                 KNOW / read only
+        ↓ enabled faculty-authored TeachingTopicGuide
+TeachingCoachAgent                      REASON / level 2
+        ↓ validates effective topic and course state
+TeachingCoachDraftResult                reviewable; never auto-published
+```
+
+A disabled or missing catalog stops the flow before reasoning begins. A valid guide still does
+not override the effective teaching position: topic mismatch remains a controlled agent error.
+
 **Rules for REASON**:
 - Consumes state from the **KNOW** layer.
 - Never directly mutates external platforms (such as Google Classroom, Google Drive, or production databases).

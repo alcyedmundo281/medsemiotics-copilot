@@ -7,6 +7,7 @@ import pytest
 from pydantic import ValidationError
 
 from medsemiotics.domain.teaching_coach import (
+    CuratedTeachingCoachDraftRequest,
     TeachingCoachDraftRequest,
     TeachingTopicGuide,
 )
@@ -38,6 +39,22 @@ def make_request(**updates: object) -> TeachingCoachDraftRequest:
     }
     values.update(updates)
     return TeachingCoachDraftRequest(**values)  # type: ignore[arg-type]
+
+
+def make_curated_request(**updates: object) -> CuratedTeachingCoachDraftRequest:
+    """Build a valid request that references a guide by topic ID."""
+    tz = ZoneInfo("America/Guayaquil")
+    values: dict[str, object] = {
+        "semester_id": "2026-2",
+        "course_code": "NEURO",
+        "class_date": date(2026, 9, 1),
+        "time_min": datetime(2026, 9, 1, 0, 0, tzinfo=tz),
+        "time_max": datetime(2026, 9, 2, 0, 0, tzinfo=tz),
+        "topic_id": "coordination-cerebellum",
+        "requested_by": "course-director",
+    }
+    values.update(updates)
+    return CuratedTeachingCoachDraftRequest(**values)  # type: ignore[arg-type]
 
 
 class TestTeachingTopicGuide:
@@ -98,3 +115,30 @@ class TestTeachingCoachDraftRequest:
     def test_class_date_outside_evaluation_window_is_rejected(self) -> None:
         with pytest.raises(ValidationError, match="class_date must fall within"):
             make_request(class_date=date(2026, 9, 3))
+
+
+class TestCuratedTeachingCoachDraftRequest:
+    """Validate the catalog-backed request boundary independently of guide contents."""
+
+    def test_request_normalizes_all_identifiers(self) -> None:
+        request = make_curated_request(
+            semester_id=" 2026-2 ",
+            course_code=" neuro ",
+            topic_id=" Coordination-Cerebellum ",
+        )
+
+        assert request.semester_id == "2026-2"
+        assert request.course_code == "NEURO"
+        assert request.topic_id == "coordination-cerebellum"
+
+    def test_request_rejects_naive_window(self) -> None:
+        with pytest.raises(ValidationError, match="time_min must be timezone-aware"):
+            make_curated_request(time_min=datetime(2026, 9, 1, 0, 0))
+
+    def test_request_rejects_blank_requester(self) -> None:
+        with pytest.raises(ValidationError, match="requested_by must not be empty"):
+            make_curated_request(requested_by="  ")
+
+    def test_request_rejects_class_date_outside_window(self) -> None:
+        with pytest.raises(ValidationError, match="class_date must fall within"):
+            make_curated_request(class_date=date(2026, 9, 3))

@@ -50,6 +50,12 @@ are validated by semester, course, activation state, and unique topic ID before 
 the Teaching Coach. The committed NEURO and GASTRO placeholders remain disabled and empty; the
 repository never generates or fills clinical guidance automatically.
 
+`CuratedTeachingCoachService` is the read-only entry point for catalog-backed drafting. Its
+request identifies the semester, course, class date, and topic; the service loads only that
+enabled faculty guide and delegates to `TeachingCoachAgent`. Disabled or missing content fails
+before the agent runs, and the agent still verifies that the selected topic is the effective
+topic for the class date. This path exposes no publish operation.
+
 ---
 
 ## Technical Baseline

@@ -169,6 +169,59 @@ class CourseTeachingGuideCatalog(BaseModel):
         return next((guide for guide in self.guides if guide.topic_id == normalized), None)
 
 
+class CuratedTeachingCoachDraftRequest(BaseModel):
+    """Auditable request to draft from one explicitly selected curated topic guide."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    semester_id: str
+    course_code: str
+    class_date: date
+    time_min: datetime
+    time_max: datetime
+    topic_id: str
+    requested_by: str
+
+    @field_validator("semester_id", mode="before")
+    @classmethod
+    def validate_semester_id(cls, value: object) -> str:
+        """Normalize semester scope."""
+        return validate_and_normalize_semester_id(value)
+
+    @field_validator("course_code", mode="before")
+    @classmethod
+    def validate_course_code(cls, value: object) -> str:
+        """Normalize course scope."""
+        return validate_and_normalize_course_code(value)
+
+    @field_validator("topic_id", mode="before")
+    @classmethod
+    def validate_topic_id(cls, value: object) -> str:
+        """Normalize the explicitly requested guide topic."""
+        return validate_and_normalize_topic_id(value)
+
+    @field_validator("requested_by", mode="before")
+    @classmethod
+    def validate_requester(cls, value: object) -> str:
+        """Require an accountable requester for the draft audit trail."""
+        return _clean_text(value, "requested_by")
+
+    @model_validator(mode="after")
+    def validate_time_window(self) -> "CuratedTeachingCoachDraftRequest":
+        """Require an ordered timezone-aware calendar evaluation window."""
+        for field_name, timestamp in (("time_min", self.time_min), ("time_max", self.time_max)):
+            if timestamp.tzinfo is None or timestamp.tzinfo.utcoffset(timestamp) is None:
+                msg = f"{field_name} must be timezone-aware"
+                raise ValueError(msg)
+        if self.time_min >= self.time_max:
+            msg = "time_min must be strictly before time_max"
+            raise ValueError(msg)
+        if not self.time_min.date() <= self.class_date <= self.time_max.date():
+            msg = "class_date must fall within the calendar evaluation window"
+            raise ValueError(msg)
+        return self
+
+
 class TeachingCoachDraftRequest(BaseModel):
     """Auditable request to draft one class briefing for an explicit date."""
 

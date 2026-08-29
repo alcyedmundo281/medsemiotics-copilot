@@ -97,6 +97,7 @@ from medsemiotics.domain.schedule import (
 from medsemiotics.domain.syllabus import SyllabusPlan, SyllabusTopic
 from medsemiotics.domain.teaching_coach import (
     CourseTeachingGuideCatalog,
+    CuratedTeachingCoachDraftRequest,
     TeachingCoachDraftRequest,
     TeachingCoachDraftResult,
     TeachingCoachPublishRequest,
@@ -154,6 +155,7 @@ __all__ = [
     "CourseTeachingGuideCatalog",
     "CourseTeachingSchedule",
     "CoverageStatus",
+    "CuratedTeachingCoachDraftRequest",
     "EffectiveClassEvent",
     "EffectiveClassSource",
     "EffectiveClassStatus",
