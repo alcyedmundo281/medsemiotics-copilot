@@ -34,7 +34,7 @@ and are not eligible for trusted automation.
 #### Teaching Coach draft workflow
 
 `TeachingCoachAgent` prepares a reviewable `CoachingBrief` for one explicit class date by
-combining faculty-curated guidance with the derived course state and effective teaching
+combining reviewed teaching guidance with the derived course state and effective teaching
 position. It rejects inactive dates, cross-course state, and a guide that does not match the
 current topic. The agent is deterministic, uses no LLM, and has no Calendar writer; publication
 remains a separate explicitly approved action.
@@ -45,14 +45,14 @@ an allowed `coaching.class-brief` DRAFT decision, requires a named human approva
 Calendar service still enforces its own authorization, course configuration, and event-ownership
 checks; trusted automation cannot bypass the approval step.
 
-Faculty-curated source content is stored separately under `config/teaching_guides/`. Catalogs
+Reviewable source content is stored separately under `config/teaching_guides/`. Catalogs
 are validated by semester, course, activation state, and unique topic ID before a guide can reach
-the Teaching Coach. The committed NEURO and GASTRO placeholders remain disabled and empty; the
-repository never generates or fills clinical guidance automatically.
+the Teaching Coach. NEURO and GASTRO each contain five active public baseline guides aligned with
+their tracked syllabus topics. Every Calendar publication remains a separate named human approval.
 
 `CuratedTeachingCoachService` is the read-only entry point for catalog-backed drafting. Its
 request identifies the semester, course, class date, and topic; the service loads only that
-enabled faculty guide and delegates to `TeachingCoachAgent`. Disabled or missing content fails
+enabled reviewed guide and delegates to `TeachingCoachAgent`. Disabled or missing content fails
 before the agent runs, and the agent still verifies that the selected topic is the effective
 topic for the class date. This path exposes no publish operation.
 
@@ -145,12 +145,12 @@ $$\text{Schedule} + \text{Syllabus} + \text{Teaching History} + \text{Target Dat
 
 - **`CourseTeachingSchedule`**: Defines term boundaries (`teaching_start_date` .. `teaching_end_date`), recurring weekly meeting rules (`ClassMeetingRule`), and overrides (`ScheduleException`: `cancelled`, `no_class`, `makeup`).
 - **`TeachingPosition`**: Evaluates whether the target date is a class date, computes `expected_session_count`, `actual_session_count`, `expected_topic_order`, `current_topic_id`, and pacing assessment (`TeachingPaceStatus`: `ahead`, `on_track`, `behind`, `not_started`, `complete`, `unavailable`).
-- **Placeholder Schedules**: Default schedule files in `config/schedules/` are initialized with `enabled: false` as structural placeholders until actual institutional timetables are configured.
+- **Active Date-Only Schedules**: NEURO uses Tuesday/Thursday and GASTRO Monday/Wednesday from 2026-08-01 through 2026-12-15. Exact times and operational exceptions remain Calendar evidence.
 - **Deterministic Date Invariant**: All date calculations require an explicit `target_date` argument. No service silently queries the system clock (`date.today()` or `datetime.now()`).
 
 ---
 
-## Google Calendar Integration (Read-Only)
+## Google Calendar Integration (Read Boundary)
 
 External Google Calendar events are ingested via the narrowest read-only OAuth 2.0 scope (`https://www.googleapis.com/auth/calendar.readonly`):
 
@@ -159,7 +159,7 @@ $$\text{Google Calendar API Resource} \xrightarrow{\text{Mapper}} \text{Operatio
 - **Boundary Isolation**: Raw Google API dictionary structures are strictly mapped into immutable domain models (`OperationalCalendarEvent`, `CalendarDescriptor`). Provider schemas never leak into core services.
 - **Timezone Awareness**: All mapped calendar events enforce timezone-aware `datetime` objects. All-day events with exclusive Google end dates are converted to boundary timestamps via explicit `ZoneInfo`.
 - **Baseline Schedule Non-Authority**: Google Calendar events are ingested for operational visibility and course alias filtering; they are **not yet authoritative** over baseline syllabus schedules.
-- **Read-Only Invariant**: Calendar write operations (`events.insert`, `update`, `delete`) and write scopes are intentionally not enabled.
+- **Separated Capability Invariant**: The reader never receives write scope or exposes write operations. Controlled publishing uses a separate writer, token, authorization gate, and `calendar.events` scope; deletion remains unavailable.
 - **Developer Smoke Tool**: An interactive CLI tool [`scripts/google_calendar_smoke.py`](scripts/google_calendar_smoke.py) is available for local verification without impacting automated test suites.
 
 ---
@@ -206,6 +206,26 @@ For interactive authentication and controlled live integration testing against r
 4. **Authorize Write Access**: Run `python scripts/google_calendar_write_smoke.py --calendar-id <ID> --execute` to test controlled event publishing with dry-run protection and ownership tracking.
 
 For full step-by-step instructions, see [docs/google-calendar-live-setup.md](docs/google-calendar-live-setup.md).
+
+NEURO and GASTRO are bound to dedicated Google Workspace calendars. Their IDs are safe routing
+identifiers and grant no access; OAuth credentials and tokens remain local secrets. Both calendars
+were empty when enabled, so the date-only institutional baseline remains the source of planned
+class dates until operational events are added.
+
+The historical six-step live result is preserved in
+[`docs/loop-0.4e-live-verification.md`](docs/loop-0.4e-live-verification.md).
+
+---
+
+## Cloud Agents and Mixed LLM Providers
+
+The public GitHub repository can be used by hosted engineering agents such as Codex cloud and
+Claude Code on the web. `AGENTS.md` and `CLAUDE.md` provide a shared safety and quality contract.
+
+This development workflow is separate from product reasoning. A future product runtime may use
+OpenAI and Anthropic APIs behind one provider-neutral boundary while deterministic academic state
+remains authoritative. LLMs may enrich a draft; they cannot publish to Calendar. See
+[`docs/llm-provider-strategy.md`](docs/llm-provider-strategy.md).
 
 ---
 

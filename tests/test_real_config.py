@@ -2,13 +2,10 @@
 
 from datetime import date, datetime
 from pathlib import Path
+from unittest.mock import MagicMock
 from zoneinfo import ZoneInfo
 
-import pytest
-
 from medsemiotics.domain.academic_state import TopicProgressStatus
-from medsemiotics.domain.exceptions import TeachingGuideDisabledError
-from medsemiotics.domain.teaching_position import TeachingPaceStatus
 from medsemiotics.services.calendar_config_repository import (
     CalendarConfigRepository,
 )
@@ -23,7 +20,6 @@ from medsemiotics.services.semester_config import (
 )
 from medsemiotics.services.semester_repository import SemesterRepository
 from medsemiotics.services.syllabus_repository import SyllabusRepository
-from medsemiotics.services.teaching_day_service import TeachingDayService
 from medsemiotics.services.teaching_guide_repository import TeachingGuideRepository
 from medsemiotics.services.teaching_log_repository import TeachingLogRepository
 
@@ -154,30 +150,25 @@ def test_real_academic_state_gastro_2026_2() -> None:
     assert unplanned == []
 
 
-def test_real_teaching_position_disabled_schedules() -> None:
-    """Verify real placeholder schedule files resolve to UNAVAILABLE."""
+def test_real_schedules_are_enabled() -> None:
+    """Verify the active date-only baseline for both teaching courses."""
     project_root = Path(__file__).resolve().parent.parent
     sched_dir = project_root / "config" / "schedules"
-    syll_dir = project_root / "config" / "syllabi"
-    log_dir = project_root / "config" / "teaching_logs"
+    repository = ScheduleRepository(sched_dir)
 
-    service = TeachingDayService(
-        ScheduleRepository(sched_dir),
-        SyllabusRepository(syll_dir),
-        TeachingLogRepository(log_dir),
-    )
+    neuro = repository.get("2026-2", "NEURO")
+    assert neuro.enabled is True
+    assert neuro.is_class_date(date(2026, 8, 4)) is True
+    assert neuro.is_class_date(date(2026, 8, 5)) is False
 
-    neuro_pos = service.get_position("2026-2", "NEURO", date(2026, 8, 15))
-    assert neuro_pos.pace_status == TeachingPaceStatus.UNAVAILABLE
-    assert service.get_topic_for_date("2026-2", "NEURO", date(2026, 8, 15)) is None
-
-    gastro_pos = service.get_position("2026-2", "GASTRO", date(2026, 8, 15))
-    assert gastro_pos.pace_status == TeachingPaceStatus.UNAVAILABLE
-    assert service.get_topic_for_date("2026-2", "GASTRO", date(2026, 8, 15)) is None
+    gastro = repository.get("2026-2", "GASTRO")
+    assert gastro.enabled is True
+    assert gastro.is_class_date(date(2026, 8, 3)) is True
+    assert gastro.is_class_date(date(2026, 8, 4)) is False
 
 
 def test_real_calendar_config_2026_2() -> None:
-    """Verify real calendar config files for NEURO and GASTRO exist with enabled: false."""
+    """Verify NEURO and GASTRO are bound to their dedicated Workspace calendars."""
     project_root = Path(__file__).resolve().parent.parent
     calendar_dir = project_root / "config" / "calendar"
 
@@ -186,45 +177,53 @@ def test_real_calendar_config_2026_2() -> None:
     neuro_cfg = repo.get("2026-2", "NEURO")
     assert neuro_cfg.semester_id == "2026-2"
     assert neuro_cfg.course_code == "NEURO"
-    assert neuro_cfg.enabled is False
-    assert neuro_cfg.calendar_id is None
+    assert neuro_cfg.enabled is True
+    assert neuro_cfg.calendar_id == "c_classroom6164396f@group.calendar.google.com"
     assert "Neurología" in neuro_cfg.aliases
 
     gastro_cfg = repo.get("2026-2", "GASTRO")
     assert gastro_cfg.semester_id == "2026-2"
     assert gastro_cfg.course_code == "GASTRO"
-    assert gastro_cfg.enabled is False
-    assert gastro_cfg.calendar_id is None
+    assert gastro_cfg.enabled is True
+    assert gastro_cfg.calendar_id == "c_classroom7c5dba86@group.calendar.google.com"
     assert "Gastroenterología" in gastro_cfg.aliases
 
 
-def test_real_teaching_guide_placeholders_2026_2() -> None:
-    """Verify real guide catalogs exist but remain disabled and empty."""
+def test_real_teaching_guides_2026_2() -> None:
+    """Verify both enabled catalogs cover every planned syllabus topic."""
     project_root = Path(__file__).resolve().parent.parent
     repository = TeachingGuideRepository(project_root / "config" / "teaching_guides")
+    syllabus_repository = SyllabusRepository(project_root / "config" / "syllabi")
 
     for course_code in ("NEURO", "GASTRO"):
         catalog = repository.get_catalog("2026-2", course_code)
+        syllabus = syllabus_repository.get("2026-2", course_code)
         assert catalog.semester_id == "2026-2"
         assert catalog.course_code == course_code
-        assert catalog.enabled is False
-        assert catalog.guides == []
+        assert catalog.enabled is True
+        assert len(catalog.guides) == 5
+        assert {guide.topic_id for guide in catalog.guides} == {
+            topic.topic_id for topic in syllabus.topics
+        }
 
-        with pytest.raises(TeachingGuideDisabledError):
-            repository.get_guide("2026-2", course_code, "placeholder-topic")
+    assert repository.get_guide("2026-2", "NEURO", "neuro-intro").topic_title
+    assert repository.get_guide("2026-2", "GASTRO", "gastro-intro").topic_title
 
 
-def test_real_effective_schedule_empty() -> None:
-    """Verify that with real placeholder configs, effective schedule has no active class dates."""
+def test_real_effective_schedule_uses_active_baseline_without_calendar_events() -> None:
+    """Verify empty calendars do not erase the active institutional baseline."""
     project_root = Path(__file__).resolve().parent.parent
     sem_dir = project_root / "config" / "semesters"
     sched_dir = project_root / "config" / "schedules"
     cal_dir = project_root / "config" / "calendar"
 
+    calendar_reader = MagicMock()
+    calendar_reader.list_events.return_value = []
     service = EffectiveScheduleService(
         SemesterRepository(sem_dir),
         ScheduleRepository(sched_dir),
         CalendarConfigRepository(cal_dir),
+        calendar_reader=calendar_reader,
     )
 
     tz = ZoneInfo("America/Guayaquil")
@@ -234,7 +233,9 @@ def test_real_effective_schedule_empty() -> None:
         time_min=datetime(2026, 8, 1, 0, 0, tzinfo=tz),
         time_max=datetime(2026, 8, 31, 23, 59, tzinfo=tz),
     )
-    assert neuro_dates == []
+    assert neuro_dates[0] == date(2026, 8, 4)
+    assert date(2026, 8, 27) in neuro_dates
+    assert neuro_dates[-1] == date(2026, 12, 15)
 
     gastro_dates = service.get_class_dates(
         semester_id="2026-2",
@@ -242,4 +243,7 @@ def test_real_effective_schedule_empty() -> None:
         time_min=datetime(2026, 8, 1, 0, 0, tzinfo=tz),
         time_max=datetime(2026, 8, 31, 23, 59, tzinfo=tz),
     )
-    assert gastro_dates == []
+    assert gastro_dates[0] == date(2026, 8, 3)
+    assert date(2026, 8, 31) in gastro_dates
+    assert gastro_dates[-1] == date(2026, 12, 14)
+    assert calendar_reader.list_events.call_count == 2

@@ -1,5 +1,90 @@
-# PLACEHOLDER: enable only after faculty-curated topic guides are reviewed.
+# Public baseline teaching guides. Every Calendar publication still requires named human approval.
 semester_id: "2026-2"
 course_code: "NEURO"
-enabled: false
-guides: []
+enabled: true
+guides:
+  - topic_id: "neuro-intro"
+    topic_title: "Introducción a la semiología neurológica"
+    learning_objectives:
+      - "Aplicar una secuencia reproducible de anamnesis y examen neurológico orientado al problema."
+      - "Formular una localización neuroanatómica inicial antes de proponer etiologías."
+    critical_points:
+      - "Separar hallazgos objetivos, síntomas referidos y la interpretación localizatoria."
+      - "Priorizar nivel de conciencia, estabilidad clínica y signos neurológicos de alarma."
+    teaching_questions:
+      - "¿Qué dato del examen cambia más la localización propuesta?"
+      - "¿Qué hallazgos obligan a escalar la evaluación de forma urgente?"
+    common_pitfalls:
+      - "Proponer un diagnóstico etiológico antes de localizar la lesión."
+      - "Documentar normalidad sin describir qué componentes fueron examinados."
+    material_notes:
+      - "Formato estructurado de historia y examen neurológico."
+      - "Caso breve para practicar localización sindrómica."
+
+  - topic_id: "mental-status"
+    topic_title: "Estado mental y funciones cognitivas"
+    learning_objectives:
+      - "Explorar de forma estructurada conciencia, atención, orientación, memoria, lenguaje y funciones ejecutivas."
+      - "Distinguir una alteración global del estado mental de un déficit cognitivo focal."
+    critical_points:
+      - "La atención condiciona la interpretación de las demás pruebas cognitivas."
+      - "El resultado debe interpretarse según escolaridad, idioma, contexto cultural y estado sensorial."
+    teaching_questions:
+      - "¿Qué prueba breve usarías primero para comprobar atención?"
+      - "¿Cómo cambia tu interpretación si el paciente tiene hipoacusia o afasia?"
+    common_pitfalls:
+      - "Confundir falta de cooperación con deterioro cognitivo."
+      - "Usar un puntaje aislado sin describir el patrón de errores."
+    material_notes:
+      - "Hoja de evaluación cognitiva breve y reloj para tareas temporizadas."
+
+  - topic_id: "cranial-nerves"
+    topic_title: "Exploración de pares craneales"
+    learning_objectives:
+      - "Ejecutar una exploración ordenada de los pares craneales con maniobras clínicas básicas."
+      - "Integrar déficits aislados o combinados para orientar una localización anatómica."
+    critical_points:
+      - "Comparar ambos lados y correlacionar el hallazgo con vías aferentes y eferentes."
+      - "Distinguir un déficit verdadero de limitaciones por comprensión, dolor o técnica."
+    teaching_questions:
+      - "¿Qué combinación de hallazgos sugiere una lesión de tronco encefálico?"
+      - "¿Cómo diferencias una asimetría facial central de una periférica?"
+    common_pitfalls:
+      - "Examinar cada par como un dato aislado sin integrar el patrón."
+      - "Omitir agudeza visual, campos visuales o respuesta pupilar por falta de material."
+    material_notes:
+      - "Cartilla visual, linterna, algodón, bajalenguas y diapasón."
+
+  - topic_id: "motor-system"
+    topic_title: "Sistema motor"
+    learning_objectives:
+      - "Evaluar trofismo, tono, fuerza, reflejos y respuesta plantar de manera comparativa."
+      - "Diferenciar patrones compatibles con compromiso de neurona motora superior, inferior o músculo."
+    critical_points:
+      - "La fuerza debe graduarse con posición, estabilización y esfuerzo adecuados."
+      - "La distribución del déficit es tan importante como su intensidad."
+    teaching_questions:
+      - "¿Qué hallazgos apoyan una lesión piramidal?"
+      - "¿Cómo cambia la localización entre debilidad proximal y distal?"
+    common_pitfalls:
+      - "Confundir dolor o apraxia con debilidad."
+      - "Interpretar un reflejo sin compararlo con el lado contralateral y el resto del examen."
+    material_notes:
+      - "Martillo de reflejos y tabla de graduación de fuerza muscular."
+
+  - topic_id: "coordination-cerebellum"
+    topic_title: "Coordinación y cerebelo"
+    learning_objectives:
+      - "Explorar marcha, postura, movimientos alternantes y pruebas dedo-nariz y talón-rodilla."
+      - "Distinguir ataxia cerebelosa, sensitiva y vestibular mediante integración clínica."
+    critical_points:
+      - "Observar precisión, trayectoria, ritmo, temblor de intención y descomposición del movimiento."
+      - "Interpretar la prueba de Romberg junto con sensibilidad profunda, nistagmo y marcha."
+    teaching_questions:
+      - "¿Qué hallazgo separa mejor una ataxia sensitiva de una cerebelosa?"
+      - "¿Cómo localizas un síndrome cerebeloso axial frente a uno hemisférico?"
+    common_pitfalls:
+      - "Usar ataxia como sinónimo de cualquier alteración de la marcha."
+      - "Atribuir dismetría a cerebelo sin excluir debilidad, dolor o déficit visual."
+    material_notes:
+      - "Espacio seguro para marcha, diapasón y objetivos para pruebas de coordinación."

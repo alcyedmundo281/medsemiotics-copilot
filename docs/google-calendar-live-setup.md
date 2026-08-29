@@ -129,4 +129,4 @@ uv run python scripts/google_calendar_write_smoke.py \
 - **No Automated Deletion**: MedSemiotics deliberately does not implement `events.delete()` to prevent destructive data loss.
 - **Harmless Test Events**: All smoke test events use `course_code="TEST"` and clearly designated test dates so real academic data is never polluted.
 - **Manual Cleanup**: Operators may manually delete the test event directly in Google Calendar UI if desired.
-- **Disabled Production Configuration**: Production course configurations in `config/calendar/2026-2/*.yaml` must remain `enabled: false` until explicit semester rollout.
+- **Enabled Dedicated Calendars**: NEURO and GASTRO are mapped to dedicated Google Workspace teaching calendars. Calendar IDs are public routing identifiers; OAuth credentials and tokens remain ignored local secrets.

@@ -31,6 +31,10 @@ from medsemiotics.services.coaching_formatter import (
     format_coaching_brief,
 )
 
+stdout_reconfigure = getattr(sys.stdout, "reconfigure", None)
+if stdout_reconfigure is not None:
+    stdout_reconfigure(encoding="utf-8")
+
 
 def main() -> None:
     """Entry point for Google Calendar write smoke script."""
@@ -49,18 +53,28 @@ def main() -> None:
     )
     parser.add_argument(
         "--course-code",
-        default="NEURO",
-        help="Course code (default: NEURO)",
+        default="TEST",
+        help="Course code (default: TEST)",
     )
     parser.add_argument(
         "--date",
-        default="2026-08-04",
-        help="Class date YYYY-MM-DD (default: 2026-08-04)",
+        default="2026-09-01",
+        help="Class date YYYY-MM-DD (default: 2026-09-01)",
     )
     parser.add_argument(
         "--topic-title",
-        default="Síndrome cerebeloso",
+        default="Calendar Integration Test",
         help="Topic title for coaching briefing",
+    )
+    parser.add_argument(
+        "--start-time",
+        default="18:00",
+        help="Local event start time HH:MM (default: 18:00)",
+    )
+    parser.add_argument(
+        "--end-time",
+        default="18:15",
+        help="Local event end time HH:MM (default: 18:15)",
     )
     parser.add_argument(
         "--timezone",
@@ -78,36 +92,38 @@ def main() -> None:
 
     class_d = date.fromisoformat(args.date)
     tz = ZoneInfo(args.timezone)
+    start_time = time.fromisoformat(args.start_time)
+    end_time = time.fromisoformat(args.end_time)
+    if start_time >= end_time:
+        parser.error("--start-time must be earlier than --end-time")
 
     brief = CoachingBrief(
         semester_id=args.semester_id,
         course_code=args.course_code,
         class_date=class_d,
-        topic_id="smoke-topic-1",
+        topic_id="calendar-integration-test",
         topic_title=args.topic_title,
         learning_objectives=[
-            "Reconocer los signos cardinales del síndrome cerebeloso.",
-            "Diferenciar ataxia cerebelosa de ataxia sensitiva.",
+            "Verificar la publicación controlada de un evento de prueba.",
         ],
         coaching_tips=[
-            "Iniciar con examen de marcha y prueba índice-nariz.",
-            "Hacer énfasis en dismetría y adiadococinesia.",
+            "Este contenido es técnico y no representa una clase real.",
         ],
         teaching_questions=[
-            "¿Cuál es el mecanismo fisiopatológico del temblor intencional?",
+            "¿El segundo intento conserva el mismo evento administrado?",
         ],
         common_pitfalls=[
-            "Confundir dismetría con debilidad piramidal.",
+            "Usar un código de curso productivo durante una prueba de integración.",
         ],
         material_notes=[
-            "Martillo de reflejos y diapasones.",
+            "Evento TEST sin asistentes, videollamada ni adjuntos.",
         ],
-        assignment_note="Revisar caso clínico 3 en PowerSemiotics.",
-        powersemiotics_url="https://powersemiotics.org/cases/cerebellar-1",
+        assignment_note=None,
+        powersemiotics_url=None,
     )
 
-    start_dt = datetime.combine(class_d, time(8, 0), tzinfo=tz)
-    end_dt = datetime.combine(class_d, time(10, 0), tzinfo=tz)
+    start_dt = datetime.combine(class_d, start_time, tzinfo=tz)
+    end_dt = datetime.combine(class_d, end_time, tzinfo=tz)
 
     title = build_teaching_event_title(
         course_code=brief.course_code,
@@ -132,7 +148,7 @@ def main() -> None:
         title=title,
         description=description,
         location=None,
-        reminders_minutes=[15, 60],
+        reminders_minutes=[10],
         metadata=metadata,
     )
 

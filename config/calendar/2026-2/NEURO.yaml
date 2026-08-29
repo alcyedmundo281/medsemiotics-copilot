@@ -1,11 +1,15 @@
-# PLACEHOLDER: configure Google Calendar ID and aliases for NEURO
+# Dedicated Google Workspace teaching calendar. IDs grant no access by themselves.
 semester_id: "2026-2"
 course_code: "NEURO"
-enabled: false
-calendar_id: null
+enabled: true
+calendar_id: "c_classroom6164396f@group.calendar.google.com"
 aliases:
   - "Neurología"
   - "Neurologia"
   - "NEURO"
-cancellation_markers: []
-makeup_markers: []
+cancellation_markers:
+  - "cancelada"
+  - "sin clase"
+makeup_markers:
+  - "recuperación"
+  - "recuperacion"

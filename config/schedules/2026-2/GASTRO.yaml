@@ -1,7 +1,7 @@
-# PLACEHOLDER: replace with actual institutional teaching schedule before enabling.
+# Active date-only baseline. Exact meeting times remain operational Calendar evidence.
 semester_id: "2026-2"
 course_code: "GASTRO"
-enabled: false
+enabled: true
 teaching_start_date: "2026-08-01"
 teaching_end_date: "2026-12-15"
 meeting_rules:

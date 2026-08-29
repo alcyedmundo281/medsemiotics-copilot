@@ -130,7 +130,7 @@ through an explicit, proven, and auditable policy."**
 only through `coaching.class-brief` at autonomy level **DRAFT**:
 
 ```text
-Faculty-curated TeachingTopicGuide
+Reviewed TeachingTopicGuide
         + CourseAcademicState
         + effective TeachingPosition for an explicit date
         + authorized DRAFT capability
@@ -176,10 +176,10 @@ Clinical and pedagogical source content is loaded through the read-only
 `CourseTeachingGuideCatalog` is scope-validated, rejects duplicate topic IDs, and must contain at
 least one complete `TeachingTopicGuide` before it can be enabled.
 
-The tracked NEURO and GASTRO catalogs are deliberately empty with `enabled: false`. This creates
-the operational boundary without inventing medical teaching content. Topic retrieval from a
-disabled catalog fails explicitly; enabling requires reviewed faculty-authored objectives,
-critical points, questions, pitfalls, and materials.
+The tracked NEURO and GASTRO catalogs are enabled public baselines with five guides each, aligned
+one-to-one with their tracked syllabus topics. The guides supply reviewable objectives, critical
+points, questions, pitfalls, and materials; they do not bypass the separate named approval needed
+for Calendar publication.
 
 `CuratedTeachingCoachService` connects this repository to the draft-only agent without crossing
 the ACT boundary:
@@ -196,6 +196,18 @@ TeachingCoachDraftResult                reviewable; never auto-published
 
 A disabled or missing catalog stops the flow before reasoning begins. A valid guide still does
 not override the effective teaching position: topic mismatch remains a controlled agent error.
+
+### Cloud Engineering Agents vs. Product LLMs
+
+Codex cloud and Claude Code on the web are development environments operating on hosted GitHub
+checkouts. They may propose repository changes under `AGENTS.md` and `CLAUDE.md`, but repository
+access grants neither Google OAuth credentials nor product runtime authority.
+
+Product LLMs form a separate optional REASON sub-boundary. OpenAI and Anthropic APIs may enrich a
+structured draft through a provider-neutral adapter; deterministic academic state, capability
+decisions, and ACT authorization remain authoritative. Provider selection never changes Calendar
+permissions, and no LLM client may depend directly on a Calendar writer. The detailed contract is
+documented in `docs/llm-provider-strategy.md`.
 
 **Rules for REASON**:
 - Consumes state from the **KNOW** layer.
