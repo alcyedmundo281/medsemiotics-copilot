@@ -89,6 +89,10 @@ class CalendarWriteAuthorizationError(MedSemioticsError):
     """Raised when a calendar write action is attempted without explicit authorization."""
 
 
+class ClassroomAccessPolicyError(MedSemioticsError):
+    """Raised before Classroom access when data or OAuth authority exceeds policy."""
+
+
 class AgentCapabilityError(MedSemioticsError):
     """Base exception for agent capability registration and policy errors."""
 

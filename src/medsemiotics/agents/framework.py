@@ -183,6 +183,20 @@ def build_default_agent_framework() -> AgentCapabilityFramework:
                 maximum_autonomy=AutonomyLevel.TRUSTED_AUTOMATION,
                 capabilities=[
                     AgentCapability(
+                        capability_id="coordination.classroom-course-discovery",
+                        agent=AgentPillar.COORDINATION,
+                        job="Discover accessible Classroom courses using metadata only.",
+                        tools=["google-classroom:courses.readonly"],
+                        categories=["course metadata", "course state", "course link"],
+                        output="Sanitized provider-neutral course discovery result.",
+                        boundary=(
+                            "Must not expose rosters, student identifiers, coursework, "
+                            "submissions, grades, or execute any Classroom mutation."
+                        ),
+                        minimum_autonomy=AutonomyLevel.OBSERVE,
+                        maximum_autonomy=AutonomyLevel.OBSERVE,
+                    ),
+                    AgentCapability(
                         capability_id="coordination.daily-brief",
                         agent=AgentPillar.COORDINATION,
                         job="Prepare a prioritized daily academic coordination brief.",

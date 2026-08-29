@@ -16,6 +16,7 @@ from medsemiotics.services.calendar_filter import filter_course_calendar_events
 from medsemiotics.services.calendar_publish_plan import (
     build_calendar_publish_request,
 )
+from medsemiotics.services.classroom_access_policy import ClassroomAccessPolicy
 from medsemiotics.services.coaching_formatter import (
     build_teaching_event_title,
     format_coaching_brief,
@@ -37,7 +38,6 @@ from medsemiotics.services.semester_config import (
 )
 from medsemiotics.services.semester_repository import SemesterRepository
 from medsemiotics.services.syllabus_repository import SyllabusRepository
-from medsemiotics.services.teaching_coach_preview import TeachingCoachPreviewService
 from medsemiotics.services.teaching_day_service import TeachingDayService
 from medsemiotics.services.teaching_guide_repository import TeachingGuideRepository
 from medsemiotics.services.teaching_log_repository import TeachingLogRepository
@@ -49,13 +49,13 @@ from medsemiotics.services.teaching_position import (
 __all__ = [
     "CalendarCoachingService",
     "CalendarConfigRepository",
+    "ClassroomAccessPolicy",
     "CourseStateService",
     "EffectiveScheduleService",
     "EffectiveTeachingDayService",
     "ScheduleRepository",
     "SemesterRepository",
     "SyllabusRepository",
-    "TeachingCoachPreviewService",
     "TeachingDayService",
     "TeachingGuideRepository",
     "TeachingLogRepository",

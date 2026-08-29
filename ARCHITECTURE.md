@@ -59,6 +59,8 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
   - `GoogleCalendarReader`: Read-only client for Google Calendar API v3 using user OAuth 2.0 with minimal readonly scope.
   - `OperationalCalendarEvent`: Normalized domain model for external calendar events.
   - `CourseCalendarConfig`: Course-to-calendar binding and title matching aliases.
+  - `ClassroomAccessPolicy`: Deterministic pre-adapter gate permitting only declared
+    metadata-only course discovery with the exact `classroom.courses.readonly` scope in Loop 0.6A.
   - **Core Invariant**: **"External provider models must not cross the integration boundary."** All raw provider schemas are mapped into internal domain models at the integration adapter layer.
   - **Core Invariant**: **"Google Calendar read access and Calendar write access are separate capabilities."** Read ingestion does not imply or grant write authorization.
 - **Configuration vs. Integration**: Semester, syllabus, and schedule YAML files represent static domain configuration and state, **not** external integrations.

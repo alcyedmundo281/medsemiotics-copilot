@@ -226,6 +226,12 @@ The authoritative loop status and the remaining Google Classroom sequence are re
 [`docs/roadmap.md`](docs/roadmap.md). The earlier public course enablement commit is a 0.6
 foundation, not evidence that the complete 0.6A–0.6F series has been implemented.
 
+Loop 0.6A adds a fail-closed Classroom access policy before any Google adapter. The only allowed
+declaration is metadata-only course discovery using exactly the read-only courses scope. Rosters,
+student identifiers, coursework, submissions, grades, broader scopes, and every Classroom
+mutation are rejected. See
+[`docs/loop-0.6a-classroom-access-contract.md`](docs/loop-0.6a-classroom-access-contract.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers

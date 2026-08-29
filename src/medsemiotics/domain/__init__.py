@@ -29,6 +29,13 @@ from medsemiotics.domain.calendar import (
     CourseCalendarConfig,
     OperationalCalendarEvent,
 )
+from medsemiotics.domain.classroom_access import (
+    GOOGLE_CLASSROOM_COURSES_READONLY_SCOPE,
+    ClassroomAccessDecision,
+    ClassroomAccessRequest,
+    ClassroomDataCategory,
+    ClassroomOperation,
+)
 from medsemiotics.domain.coaching import (
     CalendarPublishAction,
     CalendarPublishRequest,
@@ -63,6 +70,7 @@ from medsemiotics.domain.exceptions import (
     CalendarConfigValidationError,
     CalendarPublishPlanError,
     CalendarWriteAuthorizationError,
+    ClassroomAccessPolicyError,
     EffectiveScheduleAmbiguityError,
     EffectiveScheduleError,
     MedSemioticsError,
@@ -119,6 +127,7 @@ from medsemiotics.domain.teaching_position import (
 from medsemiotics.domain.topics import Topic, TopicId, validate_and_normalize_topic_id
 
 __all__ = [
+    "GOOGLE_CLASSROOM_COURSES_READONLY_SCOPE",
     "MANAGED_TRUE_VALUE",
     "PROP_CLASS_DATE",
     "PROP_COURSE_CODE",
@@ -149,6 +158,11 @@ __all__ = [
     "CalendarWriteAuthorizationError",
     "ClassMeetingRule",
     "ClassWeekday",
+    "ClassroomAccessDecision",
+    "ClassroomAccessPolicyError",
+    "ClassroomAccessRequest",
+    "ClassroomDataCategory",
+    "ClassroomOperation",
     "CoachingBrief",
     "Course",
     "CourseAcademicState",
