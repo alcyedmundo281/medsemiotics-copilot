@@ -94,6 +94,8 @@ from medsemiotics.domain.syllabus import SyllabusPlan, SyllabusTopic
 from medsemiotics.domain.teaching_coach import (
     TeachingCoachDraftRequest,
     TeachingCoachDraftResult,
+    TeachingCoachPublishRequest,
+    TeachingCoachPublishResult,
     TeachingTopicGuide,
 )
 from medsemiotics.domain.teaching_log import (
@@ -174,6 +176,8 @@ __all__ = [
     "TeachingCoachDraftResult",
     "TeachingCoachError",
     "TeachingCoachNoClassError",
+    "TeachingCoachPublishRequest",
+    "TeachingCoachPublishResult",
     "TeachingCoachScopeError",
     "TeachingCoachTopicError",
     "TeachingLogError",

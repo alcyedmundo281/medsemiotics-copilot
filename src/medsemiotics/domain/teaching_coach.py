@@ -11,8 +11,12 @@ from medsemiotics.domain.academic import (
     validate_and_normalize_semester_id,
 )
 from medsemiotics.domain.academic_state import TopicProgressStatus
-from medsemiotics.domain.agents import AgentCapabilityDecision
-from medsemiotics.domain.coaching import CoachingBrief
+from medsemiotics.domain.agents import (
+    AgentCapabilityDecision,
+    AgentPillar,
+    AutonomyLevel,
+)
+from medsemiotics.domain.coaching import CalendarPublishResult, CoachingBrief
 from medsemiotics.domain.teaching_position import TeachingPosition
 from medsemiotics.domain.topics import validate_and_normalize_topic_id
 
@@ -180,4 +184,84 @@ class TeachingCoachDraftResult(BaseModel):
     teaching_position: TeachingPosition
     topic_status: TopicProgressStatus
     context_notes: list[str]
+    capability_decision: AgentCapabilityDecision
+
+
+class TeachingCoachPublishRequest(BaseModel):
+    """Request to publish a previously reviewed Teaching Coach draft."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    draft: TeachingCoachDraftResult
+    time_min: datetime
+    time_max: datetime
+    reminders_minutes: list[int] = Field(default_factory=list)
+    requested_by: str
+
+    @field_validator("requested_by", mode="before")
+    @classmethod
+    def validate_requester(cls, value: object) -> str:
+        """Require an accountable caller for the publication intent."""
+        return _clean_text(value, "requested_by")
+
+    @field_validator("reminders_minutes", mode="before")
+    @classmethod
+    def validate_reminders(cls, value: object) -> list[int]:
+        """Normalize unique positive reminder minutes."""
+        if value is None:
+            return []
+        if not isinstance(value, (list, tuple, set)):
+            msg = "reminders_minutes must be a collection of integers"
+            raise ValueError(msg)
+        reminders: set[int] = set()
+        for item in value:
+            if not isinstance(item, int) or isinstance(item, bool) or not 0 < item <= 40320:
+                msg = "reminders_minutes values must be integers between 1 and 40320"
+                raise ValueError(msg)
+            reminders.add(item)
+        return sorted(reminders)
+
+    @model_validator(mode="after")
+    def validate_publish_boundary(self) -> "TeachingCoachPublishRequest":
+        """Reject invalid windows and drafts that cannot be traced to the draft capability."""
+        for field_name, timestamp in (("time_min", self.time_min), ("time_max", self.time_max)):
+            if timestamp.tzinfo is None or timestamp.tzinfo.utcoffset(timestamp) is None:
+                msg = f"{field_name} must be timezone-aware"
+                raise ValueError(msg)
+        if self.time_min >= self.time_max:
+            msg = "time_min must be strictly before time_max"
+            raise ValueError(msg)
+
+        brief = self.draft.brief
+        position = self.draft.teaching_position
+        if not self.time_min.date() <= brief.class_date <= self.time_max.date():
+            msg = "draft class_date must fall within the publication evaluation window"
+            raise ValueError(msg)
+        if (
+            brief.semester_id != position.semester_id
+            or brief.course_code != position.course_code
+            or brief.class_date != position.target_date
+            or brief.topic_id != position.current_topic_id
+        ):
+            msg = "draft brief does not match its authoritative teaching position"
+            raise ValueError(msg)
+
+        decision = self.draft.capability_decision
+        if (
+            not decision.allowed
+            or decision.agent != AgentPillar.COACHING
+            or decision.capability_id != "coaching.class-brief"
+            or decision.requested_autonomy != AutonomyLevel.DRAFT
+        ):
+            msg = "draft lacks an allowed coaching.class-brief DRAFT decision"
+            raise ValueError(msg)
+        return self
+
+
+class TeachingCoachPublishResult(BaseModel):
+    """Auditable result of the separate approved ACT publication step."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    calendar_result: CalendarPublishResult
     capability_decision: AgentCapabilityDecision

@@ -39,6 +39,12 @@ position. It rejects inactive dates, cross-course state, and a guide that does n
 current topic. The agent is deterministic, uses no LLM, and has no Calendar writer; publication
 remains a separate explicitly approved action.
 
+`TeachingCoachWorkflow` implements that separate action. It accepts only a coherent draft with
+an allowed `coaching.class-brief` DRAFT decision, requires a named human approval for
+`coaching.calendar-brief-publish`, and then delegates to the existing Calendar service. The
+Calendar service still enforces its own authorization, course configuration, and event-ownership
+checks; trusted automation cannot bypass the approval step.
+
 ---
 
 ## Technical Baseline

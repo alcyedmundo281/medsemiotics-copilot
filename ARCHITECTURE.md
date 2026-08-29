@@ -149,6 +149,26 @@ The agent has no Calendar writer or other mutating dependency. Publishing the re
 remains a separate ACT workflow through `CalendarCoachingService`, the level-3 capability gate,
 and the existing `authorized=True` plus event-ownership protections.
 
+### Approved Teaching Coach Workflow
+
+`TeachingCoachWorkflow` preserves a hard review boundary between drafting and publication:
+
+```text
+TeachingCoachAgent.draft()                 REASON / level 2
+        ↓ reviewed TeachingCoachDraftResult
+TeachingCoachWorkflow.publish()
+        ├── validates draft provenance and scope
+        ├── requires named human approval      level 3
+        └── CalendarCoachingService
+                ├── authorized=True
+                ├── enabled course configuration
+                └── owned-event-only mutation  ACT
+```
+
+Trusted automation does not satisfy the level-3 approval gate, and no one-call
+`draft_and_publish` path exists. A caller must first obtain and review a coherent draft, then
+submit a distinct publication request with an `AgentAuthorizationContext` naming the approver.
+
 **Rules for REASON**:
 - Consumes state from the **KNOW** layer.
 - Never directly mutates external platforms (such as Google Classroom, Google Drive, or production databases).
