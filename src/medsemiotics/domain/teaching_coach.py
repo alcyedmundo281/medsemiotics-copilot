@@ -1,0 +1,183 @@
+"""Domain contracts for deterministic Teaching Coach briefing drafts."""
+
+from datetime import date, datetime
+from typing import Annotated
+from urllib.parse import urlparse
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
+from medsemiotics.domain.academic import (
+    validate_and_normalize_course_code,
+    validate_and_normalize_semester_id,
+)
+from medsemiotics.domain.academic_state import TopicProgressStatus
+from medsemiotics.domain.agents import AgentCapabilityDecision
+from medsemiotics.domain.coaching import CoachingBrief
+from medsemiotics.domain.teaching_position import TeachingPosition
+from medsemiotics.domain.topics import validate_and_normalize_topic_id
+
+
+def _clean_text(value: object, field_name: str) -> str:
+    """Normalize required text and reject blank values."""
+    if not isinstance(value, str):
+        msg = f"{field_name} must be a string, got {type(value).__name__}"
+        raise ValueError(msg)
+    cleaned = value.strip()
+    if not cleaned:
+        msg = f"{field_name} must not be empty or whitespace only"
+        raise ValueError(msg)
+    return cleaned
+
+
+def _clean_list(value: object, field_name: str, *, required: bool) -> list[str]:
+    """Normalize a unique ordered list of pedagogical statements."""
+    if value is None and not required:
+        return []
+    if not isinstance(value, list):
+        msg = f"{field_name} must be a list of strings, got {type(value).__name__}"
+        raise ValueError(msg)
+
+    cleaned: list[str] = []
+    seen: set[str] = set()
+    for item in value:
+        statement = _clean_text(item, f"{field_name} item")
+        if statement in seen:
+            msg = f"{field_name} contains duplicate value '{statement}'"
+            raise ValueError(msg)
+        seen.add(statement)
+        cleaned.append(statement)
+
+    if required and not cleaned:
+        msg = f"{field_name} must contain at least one item"
+        raise ValueError(msg)
+    return cleaned
+
+
+class TeachingTopicGuide(BaseModel):
+    """Faculty-curated source material for one Teaching Coach draft."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    topic_id: Annotated[str, Field(description="Topic identifier represented by the guide")]
+    topic_title: Annotated[str, Field(description="Human-readable teaching topic title")]
+    learning_objectives: Annotated[
+        list[str], Field(description="Required observable learning objectives")
+    ]
+    critical_points: Annotated[
+        list[str], Field(description="Required clinical or pedagogical emphasis points")
+    ]
+    teaching_questions: Annotated[
+        list[str], Field(default_factory=list, description="Discussion trigger questions")
+    ]
+    common_pitfalls: Annotated[
+        list[str], Field(default_factory=list, description="Frequent misconceptions")
+    ]
+    material_notes: Annotated[
+        list[str], Field(default_factory=list, description="Required teaching materials")
+    ]
+    assignment_note: Annotated[
+        str | None, Field(default=None, description="Optional assignment reminder")
+    ]
+    powersemiotics_url: Annotated[
+        str | None, Field(default=None, description="Optional supporting resource URL")
+    ]
+
+    @field_validator("topic_id", mode="before")
+    @classmethod
+    def validate_topic_id(cls, value: object) -> str:
+        """Normalize the guide topic identifier."""
+        return validate_and_normalize_topic_id(value)
+
+    @field_validator("topic_title", mode="before")
+    @classmethod
+    def validate_topic_title(cls, value: object) -> str:
+        """Normalize the topic title."""
+        return _clean_text(value, "topic_title")
+
+    @field_validator("learning_objectives", "critical_points", mode="before")
+    @classmethod
+    def validate_required_lists(cls, value: object, info: object) -> list[str]:
+        """Require substantive objectives and critical points."""
+        field_name = getattr(info, "field_name", "list field")
+        return _clean_list(value, field_name, required=True)
+
+    @field_validator("teaching_questions", "common_pitfalls", "material_notes", mode="before")
+    @classmethod
+    def validate_optional_lists(cls, value: object, info: object) -> list[str]:
+        """Normalize optional pedagogical lists."""
+        field_name = getattr(info, "field_name", "list field")
+        return _clean_list(value, field_name, required=False)
+
+    @field_validator("assignment_note", "powersemiotics_url", mode="before")
+    @classmethod
+    def validate_optional_text(cls, value: object, info: object) -> str | None:
+        """Normalize optional text fields and validate the supporting resource URL."""
+        if value is None:
+            return None
+        field_name = getattr(info, "field_name", "field")
+        cleaned = _clean_text(value, field_name)
+        if field_name == "powersemiotics_url":
+            parsed = urlparse(cleaned)
+            if parsed.scheme not in ("http", "https") or not parsed.netloc:
+                msg = "powersemiotics_url must be a valid http or https URL"
+                raise ValueError(msg)
+        return cleaned
+
+
+class TeachingCoachDraftRequest(BaseModel):
+    """Auditable request to draft one class briefing for an explicit date."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    semester_id: str
+    course_code: str
+    class_date: date
+    time_min: datetime
+    time_max: datetime
+    guide: TeachingTopicGuide
+    requested_by: str
+
+    @field_validator("semester_id", mode="before")
+    @classmethod
+    def validate_semester_id(cls, value: object) -> str:
+        """Normalize semester scope."""
+        return validate_and_normalize_semester_id(value)
+
+    @field_validator("course_code", mode="before")
+    @classmethod
+    def validate_course_code(cls, value: object) -> str:
+        """Normalize course scope."""
+        return validate_and_normalize_course_code(value)
+
+    @field_validator("requested_by", mode="before")
+    @classmethod
+    def validate_requester(cls, value: object) -> str:
+        """Require an accountable requester for the draft audit trail."""
+        return _clean_text(value, "requested_by")
+
+    @model_validator(mode="after")
+    def validate_time_window(self) -> "TeachingCoachDraftRequest":
+        """Require an ordered timezone-aware calendar evaluation window."""
+        for field_name, timestamp in (("time_min", self.time_min), ("time_max", self.time_max)):
+            if timestamp.tzinfo is None or timestamp.tzinfo.utcoffset(timestamp) is None:
+                msg = f"{field_name} must be timezone-aware"
+                raise ValueError(msg)
+        if self.time_min >= self.time_max:
+            msg = "time_min must be strictly before time_max"
+            raise ValueError(msg)
+        if not self.time_min.date() <= self.class_date <= self.time_max.date():
+            msg = "class_date must fall within the calendar evaluation window"
+            raise ValueError(msg)
+        return self
+
+
+class TeachingCoachDraftResult(BaseModel):
+    """Explainable output of one Teaching Coach draft operation."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    brief: CoachingBrief
+    teaching_position: TeachingPosition
+    topic_status: TopicProgressStatus
+    context_notes: list[str]
+    capability_decision: AgentCapabilityDecision

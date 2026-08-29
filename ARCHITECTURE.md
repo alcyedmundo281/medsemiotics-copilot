@@ -124,6 +124,31 @@ Autonomy is progressive and capability-specific:
 **Core Invariant**: **"An agent does not gain autonomy by existing; it gains autonomy only
 through an explicit, proven, and auditable policy."**
 
+### Teaching Coach Agent
+
+`TeachingCoachAgent` is the first concrete consumer of the capability framework. It operates
+only through `coaching.class-brief` at autonomy level **DRAFT**:
+
+```text
+Faculty-curated TeachingTopicGuide
+        + CourseAcademicState
+        + effective TeachingPosition for an explicit date
+        + authorized DRAFT capability
+                    ↓
+          TeachingCoachDraftResult
+                    └── reviewable CoachingBrief
+```
+
+The agent validates semester, course, date, active-class status, and current topic before
+composing a brief. Its contextual coaching notes are deterministic and traceable to
+`TeachingPaceStatus` and `TopicProgressStatus`; it does not invent medical content. Clinical
+objectives, critical points, questions, pitfalls, and materials must come from a curated
+`TeachingTopicGuide`.
+
+The agent has no Calendar writer or other mutating dependency. Publishing the resulting draft
+remains a separate ACT workflow through `CalendarCoachingService`, the level-3 capability gate,
+and the existing `authorized=True` plus event-ownership protections.
+
 **Rules for REASON**:
 - Consumes state from the **KNOW** layer.
 - Never directly mutates external platforms (such as Google Classroom, Google Drive, or production databases).

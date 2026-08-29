@@ -99,3 +99,19 @@ class AgentCapabilityConfigurationError(AgentCapabilityError):
 
 class AgentAuthorizationError(AgentCapabilityError):
     """Raised when an agent intent is outside its declared autonomy boundary."""
+
+
+class TeachingCoachError(MedSemioticsError):
+    """Base exception for Teaching Coach draft preparation errors."""
+
+
+class TeachingCoachNoClassError(TeachingCoachError):
+    """Raised when a briefing is requested for a date without an active effective class."""
+
+
+class TeachingCoachTopicError(TeachingCoachError):
+    """Raised when the curated guide does not match the authoritative current topic."""
+
+
+class TeachingCoachScopeError(TeachingCoachError):
+    """Raised when a read-only dependency returns state from another academic scope."""

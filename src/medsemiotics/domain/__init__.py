@@ -75,6 +75,10 @@ from medsemiotics.domain.exceptions import (
     SyllabusError,
     SyllabusNotFoundError,
     SyllabusValidationError,
+    TeachingCoachError,
+    TeachingCoachNoClassError,
+    TeachingCoachScopeError,
+    TeachingCoachTopicError,
     TeachingLogError,
     TeachingLogNotFoundError,
     TeachingLogValidationError,
@@ -87,6 +91,11 @@ from medsemiotics.domain.schedule import (
     ScheduleExceptionType,
 )
 from medsemiotics.domain.syllabus import SyllabusPlan, SyllabusTopic
+from medsemiotics.domain.teaching_coach import (
+    TeachingCoachDraftRequest,
+    TeachingCoachDraftResult,
+    TeachingTopicGuide,
+)
 from medsemiotics.domain.teaching_log import (
     CoverageStatus,
     TeachingSession,
@@ -161,6 +170,12 @@ __all__ = [
     "SyllabusPlan",
     "SyllabusTopic",
     "SyllabusValidationError",
+    "TeachingCoachDraftRequest",
+    "TeachingCoachDraftResult",
+    "TeachingCoachError",
+    "TeachingCoachNoClassError",
+    "TeachingCoachScopeError",
+    "TeachingCoachTopicError",
     "TeachingLogError",
     "TeachingLogNotFoundError",
     "TeachingLogValidationError",
@@ -168,6 +183,7 @@ __all__ = [
     "TeachingPosition",
     "TeachingSession",
     "TeachingSessionTopic",
+    "TeachingTopicGuide",
     "Topic",
     "TopicId",
     "TopicProgress",

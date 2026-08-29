@@ -31,6 +31,14 @@ boundary. The framework produces an auditable allow/deny decision only; it conta
 integration and performs no external action. Calendar writes remain at **execute with approval**
 and are not eligible for trusted automation.
 
+#### Teaching Coach draft workflow
+
+`TeachingCoachAgent` prepares a reviewable `CoachingBrief` for one explicit class date by
+combining faculty-curated guidance with the derived course state and effective teaching
+position. It rejects inactive dates, cross-course state, and a guide that does not match the
+current topic. The agent is deterministic, uses no LLM, and has no Calendar writer; publication
+remains a separate explicitly approved action.
+
 ---
 
 ## Technical Baseline
