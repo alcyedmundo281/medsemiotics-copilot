@@ -87,3 +87,15 @@ class CalendarPublishPlanError(MedSemioticsError):
 
 class CalendarWriteAuthorizationError(MedSemioticsError):
     """Raised when a calendar write action is attempted without explicit authorization."""
+
+
+class AgentCapabilityError(MedSemioticsError):
+    """Base exception for agent capability registration and policy errors."""
+
+
+class AgentCapabilityConfigurationError(AgentCapabilityError):
+    """Raised when the agent capability registry is missing or ambiguous."""
+
+
+class AgentAuthorizationError(AgentCapabilityError):
+    """Raised when an agent intent is outside its declared autonomy boundary."""

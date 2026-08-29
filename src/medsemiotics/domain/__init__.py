@@ -16,6 +16,15 @@ from medsemiotics.domain.academic_state import (
     TopicProgress,
     TopicProgressStatus,
 )
+from medsemiotics.domain.agents import (
+    AgentActionIntent,
+    AgentAuthorizationContext,
+    AgentCapability,
+    AgentCapabilityDecision,
+    AgentPillar,
+    AgentProfile,
+    AutonomyLevel,
+)
 from medsemiotics.domain.calendar import (
     CourseCalendarConfig,
     OperationalCalendarEvent,
@@ -46,6 +55,9 @@ from medsemiotics.domain.effective_schedule import (
 from medsemiotics.domain.exceptions import (
     AcademicStateError,
     AcademicValidationError,
+    AgentAuthorizationError,
+    AgentCapabilityConfigurationError,
+    AgentCapabilityError,
     CalendarConfigError,
     CalendarConfigNotFoundError,
     CalendarConfigValidationError,
@@ -98,6 +110,16 @@ __all__ = [
     "SCHEMA_VERSION_VALUE",
     "AcademicStateError",
     "AcademicValidationError",
+    "AgentActionIntent",
+    "AgentAuthorizationContext",
+    "AgentAuthorizationError",
+    "AgentCapability",
+    "AgentCapabilityConfigurationError",
+    "AgentCapabilityDecision",
+    "AgentCapabilityError",
+    "AgentPillar",
+    "AgentProfile",
+    "AutonomyLevel",
     "CalendarConfigError",
     "CalendarConfigNotFoundError",
     "CalendarConfigValidationError",

@@ -82,6 +82,48 @@ The **REASON** layer contains the intelligence, evaluation algorithms, and agent
 - **Psychometrics & Assessment Analytics**: Item discrimination, distractor efficiency, rubric calibration, difficulty indexing.
 - **Recommendation Logic**: Proposing next lecture adjustments, recommending supplementary readings, drafting assignments.
 
+### Agent Capability Framework (Four C's)
+
+The REASON layer declares four specialized agent pillars instead of granting a general-purpose
+agent implicit access to every tool:
+
+| Agent | Job | Initial boundary |
+|---|---|---|
+| **Coordination** | Align academic state, Calendar, tasks, and preparation | Calendar writes require per-action approval |
+| **Creativity** | Produce reviewable teaching and publication artifacts | Draft only; no publishing or distribution |
+| **Clarity** | Review evidence and assessments at panoramic or item level | Read/recommend only; no grades or medical publishing |
+| **Coaching** | Prepare class briefings and pedagogical improvement | Draft first; publishing remains a separate approved ACT step |
+
+Every registered capability explicitly declares **JOB, TOOLS, CATEGORIES, OUTPUT, and
+BOUNDARY**. `AgentCapabilityFramework` then evaluates an immutable `AgentActionIntent`
+against this contract without invoking an LLM or executing a tool.
+
+Autonomy is progressive and capability-specific:
+
+```text
+0 OBSERVE
+    ↓
+1 RECOMMEND
+    ↓
+2 DRAFT
+    ↓
+3 EXECUTE WITH APPROVAL
+    ↓
+4 TRUSTED AUTOMATION
+```
+
+- A capability cannot operate below its declared minimum or above its declared ceiling.
+- Every level-3 execution requires explicit approval with an accountable approver.
+- Level 4 requires both capability eligibility and a separately enabled narrow automation policy.
+- External mutations cannot begin below level 3.
+- The Loop 0.5A catalog marks no external mutation as eligible for trusted automation.
+- Authorization by this framework does not bypass downstream ACT-layer protections. Calendar
+  publishing still requires `authorized=True`, enabled course configuration, and owned-event
+  metadata.
+
+**Core Invariant**: **"An agent does not gain autonomy by existing; it gains autonomy only
+through an explicit, proven, and auditable policy."**
+
 **Rules for REASON**:
 - Consumes state from the **KNOW** layer.
 - Never directly mutates external platforms (such as Google Classroom, Google Drive, or production databases).

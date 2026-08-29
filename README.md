@@ -17,6 +17,20 @@ The platform is structured around the strict conceptual separation of three oper
 
 For details, refer to [ARCHITECTURE.md](ARCHITECTURE.md).
 
+### Four-C Agent Capability Framework
+
+Loop 0.5A defines four bounded agent profiles—**Coordination, Creativity, Clarity, and
+Coaching**—and a deterministic autonomy policy:
+
+```text
+OBSERVE → RECOMMEND → DRAFT → EXECUTE WITH APPROVAL → TRUSTED AUTOMATION
+```
+
+Each capability declares its job, permitted tools, required categories, output, and safety
+boundary. The framework produces an auditable allow/deny decision only; it contains no LLM
+integration and performs no external action. Calendar writes remain at **execute with approval**
+and are not eligible for trusted automation.
+
 ---
 
 ## Technical Baseline
