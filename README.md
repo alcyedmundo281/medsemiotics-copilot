@@ -343,6 +343,15 @@ misconfigured deployment cannot silently become a public one. The container imag
 `config/`, without which every read endpoint would answer `404` once deployed. See
 [`docs/loop-0.8a-read-only-backend.md`](docs/loop-0.8a-read-only-backend.md).
 
+Loop 0.8B adds the two questions that follow on a working day: `GET /v1/coordination` reports
+whether each active course is wired for coordinated support and what is missing, and
+`GET /v1/courses/{code}/schedule` returns the next planned class dates from the tracked baseline.
+Both carry an explicit note about what they did and did not consult — Classroom bindings always
+report `not_read` because this backend holds no Google credential, and planned dates are not
+confirmed ones, since cancellations, makeup sessions, and meeting times are Calendar evidence it
+does not read. See
+[`docs/loop-0.8b-coordination-and-schedule-contracts.md`](docs/loop-0.8b-coordination-and-schedule-contracts.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers

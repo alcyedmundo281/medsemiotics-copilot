@@ -4,11 +4,18 @@ Every model here is deliberately free of student data: courses, counts, topic id
 curated teaching content only.
 """
 
+from datetime import date, datetime
 from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
 from medsemiotics.domain.academic_state import CourseAcademicState, TopicProgressStatus
+from medsemiotics.domain.coordination_view import (
+    CalendarLinkStatus,
+    ClassroomLinkStatus,
+    CoordinationReadiness,
+    CoordinationView,
+)
 from medsemiotics.domain.teaching_coach import TeachingTopicGuide
 
 
@@ -143,3 +150,118 @@ class NextTopicResponse(BaseModel):
     topic_id: str | None
     guide: TeachingGuideResponse | None
     note: Annotated[str, Field(description="Why this is the answer, in one sentence")]
+
+
+class ClassroomLinkResponse(BaseModel):
+    """How one course is bound to an external Classroom course."""
+
+    model_config = ConfigDict(frozen=True)
+
+    status: ClassroomLinkStatus
+    external_id: str | None = None
+    display_name: str | None = None
+    candidate_ids: tuple[str, ...] = ()
+    reason: str
+
+
+class CalendarLinkResponse(BaseModel):
+    """How one course is bound to a Google Calendar."""
+
+    model_config = ConfigDict(frozen=True)
+
+    status: CalendarLinkStatus
+    calendar_id: str | None = None
+    reason: str
+
+
+class CourseCoordinationResponse(BaseModel):
+    """Whether one course is wired for coordinated teaching support."""
+
+    model_config = ConfigDict(frozen=True)
+
+    course_code: str
+    course_name: str
+    classroom: ClassroomLinkResponse
+    calendar: CalendarLinkResponse
+    total_topics: int
+    completed_topics: int
+    next_required_topic_id: str | None
+    readiness: CoordinationReadiness
+    blockers: tuple[str, ...]
+
+
+class CoordinationResponse(BaseModel):
+    """The coordination view a teacher checks when something is not working."""
+
+    model_config = ConfigDict(frozen=True)
+
+    semester_id: str
+    generated_at: datetime
+    courses: tuple[CourseCoordinationResponse, ...]
+    inactive_course_codes: tuple[str, ...]
+    note: Annotated[str, Field(description="What this view did and did not consult")]
+
+    @classmethod
+    def from_view(cls, view: CoordinationView, note: str) -> "CoordinationResponse":
+        """Project a coordination view onto the response contract.
+
+        Args:
+            view: Coordination view built from tracked configuration.
+            note: One sentence describing the sources the view consulted.
+
+        Returns:
+            The response a mobile surface receives.
+        """
+        return cls(
+            semester_id=view.semester_id,
+            generated_at=view.generated_at,
+            courses=tuple(
+                CourseCoordinationResponse(
+                    course_code=entry.course_code,
+                    course_name=entry.course_name,
+                    classroom=ClassroomLinkResponse(
+                        status=entry.classroom.status,
+                        external_id=entry.classroom.external_id,
+                        display_name=entry.classroom.display_name,
+                        candidate_ids=entry.classroom.candidate_ids,
+                        reason=entry.classroom.reason,
+                    ),
+                    calendar=CalendarLinkResponse(
+                        status=entry.calendar.status,
+                        calendar_id=entry.calendar.calendar_id,
+                        reason=entry.calendar.reason,
+                    ),
+                    total_topics=entry.academic.total_topics,
+                    completed_topics=entry.academic.completed_topics,
+                    next_required_topic_id=entry.academic.next_required_topic_id,
+                    readiness=entry.readiness,
+                    blockers=entry.blockers,
+                )
+                for entry in view.entries
+            ),
+            inactive_course_codes=view.inactive_course_codes,
+            note=note,
+        )
+
+
+class PlannedClassResponse(BaseModel):
+    """One planned class date from the tracked baseline schedule."""
+
+    model_config = ConfigDict(frozen=True)
+
+    date: date
+    weekday: str
+
+
+class ScheduleResponse(BaseModel):
+    """Upcoming planned classes, before any Calendar evidence is applied."""
+
+    model_config = ConfigDict(frozen=True)
+
+    semester_id: str
+    course_code: str
+    enabled: bool
+    teaching_start_date: date
+    teaching_end_date: date
+    upcoming: tuple[PlannedClassResponse, ...]
+    note: Annotated[str, Field(description="Why these dates are planned, not confirmed")]
