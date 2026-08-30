@@ -197,6 +197,32 @@ def build_default_agent_framework() -> AgentCapabilityFramework:
                         maximum_autonomy=AutonomyLevel.OBSERVE,
                     ),
                     AgentCapability(
+                        capability_id="coordination.course-coordination-view",
+                        agent=AgentPillar.COORDINATION,
+                        job=(
+                            "Compose a read-only coordination view across Classroom, Calendar, "
+                            "and academic state."
+                        ),
+                        tools=[
+                            "classroom-snapshot:read",
+                            "calendar-config:read",
+                            "academic-state:read",
+                        ],
+                        categories=[
+                            "classroom binding",
+                            "calendar binding",
+                            "academic progress",
+                            "coordination gaps",
+                        ],
+                        output="Explainable per-course coordination view with recorded gaps.",
+                        boundary=(
+                            "Must not expose student data, contact any provider, or mutate "
+                            "Classroom or Calendar."
+                        ),
+                        minimum_autonomy=AutonomyLevel.OBSERVE,
+                        maximum_autonomy=AutonomyLevel.OBSERVE,
+                    ),
+                    AgentCapability(
                         capability_id="coordination.daily-brief",
                         agent=AgentPillar.COORDINATION,
                         job="Prepare a prioritized daily academic coordination brief.",

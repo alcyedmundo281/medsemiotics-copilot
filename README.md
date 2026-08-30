@@ -252,6 +252,13 @@ SHA-256 fingerprint detects changes between reads without retaining course conte
 redacted `audit_summary()` — provenance, counts, and that fingerprint — is safe to log. See
 [`docs/loop-0.6c-classroom-snapshot-normalization.md`](docs/loop-0.6c-classroom-snapshot-normalization.md).
 
+Loop 0.6D composes those pieces into a read-only coordination view. For each active course it
+records the Classroom binding, the tracked Calendar binding, the syllabus and teaching-log progress
+summary, and an explicit readiness with the gaps that keep it from being ready. Matching uses whole
+tokens of the course code, course name, or a configured Calendar alias against the normalized
+Classroom name, and reports an ambiguity with its candidates rather than guessing. See
+[`docs/loop-0.6d-coordination-view.md`](docs/loop-0.6d-coordination-view.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers
