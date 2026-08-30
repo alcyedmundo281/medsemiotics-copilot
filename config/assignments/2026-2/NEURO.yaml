@@ -1,0 +1,88 @@
+# Public faculty-review baseline. It contains no student or patient-identifiable data.
+semester_id: "2026-2"
+course_code: "NEURO"
+enabled: true
+rubrics:
+  - rubric_id: "neuro-clinical-reasoning"
+    title: "Rúbrica cualitativa de razonamiento semiológico neurológico"
+    levels:
+      - level_id: "integrado"
+        label: "Integrado"
+        description: "Integra hallazgos, localización y argumentos de forma completa y coherente."
+      - level_id: "adecuado"
+        label: "Adecuado"
+        description: "Cumple lo esencial con omisiones menores que no cambian la conclusión."
+      - level_id: "en-desarrollo"
+        label: "En desarrollo"
+        description: "Presenta la estructura básica, pero requiere correcciones relevantes."
+      - level_id: "insuficiente"
+        label: "Insuficiente"
+        description: "No sustenta la interpretación o contiene errores que impiden usarla."
+    criteria:
+      - criterion_id: "estructura-semiologica"
+        title: "Estructura semiológica"
+        description: "Organiza anamnesis y examen de manera reproducible, comparativa y pertinente."
+        weight_percent: 25
+      - criterion_id: "precision-hallazgos"
+        title: "Precisión de hallazgos"
+        description: "Distingue datos observados, síntomas referidos e interpretación clínica."
+        weight_percent: 25
+      - criterion_id: "localizacion-razonada"
+        title: "Localización razonada"
+        description: "Relaciona el patrón de hallazgos con una localización neuroanatómica defendible."
+        weight_percent: 35
+      - criterion_id: "claridad-seguridad"
+        title: "Claridad y seguridad"
+        description: "Comunica prioridades, limitaciones y signos de alarma con lenguaje preciso."
+        weight_percent: 15
+assignments:
+  - assignment_id: "neuro-intro-localizacion"
+    topic_id: "neuro-intro"
+    title: "Caso sintético: secuencia neurológica y localización inicial"
+    prompt: "Analice un caso sintético y construya una secuencia breve de anamnesis, examen orientado y localización sindrómica inicial antes de proponer etiologías."
+    deliverables:
+      - "Lista priorizada de preguntas y maniobras del examen neurológico."
+      - "Resumen de hallazgos positivos y negativos relevantes."
+      - "Hipótesis de localización con dos argumentos y una limitación."
+    rubric_id: "neuro-clinical-reasoning"
+    suggested_due_days: 7
+  - assignment_id: "mental-status-interpretation"
+    topic_id: "mental-status"
+    title: "Registro estructurado del estado mental"
+    prompt: "A partir de una viñeta sintética, documente conciencia, atención, orientación, memoria, lenguaje y función ejecutiva, y explique cómo el contexto modifica la interpretación."
+    deliverables:
+      - "Registro estructurado de los dominios evaluados."
+      - "Interpretación del patrón, separada del puntaje o resultado bruto."
+      - "Dos factores contextuales que pueden sesgar la evaluación."
+    rubric_id: "neuro-clinical-reasoning"
+    suggested_due_days: 7
+  - assignment_id: "cranial-nerves-localization"
+    topic_id: "cranial-nerves"
+    title: "Patrón de pares craneales y localización"
+    prompt: "Integre un patrón sintético de déficits de pares craneales, identifique las maniobras necesarias para confirmarlo y proponga una localización anatómica razonada."
+    deliverables:
+      - "Tabla de hallazgo, maniobra confirmatoria y vía aferente/eferente."
+      - "Localización principal con argumentos anatómicos."
+      - "Una explicación alternativa y cómo distinguirla."
+    rubric_id: "neuro-clinical-reasoning"
+    suggested_due_days: 7
+  - assignment_id: "motor-system-pattern"
+    topic_id: "motor-system"
+    title: "Matriz comparativa del sistema motor"
+    prompt: "Organice un examen motor sintético por trofismo, tono, fuerza, reflejos y respuesta plantar, y determine qué patrón localizatorio explica mejor la distribución encontrada."
+    deliverables:
+      - "Matriz comparativa por segmento corporal y lado."
+      - "Clasificación razonada del patrón motor."
+      - "Dos fuentes de error técnico que deben excluirse."
+    rubric_id: "neuro-clinical-reasoning"
+    suggested_due_days: 7
+  - assignment_id: "ataxia-differential"
+    topic_id: "coordination-cerebellum"
+    title: "Análisis diferencial de un síndrome atáxico"
+    prompt: "Compare hallazgos sintéticos de marcha, coordinación, sensibilidad profunda, nistagmo y Romberg para diferenciar ataxia cerebelosa, sensitiva y vestibular."
+    deliverables:
+      - "Tabla comparativa de los tres mecanismos."
+      - "Interpretación del caso con hallazgos a favor y en contra."
+      - "Plan breve de comprobación clínica segura."
+    rubric_id: "neuro-clinical-reasoning"
+    suggested_due_days: 7

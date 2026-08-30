@@ -49,6 +49,8 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
   - `TeachingLogRepository`: Read-only access to historical teaching sessions (`config/teaching_logs/<semester_id>/<course_code>.yaml`).
   - `ScheduleRepository`: Read-only access to teaching schedules (`config/schedules/<semester_id>/<course_code>.yaml`).
   - `CalendarConfigRepository`: Read-only access to course calendar bindings (`config/calendar/<semester_id>/<course_code>.yaml`).
+  - `AssignmentCatalogRepository`: Read-only access to faculty-reviewed assignment and qualitative
+    rubric catalogs (`config/assignments/<semester_id>/<course_code>.yaml`).
 - **Effective Teaching Schedule & Reconciliation**:
   - `EffectiveClassEvent` (`EffectiveClassSource`: `baseline`, `calendar`, `baseline_and_calendar`; `EffectiveClassStatus`: `scheduled`, `cancelled`, `moved`, `makeup`): Point-in-time reconciled class event.
   - `EffectiveTeachingSchedule`: Derived, unpersisted schedule reconciling planned baseline rules with operational Google Calendar evidence.
@@ -101,6 +103,11 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
   - **Core Invariant**: **"MedSemiotics holds no Classroom write authority."** The Apps Script
     deployment holds the write scope and exposes exactly one grade-free operation; the repository
     stores no Classroom credential.
+  - `CourseAssignmentCatalog` / `CatalogClassroomAssignmentService`: Loop 0.7A public task and
+    qualitative-rubric baseline, aligned to tracked syllabus topics and rendered into one existing
+    non-executing Classroom draft plan.
+  - **Core Invariant**: **"A catalog is reviewed content, not an external action."** Loading or
+    rendering an assignment never approves, executes, publishes, or grades it.
   - **Core Invariant**: **"External provider models must not cross the integration boundary."** All raw provider schemas are mapped into internal domain models at the integration adapter layer.
   - **Core Invariant**: **"Google Calendar read access and Calendar write access are separate capabilities."** Read ingestion does not imply or grant write authorization.
 - **Configuration vs. Integration**: Semester, syllabus, and schedule YAML files represent static domain configuration and state, **not** external integrations.

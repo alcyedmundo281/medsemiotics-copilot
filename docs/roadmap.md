@@ -13,7 +13,7 @@ master outcomes; they are not additional product loops.
 | 3. Coordination and Calendar | Complete and live verified | Effective schedule, Calendar read/reconciliation, and idempotent single-session publishing with named approval for both courses. |
 | 4. Teaching Coach and Four C's | Complete through `0.5F` | Coordination, Creativity, Clarity, and Coaching capabilities; curated guides; automatic current-topic selection; human-reviewable preview; separately approved publication. |
 | 5. Google Workspace and Classroom | In progress | Persistent dedicated-Workspace authorization, metadata-only course discovery, private provider-neutral snapshots, and a coordinated read view with Calendar and academic state. |
-| 6. Assignments, rubrics, and Classroom actions | In progress | Reviewable assignment/rubric drafts followed by explicit, idempotent, one-action-at-a-time Classroom execution. No initial bulk writes or grade publication. |
+| 6. Assignments, rubrics, and Classroom actions | In progress through `0.7A` | Reviewable assignment/rubric drafts followed by explicit, idempotent, one-action-at-a-time Classroom execution. No initial bulk writes or grade publication. |
 | 7. PowerSemiotics knowledge and evidence graph | Pending | Topic/class/task links to PowerSemiotics URLs, PMID, DOI, PubMed/Crossref verification, provenance, and source freshness. |
 | 8. Creative studio and publishing | Pending | Wikimedia Commons licensing and attribution, audiovisual material, textbook/e-course assets, and review-before-publish PowerSemiotics authoring. |
 | 9. Assessment and pedagogical intelligence | Pending | Aggregates, competency performance, item and rubric analytics, validity, reliability, longitudinal student trends, and teaching-performance reflection. |
@@ -28,6 +28,7 @@ master outcomes; they are not additional product loops.
 | `0.5A`-`0.5F` | Master loop 4 |
 | `0.6A`-`0.6D` | Master loop 5 |
 | `0.6E`-`0.6F` and later bounded actions | Master loop 6 |
+| `0.7A` and later assignment/rubric increments | Master loop 6 |
 
 Commit `ae3b4e1` enabled public NEURO/GASTRO schedules, Calendar bindings, teaching-guide
 catalogs, and cloud-agent safety documentation. It is cross-cutting enablement, not completion of
@@ -43,6 +44,15 @@ master loops 5-10.
 | `0.6D` | Complete | Coordination view across Classroom, Calendar, syllabus, and teaching state. |
 | `0.6E` | Complete | Explicitly approved, idempotent single Classroom action plan; no grades or bulk writes. |
 | `0.6F` | Complete | Authenticated unattended invocation of the Apps Script deployment, live read verification, and one narrowly controlled coursework-draft write with redacted audit evidence. |
+
+## Current assignments and rubrics sequence
+
+| Increment | Status | Bounded outcome |
+|---|---|---|
+| `0.7A` | Complete | Public NEURO/GASTRO assignment and qualitative-rubric catalogs, syllabus alignment, and one reviewable catalog-backed Classroom draft plan. |
+| `0.7B` | Next | Private applied-action ledger and a rerunnable operator workflow that proves a repeated plan becomes a no-op. |
+| `0.7C` | Pending | Mobile faculty review and named approval contract for one catalog-backed draft. |
+| `0.7D` | Pending | Controlled live verification in linked NEURO/GASTRO courses; draft-only, no grades or bulk actions. |
 
 ## Cross-cutting operating contract
 

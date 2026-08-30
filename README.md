@@ -283,6 +283,14 @@ grants it only for the `own_coursework_draft` category, the plan cannot express 
 writer rejects any reply that is not a draft or that carries a grading field. The write returns the
 ledger entry that makes a repeat of the same plan a no-op.
 
+Loop 0.7A adds public, faculty-reviewable assignment and qualitative-rubric catalogs under
+`config/assignments/`. NEURO and GASTRO each contain five synthetic/deidentified-case tasks aligned
+with every tracked syllabus topic. `CatalogClassroomAssignmentService` validates catalog, syllabus,
+and coordination scopes, renders the reviewed task and rubric into one existing Classroom
+`DRAFT` plan, and stops before approval or execution. No student grade, submission, roster, native
+Classroom rubric, or bulk action is represented. See
+[`docs/loop-0.7a-assignment-rubric-catalog.md`](docs/loop-0.7a-assignment-rubric-catalog.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers

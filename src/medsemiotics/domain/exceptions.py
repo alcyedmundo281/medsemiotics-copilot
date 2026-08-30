@@ -105,6 +105,26 @@ class ClassroomActionAuthorizationError(MedSemioticsError):
     """Raised when a Classroom action is attempted without a matching, approved authorization."""
 
 
+class AssignmentCatalogError(MedSemioticsError):
+    """Base exception for faculty-reviewed assignment/rubric catalogs."""
+
+
+class AssignmentCatalogNotFoundError(AssignmentCatalogError):
+    """Raised when a catalog, assignment, or rubric is missing."""
+
+
+class AssignmentCatalogValidationError(AssignmentCatalogError):
+    """Raised when a catalog is malformed or internally inconsistent."""
+
+
+class AssignmentCatalogDisabledError(AssignmentCatalogError):
+    """Raised when content is requested from a disabled assignment catalog."""
+
+
+class CatalogClassroomDraftError(MedSemioticsError):
+    """Raised when catalog content cannot form a coherent Classroom draft plan."""
+
+
 class CoordinationViewError(MedSemioticsError):
     """Raised when a coordination view is requested from inconsistent academic scopes."""
 

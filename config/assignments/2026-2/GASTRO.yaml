@@ -1,0 +1,88 @@
+# Public faculty-review baseline. It contains no student or patient-identifiable data.
+semester_id: "2026-2"
+course_code: "GASTRO"
+enabled: true
+rubrics:
+  - rubric_id: "gastro-clinical-reasoning"
+    title: "Rúbrica cualitativa de razonamiento semiológico gastrointestinal"
+    levels:
+      - level_id: "integrado"
+        label: "Integrado"
+        description: "Integra síntomas, examen, alarmas y razonamiento sindrómico de forma completa."
+      - level_id: "adecuado"
+        label: "Adecuado"
+        description: "Cumple lo esencial con omisiones menores que no cambian la prioridad clínica."
+      - level_id: "en-desarrollo"
+        label: "En desarrollo"
+        description: "Presenta la estructura básica, pero requiere correcciones relevantes."
+      - level_id: "insuficiente"
+        label: "Insuficiente"
+        description: "No organiza los hallazgos o desconoce prioridades clínicas importantes."
+    criteria:
+      - criterion_id: "historia-examen"
+        title: "Historia y examen"
+        description: "Recoge cronología, síntomas asociados y examen pertinente de manera sistemática."
+        weight_percent: 25
+      - criterion_id: "alarmas-prioridad"
+        title: "Alarmas y prioridad"
+        description: "Reconoce inestabilidad y signos de alarma que requieren evaluación prioritaria."
+        weight_percent: 25
+      - criterion_id: "razonamiento-sindromico"
+        title: "Razonamiento sindrómico"
+        description: "Integra el patrón clínico y organiza hipótesis sin saltar prematuramente a etiologías."
+        weight_percent: 30
+      - criterion_id: "claridad-limitaciones"
+        title: "Claridad y limitaciones"
+        description: "Comunica argumentos, datos faltantes y límites de la interpretación."
+        weight_percent: 20
+assignments:
+  - assignment_id: "gastro-intro-workflow"
+    topic_id: "gastro-intro"
+    title: "Flujo sintético de anamnesis y examen gastrointestinal"
+    prompt: "Diseñe para un caso sintético un flujo de anamnesis gastrointestinal y examen abdominal que priorice estabilidad, signos de alarma y secuencia técnica correcta."
+    deliverables:
+      - "Guion de anamnesis organizado por síntoma y cronología."
+      - "Secuencia razonada de inspección, auscultación, percusión y palpación."
+      - "Lista de signos de alarma y conducta inicial."
+    rubric_id: "gastro-clinical-reasoning"
+    suggested_due_days: 7
+  - assignment_id: "abdominal-pain-triage"
+    topic_id: "abdominal-pain"
+    title: "Dolor abdominal: caracterización y prioridad"
+    prompt: "Analice una viñeta sintética de dolor abdominal, caracterice el síntoma, distinga patrones visceral, parietal o referido y establezca la prioridad de evaluación."
+    deliverables:
+      - "Caracterización estructurada del dolor y síntomas asociados."
+      - "Patrón semiológico propuesto con argumentos."
+      - "Criterios de reevaluación y signos que cambian la urgencia."
+    rubric_id: "gastro-clinical-reasoning"
+    suggested_due_days: 7
+  - assignment_id: "dysphagia-classification"
+    topic_id: "dysphagia"
+    title: "Clasificación semiológica de la disfagia"
+    prompt: "Use una viñeta sintética para diferenciar disfagia orofaríngea y esofágica, precisar la relación con sólidos o líquidos y reconocer riesgo de aspiración o impacto."
+    deliverables:
+      - "Algoritmo breve de clasificación."
+      - "Argumentos que sustentan la fase y el mecanismo propuestos."
+      - "Signos de alarma y preguntas adicionales necesarias."
+    rubric_id: "gastro-clinical-reasoning"
+    suggested_due_days: 7
+  - assignment_id: "jaundice-patterns"
+    topic_id: "jaundice"
+    title: "Patrones clínicos de ictericia"
+    prompt: "Compare tres escenarios sintéticos compatibles con patrones prehepático, hepatocelular y colestásico, utilizando historia, examen y datos básicos de bilirrubina para organizar el razonamiento."
+    deliverables:
+      - "Tabla comparativa de los tres patrones."
+      - "Interpretación razonada de cada escenario."
+      - "Signos que requieren evaluación prioritaria."
+    rubric_id: "gastro-clinical-reasoning"
+    suggested_due_days: 7
+  - assignment_id: "ascites-evaluation"
+    topic_id: "ascites"
+    title: "Evaluación semiológica de ascitis"
+    prompt: "Analice un caso sintético de distensión abdominal, diferencie líquido libre de otras causas y organice la evaluación clínica inicial según mecanismo y signos de alarma."
+    deliverables:
+      - "Hallazgos de examen a buscar y limitaciones de cada maniobra."
+      - "Mecanismos probables organizados por contexto clínico."
+      - "Prioridades ante dolor, fiebre, deterioro o encefalopatía."
+    rubric_id: "gastro-clinical-reasoning"
+    suggested_due_days: 7

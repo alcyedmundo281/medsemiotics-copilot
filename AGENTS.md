@@ -22,3 +22,7 @@ and makeup sessions. An empty calendar must not erase a baseline class date.
 
 Teaching guide catalogs are public baseline content. A generated coaching brief remains a draft
 until an accountable person approves the separate publication request.
+
+Assignment and qualitative-rubric catalogs are also public baseline content. Catalog-backed
+Classroom output remains one reviewable `DRAFT` plan; it must not gain student data, grading,
+student-visible publication, native rubric writes, or batch execution implicitly.
