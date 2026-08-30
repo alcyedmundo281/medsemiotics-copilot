@@ -28,6 +28,7 @@ class MaterialResourceType(StrEnum):
     PPTX = "pptx"
     DOC = "doc"
     SHEET = "sheet"
+    FORM = "form"
 
 
 def _required_text(value: object, field_name: str) -> str:

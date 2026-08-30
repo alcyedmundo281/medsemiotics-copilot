@@ -51,7 +51,7 @@ master loops 5-10.
 |---|---|---|
 | `0.7A` | Complete | Public NEURO/GASTRO assignment and qualitative-rubric catalogs, syllabus alignment, and one reviewable catalog-backed Classroom draft plan. |
 | `0.7B` | Complete | Private atomic applied-action ledger and a rerunnable operator workflow that makes a repeated plan a local no-op before Google is contacted. |
-| `0.7C` | Complete in code | Mobile-ready package of one Drive folder plus reviewed PDF, PPTX, Docs, Sheets, or URL links; named content-bound approval and one student-visible `CourseWorkMaterial` using only `classroom.courseworkmaterials`. |
+| `0.7C` | Complete in code | Mobile-ready package of one Drive folder plus reviewed PDF, PPTX, Docs, Sheets, Google Forms, or URL links; named content-bound approval and one student-visible `CourseWorkMaterial` using only `classroom.courseworkmaterials`. |
 | `0.7D` | Next | Reauthorize/redeploy the dedicated Apps Script and perform controlled live verification in linked NEURO/GASTRO courses; one material at a time, no grades or bulk actions. |
 
 ## Cross-cutting operating contract

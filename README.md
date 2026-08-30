@@ -302,7 +302,9 @@ grade data. See [`docs/loop-0.7b-private-action-ledger.md`](docs/loop-0.7b-priva
 
 Loop 0.7C adds a separate student-material capability. A connected mobile surface prepares a
 faculty-reviewed Google Drive folder; MedSemiotics packages its folder URL with up to nineteen
-additional PDF, PPTX, Docs, Sheets, or web links and binds named approval to the exact list. The
+additional PDF, PPTX, Docs, Sheets, Google Forms, or web links and binds named approval to the exact
+list. Google Forms are sent as reviewed HTTPS links because Classroom's native `form` attachment
+field is read-only during creation; Classroom may upgrade a compatible link in its response. The
 writer and reference Apps Script then create exactly one `CourseWorkMaterial` in explicit
 `PUBLISHED` state using only `classroom.courseworkmaterials`. The persistent ledger prevents a
 repeat after restart. No broad Drive API, individual-student targeting, roster, submission,

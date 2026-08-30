@@ -63,6 +63,18 @@ class TestClassroomMaterialPackagePlan:
 
         assert len(plan.resources) == 19
 
+    def test_accepts_a_google_form_as_a_reviewed_https_link(self) -> None:
+        form = make_resource(
+            resource_type=MaterialResourceType.FORM,
+            title="Autoevaluación de localización",
+            url="https://docs.google.com/forms/d/form-123/viewform",
+        )
+
+        plan = make_plan(resources=(form,))
+
+        assert plan.resources[0].resource_type is MaterialResourceType.FORM
+        assert plan.resources[0].url.endswith("/viewform")
+
     def test_refuses_more_than_twenty_total_materials(self) -> None:
         with pytest.raises(ValidationError, match="at most 19 items"):
             make_plan(resources=tuple(make_resource(index) for index in range(20)))

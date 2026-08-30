@@ -7,7 +7,8 @@ It does not widen the assignment writer. One package represents exactly one Goog
 `CourseWorkMaterial` containing:
 
 - one required Google Drive folder URL;
-- up to nineteen additional reviewed PDF, PPTX, Google Docs, Google Sheets, or web URLs;
+- up to nineteen additional reviewed PDF, PPTX, Google Docs, Google Sheets, Google Forms, or web
+  URLs;
 - one title and optional description;
 - one tracked semester, course, and syllabus topic;
 - one named approval bound to the exact visible content and ordered resource list.
@@ -18,6 +19,9 @@ by Classroom to a more appropriate Drive or media attachment. See the official
 [create method](https://developers.google.com/workspace/classroom/reference/rest/v1/courses.courseWorkMaterials/create),
 [CourseWorkMaterial resource](https://developers.google.com/workspace/classroom/reference/rest/v1/courses.courseWorkMaterials),
 and [Material types](https://developers.google.com/workspace/classroom/reference/rest/v1/Material).
+The API does not accept the native `form` field during creation because it is read-only. A Form is
+therefore submitted as a reviewed HTTPS `link`; Classroom may upgrade that link to the native Form
+representation in the created resource.
 
 ## Mobile and cloud flow
 
@@ -82,7 +86,7 @@ commit. Loop 0.7D must:
 
 ## Exit criteria
 
-- folder plus URL/PDF/PPTX/Docs/Sheets package contract;
+- folder plus URL/PDF/PPTX/Docs/Sheets/Forms package contract;
 - official twenty-material limit enforced in domain and Apps Script;
 - exact content-bound named approval and persistent idempotency;
 - exact `classroom.courseworkmaterials` scope and no broader Google authority;
