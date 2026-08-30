@@ -15,6 +15,10 @@ class GoogleClassroomBoundaryError(GoogleClassroomError):
     """Raised when a read is unauthorized or a payload exceeds the metadata-only boundary."""
 
 
+class GoogleClassroomAuthenticationError(GoogleClassroomError):
+    """Raised when the deployment answers a caller it does not recognize as authorized."""
+
+
 class GoogleClassroomReadError(GoogleClassroomError):
     """Raised when the Apps Script deployment cannot be reached or returns an unusable reply."""
 

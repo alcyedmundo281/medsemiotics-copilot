@@ -42,7 +42,7 @@ master loops 5-10.
 | `0.6C` | Complete | Provider-neutral private Classroom snapshot models and normalization. |
 | `0.6D` | Complete | Coordination view across Classroom, Calendar, syllabus, and teaching state. |
 | `0.6E` | Complete | Explicitly approved, idempotent single Classroom action plan; no grades or bulk writes. |
-| `0.6F` | Next | Authenticated unattended invocation of the Apps Script deployment, live read verification, and narrowly controlled write verification with audit evidence. |
+| `0.6F` | Read path complete | Authenticated unattended invocation of the Apps Script deployment and live read verification are delivered. Narrowly controlled write verification remains, and requires an explicit decision to add a Classroom write scope. |
 
 ## Cross-cutting operating contract
 

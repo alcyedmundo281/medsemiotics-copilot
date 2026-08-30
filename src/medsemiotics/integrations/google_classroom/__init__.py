@@ -12,11 +12,20 @@ from medsemiotics.integrations.google_classroom.apps_script import (
     load_apps_script_deployment,
 )
 from medsemiotics.integrations.google_classroom.exceptions import (
+    GoogleClassroomAuthenticationError,
     GoogleClassroomBoundaryError,
     GoogleClassroomConfigurationError,
     GoogleClassroomError,
     GoogleClassroomMappingError,
     GoogleClassroomReadError,
+)
+from medsemiotics.integrations.google_classroom.transport import (
+    AuthenticatedAppsScriptTransport,
+    BearerTokenProvider,
+    GoogleCredentialsTokenProvider,
+    HttpResponse,
+    HttpSender,
+    UrllibHttpSender,
 )
 
 __all__ = [
@@ -28,10 +37,17 @@ __all__ = [
     "AppsScriptCourseDiscoveryClient",
     "AppsScriptDeployment",
     "AppsScriptTransport",
+    "AuthenticatedAppsScriptTransport",
+    "BearerTokenProvider",
+    "GoogleClassroomAuthenticationError",
     "GoogleClassroomBoundaryError",
     "GoogleClassroomConfigurationError",
     "GoogleClassroomError",
     "GoogleClassroomMappingError",
     "GoogleClassroomReadError",
+    "GoogleCredentialsTokenProvider",
+    "HttpResponse",
+    "HttpSender",
+    "UrllibHttpSender",
     "load_apps_script_deployment",
 ]
