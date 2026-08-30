@@ -238,8 +238,9 @@ account, so MedSemiotics stores no Classroom OAuth token. `ClassroomCourseDiscov
 authorizes the Coordination `OBSERVE` capability and the Loop 0.6A policy before any read, and
 `AppsScriptCourseDiscoveryClient` re-verifies that decision and accepts only the five allowlisted
 course metadata fields. Prohibited or unrecognized payload fields, declared mutations, and broader
-scopes fail closed. The deployment URL and identifier are environment configuration and never
-tracked in Git. See
+scopes fail closed. The deployment URL and identifier are environment configuration, never tracked
+in Git and never echoed in an error. Loop 0.6B ships the transport protocol and its validation
+only; authenticated unattended invocation of the deployment belongs to Loop 0.6F. See
 [`docs/loop-0.6b-classroom-apps-script-read-boundary.md`](docs/loop-0.6b-classroom-apps-script-read-boundary.md)
 and the reference deployment in `scripts/apps_script/`.
 

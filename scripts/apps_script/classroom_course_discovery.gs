@@ -10,6 +10,11 @@
  * Workspace account). Enable the Classroom advanced service (v1) and pin the single scope
  * `https://www.googleapis.com/auth/classroom.courses.readonly` in `appsscript.json`.
  *
+ * Owner-only access is intentional for Loop 0.6B: the read path is exercised through an injected
+ * transport and from the owning account's authenticated session. Unattended invocation from a
+ * backend needs an authenticated caller identity and belongs to Loop 0.6F; see
+ * `docs/loop-0.6b-classroom-apps-script-read-boundary.md`.
+ *
  * This script must never expose rosters, student identifiers, coursework, submissions, grades,
  * enrollment codes, owner identifiers, group email addresses, or Drive folders, and must never
  * perform a Classroom, Drive, or Calendar write.

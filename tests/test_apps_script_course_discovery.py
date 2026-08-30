@@ -115,18 +115,40 @@ class TestAppsScriptDeployment:
         assert deployment.deployment_id == "AKfycb-deployment"
         assert deployment.web_app_url == WEB_APP_URL
 
+    def test_accepts_the_workspace_domain_url_form(self) -> None:
+        deployment = AppsScriptDeployment(
+            deployment_id="AKfycb-deployment",
+            web_app_url=(
+                "https://script.google.com/a/macros/medsemiotics.test/s/AKfycb-deployment/exec"
+            ),
+        )
+
+        assert deployment.deployment_id == "AKfycb-deployment"
+
     @pytest.mark.parametrize(
         "rejected_url",
         [
             "http://script.google.com/macros/s/AKfycb/exec",
             "https://example.com/macros/s/AKfycb/exec",
             "https://script.google.com.attacker.test/macros/s/AKfycb/exec",
+            "https://script.googleusercontent.com/macros/echo?user_content_key=AKfycb",
+            "https://script.google.com/macros/s/AKfycb/dev",
+            "https://script.google.com/macros/AKfycb/exec",
             "  ",
         ],
     )
-    def test_rejects_non_apps_script_endpoints(self, rejected_url: str) -> None:
+    def test_rejects_non_execution_endpoints(self, rejected_url: str) -> None:
         with pytest.raises(ValidationError):
             AppsScriptDeployment(deployment_id="AKfycb", web_app_url=rejected_url)
+
+    def test_rejects_an_identifier_that_disagrees_with_the_url(self) -> None:
+        with pytest.raises(ValidationError) as err:
+            AppsScriptDeployment(
+                deployment_id="AKfycb-previous-deployment",
+                web_app_url=WEB_APP_URL,
+            )
+
+        assert "does not match" in str(err.value)
 
     def test_rejects_a_missing_deployment_identifier(self) -> None:
         with pytest.raises(ValidationError):
@@ -154,13 +176,16 @@ class TestDeploymentConfiguration:
         assert WEB_APP_URL not in str(err.value)
 
     def test_rejects_invalid_configured_endpoint(self) -> None:
-        with pytest.raises(GoogleClassroomConfigurationError):
+        with pytest.raises(GoogleClassroomConfigurationError) as err:
             load_apps_script_deployment(
                 {
                     APPS_SCRIPT_URL_ENV_VAR: "https://example.com/exec",
                     APPS_SCRIPT_DEPLOYMENT_ID_ENV_VAR: "AKfycb-deployment",
                 }
             )
+
+        assert "example.com" not in str(err.value)
+        assert err.value.__cause__ is None
 
 
 class TestCourseDiscoveryAuthorization:
@@ -246,14 +271,21 @@ class TestCourseDiscoveryRead:
 
         assert discovery.courses == ()
 
-    def test_wraps_transport_failures(self) -> None:
-        transport = FakeTransport(error=TimeoutError("deployment unreachable"))
+    def test_wraps_transport_failures_without_leaking_the_execution_url(self) -> None:
+        transport = FakeTransport(
+            error=TimeoutError(f"HTTPSConnectionPool: failed to reach {WEB_APP_URL}")
+        )
 
-        with pytest.raises(GoogleClassroomReadError):
+        with pytest.raises(GoogleClassroomReadError) as err:
             make_client(transport).discover_courses(
                 decision=make_decision(),
                 requested_by="course-director",
             )
+
+        assert WEB_APP_URL not in str(err.value)
+        assert "AKfycb-deployment" not in str(err.value)
+        assert "TimeoutError" in str(err.value)
+        assert err.value.__cause__ is None
 
     def test_rejects_a_naive_clock(self) -> None:
         client = AppsScriptCourseDiscoveryClient(

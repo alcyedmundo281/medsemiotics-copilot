@@ -24,10 +24,16 @@ Its location is configuration, never tracked content:
 | `MEDSEMIOTICS_CLASSROOM_APPS_SCRIPT_URL` | HTTPS Apps Script web app execution URL |
 | `MEDSEMIOTICS_CLASSROOM_APPS_SCRIPT_DEPLOYMENT_ID` | Deployment identifier recorded in the audit trail |
 
-`load_apps_script_deployment()` fails closed when either value is missing and never echoes the
-configured URL in an error message. `AppsScriptDeployment` accepts only HTTPS URLs on
-`script.google.com` or `script.googleusercontent.com`, so a read cannot be redirected to another
-host.
+`load_apps_script_deployment()` fails closed when either value is missing or invalid, and never
+echoes a configured value — in the message or through a chained cause. `AppsScriptDeployment`
+accepts only an HTTPS execution URL on `script.google.com`, in the personal
+`/macros/s/<deployment_id>/exec` or the Workspace `/a/macros/<domain>/s/<deployment_id>/exec`
+form, so a read cannot be redirected to another host. The configured `deployment_id` must equal
+the identifier encoded in that URL, so a partially updated configuration after a redeployment
+fails closed instead of recording provenance for a deployment that was never read.
+
+Read failures are reported by exception type only. A transport exception frequently embeds the URL
+it tried to reach, so neither its message nor its chained cause is propagated.
 
 ## Two authorizations before one read
 
@@ -70,7 +76,22 @@ name and identifier.
 - Classroom, Drive, or Calendar mutation of any kind;
 - persisting Classroom content to the repository;
 - provider-neutral snapshot normalization (Loop 0.6C) and the coordinated read view (Loop 0.6D);
-- live verification against a real deployment, which belongs to Loop 0.6F.
+- live verification against a real deployment, which belongs to Loop 0.6F;
+- a concrete HTTP transport. Loop 0.6B ships the `AppsScriptTransport` protocol and its
+  deterministic validation only.
+
+### Invoking the deployment from a backend
+
+The reference deployment is `Execute as: Me` with `Who has access: Only myself`, which is
+deliberate for this increment: the read path is exercised through an injected transport and, during
+verification, from the dedicated Workspace account's own authenticated session. That setting cannot
+be called by an unattended backend — an anonymous request is redirected to a Google sign-in page
+instead of reaching `doGet`.
+
+Loop 0.6F therefore owns authenticated invocation and must decide it explicitly before any
+unattended read: a Google-issued OIDC identity token for the dedicated Workspace identity, with the
+deployment opened to that identity only, is the intended direction. Nothing in this increment
+should be read as evidence that an unattended cloud read already works.
 
 ## Public/private separation
 
@@ -81,7 +102,9 @@ student-level value stay outside Git, in the dedicated Workspace account or a ru
 ## Exit criteria
 
 - immutable, strict domain models for sanitized course metadata and discovery provenance;
-- deployment descriptor restricted to HTTPS Apps Script hosts, configured outside Git;
+- deployment descriptor restricted to HTTPS Apps Script execution URLs whose encoded identifier
+  matches the configured one, resolved from configuration held outside Git;
+- read and configuration failures that withhold the execution URL and every configured value;
 - decision re-verification that fails closed before any transport call;
 - allowlisted envelope and course fields with explicit prohibited-data rejection;
 - deterministic ordering and duplicate rejection;

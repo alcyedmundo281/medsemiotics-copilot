@@ -11,7 +11,7 @@ from collections.abc import Callable, Mapping
 from datetime import UTC, datetime
 from typing import Annotated, Any, Protocol
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from medsemiotics.domain.classroom_access import (
     GOOGLE_CLASSROOM_COURSES_READONLY_SCOPE,
@@ -34,8 +34,7 @@ from medsemiotics.integrations.google_classroom.exceptions import (
 APPS_SCRIPT_URL_ENV_VAR = "MEDSEMIOTICS_CLASSROOM_APPS_SCRIPT_URL"
 APPS_SCRIPT_DEPLOYMENT_ID_ENV_VAR = "MEDSEMIOTICS_CLASSROOM_APPS_SCRIPT_DEPLOYMENT_ID"
 
-APPS_SCRIPT_HOST_SUFFIX = ".google.com"
-APPS_SCRIPT_ALLOWED_HOSTS = ("script.google.com", "script.googleusercontent.com")
+APPS_SCRIPT_EXECUTION_HOST = "script.google.com"
 
 COURSE_DISCOVERY_OPERATION = ClassroomOperation.COURSE_DISCOVERY.value
 
@@ -78,6 +77,28 @@ def _normalize_key(key: str) -> str:
     return key.replace("_", "").replace("-", "").casefold()
 
 
+def _deployment_id_from_url(web_app_url: str) -> str:
+    """Extract the deployment identifier encoded in an Apps Script execution URL.
+
+    Args:
+        web_app_url: HTTPS Apps Script execution URL, in either the personal
+            `/macros/s/<deployment_id>/exec` or the Workspace
+            `/a/macros/<domain>/s/<deployment_id>/exec` form.
+
+    Returns:
+        The deployment identifier encoded in the URL path.
+
+    Raises:
+        ValueError: If the URL is not an Apps Script web app execution URL.
+    """
+    path = web_app_url.removeprefix("https://").split("/", 1)[-1].split("?", 1)[0]
+    segments = [segment for segment in path.split("/") if segment]
+    if len(segments) < 3 or segments[-1] != "exec" or segments[-3] != "s":
+        msg = "web_app_url must be an Apps Script web app execution URL ending in '/exec'"
+        raise ValueError(msg)
+    return segments[-2]
+
+
 class AppsScriptDeployment(BaseModel):
     """Location and identity of the dedicated Workspace Apps Script read deployment."""
 
@@ -98,7 +119,7 @@ class AppsScriptDeployment(BaseModel):
     @field_validator("web_app_url", mode="before")
     @classmethod
     def validate_web_app_url(cls, value: object) -> str:
-        """Accept only an HTTPS Google Apps Script host so reads cannot be redirected."""
+        """Accept only an HTTPS Apps Script execution URL so reads cannot be redirected."""
         if not isinstance(value, str) or not value.strip():
             msg = "web_app_url must be a non-empty string"
             raise ValueError(msg)
@@ -107,10 +128,23 @@ class AppsScriptDeployment(BaseModel):
             msg = "web_app_url must use HTTPS"
             raise ValueError(msg)
         host = cleaned.removeprefix("https://").split("/", 1)[0].split("@")[-1].split(":")[0]
-        if host.casefold() not in APPS_SCRIPT_ALLOWED_HOSTS:
-            msg = f"web_app_url host must be a Google Apps Script host, got '{host}'"
+        if host.casefold() != APPS_SCRIPT_EXECUTION_HOST:
+            msg = f"web_app_url host must be {APPS_SCRIPT_EXECUTION_HOST}, got '{host}'"
             raise ValueError(msg)
+        _deployment_id_from_url(cleaned)
         return cleaned
+
+    @model_validator(mode="after")
+    def validate_deployment_identity(self) -> "AppsScriptDeployment":
+        """Keep audit provenance honest when configuration drifts after a redeployment."""
+        encoded_id = _deployment_id_from_url(self.web_app_url)
+        if encoded_id != self.deployment_id:
+            msg = (
+                "deployment_id does not match the deployment encoded in web_app_url; "
+                "update both values after redeploying the Apps Script web app"
+            )
+            raise ValueError(msg)
+        return self
 
 
 def load_apps_script_deployment(
@@ -143,9 +177,13 @@ def load_apps_script_deployment(
             deployment_id=source[APPS_SCRIPT_DEPLOYMENT_ID_ENV_VAR],
             web_app_url=source[APPS_SCRIPT_URL_ENV_VAR],
         )
-    except ValueError as err:
-        msg = f"Invalid Classroom Apps Script configuration in {APPS_SCRIPT_URL_ENV_VAR}: {err}"
-        raise GoogleClassroomConfigurationError(msg) from err
+    except ValueError:
+        msg = (
+            "Invalid Classroom Apps Script configuration in "
+            f"{APPS_SCRIPT_URL_ENV_VAR} or {APPS_SCRIPT_DEPLOYMENT_ID_ENV_VAR}; "
+            "the configured values are withheld from this error."
+        )
+        raise GoogleClassroomConfigurationError(msg) from None
 
 
 class AppsScriptTransport(Protocol):
@@ -203,8 +241,12 @@ class AppsScriptCourseDiscoveryClient:
                 operation=COURSE_DISCOVERY_OPERATION,
             )
         except Exception as err:
-            msg = f"Failed to read Classroom course metadata from deployment: {err}"
-            raise GoogleClassroomReadError(msg) from err
+            msg = (
+                "Failed to read Classroom course metadata from the configured deployment "
+                f"({type(err).__name__}); transport details are withheld because the "
+                "execution URL is private runtime configuration."
+            )
+            raise GoogleClassroomReadError(msg) from None
 
         raw_courses = self._verify_envelope(envelope)
         courses = [self._map_course(raw_course) for raw_course in raw_courses]
