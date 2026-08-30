@@ -108,6 +108,12 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
     non-executing Classroom draft plan.
   - **Core Invariant**: **"A catalog is reviewed content, not an external action."** Loading or
     rendering an assignment never approves, executes, publishes, or grades it.
+  - `ClassroomActionLedgerRepository`: Loop 0.7B private runtime persistence for the minimal
+    applied-action evidence returned by the writer. It validates a versioned JSON envelope,
+    rejects conflicting identities, and replaces the ledger atomically.
+  - **Core Invariant**: **"Idempotency survives the process."** A repeated action is decided from
+    the private ledger before deployment configuration, credentials, transports, or Google are
+    touched. The ledger is operational state and never public configuration.
   - **Core Invariant**: **"External provider models must not cross the integration boundary."** All raw provider schemas are mapped into internal domain models at the integration adapter layer.
   - **Core Invariant**: **"Google Calendar read access and Calendar write access are separate capabilities."** Read ingestion does not imply or grant write authorization.
 - **Configuration vs. Integration**: Semester, syllabus, and schedule YAML files represent static domain configuration and state, **not** external integrations.

@@ -26,3 +26,8 @@ until an accountable person approves the separate publication request.
 Assignment and qualitative-rubric catalogs are also public baseline content. Catalog-backed
 Classroom output remains one reviewable `DRAFT` plan; it must not gain student data, grading,
 student-visible publication, native rubric writes, or batch execution implicitly.
+
+Applied Classroom action ledgers are private runtime state. Keep them outside tracked content;
+never add ledger instances to Git. A write workflow must load the ledger before external access and
+persist the returned record after one successful write. An `already_applied` decision is a local
+no-op and must not initialize a Google transport.

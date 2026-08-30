@@ -88,6 +88,7 @@ data/private/
 exports/student_*
 *.student.json
 *.student.csv
+*.classroom-ledger.json
 
 # Temporary exports and scratch files
 exports/

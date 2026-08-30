@@ -2,19 +2,21 @@
 
 Usage:
     python scripts/classroom_write_smoke.py --course-id <id> --topic-id <id> \
-        --title "..." --approved-by "Name" [--instructions "..."] [--due-date YYYY-MM-DD]
+        --title "..." --approved-by "Name" --ledger-file <private path> \
+        [--instructions "..."] [--due-date YYYY-MM-DD]
 
 Requires the same operator environment as scripts/classroom_read_smoke.py, plus a deployment
 authorized for the coursework write scope.
 
 This script applies exactly one Classroom coursework item in DRAFT state. It never publishes to
-students, never sends a grading field, and prints redacted evidence plus the ledger entry the
-operator must keep so a repeat run is refused as already applied.
+students, never sends a grading field, and persists redacted evidence in an operator-supplied
+private ledger so a repeat run becomes a local no-op before any Google call.
 """
 
 import argparse
 import sys
 from datetime import date, datetime
+from pathlib import Path
 
 from medsemiotics.agents.framework import build_default_agent_framework
 from medsemiotics.domain.classroom_access import (
@@ -26,6 +28,7 @@ from medsemiotics.domain.classroom_access import (
 from medsemiotics.domain.classroom_action import (
     ClassroomActionApproval,
     ClassroomActionPlan,
+    ClassroomActionStatus,
     ClassroomActionType,
 )
 from medsemiotics.domain.exceptions import MedSemioticsError
@@ -36,6 +39,7 @@ from medsemiotics.integrations.google_classroom import (
     load_apps_script_deployment,
 )
 from medsemiotics.services.classroom_access_policy import ClassroomAccessPolicy
+from medsemiotics.services.classroom_action_ledger import ClassroomActionLedgerRepository
 from medsemiotics.services.classroom_action_plan import ClassroomActionAuthorizer
 
 
@@ -51,6 +55,12 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument("--due-date", default=None, help="Optional due date, YYYY-MM-DD")
     parser.add_argument("--prepared-by", default="operator", help="Author of the plan")
     parser.add_argument("--approved-by", required=True, help="Named human approving the plan")
+    parser.add_argument(
+        "--ledger-file",
+        required=True,
+        type=Path,
+        help="Private JSON ledger path outside tracked public content",
+    )
     return parser.parse_args()
 
 
@@ -78,8 +88,10 @@ def main() -> None:
     print(f"  approved_by:   {arguments.approved_by}")
 
     authorizer = ClassroomActionAuthorizer(build_default_agent_framework())
+    ledger = ClassroomActionLedgerRepository(arguments.ledger_file)
 
     try:
+        applied_actions = ledger.load()
         action_decision = authorizer.authorize(
             plan=plan,
             approval=ClassroomActionApproval(
@@ -87,7 +99,19 @@ def main() -> None:
                 approved_at=now,
                 content_fingerprint=plan.content_fingerprint,
             ),
+            applied_actions=applied_actions,
         )
+    except MedSemioticsError as err:
+        print(f"✗ Authorization: {err}", file=sys.stderr)
+        raise SystemExit(2) from None
+
+    if action_decision.status is ClassroomActionStatus.ALREADY_APPLIED:
+        print("✓ No-op: this coursework draft is already recorded in the private ledger.")
+        print(f"  external_reference: {action_decision.existing_reference or 'not recorded'}")
+        print("\nNo Google request was made and no duplicate draft was created.")
+        return
+
+    try:
         access_decision = ClassroomAccessPolicy().authorize(
             ClassroomAccessRequest(
                 operation=ClassroomOperation.COURSEWORK_DRAFT_CREATE,
@@ -117,13 +141,23 @@ def main() -> None:
         print(f"✗ Write boundary: {err}", file=sys.stderr)
         raise SystemExit(1) from None
 
-    print("✓ One coursework draft was applied. Record this ledger entry:")
+    try:
+        ledger.append(record)
+    except MedSemioticsError as err:
+        print(f"✗ Critical ledger persistence failure: {err}", file=sys.stderr)
+        print("The draft may exist in Classroom. Preserve this recovery evidence:", file=sys.stderr)
+        print(f"  identity_key:       {record.identity_key}", file=sys.stderr)
+        print(f"  external_reference: {record.external_reference}", file=sys.stderr)
+        raise SystemExit(3) from None
+
+    print("✓ One coursework draft was applied and recorded in the private ledger:")
     print(f"  identity_key:       {record.identity_key}")
     print(f"  external_course_id: {record.external_course_id}")
     print(f"  external_reference: {record.external_reference}")
     print(f"  applied_at:         {record.applied_at.isoformat()}")
     print(f"  applied_by:         {record.applied_by}")
     print("\nThe item stays in DRAFT state; nothing was published to students.")
+    print("Re-running the same plan with this ledger file will make no Google request.")
 
 
 if __name__ == "__main__":

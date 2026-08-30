@@ -291,6 +291,15 @@ and coordination scopes, renders the reviewed task and rubric into one existing 
 Classroom rubric, or bulk action is represented. See
 [`docs/loop-0.7a-assignment-rubric-catalog.md`](docs/loop-0.7a-assignment-rubric-catalog.md).
 
+Loop 0.7B closes the previously manual idempotency gap. `ClassroomActionLedgerRepository` loads
+and validates a private versioned JSON ledger, rejects conflicting identities, and persists each
+successful applied-action record with an atomic file replacement. The Classroom write smoke tool
+now requires `--ledger-file`; on a later invocation it supplies the saved records to the existing
+authorizer and returns a local `already_applied` no-op before loading the deployment or contacting
+Google. The ledger contains only action identity, external course/reference, timestamp, and
+accountable actor; it remains outside tracked public content and contains no roster, submission, or
+grade data. See [`docs/loop-0.7b-private-action-ledger.md`](docs/loop-0.7b-private-action-ledger.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers

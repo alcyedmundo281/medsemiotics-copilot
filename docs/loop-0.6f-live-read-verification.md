@@ -114,11 +114,12 @@ exact plan supplied. An `already_applied` decision is refused rather than re-sen
 ```bash
 python scripts/classroom_write_smoke.py \
     --course-id <classroom course id> --topic-id <tracked topic> \
-    --title "..." --approved-by "Name of the approver"
+    --title "..." --approved-by "Name of the approver" \
+    --ledger-file <private persistent JSON path>
 ```
 
-The script prints the plan's `identity_key` and `content_fingerprint` before applying, then the
-ledger entry the operator must keep:
+The script prints the plan's `identity_key` and `content_fingerprint` before applying, then stores
+the resulting ledger entry at the explicitly supplied private path:
 
 | Field | Meaning |
 |---|---|
@@ -127,17 +128,17 @@ ledger entry the operator must keep:
 | `external_reference` | Classroom identifier of the created draft |
 | `applied_at` / `applied_by` | When it was applied, and who approved it |
 
-Recording that entry is what closes the idempotency loop: supplied to
-`ClassroomActionAuthorizer` on a later run, the same plan returns `already_applied` and no second
-draft is created.
+Loop 0.7B closes this idempotency loop persistently: the script reloads the ledger and supplies it
+to `ClassroomActionAuthorizer` on every run. The same plan returns `already_applied` before any
+deployment, credential provider, transport, or Google request is initialized.
 
 ### Verification checklist
 
 1. Run the read verification first; a linked course id comes from the coordination view.
-2. Apply one draft with the script and record the ledger entry.
+2. Apply one draft with the script and a private persistent `--ledger-file` path.
 3. Confirm in Classroom that the item exists, is a draft, and shows no points.
-4. Re-run the same command with the recorded ledger entry supplied and confirm it is refused as
-   already applied rather than duplicating the draft.
+4. Re-run the identical command with the same ledger path and confirm the local no-op; no second
+   Google request or draft is produced.
 
 ## Exit criteria for this increment
 

@@ -17,6 +17,7 @@ from medsemiotics.services.calendar_publish_plan import (
     build_calendar_publish_request,
 )
 from medsemiotics.services.classroom_access_policy import ClassroomAccessPolicy
+from medsemiotics.services.classroom_action_ledger import ClassroomActionLedgerRepository
 from medsemiotics.services.coaching_formatter import (
     build_teaching_event_title,
     format_coaching_brief,
@@ -50,6 +51,7 @@ __all__ = [
     "CalendarCoachingService",
     "CalendarConfigRepository",
     "ClassroomAccessPolicy",
+    "ClassroomActionLedgerRepository",
     "CourseStateService",
     "EffectiveScheduleService",
     "EffectiveTeachingDayService",

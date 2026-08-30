@@ -105,6 +105,18 @@ class ClassroomActionAuthorizationError(MedSemioticsError):
     """Raised when a Classroom action is attempted without a matching, approved authorization."""
 
 
+class ClassroomActionLedgerError(MedSemioticsError):
+    """Base exception for the private applied-action ledger."""
+
+
+class ClassroomActionLedgerValidationError(ClassroomActionLedgerError):
+    """Raised when a private applied-action ledger is malformed or inconsistent."""
+
+
+class ClassroomActionLedgerPersistenceError(ClassroomActionLedgerError):
+    """Raised when an applied-action ledger cannot be persisted safely."""
+
+
 class AssignmentCatalogError(MedSemioticsError):
     """Base exception for faculty-reviewed assignment/rubric catalogs."""
 
