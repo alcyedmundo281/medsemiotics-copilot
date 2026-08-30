@@ -89,6 +89,12 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
     approval changes its content fingerprint and forces a re-review before it can be authorized.
   - **Core Invariant**: **"One action, never a batch."** A Classroom action plan is a single
     object with no batch representation and no grading field.
+  - `AuthenticatedAppsScriptTransport`: Loop 0.6F authenticated invocation of the deployment as
+    the dedicated Workspace identity, refusing plaintext URLs, never following redirects, and
+    reporting every Google refusal (redirect, 401, 403, sign-in HTML) as an authentication failure.
+  - **Core Invariant**: **"A refusal is not a parse error."** An unauthenticated call to an
+    owner-only Apps Script deployment returns a sign-in page, which is reported as an
+    authentication failure rather than parsed as data.
   - **Core Invariant**: **"External provider models must not cross the integration boundary."** All raw provider schemas are mapped into internal domain models at the integration adapter layer.
   - **Core Invariant**: **"Google Calendar read access and Calendar write access are separate capabilities."** Read ingestion does not imply or grant write authorization.
 - **Configuration vs. Integration**: Semester, syllabus, and schedule YAML files represent static domain configuration and state, **not** external integrations.

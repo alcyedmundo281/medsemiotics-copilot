@@ -266,6 +266,15 @@ content digest a reviewer read, so an edited plan is denied until it is re-revie
 is decided against MedSemiotics' own ledger of applied actions rather than by widening the Classroom
 read scope. See [`docs/loop-0.6e-classroom-action-plan.md`](docs/loop-0.6e-classroom-action-plan.md).
 
+Loop 0.6F delivers the authenticated call path and the live read verification procedure. The
+transport sends a bearer token for the dedicated Workspace identity, refuses plaintext URLs, never
+follows redirects, and reports every Google refusal — a redirect, a 401 or 403, or a sign-in page
+returned with HTTP 200 — as an authentication failure rather than a parse error. Errors carry the
+status code and exception class only, never the URL, the token, or a response body.
+`scripts/classroom_read_smoke.py` runs one authorized read from the operator's environment and
+prints redacted, reproducible evidence: counts, lifecycle totals, and a content fingerprint. See
+[`docs/loop-0.6f-live-read-verification.md`](docs/loop-0.6f-live-read-verification.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers
