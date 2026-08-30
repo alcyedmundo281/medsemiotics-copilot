@@ -97,6 +97,10 @@ class ExternalCourseSnapshotError(MedSemioticsError):
     """Raised when provider data cannot be normalized into a provider-neutral snapshot."""
 
 
+class SecretStoreError(MedSemioticsError):
+    """Raised when a secret held outside the repository cannot be read."""
+
+
 class ClassroomActionPlanError(MedSemioticsError):
     """Raised when a Classroom action plan cannot be built from the requested state."""
 

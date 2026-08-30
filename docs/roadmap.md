@@ -17,7 +17,7 @@ master outcomes; they are not additional product loops.
 | 7. PowerSemiotics knowledge and evidence graph | Pending | Topic/class/task links to PowerSemiotics URLs, PMID, DOI, PubMed/Crossref verification, provenance, and source freshness. |
 | 8. Creative studio and publishing | Pending | Wikimedia Commons licensing and attribution, audiovisual material, textbook/e-course assets, and review-before-publish PowerSemiotics authoring. |
 | 9. Assessment and pedagogical intelligence | Pending | Aggregates, competency performance, item and rubric analytics, validity, reliability, longitudinal student trends, and teaching-performance reflection. |
-| 10. Secure cloud mobile orchestrator | In progress through `0.8B` | ChatGPT Work as the primary mobile interface, Claude Cowork as an alternative, Codex Cloud and Claude Code web for development, and one provider-neutral MedSemiotics backend. |
+| 10. Secure cloud mobile orchestrator | In progress through `0.8C` | ChatGPT Work as the primary mobile interface, Claude Cowork as an alternative, Codex Cloud and Claude Code web for development, and one provider-neutral MedSemiotics backend. |
 
 ## Engineering-loop mapping
 
@@ -62,6 +62,7 @@ master loops 5-10.
 |---|---|---|
 | `0.8A` | Complete in code | Read-only backend contracts for semester, course state, next required topic with its curated guide, and one guide by id; bearer-token access from the secret store, fail-closed when unconfigured; no Google credential, no writes, no student data. |
 | `0.8B` | Complete in code | Coordination view and planned baseline schedule over the same read-only contract, each labelled with what it did and did not consult; Classroom bindings report `not_read` because the backend holds no Google credential. |
+| `0.8C` | Complete in code | Calendar-reconciled effective schedule over the same contract, read with a secret-store credential fixed to `calendar.readonly` and separate from the Classroom caller; an unconfigured backend answers 503 naming the secrets and the planned-baseline endpoint. |
 
 ## Cross-cutting operating contract
 

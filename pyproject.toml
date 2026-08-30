@@ -98,6 +98,7 @@ module = [
     # the Classroom package stays under strict call checking.
     "medsemiotics.integrations.google_classroom.operator_credentials",
     "medsemiotics.integrations.google_classroom.owner_authorized_caller",
+    "medsemiotics.integrations.google_calendar.secret_backed_auth",
 ]
 ignore_missing_imports = true
 disallow_untyped_calls = false

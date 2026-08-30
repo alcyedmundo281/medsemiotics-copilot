@@ -5,12 +5,14 @@ and what comes next. Loop 0.8B adds why something is not working — the coordin
 the next classes are planned. Every endpoint is read-only, reads tracked configuration only, and
 makes no external call: the backend holds no Google credential.
 
-Because nothing here contacts Google, two things are deliberately absent: the Calendar-reconciled
-effective schedule, and the full Teaching Coach brief that depends on it. Both need live Calendar
-evidence and belong to an increment that runs with those credentials.
+Loop 0.8C adds the one endpoint that does contact Google: the Calendar-reconciled effective
+schedule, served only when a read-only Calendar credential is configured in the secret store. That
+credential can read Calendar and nothing else; the backend still holds no Classroom credential and
+still cannot write anywhere.
 """
 
-from datetime import UTC, date, datetime
+from datetime import UTC, date, datetime, timedelta
+from zoneinfo import ZoneInfo
 
 from fastapi import Depends, FastAPI, HTTPException, Query, status
 
@@ -18,6 +20,8 @@ from medsemiotics.api.schemas import (
     CoordinationResponse,
     CourseStateResponse,
     CourseSummary,
+    EffectiveClassResponse,
+    EffectiveScheduleResponse,
     HealthResponse,
     NextTopicResponse,
     PlannedClassResponse,
@@ -29,12 +33,16 @@ from medsemiotics.api.security import require_backend_token
 from medsemiotics.api.settings import (
     BackendServices,
     BackendSettings,
+    CalendarReaderFactory,
     build_backend_services,
     load_backend_settings,
 )
 from medsemiotics.domain.academic import SemesterConfig
 from medsemiotics.domain.calendar import CourseCalendarConfig
 from medsemiotics.domain.exceptions import MedSemioticsError
+from medsemiotics.integrations.google_calendar.secret_backed_auth import (
+    CALENDAR_CHANNEL_SECRETS,
+)
 
 app = FastAPI(
     title="MedSemiotics Teaching Copilot API",
@@ -44,16 +52,24 @@ app = FastAPI(
 )
 
 
-def configure(settings: BackendSettings | None = None) -> None:
-    """Bind the application to a configuration root and access token.
+def configure(
+    settings: BackendSettings | None = None,
+    *,
+    calendar_reader_factory: CalendarReaderFactory | None = None,
+) -> None:
+    """Bind the application to a configuration root, access token, and Calendar reader.
 
     Args:
         settings: Settings to use; defaults to those the environment and secret store describe.
+        calendar_reader_factory: Overrides how a Calendar reader is built.
     """
     resolved = settings if settings is not None else load_backend_settings()
     app.state.settings = resolved
     app.state.api_token = resolved.api_token
-    app.state.services = build_backend_services(resolved)
+    app.state.services = build_backend_services(
+        resolved,
+        calendar_reader_factory=calendar_reader_factory,
+    )
 
 
 def get_services() -> BackendServices:
@@ -356,3 +372,91 @@ def _load_calendar_configs(
 def _today() -> date:
     """Return the current date, in UTC, for schedule windows."""
     return datetime.now(UTC).date()
+
+
+@app.get(
+    "/v1/courses/{course_code}/effective-schedule",
+    response_model=EffectiveScheduleResponse,
+    dependencies=[Depends(require_backend_token)],
+)
+def read_effective_schedule(
+    course_code: str,
+    days: int = Query(default=14, ge=1, le=120),
+) -> EffectiveScheduleResponse:
+    """Return the tracked baseline reconciled with Calendar evidence.
+
+    Unlike every other endpoint, this one reads Google Calendar — with a credential minted for
+    `calendar.readonly` and nothing else. Cancellations, makeup sessions, and exact meeting times
+    become visible here; an unobserved baseline date stays a scheduled class rather than
+    disappearing.
+
+    Args:
+        course_code: Tracked course code, such as NEURO.
+        days: How many days ahead to reconcile.
+
+    Returns:
+        The reconciled classes within the window.
+
+    Raises:
+        HTTPException: 503 when no Calendar credential is configured, 404 when the course has no
+            tracked schedule in the active semester.
+    """
+    services = get_services()
+    if services.calendar_reader_factory is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=(
+                "This backend has no Calendar credential configured, so it cannot reconcile the "
+                "baseline with Calendar evidence. Configure "
+                f"{', '.join(CALENDAR_CHANNEL_SECRETS)} in the secret store, or read the planned "
+                "baseline from /v1/courses/{course_code}/schedule."
+            ),
+        )
+
+    try:
+        semester_id = services.current_semester_id()
+        semester = services.semesters.get(semester_id)
+        timezone = ZoneInfo(semester.timezone)
+    except (MedSemioticsError, ValueError) as err:
+        raise _not_found(
+            f"No tracked semester configuration is available ({type(err).__name__})."
+        ) from None
+
+    window_start = datetime.now(timezone)
+    window_end = window_start + timedelta(days=days)
+
+    try:
+        schedule = services.effective_schedule_service(timezone).get_effective_schedule(
+            semester_id=semester_id,
+            course_code=course_code.upper(),
+            time_min=window_start,
+            time_max=window_end,
+        )
+    except MedSemioticsError as err:
+        raise _not_found(
+            f"No reconciled schedule for '{course_code}' ({type(err).__name__})."
+        ) from None
+
+    return EffectiveScheduleResponse(
+        semester_id=schedule.semester_id,
+        course_code=schedule.course_code,
+        window_start=window_start,
+        window_end=window_end,
+        classes=tuple(
+            EffectiveClassResponse(
+                date=event.date,
+                status=event.status,
+                source=event.source,
+                start=event.start,
+                end=event.end,
+                title=event.title,
+                notes=event.notes,
+            )
+            for event in schedule.events
+            if window_start.date() <= event.date <= window_end.date()
+        ),
+        note=(
+            "Tracked baseline reconciled with Calendar evidence read through a credential scoped "
+            "to calendar.readonly. An unobserved baseline date remains a scheduled class."
+        ),
+    )

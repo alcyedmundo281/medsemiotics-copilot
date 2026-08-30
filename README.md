@@ -352,6 +352,15 @@ confirmed ones, since cancellations, makeup sessions, and meeting times are Cale
 does not read. See
 [`docs/loop-0.8b-coordination-and-schedule-contracts.md`](docs/loop-0.8b-coordination-and-schedule-contracts.md).
 
+Loop 0.8C adds the one endpoint that contacts Google: `GET /v1/courses/{code}/effective-schedule`
+reconciles the tracked baseline with Calendar evidence, so cancellations, makeup sessions, and exact
+times become visible. Its credential is deliberately narrow — fixed to `calendar.readonly` by
+construction rather than configuration, held in the same secret store, and kept separate from the
+Classroom caller so no credential accumulates both authorities. With none configured the endpoint
+answers `503` naming the secrets and pointing at the planned-baseline endpoint, and reconciliation
+keeps the standing invariant that an unobserved baseline date remains a scheduled class. See
+[`docs/loop-0.8c-effective-schedule-contract.md`](docs/loop-0.8c-effective-schedule-contract.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers

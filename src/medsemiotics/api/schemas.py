@@ -16,6 +16,10 @@ from medsemiotics.domain.coordination_view import (
     CoordinationReadiness,
     CoordinationView,
 )
+from medsemiotics.domain.effective_schedule import (
+    EffectiveClassSource,
+    EffectiveClassStatus,
+)
 from medsemiotics.domain.teaching_coach import TeachingTopicGuide
 
 
@@ -265,3 +269,30 @@ class ScheduleResponse(BaseModel):
     teaching_end_date: date
     upcoming: tuple[PlannedClassResponse, ...]
     note: Annotated[str, Field(description="Why these dates are planned, not confirmed")]
+
+
+class EffectiveClassResponse(BaseModel):
+    """One reconciled class meeting."""
+
+    model_config = ConfigDict(frozen=True)
+
+    date: date
+    status: EffectiveClassStatus
+    source: EffectiveClassSource
+    start: datetime | None = None
+    end: datetime | None = None
+    title: str | None = None
+    notes: str | None = None
+
+
+class EffectiveScheduleResponse(BaseModel):
+    """The tracked baseline reconciled with Calendar evidence."""
+
+    model_config = ConfigDict(frozen=True)
+
+    semester_id: str
+    course_code: str
+    window_start: datetime
+    window_end: datetime
+    classes: tuple[EffectiveClassResponse, ...]
+    note: Annotated[str, Field(description="What evidence this reconciliation used")]

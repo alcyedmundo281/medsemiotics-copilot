@@ -5,6 +5,7 @@ from typing import Any
 
 import pytest
 
+from medsemiotics.domain.exceptions import SecretStoreError
 from medsemiotics.integrations.google_classroom import (
     GoogleClassroomConfigurationError,
     OwnerAuthorizedCaller,
@@ -106,12 +107,24 @@ class TestSecretSources:
     def test_reports_an_unreadable_secret_without_its_location(self, tmp_path: Path) -> None:
         (tmp_path / REFRESH_TOKEN_SECRET).write_bytes(b"\xff\xfe not utf-8")
 
-        with pytest.raises(GoogleClassroomConfigurationError) as err:
+        with pytest.raises(SecretStoreError) as err:
             FileSecretSource(tmp_path).read(REFRESH_TOKEN_SECRET)
 
         assert REFRESH_TOKEN_SECRET in str(err.value)
         assert str(tmp_path) not in str(err.value)
         assert err.value.__cause__ is None
+
+    def test_surfaces_a_store_failure_as_a_classroom_configuration_error(
+        self,
+        tmp_path: Path,
+    ) -> None:
+        (tmp_path / CLIENT_ID_SECRET).write_bytes(b"\xff\xfe not utf-8")
+
+        with pytest.raises(GoogleClassroomConfigurationError) as err:
+            load_owner_authorized_caller(FileSecretSource(tmp_path))
+
+        assert CLIENT_ID_SECRET in str(err.value)
+        assert str(tmp_path) not in str(err.value)
 
     def test_falls_back_to_the_environment_without_a_directory(self) -> None:
         source = build_secret_source(owner_env())
