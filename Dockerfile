@@ -7,7 +7,7 @@ WORKDIR /app
 COPY pyproject.toml README.md ./
 COPY src ./src
 
-RUN pip install --upgrade pip     && pip install .
+RUN pip install --upgrade pip     && pip install . "uvicorn[standard]"
 
 EXPOSE 8080
 
