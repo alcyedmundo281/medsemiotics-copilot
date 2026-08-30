@@ -27,6 +27,13 @@ from medsemiotics.integrations.google_classroom.material_writer import (
 )
 from medsemiotics.integrations.google_classroom.operator_credentials import (
     build_operator_token_provider,
+    describe_operator_channel,
+)
+from medsemiotics.integrations.google_classroom.owner_authorized_caller import (
+    OwnerAuthorizedCaller,
+    build_owner_authorized_token_provider,
+    build_secret_source,
+    load_owner_authorized_caller,
 )
 from medsemiotics.integrations.google_classroom.transport import (
     AuthenticatedAppsScriptTransport,
@@ -70,8 +77,13 @@ __all__ = [
     "GoogleCredentialsTokenProvider",
     "HttpResponse",
     "HttpSender",
+    "OwnerAuthorizedCaller",
     "UrllibHttpSender",
     "build_operator_token_provider",
+    "build_owner_authorized_token_provider",
+    "build_secret_source",
+    "describe_operator_channel",
     "load_apps_script_deployment",
+    "load_owner_authorized_caller",
     "reject_unexpected_keys",
 ]

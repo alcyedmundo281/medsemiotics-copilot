@@ -100,6 +100,12 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
   - `AppsScriptCourseworkWriter`: Loop 0.6F single approved write, re-verifying both the access
     decision and the action decision before sending, refusing any reply that is not a `DRAFT` item,
     and returning the ledger entry that makes a repeat a no-op.
+  - `OwnerAuthorizedCaller` / `SecretSource`: Loop 0.7E caller identity for unattended deployment
+    calls, read from environment variables or a mounted secret-manager volume, with secret fields
+    that cannot be printed or serialized.
+  - **Core Invariant**: **"Identity authority is minimized like scope authority."** The deployment
+    owner's own consented credential is preferred over a domain-wide delegation grant, and a
+    partially configured caller fails closed instead of falling back to the broader channel.
   - **Core Invariant**: **"MedSemiotics holds no Classroom write authority."** The Apps Script
     deployment holds the write scope and exposes exactly one grade-free operation; the repository
     stores no Classroom credential.
