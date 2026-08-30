@@ -88,6 +88,28 @@ class TestBackendSettings:
         assert settings.api_token is None
 
 
+class TestSchemaExposure:
+    """Verify the surface itself is not public."""
+
+    def test_serves_the_schema_to_an_authenticated_caller(self) -> None:
+        response = configure().get("/openapi.json", headers=AUTH)
+
+        assert response.status_code == 200
+        schema = response.json()
+        assert schema["info"]["title"] == "MedSemiotics Teaching Copilot API"
+        assert "/v1/courses/{course_code}/next-topic" in schema["paths"]
+
+    def test_refuses_the_schema_without_a_token(self) -> None:
+        assert configure().get("/openapi.json").status_code == 401
+
+    @pytest.mark.parametrize("path", ["/docs", "/redoc"])
+    def test_disables_the_browser_documentation_pages(self, path: str) -> None:
+        assert configure().get(path, headers=AUTH).status_code == 404
+
+    def test_keeps_health_public(self) -> None:
+        assert configure().get("/health").status_code == 200
+
+
 class TestLazyConfiguration:
     """Verify a server started without explicit wiring configures itself from the environment."""
 

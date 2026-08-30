@@ -15,10 +15,11 @@ still cannot write anywhere.
 """
 
 from datetime import UTC, date, datetime, time, timedelta
-from typing import Annotated
+from typing import Annotated, Any
 from zoneinfo import ZoneInfo
 
 from fastapi import Depends, FastAPI, HTTPException, Query, status
+from fastapi.openapi.utils import get_openapi
 
 from medsemiotics.api.schemas import (
     BriefResponse,
@@ -56,8 +57,13 @@ from medsemiotics.integrations.google_calendar.secret_backed_auth import (
 app = FastAPI(
     title="MedSemiotics Teaching Copilot API",
     version="0.1.0",
-    docs_url="/docs",
-    redoc_url="/redoc",
+    # The schema describes every contract this backend serves, so it is not public: it is served
+    # at /openapi.json behind the same token as the data. The browser documentation pages are
+    # disabled outright, because they fetch the schema without a bearer header and would only
+    # ever render an error against a token-guarded backend.
+    docs_url=None,
+    redoc_url=None,
+    openapi_url=None,
 )
 
 
@@ -97,6 +103,23 @@ def get_services() -> BackendServices:
 def _not_found(detail: str) -> HTTPException:
     """Build a 404 that never echoes a filesystem path."""
     return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=detail)
+
+
+@app.get(
+    "/openapi.json",
+    include_in_schema=False,
+    dependencies=[Depends(require_backend_token)],
+)
+def read_openapi_schema() -> dict[str, Any]:
+    """Return the API schema to an authenticated caller.
+
+    A conversational surface fetches this once to learn the contracts it may call. It is guarded
+    like the data itself: an unauthenticated caller learns nothing about the surface.
+
+    Returns:
+        The generated OpenAPI document.
+    """
+    return get_openapi(title=app.title, version=app.version, routes=app.routes)
 
 
 @app.get("/health", response_model=HealthResponse)
