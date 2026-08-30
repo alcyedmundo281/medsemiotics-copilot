@@ -97,6 +97,14 @@ class ExternalCourseSnapshotError(MedSemioticsError):
     """Raised when provider data cannot be normalized into a provider-neutral snapshot."""
 
 
+class ClassroomActionPlanError(MedSemioticsError):
+    """Raised when a Classroom action plan cannot be built from the requested state."""
+
+
+class ClassroomActionAuthorizationError(MedSemioticsError):
+    """Raised when a Classroom action is attempted without a matching, approved authorization."""
+
+
 class CoordinationViewError(MedSemioticsError):
     """Raised when a coordination view is requested from inconsistent academic scopes."""
 

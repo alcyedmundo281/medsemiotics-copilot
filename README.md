@@ -259,6 +259,13 @@ tokens of the course code, course name, or a configured Calendar alias against t
 Classroom name, and reports an ambiguity with its candidates rather than guessing. See
 [`docs/loop-0.6d-coordination-view.md`](docs/loop-0.6d-coordination-view.md).
 
+Loop 0.6E adds the contract for a single Classroom write, with no execution adapter. A plan
+describes one coursework item in draft state — no grading field, no batch representation — and is
+only built for a course the coordination view links decisively. A named approval binds to the exact
+content digest a reviewer read, so an edited plan is denied until it is re-reviewed, and idempotency
+is decided against MedSemiotics' own ledger of applied actions rather than by widening the Classroom
+read scope. See [`docs/loop-0.6e-classroom-action-plan.md`](docs/loop-0.6e-classroom-action-plan.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers

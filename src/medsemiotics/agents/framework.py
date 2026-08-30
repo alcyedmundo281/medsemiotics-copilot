@@ -235,6 +235,21 @@ def build_default_agent_framework() -> AgentCapabilityFramework:
                         trusted_automation_eligible=True,
                     ),
                     AgentCapability(
+                        capability_id="coordination.classroom-action",
+                        agent=AgentPillar.COORDINATION,
+                        job="Execute one explicitly approved, idempotent Classroom action.",
+                        tools=["google-classroom:coursework-draft"],
+                        categories=["target course", "planned action", "named approval"],
+                        output="Audited single Classroom action decision.",
+                        boundary=(
+                            "Must not publish grades, write to students, execute more than one "
+                            "action, or run without a named approval of the reviewed content."
+                        ),
+                        minimum_autonomy=AutonomyLevel.EXECUTE_WITH_APPROVAL,
+                        maximum_autonomy=AutonomyLevel.EXECUTE_WITH_APPROVAL,
+                        external_mutation=True,
+                    ),
+                    AgentCapability(
                         capability_id="coordination.calendar-publish",
                         agent=AgentPillar.COORDINATION,
                         job="Publish one explicitly approved academic calendar action.",
