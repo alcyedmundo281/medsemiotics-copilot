@@ -15,6 +15,7 @@ from medsemiotics.agents.framework import (
     AgentCapabilityFramework,
     build_default_agent_framework,
 )
+from medsemiotics.agents.teaching_coach import TeachingCoachAgent
 from medsemiotics.integrations.google_calendar.client import GoogleCalendarReader
 from medsemiotics.integrations.google_calendar.secret_backed_auth import (
     CalendarReadCredentials,
@@ -25,11 +26,14 @@ from medsemiotics.integrations.secrets import build_secret_source
 from medsemiotics.services.calendar_config_repository import CalendarConfigRepository
 from medsemiotics.services.coordination_view import CoordinationViewService
 from medsemiotics.services.course_state_service import CourseStateService
+from medsemiotics.services.curated_teaching_coach import CuratedTeachingCoachService
 from medsemiotics.services.effective_schedule_service import EffectiveScheduleService
+from medsemiotics.services.effective_teaching_day_service import EffectiveTeachingDayService
 from medsemiotics.services.schedule_repository import ScheduleRepository
 from medsemiotics.services.semester_config import load_current_semester_id
 from medsemiotics.services.semester_repository import SemesterRepository
 from medsemiotics.services.syllabus_repository import SyllabusRepository
+from medsemiotics.services.teaching_coach_preview import TeachingCoachPreviewService
 from medsemiotics.services.teaching_guide_repository import TeachingGuideRepository
 from medsemiotics.services.teaching_log_repository import TeachingLogRepository
 
@@ -87,6 +91,8 @@ class BackendServices:
     schedules: ScheduleRepository
     capabilities: AgentCapabilityFramework
     coordination: CoordinationViewService
+    syllabi: SyllabusRepository
+    logs: TeachingLogRepository
     calendar_reader_factory: CalendarReaderFactory | None
 
     def effective_schedule_service(self, timezone: ZoneInfo) -> EffectiveScheduleService:
@@ -104,6 +110,35 @@ class BackendServices:
             schedule_repository=self.schedules,
             calendar_config_repository=self.calendars,
             calendar_reader=reader,
+        )
+
+    def teaching_coach_preview_service(self, timezone: ZoneInfo) -> TeachingCoachPreviewService:
+        """Build the draft-only Teaching Coach preview chain.
+
+        The chain reaches Calendar through the reconciliation service and stops at a draft: no
+        publishing collaborator is wired into it at all.
+
+        Args:
+            timezone: Academic timezone used to interpret all-day boundaries.
+
+        Returns:
+            The service that selects the current topic and renders a reviewable draft.
+        """
+        teaching_day = EffectiveTeachingDayService(
+            effective_schedule_service=self.effective_schedule_service(timezone),
+            syllabus_repository=self.syllabi,
+            teaching_log_repository=self.logs,
+        )
+        return TeachingCoachPreviewService(
+            teaching_day_service=teaching_day,
+            curated_teaching_coach_service=CuratedTeachingCoachService(
+                teaching_guide_repository=self.guides,
+                teaching_coach_agent=TeachingCoachAgent(
+                    capability_framework=self.capabilities,
+                    teaching_day_service=teaching_day,
+                    course_state_service=self.course_state,
+                ),
+            ),
         )
 
     def current_semester_id(self) -> str:
@@ -146,10 +181,9 @@ def build_backend_services(
         The services every read endpoint composes.
     """
     root = settings.config_root
-    course_state = CourseStateService(
-        SyllabusRepository(root / "syllabi"),
-        TeachingLogRepository(root / "teaching_logs"),
-    )
+    syllabi = SyllabusRepository(root / "syllabi")
+    logs = TeachingLogRepository(root / "teaching_logs")
+    course_state = CourseStateService(syllabi, logs)
     capabilities = build_default_agent_framework()
     return BackendServices(
         settings=settings,
@@ -158,6 +192,8 @@ def build_backend_services(
         guides=TeachingGuideRepository(root / "teaching_guides"),
         calendars=CalendarConfigRepository(root / "calendar"),
         schedules=ScheduleRepository(root / "schedules"),
+        syllabi=syllabi,
+        logs=logs,
         capabilities=capabilities,
         coordination=CoordinationViewService(
             capability_framework=capabilities,

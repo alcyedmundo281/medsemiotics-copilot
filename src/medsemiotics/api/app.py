@@ -5,18 +5,23 @@ and what comes next. Loop 0.8B adds why something is not working — the coordin
 the next classes are planned. Every endpoint is read-only, reads tracked configuration only, and
 makes no external call: the backend holds no Google credential.
 
+Loop 0.8D adds the class brief, which is always a draft: no publishing collaborator is wired into
+the chain that builds it.
+
 Loop 0.8C adds the one endpoint that does contact Google: the Calendar-reconciled effective
 schedule, served only when a read-only Calendar credential is configured in the secret store. That
 credential can read Calendar and nothing else; the backend still holds no Classroom credential and
 still cannot write anywhere.
 """
 
-from datetime import UTC, date, datetime, timedelta
+from datetime import UTC, date, datetime, time, timedelta
+from typing import Annotated
 from zoneinfo import ZoneInfo
 
 from fastapi import Depends, FastAPI, HTTPException, Query, status
 
 from medsemiotics.api.schemas import (
+    BriefResponse,
     CoordinationResponse,
     CourseStateResponse,
     CourseSummary,
@@ -39,7 +44,11 @@ from medsemiotics.api.settings import (
 )
 from medsemiotics.domain.academic import SemesterConfig
 from medsemiotics.domain.calendar import CourseCalendarConfig
-from medsemiotics.domain.exceptions import MedSemioticsError
+from medsemiotics.domain.exceptions import (
+    MedSemioticsError,
+    TeachingCoachNoClassError,
+)
+from medsemiotics.domain.teaching_coach import TeachingCoachPreviewRequest
 from medsemiotics.integrations.google_calendar.secret_backed_auth import (
     CALENDAR_CHANNEL_SECRETS,
 )
@@ -458,5 +467,86 @@ def read_effective_schedule(
         note=(
             "Tracked baseline reconciled with Calendar evidence read through a credential scoped "
             "to calendar.readonly. An unobserved baseline date remains a scheduled class."
+        ),
+    )
+
+
+@app.get(
+    "/v1/courses/{course_code}/brief",
+    response_model=BriefResponse,
+    dependencies=[Depends(require_backend_token)],
+)
+def read_brief(
+    course_code: str,
+    class_date: Annotated[date | None, Query(alias="date")] = None,
+) -> BriefResponse:
+    """Return a reviewable class brief for one teaching day.
+
+    The topic is selected automatically from the reconciled schedule and the tracked academic
+    state, then composed with the curated guide. The result is always a **draft**: publishing it to
+    Calendar or Classroom is a separate action that requires a named human approval, and no
+    publishing collaborator exists in the chain that produced this response.
+
+    Args:
+        course_code: Tracked course code, such as NEURO.
+        class_date: Teaching day to brief; defaults to today in the academic timezone.
+
+    Returns:
+        The draft brief, marked as one.
+
+    Raises:
+        HTTPException: 503 when no Calendar credential is configured, 404 when there is no class
+            that day or the tracked state cannot produce a brief.
+    """
+    services = get_services()
+    if services.calendar_reader_factory is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=(
+                "This backend has no Calendar credential configured, so it cannot resolve which "
+                "class to brief. Configure "
+                f"{', '.join(CALENDAR_CHANNEL_SECRETS)} in the secret store."
+            ),
+        )
+
+    try:
+        semester_id = services.current_semester_id()
+        semester = services.semesters.get(semester_id)
+        timezone = ZoneInfo(semester.timezone)
+    except (MedSemioticsError, ValueError) as err:
+        raise _not_found(
+            f"No tracked semester configuration is available ({type(err).__name__})."
+        ) from None
+
+    target_date = class_date if class_date is not None else datetime.now(timezone).date()
+    window_start = datetime.combine(target_date, time.min, tzinfo=timezone)
+    window_end = window_start + timedelta(days=1)
+
+    try:
+        preview = services.teaching_coach_preview_service(timezone).preview_class_brief(
+            TeachingCoachPreviewRequest(
+                semester_id=semester_id,
+                course_code=course_code.upper(),
+                class_date=target_date,
+                time_min=window_start,
+                time_max=window_end,
+                requested_by="backend-read",
+            )
+        )
+    except TeachingCoachNoClassError:
+        raise _not_found(
+            f"No effective class for '{course_code}' on {target_date.isoformat()}."
+        ) from None
+    except MedSemioticsError as err:
+        raise _not_found(
+            f"No brief could be composed for '{course_code}' on "
+            f"{target_date.isoformat()} ({type(err).__name__})."
+        ) from None
+
+    return BriefResponse.from_preview(
+        preview,
+        note=(
+            "A draft for review. Publishing it to Calendar or Classroom is a separate action that "
+            "requires a named human approval; this endpoint cannot publish anything."
         ),
     )

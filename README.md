@@ -361,6 +361,13 @@ answers `503` naming the secrets and pointing at the planned-baseline endpoint, 
 keeps the standing invariant that an unobserved baseline date remains a scheduled class. See
 [`docs/loop-0.8c-effective-schedule-contract.md`](docs/loop-0.8c-effective-schedule-contract.md).
 
+Loop 0.8D completes what a teacher opens before class: `GET /v1/courses/{code}/brief` selects the
+topic automatically from the reconciled schedule and the tracked academic state, then composes it
+with the curated guide. Every response is a draft and says so in its status, its flag, and its
+prose — and, more to the point, the chain that produced it has no publishing collaborator wired into
+it at all. Publishing remains the separately approved action it has been since Loop 0.5C. See
+[`docs/loop-0.8d-brief-contract.md`](docs/loop-0.8d-brief-contract.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers
