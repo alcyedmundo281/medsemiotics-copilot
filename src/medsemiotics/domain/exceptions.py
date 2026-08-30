@@ -93,6 +93,10 @@ class ClassroomAccessPolicyError(MedSemioticsError):
     """Raised before Classroom access when data or OAuth authority exceeds policy."""
 
 
+class ExternalCourseSnapshotError(MedSemioticsError):
+    """Raised when provider data cannot be normalized into a provider-neutral snapshot."""
+
+
 class AgentCapabilityError(MedSemioticsError):
     """Base exception for agent capability registration and policy errors."""
 
