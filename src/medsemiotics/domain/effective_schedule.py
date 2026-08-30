@@ -51,13 +51,9 @@ class EffectiveClassEvent(BaseModel):
     course_code: Annotated[str, Field(description="Course code")]
     source: Annotated[EffectiveClassSource, Field(description="Origin source of event")]
     status: Annotated[EffectiveClassStatus, Field(description="Operational outcome status")]
-    calendar_event_id: Annotated[
-        str | None, Field(description="Linked external event ID")
-    ] = None
+    calendar_event_id: Annotated[str | None, Field(description="Linked external event ID")] = None
     title: Annotated[str | None, Field(description="Event display title")] = None
-    start: Annotated[
-        datetime | None, Field(description="Timezone-aware start timestamp")
-    ] = None
+    start: Annotated[datetime | None, Field(description="Timezone-aware start timestamp")] = None
     end: Annotated[datetime | None, Field(description="Timezone-aware end timestamp")] = None
     notes: Annotated[str | None, Field(description="Reconciliation notes")] = None
 
