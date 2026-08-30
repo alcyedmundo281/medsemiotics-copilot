@@ -275,6 +275,14 @@ status code and exception class only, never the URL, the token, or a response bo
 prints redacted, reproducible evidence: counts, lifecycle totals, and a content fingerprint. See
 [`docs/loop-0.6f-live-read-verification.md`](docs/loop-0.6f-live-read-verification.md).
 
+Loop 0.6F also applies one narrowly controlled write: a single coursework item created in `DRAFT`
+state from an approved Loop 0.6E plan. Google offers no scope that creates teacher coursework
+without also granting grade authority, so the boundary is enforced by construction instead — the
+Apps Script deployment holds the scope and exposes exactly one grade-free operation, the policy
+grants it only for the `own_coursework_draft` category, the plan cannot express a grade, and the
+writer rejects any reply that is not a draft or that carries a grading field. The write returns the
+ledger entry that makes a repeat of the same plan a no-op.
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers

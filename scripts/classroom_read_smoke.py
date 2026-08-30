@@ -19,10 +19,6 @@ into a verification record.
 
 import os
 import sys
-from pathlib import Path
-
-from google.auth.transport.requests import Request
-from google.oauth2 import service_account
 
 from medsemiotics.agents.framework import build_default_agent_framework
 from medsemiotics.domain.exceptions import MedSemioticsError
@@ -30,54 +26,16 @@ from medsemiotics.integrations.google_classroom import (
     AppsScriptCourseDiscoveryClient,
     AuthenticatedAppsScriptTransport,
     GoogleClassroomAuthenticationError,
-    GoogleCredentialsTokenProvider,
+    build_operator_token_provider,
     load_apps_script_deployment,
+)
+from medsemiotics.integrations.google_classroom.operator_credentials import (
+    SUBJECT_ENV_VAR,
 )
 from medsemiotics.services.classroom_course_discovery import (
     ClassroomCourseDiscoveryService,
 )
 from medsemiotics.services.classroom_snapshot import ClassroomSnapshotNormalizer
-
-SERVICE_ACCOUNT_ENV_VAR = "MEDSEMIOTICS_CLASSROOM_SERVICE_ACCOUNT_FILE"
-SUBJECT_ENV_VAR = "MEDSEMIOTICS_CLASSROOM_IMPERSONATED_SUBJECT"
-CALLER_SCOPES_ENV_VAR = "MEDSEMIOTICS_CLASSROOM_CALLER_SCOPES"
-
-DEFAULT_CALLER_SCOPES = (
-    "openid",
-    "https://www.googleapis.com/auth/userinfo.email",
-)
-
-
-def build_token_provider() -> GoogleCredentialsTokenProvider:
-    """Build the bearer-token source for the dedicated Workspace identity.
-
-    Returns:
-        Token provider wrapping impersonated service account credentials.
-
-    Raises:
-        SystemExit: If the operator environment is incomplete.
-    """
-    key_file = os.environ.get(SERVICE_ACCOUNT_ENV_VAR, "").strip()
-    subject = os.environ.get(SUBJECT_ENV_VAR, "").strip()
-    if not key_file or not subject:
-        print(
-            f"✗ Set {SERVICE_ACCOUNT_ENV_VAR} and {SUBJECT_ENV_VAR} before running.",
-            file=sys.stderr,
-        )
-        raise SystemExit(2)
-
-    configured_scopes = os.environ.get(CALLER_SCOPES_ENV_VAR, "").strip()
-    scopes = (
-        [scope.strip() for scope in configured_scopes.split(",") if scope.strip()]
-        if configured_scopes
-        else list(DEFAULT_CALLER_SCOPES)
-    )
-
-    credentials = service_account.Credentials.from_service_account_file(
-        str(Path(key_file)),
-        scopes=scopes,
-    ).with_subject(subject)
-    return GoogleCredentialsTokenProvider(credentials, request=Request())
 
 
 def main() -> None:
@@ -95,7 +53,7 @@ def main() -> None:
         discovery_client=AppsScriptCourseDiscoveryClient(
             deployment=deployment,
             transport=AuthenticatedAppsScriptTransport(
-                token_provider=build_token_provider(),
+                token_provider=build_operator_token_provider(),
             ),
         ),
     )

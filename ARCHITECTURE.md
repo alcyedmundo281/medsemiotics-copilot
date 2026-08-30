@@ -95,6 +95,12 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
   - **Core Invariant**: **"A refusal is not a parse error."** An unauthenticated call to an
     owner-only Apps Script deployment returns a sign-in page, which is reported as an
     authentication failure rather than parsed as data.
+  - `AppsScriptCourseworkWriter`: Loop 0.6F single approved write, re-verifying both the access
+    decision and the action decision before sending, refusing any reply that is not a `DRAFT` item,
+    and returning the ledger entry that makes a repeat a no-op.
+  - **Core Invariant**: **"MedSemiotics holds no Classroom write authority."** The Apps Script
+    deployment holds the write scope and exposes exactly one grade-free operation; the repository
+    stores no Classroom credential.
   - **Core Invariant**: **"External provider models must not cross the integration boundary."** All raw provider schemas are mapped into internal domain models at the integration adapter layer.
   - **Core Invariant**: **"Google Calendar read access and Calendar write access are separate capabilities."** Read ingestion does not imply or grant write authorization.
 - **Configuration vs. Integration**: Semester, syllabus, and schedule YAML files represent static domain configuration and state, **not** external integrations.

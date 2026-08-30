@@ -1,8 +1,7 @@
-# Loop 0.6F: authenticated invocation and live read verification
+# Loop 0.6F: authenticated invocation and live verification
 
-Loop 0.6F closes the gap between the contracts of `0.6A`–`0.6E` and a real Google Workspace. This
-increment delivers the authenticated call path and the verification procedure for the **read**
-side. The narrowly controlled write verification is the remaining half and is described at the end.
+Loop 0.6F closes the gap between the contracts of `0.6A`–`0.6E` and a real Google Workspace: the
+authenticated call path, the read verification procedure, and one narrowly controlled write.
 
 ## Why an owner-only deployment needs this
 
@@ -72,17 +71,73 @@ Record one row per verification run:
 A repeated run against an unchanged Classroom reproduces the same fingerprint, which is what makes
 a second verification meaningful rather than ceremonial.
 
-## Remaining half: write verification
+## Write verification: one coursework draft
 
-Creating one coursework draft would exercise the Loop 0.6E plan, its named approval, and its
-idempotency ledger against a real course. It is deliberately **not** in this increment, because it
-requires adding a Classroom **write** scope to the authorization boundary that Loop 0.6A
-deliberately restricted to `classroom.courses.readonly`.
+The accountable owner approved adding the Classroom write scope, so this increment also applies
+exactly one coursework item in `DRAFT` state.
 
-That is an expansion of OAuth authority, and it needs an explicit decision by the accountable
-owner before any code requests it. When it is taken, the write verification must keep every
-property established here: one action, named approval bound to the reviewed content, idempotency
-against the local ledger, redacted evidence, and no grade or student-visible publication.
+### The scope, and why it is this one
+
+`https://www.googleapis.com/auth/classroom.coursework.students` is the narrowest scope Google
+offers for creating coursework in a course the account teaches. Two alternatives were considered
+and rejected:
+
+- `classroom.coursework.me` grants a user authority over *their own* coursework as a student. It
+  cannot create an assignment for a course the account teaches, so it does not implement this
+  operation at all.
+- `classroom.courseworkmaterials` carries no grade authority, but creates course *material*: no due
+  date, no submissions, and no relationship to the coursework draft Loop 0.6E models.
+
+The chosen scope also grants grade authority at the OAuth level. Google offers no narrower scope
+that separates the two, so the boundary is enforced by construction instead:
+
+- **MedSemiotics never holds the scope.** The Apps Script deployment does. The repository stores no
+  Classroom credential of any kind.
+- **The deployment exposes one write.** `doPost` accepts only `coursework_draft_create`, always
+  sets `state: 'DRAFT'`, and never reads or sets `maxPoints` or any grading field.
+- **The policy denies grades explicitly.** `ClassroomAccessPolicy` grants the write operation only
+  for the exact category `own_coursework_draft`; declaring `grades`, `submissions`, `rosters`, or
+  existing `coursework` alongside it is denied, as is declaring the write as read-only.
+- **The plan cannot express a grade.** `ClassroomActionPlan` has no grading field and rejects one.
+- **The reply is re-validated.** `AppsScriptCourseworkWriter` rejects any answer whose item is not
+  `DRAFT`, that carries a grading field, or that declares a broader scope.
+
+### What must be true before anything is sent
+
+The writer verifies both decisions itself, before the transport is touched: the Loop 0.6A access
+decision must be allowed, for this operation, limited to `own_coursework_draft`, with exactly the
+write scope; and the Loop 0.6E action decision must be `authorized` and carry the identity of the
+exact plan supplied. An `already_applied` decision is refused rather than re-sent.
+
+### Verification procedure
+
+```bash
+python scripts/classroom_write_smoke.py \
+    --course-id <classroom course id> --topic-id <tracked topic> \
+    --title "..." --approved-by "Name of the approver"
+```
+
+The script prints the plan's `identity_key` and `content_fingerprint` before applying, then the
+ledger entry the operator must keep:
+
+| Field | Meaning |
+|---|---|
+| `identity_key` | Identity that makes a repeat run a no-op |
+| `external_course_id` | Course the draft was created in |
+| `external_reference` | Classroom identifier of the created draft |
+| `applied_at` / `applied_by` | When it was applied, and who approved it |
+
+Recording that entry is what closes the idempotency loop: supplied to
+`ClassroomActionAuthorizer` on a later run, the same plan returns `already_applied` and no second
+draft is created.
+
+### Verification checklist
+
+1. Run the read verification first; a linked course id comes from the coordination view.
+2. Apply one draft with the script and record the ledger entry.
+3. Confirm in Classroom that the item exists, is a draft, and shows no points.
+4. Re-run the same command with the recorded ledger entry supplied and confirm it is refused as
+   already applied rather than duplicating the draft.
 
 ## Exit criteria for this increment
 
@@ -91,5 +146,11 @@ against the local ledger, redacted evidence, and no grade or student-visible pub
 - every Google refusal — redirect, 401, 403, sign-in HTML — reported as an authentication failure;
 - no URL, token, body, or chained cause in any error;
 - an operator script producing redacted, reproducible evidence;
+- one write operation, added to the access policy as its own exactly-scoped allowance, that cannot
+  be declared read-only and cannot carry a grade, roster, submission, or existing-coursework
+  category;
+- a write boundary that re-verifies both decisions before sending, sends no grading field, and
+  refuses any reply that is not a draft;
+- a ledger entry returned by the write itself, so the next run of the same plan is a no-op;
 - hermetic tests, including a localhost server proving the sender's redirect and error handling;
 - full pytest, Ruff, and strict mypy quality gates.

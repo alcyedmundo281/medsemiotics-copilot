@@ -13,7 +13,7 @@ master outcomes; they are not additional product loops.
 | 3. Coordination and Calendar | Complete and live verified | Effective schedule, Calendar read/reconciliation, and idempotent single-session publishing with named approval for both courses. |
 | 4. Teaching Coach and Four C's | Complete through `0.5F` | Coordination, Creativity, Clarity, and Coaching capabilities; curated guides; automatic current-topic selection; human-reviewable preview; separately approved publication. |
 | 5. Google Workspace and Classroom | In progress | Persistent dedicated-Workspace authorization, metadata-only course discovery, private provider-neutral snapshots, and a coordinated read view with Calendar and academic state. |
-| 6. Assignments, rubrics, and Classroom actions | Pending | Reviewable assignment/rubric drafts followed by explicit, idempotent, one-action-at-a-time Classroom execution. No initial bulk writes or grade publication. |
+| 6. Assignments, rubrics, and Classroom actions | In progress | Reviewable assignment/rubric drafts followed by explicit, idempotent, one-action-at-a-time Classroom execution. No initial bulk writes or grade publication. |
 | 7. PowerSemiotics knowledge and evidence graph | Pending | Topic/class/task links to PowerSemiotics URLs, PMID, DOI, PubMed/Crossref verification, provenance, and source freshness. |
 | 8. Creative studio and publishing | Pending | Wikimedia Commons licensing and attribution, audiovisual material, textbook/e-course assets, and review-before-publish PowerSemiotics authoring. |
 | 9. Assessment and pedagogical intelligence | Pending | Aggregates, competency performance, item and rubric analytics, validity, reliability, longitudinal student trends, and teaching-performance reflection. |
@@ -42,7 +42,7 @@ master loops 5-10.
 | `0.6C` | Complete | Provider-neutral private Classroom snapshot models and normalization. |
 | `0.6D` | Complete | Coordination view across Classroom, Calendar, syllabus, and teaching state. |
 | `0.6E` | Complete | Explicitly approved, idempotent single Classroom action plan; no grades or bulk writes. |
-| `0.6F` | Read path complete | Authenticated unattended invocation of the Apps Script deployment and live read verification are delivered. Narrowly controlled write verification remains, and requires an explicit decision to add a Classroom write scope. |
+| `0.6F` | Complete | Authenticated unattended invocation of the Apps Script deployment, live read verification, and one narrowly controlled coursework-draft write with redacted audit evidence. |
 
 ## Cross-cutting operating contract
 

@@ -9,17 +9,26 @@ GOOGLE_CLASSROOM_COURSES_READONLY_SCOPE = (
     "https://www.googleapis.com/auth/classroom.courses.readonly"
 )
 
+# Narrowest scope Google offers for creating coursework in a course the account teaches. It also
+# carries grade authority at the OAuth level, which no MedSemiotics contract or Apps Script
+# operation ever exercises; see docs/loop-0.6f-write-verification.md.
+GOOGLE_CLASSROOM_COURSEWORK_WRITE_SCOPE = (
+    "https://www.googleapis.com/auth/classroom.coursework.students"
+)
+
 
 class ClassroomOperation(StrEnum):
     """Classroom operations declared by the current public contract."""
 
     COURSE_DISCOVERY = "course_discovery"
+    COURSEWORK_DRAFT_CREATE = "coursework_draft_create"
 
 
 class ClassroomDataCategory(StrEnum):
     """Data categories evaluated before a Classroom adapter may run."""
 
     COURSE_METADATA = "course_metadata"
+    OWN_COURSEWORK_DRAFT = "own_coursework_draft"
     ROSTERS = "rosters"
     STUDENT_IDENTIFIERS = "student_identifiers"
     COURSEWORK = "coursework"
