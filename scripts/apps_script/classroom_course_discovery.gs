@@ -18,15 +18,17 @@
  * This script must never expose rosters, student identifiers, existing coursework, submissions,
  * grades, enrollment codes, owner identifiers, group email addresses, or Drive folders.
  *
- * It performs exactly one write, added in Loop 0.6F: creating a coursework item in DRAFT state
- * from an approved MedSemiotics plan. It never publishes coursework to students, never sets
- * maxPoints or any grading field, and never modifies or deletes an existing item.
+ * It exposes two distinct writes: one grade-free coursework DRAFT and one explicitly approved
+ * student-visible CourseWorkMaterial. Neither operation reads rosters, submissions, or grades;
+ * neither modifies or deletes an existing item.
  */
 
 var OPERATION = 'course_discovery';
 var WRITE_OPERATION = 'coursework_draft_create';
+var MATERIAL_OPERATION = 'coursework_material_publish';
 var SCOPES = ['https://www.googleapis.com/auth/classroom.courses.readonly'];
 var WRITE_SCOPES = ['https://www.googleapis.com/auth/classroom.coursework.students'];
+var MATERIAL_SCOPES = ['https://www.googleapis.com/auth/classroom.courseworkmaterials'];
 var COURSE_STATES = ['ACTIVE', 'ARCHIVED', 'PROVISIONED', 'DECLINED', 'SUSPENDED'];
 var DRAFT_STATE = 'DRAFT';
 
@@ -115,7 +117,13 @@ function jsonOutput(payload) {
  */
 function doPost(e) {
   var request = parseRequest(e);
-  if (!request || request.operation !== WRITE_OPERATION) {
+  if (!request) {
+    return jsonOutput({ error: 'unsupported_operation' });
+  }
+  if (request.operation === MATERIAL_OPERATION) {
+    return publishCourseworkMaterial(request);
+  }
+  if (request.operation !== WRITE_OPERATION) {
     return jsonOutput({ error: 'unsupported_operation' });
   }
   if (!request.course_id || !request.title) {
@@ -148,6 +156,86 @@ function doPost(e) {
       alternate_link: created.alternateLink || null
     }
   });
+}
+
+/**
+ * Publish one approved folder-backed material package to all students in the course.
+ *
+ * @param {Object} request Validated MedSemiotics request body.
+ * @return {GoogleAppsScript.Content.TextOutput} Sanitized publication envelope.
+ */
+function publishCourseworkMaterial(request) {
+  if (!request.course_id || !request.title || !request.folder_url) {
+    return jsonOutput({ error: 'incomplete_request' });
+  }
+  if (!isSafeHttpsUrl(request.folder_url)) {
+    return jsonOutput({ error: 'invalid_material' });
+  }
+  var resources = Array.isArray(request.resources) ? request.resources : [];
+  if (resources.length > 19) {
+    return jsonOutput({ error: 'too_many_materials' });
+  }
+
+  var seenUrls = {};
+  var folderUrl = String(request.folder_url);
+  seenUrls[folderUrl] = true;
+  var materials = [{ link: { url: folderUrl } }];
+  for (var index = 0; index < resources.length; index += 1) {
+    if (!resources[index] || !isSafeHttpsUrl(resources[index].url)) {
+      return jsonOutput({ error: 'invalid_material' });
+    }
+    var resourceUrl = String(resources[index].url);
+    if (seenUrls[resourceUrl]) {
+      return jsonOutput({ error: 'duplicate_material' });
+    }
+    seenUrls[resourceUrl] = true;
+    materials.push({ link: { url: resourceUrl } });
+  }
+
+  var courseMaterial = {
+    title: String(request.title),
+    materials: materials,
+    state: 'PUBLISHED'
+  };
+  if (request.description) {
+    courseMaterial.description = String(request.description);
+  }
+
+  var created = Classroom.Courses.CourseWorkMaterials.create(
+    courseMaterial,
+    String(request.course_id)
+  );
+  return jsonOutput({
+    operation: MATERIAL_OPERATION,
+    scopes: MATERIAL_SCOPES,
+    external_mutation: true,
+    coursework_material: {
+      id: created.id || '',
+      state: created.state || '',
+      alternate_link: created.alternateLink || null,
+      material_count: (created.materials || []).length
+    }
+  });
+}
+
+/**
+ * Accept only absolute HTTPS links without embedded credentials.
+ *
+ * @param {*} value Candidate link.
+ * @return {boolean} Whether the link is safe for Classroom attachment creation.
+ */
+function isSafeHttpsUrl(value) {
+  try {
+    var parsed = new URL(String(value));
+    return (
+      parsed.protocol === 'https:' &&
+      Boolean(parsed.hostname) &&
+      !parsed.username &&
+      !parsed.password
+    );
+  } catch (err) {
+    return false;
+  }
 }
 
 /**

@@ -114,6 +114,15 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
   - **Core Invariant**: **"Idempotency survives the process."** A repeated action is decided from
     the private ledger before deployment configuration, credentials, transports, or Google are
     touched. The ledger is operational state and never public configuration.
+  - `ClassroomMaterialPackagePlan` / `ClassroomMaterialPublishAuthorizer` /
+    `AppsScriptCourseworkMaterialWriter`: Loop 0.7C contract for one folder-backed, faculty-reviewed
+    student material post. A package contains the Drive folder link plus no more than nineteen
+    reviewed HTTPS resources; its approval fingerprint covers every visible field and URL.
+  - **Core Invariant**: **"Student visibility is a separately approved capability."** The material
+    writer requires the exact `classroom.courseworkmaterials` scope, explicit `PUBLISHED` evidence,
+    and a named approval. It cannot target students, read a roster/submission/grade, or publish a
+    batch. The folder is prepared through the connected Drive surface, so the backend receives no
+    broad Drive authority.
   - **Core Invariant**: **"External provider models must not cross the integration boundary."** All raw provider schemas are mapped into internal domain models at the integration adapter layer.
   - **Core Invariant**: **"Google Calendar read access and Calendar write access are separate capabilities."** Read ingestion does not imply or grant write authorization.
 - **Configuration vs. Integration**: Semester, syllabus, and schedule YAML files represent static domain configuration and state, **not** external integrations.

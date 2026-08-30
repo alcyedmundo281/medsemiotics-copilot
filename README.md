@@ -300,6 +300,16 @@ Google. The ledger contains only action identity, external course/reference, tim
 accountable actor; it remains outside tracked public content and contains no roster, submission, or
 grade data. See [`docs/loop-0.7b-private-action-ledger.md`](docs/loop-0.7b-private-action-ledger.md).
 
+Loop 0.7C adds a separate student-material capability. A connected mobile surface prepares a
+faculty-reviewed Google Drive folder; MedSemiotics packages its folder URL with up to nineteen
+additional PDF, PPTX, Docs, Sheets, or web links and binds named approval to the exact list. The
+writer and reference Apps Script then create exactly one `CourseWorkMaterial` in explicit
+`PUBLISHED` state using only `classroom.courseworkmaterials`. The persistent ledger prevents a
+repeat after restart. No broad Drive API, individual-student targeting, roster, submission,
+coursework/grade scope, batch representation, update, or delete is added. Code is ready, but the
+updated Apps Script must be reauthorized and redeployed before live use. See
+[`docs/loop-0.7c-classroom-material-packages.md`](docs/loop-0.7c-classroom-material-packages.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers

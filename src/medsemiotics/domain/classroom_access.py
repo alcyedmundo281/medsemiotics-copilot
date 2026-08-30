@@ -16,12 +16,19 @@ GOOGLE_CLASSROOM_COURSEWORK_WRITE_SCOPE = (
     "https://www.googleapis.com/auth/classroom.coursework.students"
 )
 
+# Exact scope for creating teacher-authored course material. Unlike the coursework scope above,
+# this scope does not grant submission or grading authority.
+GOOGLE_CLASSROOM_COURSEWORK_MATERIALS_SCOPE = (
+    "https://www.googleapis.com/auth/classroom.courseworkmaterials"
+)
+
 
 class ClassroomOperation(StrEnum):
     """Classroom operations declared by the current public contract."""
 
     COURSE_DISCOVERY = "course_discovery"
     COURSEWORK_DRAFT_CREATE = "coursework_draft_create"
+    COURSEWORK_MATERIAL_PUBLISH = "coursework_material_publish"
 
 
 class ClassroomDataCategory(StrEnum):
@@ -29,6 +36,7 @@ class ClassroomDataCategory(StrEnum):
 
     COURSE_METADATA = "course_metadata"
     OWN_COURSEWORK_DRAFT = "own_coursework_draft"
+    OWN_COURSEWORK_MATERIAL = "own_coursework_material"
     ROSTERS = "rosters"
     STUDENT_IDENTIFIERS = "student_identifiers"
     COURSEWORK = "coursework"

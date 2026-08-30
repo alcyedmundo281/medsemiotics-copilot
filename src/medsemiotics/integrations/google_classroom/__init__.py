@@ -20,6 +20,11 @@ from medsemiotics.integrations.google_classroom.exceptions import (
     GoogleClassroomMappingError,
     GoogleClassroomReadError,
 )
+from medsemiotics.integrations.google_classroom.material_writer import (
+    ALLOWED_MATERIAL_ENVELOPE_KEYS,
+    ALLOWED_MATERIAL_REPLY_KEYS,
+    AppsScriptCourseworkMaterialWriter,
+)
 from medsemiotics.integrations.google_classroom.operator_credentials import (
     build_operator_token_provider,
 )
@@ -42,11 +47,14 @@ __all__ = [
     "ALLOWED_COURSEWORK_KEYS",
     "ALLOWED_COURSE_KEYS",
     "ALLOWED_ENVELOPE_KEYS",
+    "ALLOWED_MATERIAL_ENVELOPE_KEYS",
+    "ALLOWED_MATERIAL_REPLY_KEYS",
     "ALLOWED_WRITE_ENVELOPE_KEYS",
     "APPS_SCRIPT_DEPLOYMENT_ID_ENV_VAR",
     "APPS_SCRIPT_URL_ENV_VAR",
     "PROHIBITED_PAYLOAD_KEYS",
     "AppsScriptCourseDiscoveryClient",
+    "AppsScriptCourseworkMaterialWriter",
     "AppsScriptCourseworkWriter",
     "AppsScriptDeployment",
     "AppsScriptTransport",

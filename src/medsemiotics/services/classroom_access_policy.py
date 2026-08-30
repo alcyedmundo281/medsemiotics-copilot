@@ -5,6 +5,7 @@ from typing import ClassVar
 
 from medsemiotics.domain.classroom_access import (
     GOOGLE_CLASSROOM_COURSES_READONLY_SCOPE,
+    GOOGLE_CLASSROOM_COURSEWORK_MATERIALS_SCOPE,
     GOOGLE_CLASSROOM_COURSEWORK_WRITE_SCOPE,
     ClassroomAccessDecision,
     ClassroomAccessRequest,
@@ -67,6 +68,26 @@ class ClassroomAccessPolicy:
             ),
             grant_reason=(
                 "Creating one coursework draft is permitted; grades are never read or written."
+            ),
+        ),
+        ClassroomOperation.COURSEWORK_MATERIAL_PUBLISH: _OperationAllowance(
+            categories=(ClassroomDataCategory.OWN_COURSEWORK_MATERIAL,),
+            scopes=(GOOGLE_CLASSROOM_COURSEWORK_MATERIALS_SCOPE,),
+            external_mutation=True,
+            mutation_denial=(
+                "Publishing course material mutates Classroom and must be declared as a mutation."
+            ),
+            category_denial=(
+                "Only own_coursework_material is permitted; rosters, student identifiers, "
+                "submissions, grades, and existing coursework are prohibited."
+            ),
+            scope_denial=(
+                "Publishing course material requires exactly the "
+                "classroom.courseworkmaterials OAuth scope."
+            ),
+            grant_reason=(
+                "Publishing one approved course material package is permitted; no student or "
+                "grading data is read or written."
             ),
         ),
     }

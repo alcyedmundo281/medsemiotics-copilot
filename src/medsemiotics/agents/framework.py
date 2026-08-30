@@ -250,6 +250,21 @@ def build_default_agent_framework() -> AgentCapabilityFramework:
                         external_mutation=True,
                     ),
                     AgentCapability(
+                        capability_id="coordination.classroom-material-publish",
+                        agent=AgentPillar.COORDINATION,
+                        job="Publish one approved, folder-backed material package to students.",
+                        tools=["google-classroom:courseworkmaterials"],
+                        categories=["target course", "material links", "named approval"],
+                        output="Audited single Classroom material publication decision.",
+                        boundary=(
+                            "Must not access rosters, submissions, or grades; publish more than "
+                            "one package; or run without named approval of the exact content."
+                        ),
+                        minimum_autonomy=AutonomyLevel.EXECUTE_WITH_APPROVAL,
+                        maximum_autonomy=AutonomyLevel.EXECUTE_WITH_APPROVAL,
+                        external_mutation=True,
+                    ),
+                    AgentCapability(
                         capability_id="coordination.calendar-publish",
                         agent=AgentPillar.COORDINATION,
                         job="Publish one explicitly approved academic calendar action.",

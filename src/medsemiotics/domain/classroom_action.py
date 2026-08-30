@@ -24,6 +24,7 @@ class ClassroomActionType(StrEnum):
     """Classroom write operations this contract is allowed to describe."""
 
     CREATE_COURSEWORK_DRAFT = "create_coursework_draft"
+    PUBLISH_COURSEWORK_MATERIAL = "publish_coursework_material"
 
 
 class ClassroomActionStatus(StrEnum):
@@ -88,6 +89,15 @@ class ClassroomActionPlan(BaseModel):
     due_date: Annotated[date | None, Field(description="Optional local due date")] = None
     prepared_by: Annotated[str, Field(description="Accountable author of the plan")]
     prepared_at: Annotated[datetime, Field(description="Timezone-aware preparation timestamp")]
+
+    @field_validator("action_type")
+    @classmethod
+    def validate_action_type(cls, value: ClassroomActionType) -> ClassroomActionType:
+        """Keep the legacy coursework plan limited to its one original action."""
+        if value is not ClassroomActionType.CREATE_COURSEWORK_DRAFT:
+            msg = "ClassroomActionPlan can only describe create_coursework_draft"
+            raise ValueError(msg)
+        return value
 
     @field_validator("semester_id", mode="before")
     @classmethod
