@@ -508,3 +508,117 @@ class TestEffectiveScheduleEndpoint:
         )
 
         assert response.status_code == 401
+
+
+def scheduled_event(
+    class_date: date, title: str = "NEURO - Semiología"
+) -> OperationalCalendarEvent:
+    """Build a Calendar event confirming one baseline class."""
+    timezone = ZoneInfo("America/Guayaquil")
+    start = datetime.combine(class_date, time(8, 0), tzinfo=timezone)
+    return OperationalCalendarEvent(
+        event_id="event-scheduled",
+        calendar_id="neuro@group.calendar.google.com",
+        title=title,
+        start=start,
+        end=start + timedelta(hours=2),
+        all_day=False,
+    )
+
+
+class TestBriefEndpoint:
+    """Verify the class brief is always a draft, and says so."""
+
+    def test_refuses_without_a_calendar_credential(self) -> None:
+        response = configure().get("/v1/courses/NEURO/brief", headers=AUTH)
+
+        assert response.status_code == 503
+        assert CALENDAR_CLIENT_ID_SECRET in response.json()["detail"]
+
+    def test_composes_a_draft_for_a_teaching_day(self) -> None:
+        class_date = next_baseline_class()
+        reader = FakeCalendarReader([scheduled_event(class_date)])
+
+        response = configure(calendar_reader_factory=lambda timezone: reader).get(  # noqa: ARG005
+            f"/v1/courses/neuro/brief?date={class_date.isoformat()}", headers=AUTH
+        )
+
+        assert response.status_code == 200
+        payload = response.json()
+        assert payload["course_code"] == "NEURO"
+        assert payload["class_date"] == class_date.isoformat()
+        assert payload["topic_id"] == "neuro-intro"
+        assert payload["learning_objectives"]
+        assert payload["coaching_tips"]
+        assert payload["preview_body"]
+
+    def test_marks_every_brief_as_a_draft(self) -> None:
+        class_date = next_baseline_class()
+        reader = FakeCalendarReader([scheduled_event(class_date)])
+
+        payload = (
+            configure(calendar_reader_factory=lambda timezone: reader)  # noqa: ARG005
+            .get(f"/v1/courses/NEURO/brief?date={class_date.isoformat()}", headers=AUTH)
+            .json()
+        )
+
+        assert payload["status"] == "draft"
+        assert payload["requires_approval"] is True
+        assert "named human approval" in payload["note"]
+        assert "cannot publish" in payload["note"]
+
+    def test_reports_a_day_without_class(self) -> None:
+        class_date = next_baseline_class()
+        non_class_date = class_date + timedelta(days=1)
+        while non_class_date.weekday() in {1, 3}:
+            non_class_date += timedelta(days=1)
+        reader = FakeCalendarReader([])
+
+        response = configure(calendar_reader_factory=lambda timezone: reader).get(  # noqa: ARG005
+            f"/v1/courses/NEURO/brief?date={non_class_date.isoformat()}", headers=AUTH
+        )
+
+        assert response.status_code == 404
+        assert "No effective class" in response.json()["detail"]
+
+    def test_reports_an_unknown_course(self) -> None:
+        reader = FakeCalendarReader([])
+
+        response = configure(calendar_reader_factory=lambda timezone: reader).get(  # noqa: ARG005
+            "/v1/courses/CARDIO/brief", headers=AUTH
+        )
+
+        assert response.status_code == 404
+        assert "CARDIO" in response.json()["detail"]
+
+    def test_rejects_a_malformed_date(self) -> None:
+        reader = FakeCalendarReader([])
+
+        response = configure(calendar_reader_factory=lambda timezone: reader).get(  # noqa: ARG005
+            "/v1/courses/NEURO/brief?date=not-a-date", headers=AUTH
+        )
+
+        assert response.status_code == 422
+
+    def test_reports_missing_configuration_without_a_filesystem_path(
+        self,
+        tmp_path: Path,
+    ) -> None:
+        reader = FakeCalendarReader([])
+
+        response = configure(
+            config_root=tmp_path,
+            calendar_reader_factory=lambda timezone: reader,  # noqa: ARG005
+        ).get("/v1/courses/NEURO/brief", headers=AUTH)
+
+        assert response.status_code == 404
+        assert str(tmp_path) not in response.json()["detail"]
+
+    def test_requires_a_token(self) -> None:
+        reader = FakeCalendarReader([])
+
+        response = configure(calendar_reader_factory=lambda timezone: reader).get(  # noqa: ARG005
+            "/v1/courses/NEURO/brief"
+        )
+
+        assert response.status_code == 401

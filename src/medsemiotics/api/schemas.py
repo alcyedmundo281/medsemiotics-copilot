@@ -20,7 +20,10 @@ from medsemiotics.domain.effective_schedule import (
     EffectiveClassSource,
     EffectiveClassStatus,
 )
-from medsemiotics.domain.teaching_coach import TeachingTopicGuide
+from medsemiotics.domain.teaching_coach import (
+    TeachingCoachPreviewResult,
+    TeachingTopicGuide,
+)
 
 
 class HealthResponse(BaseModel):
@@ -296,3 +299,57 @@ class EffectiveScheduleResponse(BaseModel):
     window_end: datetime
     classes: tuple[EffectiveClassResponse, ...]
     note: Annotated[str, Field(description="What evidence this reconciliation used")]
+
+
+class BriefResponse(BaseModel):
+    """A reviewable Teaching Coach draft, never a published one."""
+
+    model_config = ConfigDict(frozen=True)
+
+    semester_id: str
+    course_code: str
+    class_date: date
+    topic_id: str | None
+    topic_title: str
+    learning_objectives: tuple[str, ...]
+    coaching_tips: tuple[str, ...]
+    teaching_questions: tuple[str, ...]
+    common_pitfalls: tuple[str, ...]
+    material_notes: tuple[str, ...]
+    assignment_note: str | None = None
+    preview_title: Annotated[str, Field(description="Title a reviewer would see")]
+    preview_body: Annotated[str, Field(description="Rendered draft body a reviewer would read")]
+    status: Annotated[str, Field(description="Always 'draft'")] = "draft"
+    requires_approval: Annotated[
+        bool, Field(description="Always true; publication is a separate approved action")
+    ] = True
+    note: Annotated[str, Field(description="What this draft is, and what it is not")]
+
+    @classmethod
+    def from_preview(cls, preview: TeachingCoachPreviewResult, note: str) -> "BriefResponse":
+        """Project a preview result onto the response contract.
+
+        Args:
+            preview: Draft rendered by the Teaching Coach preview service.
+            note: One sentence stating that this is a draft.
+
+        Returns:
+            The response a mobile surface receives.
+        """
+        brief = preview.draft.brief
+        return cls(
+            semester_id=brief.semester_id,
+            course_code=brief.course_code,
+            class_date=brief.class_date,
+            topic_id=brief.topic_id,
+            topic_title=brief.topic_title,
+            learning_objectives=tuple(brief.learning_objectives),
+            coaching_tips=tuple(brief.coaching_tips),
+            teaching_questions=tuple(brief.teaching_questions),
+            common_pitfalls=tuple(brief.common_pitfalls),
+            material_notes=tuple(brief.material_notes),
+            assignment_note=brief.assignment_note,
+            preview_title=preview.preview_title,
+            preview_body=preview.preview_body,
+            note=note,
+        )
