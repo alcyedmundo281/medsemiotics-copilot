@@ -97,6 +97,7 @@ module = [
     # Only the operator credential glue calls into untyped google-auth constructors; the rest of
     # the Classroom package stays under strict call checking.
     "medsemiotics.integrations.google_classroom.operator_credentials",
+    "medsemiotics.integrations.google_classroom.owner_authorized_caller",
 ]
 ignore_missing_imports = true
 disallow_untyped_calls = false

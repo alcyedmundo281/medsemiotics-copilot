@@ -70,10 +70,14 @@ then recorded in the same private ledger used by the deterministic no-duplicate 
 
 The repository's unattended transport requires a separately configured caller identity capable of
 invoking an owner-only Workspace web app. No local service-account key or delegated caller was
-present, and no new key or domain-wide delegation was created merely to close a test. A future
-increment may either configure that caller in a secret manager or replace it with another
-owner-authorized cloud execution channel. Until then, `AppsScriptCourseworkMaterialWriter.publish`
-is hermetically verified but its live POST path is not.
+present, and no new key or domain-wide delegation was created merely to close a test.
+
+> **Loop 0.7E supplies that caller.** Rather than creating a domain-wide delegation grant, the
+> deployment owner authorizes the operator application once and the refresh token is held by a
+> secret store. See `docs/loop-0.7e-owner-authorized-caller.md` for the channel, the consent
+> script, and the steps that close this gap. Until those steps run,
+> `AppsScriptCourseworkMaterialWriter.publish` remains hermetically verified but its live POST path
+> is not.
 
 ## Quality evidence
 

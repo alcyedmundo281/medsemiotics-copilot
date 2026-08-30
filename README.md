@@ -322,6 +322,17 @@ backend caller was configured locally; the live owner-only POST transport theref
 explicit follow-up rather than a claimed result. See
 [`docs/loop-0.7d-live-material-verification.md`](docs/loop-0.7d-live-material-verification.md).
 
+Loop 0.7E supplies the caller that unattended path was missing, without creating standing domain
+authority: instead of a service account with domain-wide delegation, the deployment owner
+authorizes the operator application once and the refresh token is held by a secret store — either
+environment variables or a mounted secret-manager volume, which is how Cloud Run and Kubernetes
+expose secret versions. A mounted file wins over a variable of the same name, so rotating a version
+needs no redeploy. The two secret fields cannot be printed or serialized, a partially configured
+caller fails closed rather than falling back to the delegated channel, and
+`describe_operator_channel()` reports which identity a configuration selects without reading any
+secret value. See
+[`docs/loop-0.7e-owner-authorized-caller.md`](docs/loop-0.7e-owner-authorized-caller.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers

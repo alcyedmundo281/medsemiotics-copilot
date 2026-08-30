@@ -52,7 +52,8 @@ master loops 5-10.
 | `0.7A` | Complete | Public NEURO/GASTRO assignment and qualitative-rubric catalogs, syllabus alignment, and one reviewable catalog-backed Classroom draft plan. |
 | `0.7B` | Complete | Private atomic applied-action ledger and a rerunnable operator workflow that makes a repeated plan a local no-op before Google is contacted. |
 | `0.7C` | Complete in code | Mobile-ready package of one Drive folder plus reviewed PDF, PPTX, Docs, Sheets, Google Forms, or URL links; named content-bound approval and one student-visible `CourseWorkMaterial` using only `classroom.courseworkmaterials`. |
-| `0.7D` | Live deployment and controlled publication verified; backend POST pending | Owner-only Apps Script deployed and authorized; metadata-only discovery matched both courses; one student-visible technical material posted per course; four ledger-backed repeats made no Google request. The materials were posted through the teacher UI, so the owner-only backend POST caller remains to be configured. |
+| `0.7D` | Live deployment and controlled publication verified; backend POST pending on `0.7E` configuration | Owner-only Apps Script deployed and authorized; metadata-only discovery matched both courses; one student-visible technical material posted per course; four ledger-backed repeats made no Google request. The materials were posted through the teacher UI, so the owner-only backend POST caller remains to be configured. |
+| `0.7E` | Complete in code | Owner-authorized caller for the unattended POST path, held by a secret store (environment or mounted secret-manager volume) instead of a domain-wide delegation grant, with a one-time consent script and fail-closed channel selection. |
 
 ## Cross-cutting operating contract
 
