@@ -17,7 +17,7 @@ master outcomes; they are not additional product loops.
 | 7. PowerSemiotics knowledge and evidence graph | Pending | Topic/class/task links to PowerSemiotics URLs, PMID, DOI, PubMed/Crossref verification, provenance, and source freshness. |
 | 8. Creative studio and publishing | Pending | Wikimedia Commons licensing and attribution, audiovisual material, textbook/e-course assets, and review-before-publish PowerSemiotics authoring. |
 | 9. Assessment and pedagogical intelligence | Pending | Aggregates, competency performance, item and rubric analytics, validity, reliability, longitudinal student trends, and teaching-performance reflection. |
-| 10. Secure cloud mobile orchestrator | Architecture accepted | ChatGPT Work as the primary mobile interface, Claude Cowork as an alternative, Codex Cloud and Claude Code web for development, and one provider-neutral MedSemiotics backend. |
+| 10. Secure cloud mobile orchestrator | In progress through `0.8A` | ChatGPT Work as the primary mobile interface, Claude Cowork as an alternative, Codex Cloud and Claude Code web for development, and one provider-neutral MedSemiotics backend. |
 
 ## Engineering-loop mapping
 
@@ -29,6 +29,7 @@ master outcomes; they are not additional product loops.
 | `0.6A`-`0.6D` | Master loop 5 |
 | `0.6E`-`0.6F` and later bounded actions | Master loop 6 |
 | `0.7A` and later assignment/rubric increments | Master loop 6 |
+| `0.8A` and later backend-contract increments | Master loop 10 |
 
 Commit `ae3b4e1` enabled public NEURO/GASTRO schedules, Calendar bindings, teaching-guide
 catalogs, and cloud-agent safety documentation. It is cross-cutting enablement, not completion of
@@ -54,6 +55,12 @@ master loops 5-10.
 | `0.7C` | Complete in code | Mobile-ready package of one Drive folder plus reviewed PDF, PPTX, Docs, Sheets, Google Forms, or URL links; named content-bound approval and one student-visible `CourseWorkMaterial` using only `classroom.courseworkmaterials`. |
 | `0.7D` | Live deployment and controlled publication verified; backend POST pending on `0.7E` configuration | Owner-only Apps Script deployed and authorized; metadata-only discovery matched both courses; one student-visible technical material posted per course; four ledger-backed repeats made no Google request. The materials were posted through the teacher UI, so the owner-only backend POST caller remains to be configured. |
 | `0.7E` | Complete in code | Owner-authorized caller for the unattended POST path, held by a secret store (environment or mounted secret-manager volume) instead of a domain-wide delegation grant, with a one-time consent script and fail-closed channel selection. |
+
+## Current mobile backend sequence
+
+| Increment | Status | Bounded outcome |
+|---|---|---|
+| `0.8A` | Complete in code | Read-only backend contracts for semester, course state, next required topic with its curated guide, and one guide by id; bearer-token access from the secret store, fail-closed when unconfigured; no Google credential, no writes, no student data. |
 
 ## Cross-cutting operating contract
 
