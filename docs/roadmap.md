@@ -42,7 +42,7 @@ master loops 5-10.
 | `0.6C` | Next | Provider-neutral private Classroom snapshot models and normalization. |
 | `0.6D` | Pending | Coordination view across Classroom, Calendar, syllabus, and teaching state. |
 | `0.6E` | Pending | Explicitly approved, idempotent single Classroom action plan; no grades or bulk writes. |
-| `0.6F` | Pending | Live read verification and narrowly controlled write verification with audit evidence. |
+| `0.6F` | Pending | Authenticated unattended invocation of the Apps Script deployment, live read verification, and narrowly controlled write verification with audit evidence. |
 
 ## Cross-cutting operating contract
 

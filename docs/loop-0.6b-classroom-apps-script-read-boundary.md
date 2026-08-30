@@ -88,10 +88,13 @@ verification, from the dedicated Workspace account's own authenticated session. 
 be called by an unattended backend — an anonymous request is redirected to a Google sign-in page
 instead of reaching `doGet`.
 
-Loop 0.6F therefore owns authenticated invocation and must decide it explicitly before any
-unattended read: a Google-issued OIDC identity token for the dedicated Workspace identity, with the
-deployment opened to that identity only, is the intended direction. Nothing in this increment
-should be read as evidence that an unattended cloud read already works.
+Loop 0.6F therefore owns authenticated invocation, deferred there deliberately rather than left
+undecided, and must settle it before any unattended read: a Google-issued OIDC identity token for
+the dedicated Workspace identity, sent as `Authorization: Bearer <id_token>` with the deployment
+opened to that identity only, is the intended direction. A shared secret over an owner-only
+deployment is not an option — access is enforced before `doGet` runs, so the secret would never be
+evaluated. Nothing in this increment should be read as evidence that an unattended cloud read
+already works.
 
 ## Public/private separation
 
