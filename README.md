@@ -244,6 +244,14 @@ only; authenticated unattended invocation of the deployment belongs to Loop 0.6F
 [`docs/loop-0.6b-classroom-apps-script-read-boundary.md`](docs/loop-0.6b-classroom-apps-script-read-boundary.md)
 and the reference deployment in `scripts/apps_script/`.
 
+Loop 0.6C normalizes that read into a provider-neutral private snapshot. `ExternalCourse` and
+`ExternalCourseSnapshot` describe accessible courses without Google field names, fold display names
+into an accent-, case-, and whitespace-insensitive comparison form for later matching, and carry the
+original provenance. A snapshot is private runtime state: it is never persisted or published, its
+SHA-256 fingerprint detects changes between reads without retaining course content, and only the
+redacted `audit_summary()` — provenance, counts, and that fingerprint — is safe to log. See
+[`docs/loop-0.6c-classroom-snapshot-normalization.md`](docs/loop-0.6c-classroom-snapshot-normalization.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers

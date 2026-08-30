@@ -69,6 +69,13 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
   - **Core Invariant**: **"MedSemiotics holds no Classroom OAuth token."** The persistent
     authorization lives in the dedicated Workspace Apps Script deployment; the repository stores
     neither credentials nor Classroom content.
+  - `ExternalCourse` / `ExternalCourseSnapshot`: Loop 0.6C provider-neutral private view of
+    accessible external courses, with deterministic accent- and case-insensitive name
+    normalization, a content fingerprint for change detection, and a redacted `audit_summary()`.
+  - `ClassroomSnapshotNormalizer`: Pure mapping from an authorized Classroom discovery result to
+    that provider-neutral snapshot; it performs no I/O and carries no authorization.
+  - **Core Invariant**: **"A snapshot is private runtime state."** Snapshots are never written to
+    tracked configuration or published; only the redacted audit summary may leave the process.
   - **Core Invariant**: **"External provider models must not cross the integration boundary."** All raw provider schemas are mapped into internal domain models at the integration adapter layer.
   - **Core Invariant**: **"Google Calendar read access and Calendar write access are separate capabilities."** Read ingestion does not imply or grant write authorization.
 - **Configuration vs. Integration**: Semester, syllabus, and schedule YAML files represent static domain configuration and state, **not** external integrations.
