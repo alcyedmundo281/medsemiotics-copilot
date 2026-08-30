@@ -13,7 +13,7 @@ master outcomes; they are not additional product loops.
 | 3. Coordination and Calendar | Complete and live verified | Effective schedule, Calendar read/reconciliation, and idempotent single-session publishing with named approval for both courses. |
 | 4. Teaching Coach and Four C's | Complete through `0.5F` | Coordination, Creativity, Clarity, and Coaching capabilities; curated guides; automatic current-topic selection; human-reviewable preview; separately approved publication. |
 | 5. Google Workspace and Classroom | In progress | Persistent dedicated-Workspace authorization, metadata-only course discovery, private provider-neutral snapshots, and a coordinated read view with Calendar and academic state. |
-| 6. Assignments, rubrics, and Classroom actions | In progress through `0.7C` | Reviewable assignment/rubric drafts and folder-backed learning materials followed by explicit, persistently idempotent, one-action-at-a-time Classroom execution. No bulk writes or grade publication. |
+| 6. Assignments, rubrics, and Classroom actions | In progress through `0.7D` | Reviewable assignment/rubric drafts and folder-backed learning materials followed by explicit, persistently idempotent, one-action-at-a-time Classroom execution. No bulk writes or grade publication. |
 | 7. PowerSemiotics knowledge and evidence graph | Pending | Topic/class/task links to PowerSemiotics URLs, PMID, DOI, PubMed/Crossref verification, provenance, and source freshness. |
 | 8. Creative studio and publishing | Pending | Wikimedia Commons licensing and attribution, audiovisual material, textbook/e-course assets, and review-before-publish PowerSemiotics authoring. |
 | 9. Assessment and pedagogical intelligence | Pending | Aggregates, competency performance, item and rubric analytics, validity, reliability, longitudinal student trends, and teaching-performance reflection. |
@@ -52,7 +52,7 @@ master loops 5-10.
 | `0.7A` | Complete | Public NEURO/GASTRO assignment and qualitative-rubric catalogs, syllabus alignment, and one reviewable catalog-backed Classroom draft plan. |
 | `0.7B` | Complete | Private atomic applied-action ledger and a rerunnable operator workflow that makes a repeated plan a local no-op before Google is contacted. |
 | `0.7C` | Complete in code | Mobile-ready package of one Drive folder plus reviewed PDF, PPTX, Docs, Sheets, Google Forms, or URL links; named content-bound approval and one student-visible `CourseWorkMaterial` using only `classroom.courseworkmaterials`. |
-| `0.7D` | Next | Reauthorize/redeploy the dedicated Apps Script and perform controlled live verification in linked NEURO/GASTRO courses; one material at a time, no grades or bulk actions. |
+| `0.7D` | Live deployment and controlled publication verified; backend POST pending | Owner-only Apps Script deployed and authorized; metadata-only discovery matched both courses; one student-visible technical material posted per course; four ledger-backed repeats made no Google request. The materials were posted through the teacher UI, so the owner-only backend POST caller remains to be configured. |
 
 ## Cross-cutting operating contract
 

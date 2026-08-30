@@ -312,6 +312,16 @@ coursework/grade scope, batch representation, update, or delete is added. Code i
 updated Apps Script must be reauthorized and redeployed before live use. See
 [`docs/loop-0.7c-classroom-material-packages.md`](docs/loop-0.7c-classroom-material-packages.md).
 
+Loop 0.7D deployed and authorized the dedicated owner-only Apps Script, verified its metadata-only
+course discovery against the live Workspace account, and posted one reviewed technical material to
+each linked NEURO and GASTRO course. The shared empty Drive folder is read-only, link-accessible,
+and non-discoverable; Classroom also installed its course-specific reader permissions. A private
+two-record ledger made two repeated plans per course local no-ops before Google configuration was
+loaded. The initial posts used Classroom's authenticated teacher interface because no delegated
+backend caller was configured locally; the live owner-only POST transport therefore remains an
+explicit follow-up rather than a claimed result. See
+[`docs/loop-0.7d-live-material-verification.md`](docs/loop-0.7d-live-material-verification.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers
