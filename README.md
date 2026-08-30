@@ -368,6 +368,14 @@ prose — and, more to the point, the chain that produced it has no publishing c
 it at all. Publishing remains the separately approved action it has been since Loop 0.5C. See
 [`docs/loop-0.8d-brief-contract.md`](docs/loop-0.8d-brief-contract.md).
 
+Loop 0.8E makes that consumable. The API schema is now guarded by the same token as the data — it
+was previously served to anyone, publishing the full shape of the API — and the browser
+documentation pages are disabled, since they cannot send a bearer header. `BackendClient` and
+`scripts/backend_query.py` give a conversational surface such as Claude Cowork a concrete way in: it
+holds the backend token and nothing else, issues `GET` requests only, and never lets the token reach
+a message or an error. The loop note carries the Cloud Run runbook and the three steps a surface
+follows. See [`docs/loop-0.8e-deployed-surface.md`](docs/loop-0.8e-deployed-surface.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers
