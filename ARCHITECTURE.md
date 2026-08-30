@@ -82,6 +82,13 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
   - **Core Invariant**: **"A binding is never guessed."** When more than one external course
     matches a tracked course, or one external course matches more than one tracked course, the view
     reports an ambiguity with its candidates instead of choosing.
+  - `ClassroomActionPlan` / `ClassroomActionAuthorizer`: Loop 0.6E contract for one coursework
+    draft, authorized only by a named approval bound to the reviewed content digest, and idempotent
+    against MedSemiotics' own applied-action ledger.
+  - **Core Invariant**: **"An approval covers the content that was read."** Editing a plan after
+    approval changes its content fingerprint and forces a re-review before it can be authorized.
+  - **Core Invariant**: **"One action, never a batch."** A Classroom action plan is a single
+    object with no batch representation and no grading field.
   - **Core Invariant**: **"External provider models must not cross the integration boundary."** All raw provider schemas are mapped into internal domain models at the integration adapter layer.
   - **Core Invariant**: **"Google Calendar read access and Calendar write access are separate capabilities."** Read ingestion does not imply or grant write authorization.
 - **Configuration vs. Integration**: Semester, syllabus, and schedule YAML files represent static domain configuration and state, **not** external integrations.
