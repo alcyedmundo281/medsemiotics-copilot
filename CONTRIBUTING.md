@@ -50,6 +50,11 @@ Run the full test suite and verify test coverage:
 pytest
 ```
 
+### 4. Continuous Integration
+The `CI` workflow (`.github/workflows/ci.yml`) runs the same four gates — `ruff check`,
+`ruff format --check`, `mypy`, and `pytest` — on every pull request and on `main`, using the
+pinned Python version and the committed `uv.lock`. Run them locally before pushing.
+
 ---
 
 ## Commit Message Convention
