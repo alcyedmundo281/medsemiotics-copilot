@@ -1,41 +1,108 @@
 """Deterministic data-minimization and OAuth policy for Google Classroom access."""
 
+from dataclasses import dataclass
+from typing import ClassVar
+
 from medsemiotics.domain.classroom_access import (
     GOOGLE_CLASSROOM_COURSES_READONLY_SCOPE,
+    GOOGLE_CLASSROOM_COURSEWORK_WRITE_SCOPE,
     ClassroomAccessDecision,
     ClassroomAccessRequest,
     ClassroomDataCategory,
+    ClassroomOperation,
 )
 from medsemiotics.domain.exceptions import ClassroomAccessPolicyError
 
 
-class ClassroomAccessPolicy:
-    """Authorize only the narrow 0.6A course-discovery read contract."""
+@dataclass(frozen=True)
+class _OperationAllowance:
+    """The exact authority one declared operation may request, and nothing more."""
 
-    _ALLOWED_CATEGORIES = (ClassroomDataCategory.COURSE_METADATA,)
-    _ALLOWED_SCOPES = (GOOGLE_CLASSROOM_COURSES_READONLY_SCOPE,)
+    categories: tuple[ClassroomDataCategory, ...]
+    scopes: tuple[str, ...]
+    external_mutation: bool
+    mutation_denial: str
+    category_denial: str
+    scope_denial: str
+    grant_reason: str
+
+
+class ClassroomAccessPolicy:
+    """Authorize only the narrow operations the public Classroom contract declares.
+
+    Loop 0.6A permits metadata-only course discovery. Loop 0.6F adds exactly one write: creating a
+    coursework draft in a course the dedicated account teaches. Every other operation, category,
+    scope, and mutation flag fails closed.
+    """
+
+    _ALLOWANCES: ClassVar[dict[ClassroomOperation, _OperationAllowance]] = {
+        ClassroomOperation.COURSE_DISCOVERY: _OperationAllowance(
+            categories=(ClassroomDataCategory.COURSE_METADATA,),
+            scopes=(GOOGLE_CLASSROOM_COURSES_READONLY_SCOPE,),
+            external_mutation=False,
+            mutation_denial="Course discovery is read-only and cannot mutate Classroom.",
+            category_denial=(
+                "Only course_metadata is permitted; rosters, student identifiers, coursework, "
+                "submissions, and grades are prohibited."
+            ),
+            scope_denial=(
+                "Course discovery requires exactly the classroom.courses.readonly OAuth scope."
+            ),
+            grant_reason="Minimal read-only course discovery is permitted.",
+        ),
+        ClassroomOperation.COURSEWORK_DRAFT_CREATE: _OperationAllowance(
+            categories=(ClassroomDataCategory.OWN_COURSEWORK_DRAFT,),
+            scopes=(GOOGLE_CLASSROOM_COURSEWORK_WRITE_SCOPE,),
+            external_mutation=True,
+            mutation_denial=(
+                "Creating a coursework draft mutates Classroom and must be declared as a mutation."
+            ),
+            category_denial=(
+                "Only own_coursework_draft is permitted; rosters, student identifiers, existing "
+                "coursework, submissions, and grades are prohibited."
+            ),
+            scope_denial=(
+                "Creating a coursework draft requires exactly the "
+                "classroom.coursework.students OAuth scope."
+            ),
+            grant_reason=(
+                "Creating one coursework draft is permitted; grades are never read or written."
+            ),
+        ),
+    }
 
     def evaluate(self, request: ClassroomAccessRequest) -> ClassroomAccessDecision:
-        """Evaluate one request without calling Google or mutating any external state."""
-        if request.external_mutation:
-            return self._deny(request, "Course discovery is read-only and cannot mutate Classroom.")
-        if request.data_categories != self._ALLOWED_CATEGORIES:
-            return self._deny(
-                request,
-                "Only course_metadata is permitted; rosters, student identifiers, coursework, "
-                "submissions, and grades are prohibited.",
+        """Evaluate one request without calling Google or mutating any external state.
+
+        Args:
+            request: The declared operation, categories, scopes, and mutation flag.
+
+        Returns:
+            An explainable allow or deny decision.
+
+        Raises:
+            ClassroomAccessPolicyError: If the request declares an operation the contract does
+                not define, which cannot be evaluated at all.
+        """
+        allowance = self._ALLOWANCES.get(request.operation)
+        if allowance is None:
+            msg = (
+                f"Operation '{request.operation}' is not part of the Classroom contract "
+                "and cannot be evaluated."
             )
-        if request.oauth_scopes != self._ALLOWED_SCOPES:
-            return self._deny(
-                request,
-                "Course discovery requires exactly the classroom.courses.readonly OAuth scope.",
-            )
+            raise ClassroomAccessPolicyError(msg)
+        if request.external_mutation != allowance.external_mutation:
+            return self._deny(request, allowance.mutation_denial)
+        if request.data_categories != allowance.categories:
+            return self._deny(request, allowance.category_denial)
+        if request.oauth_scopes != allowance.scopes:
+            return self._deny(request, allowance.scope_denial)
         return ClassroomAccessDecision(
             allowed=True,
             operation=request.operation,
-            approved_data_categories=self._ALLOWED_CATEGORIES,
-            approved_oauth_scopes=self._ALLOWED_SCOPES,
-            reason="Minimal read-only course discovery is permitted.",
+            approved_data_categories=allowance.categories,
+            approved_oauth_scopes=allowance.scopes,
+            reason=allowance.grant_reason,
         )
 
     def authorize(self, request: ClassroomAccessRequest) -> ClassroomAccessDecision:

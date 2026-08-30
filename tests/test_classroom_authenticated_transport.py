@@ -35,6 +35,7 @@ class FakeSender:
     def __init__(self, response: HttpResponse) -> None:
         self.response = response
         self.calls: list[tuple[str, Mapping[str, str], float]] = []
+        self.bodies: list[bytes] = []
 
     def get(
         self,
@@ -45,6 +46,19 @@ class FakeSender:
     ) -> HttpResponse:
         """Record the call and return the canned response."""
         self.calls.append((url, dict(headers), timeout_seconds))
+        return self.response
+
+    def post(
+        self,
+        *,
+        url: str,
+        headers: Mapping[str, str],
+        body: bytes,
+        timeout_seconds: float,
+    ) -> HttpResponse:
+        """Record the submission and return the canned response."""
+        self.calls.append((url, dict(headers), timeout_seconds))
+        self.bodies.append(body)
         return self.response
 
 
@@ -108,6 +122,60 @@ class TestAuthenticatedInvocation:
             )
 
         assert sender.calls == []
+
+
+class TestAuthenticatedSubmission:
+    """Verify a write submission carries the token and only declared fields."""
+
+    def test_submits_the_operation_and_payload_as_json(self) -> None:
+        transport, sender = make_transport(
+            HttpResponse(
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps({"operation": "coursework_draft_create"}),
+            )
+        )
+
+        envelope = transport.submit(
+            url=WEB_APP_URL,
+            operation="coursework_draft_create",
+            payload={"course_id": "770001", "title": "Taller"},
+        )
+
+        assert envelope == {"operation": "coursework_draft_create"}
+        url, headers, _ = sender.calls[0]
+        assert url == WEB_APP_URL
+        assert headers["Authorization"] == f"Bearer {TOKEN}"
+        assert headers["Content-Type"] == "application/json"
+        assert json.loads(sender.bodies[0]) == {
+            "operation": "coursework_draft_create",
+            "course_id": "770001",
+            "title": "Taller",
+        }
+
+    def test_refuses_to_submit_over_plaintext(self) -> None:
+        transport, sender = make_transport(json_response())
+
+        with pytest.raises(GoogleClassroomConfigurationError):
+            transport.submit(
+                url="http://script.google.com/macros/s/AKfycb/exec",
+                operation="coursework_draft_create",
+                payload={},
+            )
+
+        assert sender.calls == []
+
+    def test_reports_a_sign_in_page_on_a_submission(self) -> None:
+        transport, _ = make_transport(
+            HttpResponse(status_code=200, content_type="text/html", body=SIGN_IN_PAGE)
+        )
+
+        with pytest.raises(GoogleClassroomAuthenticationError):
+            transport.submit(
+                url=WEB_APP_URL,
+                operation="coursework_draft_create",
+                payload={},
+            )
 
 
 class TestUnauthenticatedAnswers:
@@ -257,6 +325,12 @@ class _Handler(BaseHTTPRequestHandler):
         else:
             self._respond(403, "text/plain", "forbidden")
 
+    def do_POST(self) -> None:
+        """Read the submitted body and answer like the write endpoint."""
+        length = int(self.headers.get("Content-Length", "0"))
+        self.rfile.read(length)
+        self._respond(200, "application/json; charset=utf-8", json.dumps(ENVELOPE))
+
     def _respond(self, status: int, content_type: str, body: str) -> None:
         """Write one response."""
         encoded = body.encode("utf-8")
@@ -326,6 +400,17 @@ class TestUrllibHttpSender:
         )
 
         assert response.status_code == 403
+
+    def test_posts_a_body(self, local_server: str) -> None:
+        response = UrllibHttpSender().post(
+            url=f"{local_server}/json",
+            headers={"Content-Type": "application/json"},
+            body=b'{"operation":"coursework_draft_create"}',
+            timeout_seconds=5.0,
+        )
+
+        assert response.status_code == 200
+        assert json.loads(response.body) == ENVELOPE
 
     def test_reports_an_unreachable_deployment_without_the_url(self) -> None:
         with pytest.raises(GoogleClassroomReadError) as err:

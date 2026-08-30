@@ -27,6 +27,12 @@ The request must declare one accountable requester, the `course_metadata` catego
 `ClassroomAccessPolicy.evaluate()` returns an explainable decision. `authorize()` fails before an
 integration adapter can run when the declaration exceeds the allowed boundary.
 
+> Loop 0.6F added a second allowance to this policy, and only one: creating a coursework draft with
+> exactly the `classroom.coursework.students` scope and the `own_coursework_draft` category. The
+> prohibitions above are unchanged and apply to that operation too — grades, rosters, student
+> identifiers, submissions, and existing coursework remain denied. See
+> `docs/loop-0.6f-live-read-verification.md`.
+
 ## Public/private separation
 
 The contract, adapter code, tests, and sanitized fixture data may be public. OAuth client files,

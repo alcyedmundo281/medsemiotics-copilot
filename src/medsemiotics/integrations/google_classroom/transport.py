@@ -37,7 +37,7 @@ class HttpResponse:
 
 
 class HttpSender(Protocol):
-    """Read-only HTTP sender contract that must not follow redirects."""
+    """HTTP sender contract that must not follow redirects."""
 
     def get(
         self,
@@ -47,6 +47,17 @@ class HttpSender(Protocol):
         timeout_seconds: float,
     ) -> HttpResponse:
         """Perform one GET request and return the response without following redirects."""
+        ...
+
+    def post(
+        self,
+        *,
+        url: str,
+        headers: Mapping[str, str],
+        body: bytes,
+        timeout_seconds: float,
+    ) -> HttpResponse:
+        """Perform one POST request and return the response without following redirects."""
         ...
 
 
@@ -128,8 +139,48 @@ class UrllibHttpSender:
         Raises:
             GoogleClassroomReadError: If the request cannot be completed.
         """
+        return self._send(url=url, headers=headers, body=None, timeout_seconds=timeout_seconds)
+
+    def post(
+        self,
+        *,
+        url: str,
+        headers: Mapping[str, str],
+        body: bytes,
+        timeout_seconds: float,
+    ) -> HttpResponse:
+        """Perform one POST request.
+
+        Args:
+            url: Absolute HTTPS URL to write to.
+            headers: Request headers, including the bearer authorization.
+            body: Encoded request body.
+            timeout_seconds: Socket timeout for the request.
+
+        Returns:
+            HttpResponse carrying the status, content type, and decoded body.
+
+        Raises:
+            GoogleClassroomReadError: If the request cannot be completed.
+        """
+        return self._send(url=url, headers=headers, body=body, timeout_seconds=timeout_seconds)
+
+    def _send(
+        self,
+        *,
+        url: str,
+        headers: Mapping[str, str],
+        body: bytes | None,
+        timeout_seconds: float,
+    ) -> HttpResponse:
+        """Perform one request without following redirects."""
         opener = urllib.request.build_opener(_NoRedirectHandler)
-        request = urllib.request.Request(url, headers=dict(headers), method="GET")
+        request = urllib.request.Request(
+            url,
+            data=body,
+            headers=dict(headers),
+            method="POST" if body is not None else "GET",
+        )
 
         try:
             with opener.open(request, timeout=timeout_seconds) as response:
@@ -191,10 +242,7 @@ class AuthenticatedAppsScriptTransport:
             GoogleClassroomConfigurationError: If the URL would carry the token in cleartext.
             GoogleClassroomReadError: If the deployment cannot be read or answers unusably.
         """
-        if not url.casefold().startswith("https://"):
-            msg = "Refusing to send a bearer token to a non-HTTPS execution URL."
-            raise GoogleClassroomConfigurationError(msg)
-
+        self._require_https(url)
         token = self._token_provider.bearer_token()
         query = urllib.parse.urlencode({"operation": operation})
         separator = "&" if "?" in url else "?"
@@ -207,7 +255,55 @@ class AuthenticatedAppsScriptTransport:
             },
             timeout_seconds=self._timeout_seconds,
         )
+        return self._decode(response)
 
+    def submit(
+        self,
+        *,
+        url: str,
+        operation: str,
+        payload: Mapping[str, Any],
+    ) -> Mapping[str, Any]:
+        """Send one write operation to the deployment as an authenticated caller.
+
+        Args:
+            url: Validated Apps Script execution URL.
+            operation: Operation the deployment should perform.
+            payload: Declared write parameters; the deployment accepts nothing else.
+
+        Returns:
+            The decoded JSON envelope, which the write boundary validates separately.
+
+        Raises:
+            GoogleClassroomAuthenticationError: If the deployment does not recognize the caller.
+            GoogleClassroomConfigurationError: If the URL would carry the token in cleartext.
+            GoogleClassroomReadError: If the deployment cannot be reached or answers unusably.
+        """
+        self._require_https(url)
+        token = self._token_provider.bearer_token()
+        body = json.dumps({"operation": operation, **dict(payload)}).encode("utf-8")
+
+        response = self._sender.post(
+            url=url,
+            headers={
+                "Authorization": f"Bearer {token}",
+                "Accept": JSON_CONTENT_TYPE,
+                "Content-Type": JSON_CONTENT_TYPE,
+            },
+            body=body,
+            timeout_seconds=self._timeout_seconds,
+        )
+        return self._decode(response)
+
+    @staticmethod
+    def _require_https(url: str) -> None:
+        """Refuse to send a bearer token in cleartext."""
+        if not url.casefold().startswith("https://"):
+            msg = "Refusing to send a bearer token to a non-HTTPS execution URL."
+            raise GoogleClassroomConfigurationError(msg)
+
+    def _decode(self, response: HttpResponse) -> Mapping[str, Any]:
+        """Validate one response and decode its JSON object body."""
         self._verify_authenticated(response)
 
         if response.status_code != 200:

@@ -44,6 +44,8 @@ ALLOWED_COURSE_KEYS = frozenset({"id", "name", "section", "course_state", "alter
 PROHIBITED_PAYLOAD_KEYS = frozenset(
     {
         "announcements",
+        "assignedgrade",
+        "assignedstudents",
         "coursework",
         "courseworkmaterials",
         "email",
@@ -51,8 +53,11 @@ PROHIBITED_PAYLOAD_KEYS = frozenset(
         "emails",
         "enrollmentcode",
         "enrollments",
+        "draftgrade",
+        "grade",
         "gradebooksettings",
         "grades",
+        "maxpoints",
         "guardians",
         "invitations",
         "owner",
@@ -75,6 +80,41 @@ PROHIBITED_PAYLOAD_KEYS = frozenset(
 def _normalize_key(key: str) -> str:
     """Compare declared payload keys ignoring case and word separators."""
     return key.replace("_", "").replace("-", "").casefold()
+
+
+def reject_unexpected_keys(
+    keys: Any,
+    allowed: frozenset[str],
+    context: str,
+) -> None:
+    """Fail closed on any prohibited or unrecognized field in an Apps Script payload.
+
+    Args:
+        keys: Field names the deployment declared.
+        allowed: The only field names this context accepts.
+        context: Human-readable description of the payload being validated.
+
+    Raises:
+        GoogleClassroomBoundaryError: If a prohibited or unrecognized field is present.
+        GoogleClassroomReadError: If a field name is not a string.
+    """
+    for key in keys:
+        if not isinstance(key, str):
+            msg = f"Apps Script {context} contains a non-string field name"
+            raise GoogleClassroomReadError(msg)
+        if key in allowed:
+            continue
+        if _normalize_key(key) in PROHIBITED_PAYLOAD_KEYS:
+            msg = (
+                f"Apps Script {context} exposes prohibited Classroom data '{key}'; "
+                "MedSemiotics never reads or writes it."
+            )
+            raise GoogleClassroomBoundaryError(msg)
+        msg = (
+            f"Apps Script {context} contains unrecognized field '{key}'; "
+            "only declared fields are accepted."
+        )
+        raise GoogleClassroomBoundaryError(msg)
 
 
 def _deployment_id_from_url(web_app_url: str) -> str:
@@ -287,7 +327,7 @@ class AppsScriptCourseDiscoveryClient:
             msg = f"Apps Script reply must be a JSON object, got {type(envelope).__name__}"
             raise GoogleClassroomReadError(msg)
 
-        self._reject_unexpected_keys(envelope.keys(), ALLOWED_ENVELOPE_KEYS, "reply")
+        reject_unexpected_keys(envelope.keys(), ALLOWED_ENVELOPE_KEYS, "reply")
 
         missing = sorted(ALLOWED_ENVELOPE_KEYS - set(envelope.keys()))
         if missing:
@@ -325,7 +365,7 @@ class AppsScriptCourseDiscoveryClient:
             msg = f"Course entries must be JSON objects, got {type(raw_course).__name__}"
             raise GoogleClassroomReadError(msg)
 
-        self._reject_unexpected_keys(raw_course.keys(), ALLOWED_COURSE_KEYS, "course entry")
+        reject_unexpected_keys(raw_course.keys(), ALLOWED_COURSE_KEYS, "course entry")
 
         for key, value in raw_course.items():
             if value is not None and not isinstance(value, str):
@@ -355,31 +395,6 @@ class AppsScriptCourseDiscoveryClient:
         except ValueError as err:
             msg = f"Unsupported Classroom course_state '{value}'"
             raise GoogleClassroomMappingError(msg) from err
-
-    @staticmethod
-    def _reject_unexpected_keys(
-        keys: Any,
-        allowed: frozenset[str],
-        context: str,
-    ) -> None:
-        """Fail closed on any prohibited or unrecognized field in the payload."""
-        for key in keys:
-            if not isinstance(key, str):
-                msg = f"Apps Script {context} contains a non-string field name"
-                raise GoogleClassroomReadError(msg)
-            if key in allowed:
-                continue
-            if _normalize_key(key) in PROHIBITED_PAYLOAD_KEYS:
-                msg = (
-                    f"Apps Script {context} exposes prohibited Classroom data '{key}'; "
-                    "course discovery is metadata-only."
-                )
-                raise GoogleClassroomBoundaryError(msg)
-            msg = (
-                f"Apps Script {context} contains unrecognized field '{key}'; "
-                "only declared course metadata is accepted."
-            )
-            raise GoogleClassroomBoundaryError(msg)
 
     def _read_timestamp(self) -> datetime:
         """Obtain a timezone-aware read timestamp for the audit trail."""
