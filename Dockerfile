@@ -6,6 +6,8 @@ WORKDIR /app
 
 COPY pyproject.toml README.md ./
 COPY src ./src
+# The read endpoints serve tracked configuration; without it the deployed API has nothing to read.
+COPY config ./config
 
 RUN pip install --upgrade pip     && pip install . "uvicorn[standard]"
 

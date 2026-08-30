@@ -103,6 +103,12 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
   - `OwnerAuthorizedCaller` / `SecretSource`: Loop 0.7E caller identity for unattended deployment
     calls, read from environment variables or a mounted secret-manager volume, with secret fields
     that cannot be printed or serialized.
+  - Read-only backend contracts (`medsemiotics.api`): Loop 0.8A endpoints serving semester, course
+    state, next required topic with its curated guide, and one guide by id, guarded by a bearer
+    token from the secret store.
+  - **Core Invariant**: **"An interface is not a credential holder."** The mobile and
+    conversational surfaces authenticate to the backend with their own token and never receive a
+    Google credential; a backend with no token configured refuses to serve academic state.
   - **Core Invariant**: **"Identity authority is minimized like scope authority."** The deployment
     owner's own consented credential is preferred over a domain-wide delegation grant, and a
     partially configured caller fails closed instead of falling back to the broader channel.

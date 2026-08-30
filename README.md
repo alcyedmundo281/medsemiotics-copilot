@@ -333,6 +333,16 @@ caller fails closed rather than falling back to the delegated channel, and
 secret value. See
 [`docs/loop-0.7e-owner-authorized-caller.md`](docs/loop-0.7e-owner-authorized-caller.md).
 
+Loop 0.8A turns the accepted mobile architecture into an actual contract. Four read-only endpoints
+serve the active semester, a course's tracked progress, the next required topic **with its curated
+guide**, and one guide by identifier — the last being what a teacher opens before class. They read
+tracked configuration only: no Google API call, no OAuth token, no write, and no student data.
+Callers present a bearer token from the same secret store as the Classroom caller, compared in
+constant time; a backend with no token configured answers `503` naming the variable to set, so a
+misconfigured deployment cannot silently become a public one. The container image now ships
+`config/`, without which every read endpoint would answer `404` once deployed. See
+[`docs/loop-0.8a-read-only-backend.md`](docs/loop-0.8a-read-only-backend.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers
