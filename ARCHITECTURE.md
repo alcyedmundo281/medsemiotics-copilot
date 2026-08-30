@@ -61,6 +61,14 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
   - `CourseCalendarConfig`: Course-to-calendar binding and title matching aliases.
   - `ClassroomAccessPolicy`: Deterministic pre-adapter gate permitting only declared
     metadata-only course discovery with the exact `classroom.courses.readonly` scope in Loop 0.6A.
+  - `AppsScriptCourseDiscoveryClient`: Loop 0.6B read boundary consuming a private Apps Script web
+    app owned by the dedicated Workspace account. It re-verifies the `ClassroomAccessDecision`
+    before any transport call and accepts only allowlisted, non-personal course metadata.
+  - `ClassroomCourseDiscovery`: Sanitized, deterministically ordered course metadata with the
+    requester, read timestamp, deployment identifier, and approved scopes.
+  - **Core Invariant**: **"MedSemiotics holds no Classroom OAuth token."** The persistent
+    authorization lives in the dedicated Workspace Apps Script deployment; the repository stores
+    neither credentials nor Classroom content.
   - **Core Invariant**: **"External provider models must not cross the integration boundary."** All raw provider schemas are mapped into internal domain models at the integration adapter layer.
   - **Core Invariant**: **"Google Calendar read access and Calendar write access are separate capabilities."** Read ingestion does not imply or grant write authorization.
 - **Configuration vs. Integration**: Semester, syllabus, and schedule YAML files represent static domain configuration and state, **not** external integrations.

@@ -232,6 +232,17 @@ student identifiers, coursework, submissions, grades, broader scopes, and every 
 mutation are rejected. See
 [`docs/loop-0.6a-classroom-access-contract.md`](docs/loop-0.6a-classroom-access-contract.md).
 
+Loop 0.6B makes that contract executable as a metadata-only course discovery read. The persistent
+Classroom authorization lives in a private Apps Script web app owned by the dedicated Workspace
+account, so MedSemiotics stores no Classroom OAuth token. `ClassroomCourseDiscoveryService`
+authorizes the Coordination `OBSERVE` capability and the Loop 0.6A policy before any read, and
+`AppsScriptCourseDiscoveryClient` re-verifies that decision and accepts only the five allowlisted
+course metadata fields. Prohibited or unrecognized payload fields, declared mutations, and broader
+scopes fail closed. The deployment URL and identifier are environment configuration and never
+tracked in Git. See
+[`docs/loop-0.6b-classroom-apps-script-read-boundary.md`](docs/loop-0.6b-classroom-apps-script-read-boundary.md)
+and the reference deployment in `scripts/apps_script/`.
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers

@@ -1,7 +1,7 @@
 # MedSemiotics Copilot master roadmap
 
 This file is the authoritative public product map. MedSemiotics has exactly ten master loops.
-Engineering loops such as `0.5F` and `0.6A` are bounded delivery increments mapped to those
+Engineering loops such as `0.5F` and `0.6B` are bounded delivery increments mapped to those
 master outcomes; they are not additional product loops.
 
 ## Ten master loops
@@ -38,8 +38,8 @@ master loops 5-10.
 | Increment | Status | Bounded outcome |
 |---|---|---|
 | `0.6A` | Complete | Classroom capability, privacy, accountability, OAuth-scope, and data-minimization contract. |
-| `0.6B` | Next | Persistent Apps Script read boundary and metadata-only course discovery. |
-| `0.6C` | Pending | Provider-neutral private Classroom snapshot models and normalization. |
+| `0.6B` | Complete | Persistent Apps Script read boundary and metadata-only course discovery. |
+| `0.6C` | Next | Provider-neutral private Classroom snapshot models and normalization. |
 | `0.6D` | Pending | Coordination view across Classroom, Calendar, syllabus, and teaching state. |
 | `0.6E` | Pending | Explicitly approved, idempotent single Classroom action plan; no grades or bulk writes. |
 | `0.6F` | Pending | Live read verification and narrowly controlled write verification with audit evidence. |
