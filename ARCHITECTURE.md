@@ -106,6 +106,10 @@ The **KNOW** layer holds the authoritative domain representations, data models, 
   - Read-only backend contracts (`medsemiotics.api`): Loop 0.8A endpoints serving semester, course
     state, next required topic with its curated guide, and one guide by id, guarded by a bearer
     token from the secret store.
+  - `CalendarReadCredentials`: Loop 0.8C secret-store credential for the backend's only outbound
+    read, with its scope fixed to `calendar.readonly` in code rather than configuration.
+  - **Core Invariant**: **"One credential, one authority."** The Calendar read credential is
+    separate from the Classroom caller, so neither channel can accumulate the other's powers.
   - **Core Invariant**: **"An interface is not a credential holder."** The mobile and
     conversational surfaces authenticate to the backend with their own token and never receive a
     Google credential; a backend with no token configured refuses to serve academic state.

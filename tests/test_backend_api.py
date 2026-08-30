@@ -1,7 +1,9 @@
 """Tests for the Loop 0.8A read-only backend contracts."""
 
 from collections.abc import Iterator
+from datetime import date, datetime, time, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import pytest
 from fastapi.testclient import TestClient
@@ -11,17 +13,30 @@ from medsemiotics.api.settings import (
     API_TOKEN_SECRET,
     CONFIG_ROOT_ENV_VAR,
     BackendSettings,
+    build_backend_services,
     load_backend_settings,
 )
+from medsemiotics.domain.calendar import OperationalCalendarEvent
+from medsemiotics.integrations.google_calendar.secret_backed_auth import (
+    CALENDAR_CLIENT_ID_SECRET,
+)
+from medsemiotics.services.schedule_repository import ScheduleRepository
 
 TOKEN = "backend-token-for-the-mobile-surface"
 AUTH = {"Authorization": f"Bearer {TOKEN}"}
 CONFIG_ROOT = Path("config")
 
 
-def configure(config_root: Path = CONFIG_ROOT, token: str | None = TOKEN) -> TestClient:
-    """Bind the application to one configuration root and token."""
-    api_module.configure(BackendSettings(config_root=config_root, api_token=token))
+def configure(
+    config_root: Path = CONFIG_ROOT,
+    token: str | None = TOKEN,
+    calendar_reader_factory: object | None = None,
+) -> TestClient:
+    """Bind the application to one configuration root, token, and Calendar reader."""
+    api_module.configure(
+        BackendSettings(config_root=config_root, api_token=token),
+        calendar_reader_factory=calendar_reader_factory,  # type: ignore[arg-type]
+    )
     return TestClient(api_module.app)
 
 
@@ -45,6 +60,26 @@ class TestBackendSettings:
         assert settings.config_root == Path("/srv/config")
         assert settings.api_token == TOKEN
         assert settings.current_semester_pointer == Path("/srv/config/current_semester.yaml")
+
+    def test_loads_the_calendar_credential_when_the_store_holds_one(self) -> None:
+        settings = load_backend_settings(
+            {
+                API_TOKEN_SECRET: TOKEN,
+                CALENDAR_CLIENT_ID_SECRET: "calendar-client",
+                "MEDSEMIOTICS_CALENDAR_OAUTH_CLIENT_SECRET": "calendar-secret",
+                "MEDSEMIOTICS_CALENDAR_OAUTH_REFRESH_TOKEN": "calendar-refresh",
+            }
+        )
+
+        assert settings.calendar_credentials is not None
+        assert settings.calendar_credentials.client_id == "calendar-client"
+        assert build_backend_services(settings).calendar_reader_factory is not None
+
+    def test_builds_no_calendar_reader_without_a_credential(self) -> None:
+        settings = load_backend_settings({API_TOKEN_SECRET: TOKEN})
+
+        assert settings.calendar_credentials is None
+        assert build_backend_services(settings).calendar_reader_factory is None
 
     def test_defaults_the_configuration_root(self) -> None:
         settings = load_backend_settings({})
@@ -340,3 +375,136 @@ class TestScheduleEndpoint:
 
     def test_requires_a_token(self) -> None:
         assert configure().get("/v1/courses/NEURO/schedule").status_code == 401
+
+
+class FakeCalendarReader:
+    """Return canned operational events without contacting Google."""
+
+    def __init__(self, events: list[OperationalCalendarEvent]) -> None:
+        self.events = events
+        self.calls: list[tuple[str, datetime, datetime]] = []
+
+    def list_events(
+        self,
+        *,
+        calendar_id: str,
+        time_min: datetime,
+        time_max: datetime,
+    ) -> list[OperationalCalendarEvent]:
+        """Record the query window and return the canned events."""
+        self.calls.append((calendar_id, time_min, time_max))
+        return self.events
+
+
+def next_baseline_class(offset: int = 0) -> date:
+    """Find an upcoming planned class date from the tracked NEURO baseline."""
+    today = datetime.now(ZoneInfo("America/Guayaquil")).date()
+    upcoming = [
+        candidate
+        for candidate in ScheduleRepository(CONFIG_ROOT / "schedules")
+        .get("2026-2", "NEURO")
+        .all_class_dates
+        if candidate >= today
+    ]
+    return upcoming[offset]
+
+
+def cancelled_event(class_date: date) -> OperationalCalendarEvent:
+    """Build a Calendar event marking one baseline class as cancelled."""
+    timezone = ZoneInfo("America/Guayaquil")
+    start = datetime.combine(class_date, time(8, 0), tzinfo=timezone)
+    return OperationalCalendarEvent(
+        event_id="event-cancelled",
+        calendar_id="neuro@group.calendar.google.com",
+        title="NEURO - Clase cancelada",
+        start=start,
+        end=start + timedelta(hours=2),
+        all_day=False,
+    )
+
+
+class TestEffectiveScheduleEndpoint:
+    """Verify the one endpoint that reads Calendar, and its refusal when unconfigured."""
+
+    def test_refuses_without_a_calendar_credential(self) -> None:
+        response = configure().get("/v1/courses/NEURO/effective-schedule", headers=AUTH)
+
+        assert response.status_code == 503
+        detail = response.json()["detail"]
+        assert CALENDAR_CLIENT_ID_SECRET in detail
+        assert "/schedule" in detail
+
+    def test_reconciles_the_baseline_with_calendar_evidence(self) -> None:
+        class_date = next_baseline_class()
+        reader = FakeCalendarReader([cancelled_event(class_date)])
+
+        response = configure(calendar_reader_factory=lambda timezone: reader).get(  # noqa: ARG005
+            "/v1/courses/neuro/effective-schedule?days=30", headers=AUTH
+        )
+
+        assert response.status_code == 200
+        payload = response.json()
+        assert payload["course_code"] == "NEURO"
+        assert payload["classes"]
+        assert reader.calls, "the endpoint must query the bound course calendar"
+        matched = next(
+            entry for entry in payload["classes"] if entry["date"] == class_date.isoformat()
+        )
+        assert matched["source"] in {"calendar", "baseline_and_calendar"}
+        assert "calendar.readonly" in payload["note"]
+
+    def test_keeps_unobserved_baseline_dates_scheduled(self) -> None:
+        reader = FakeCalendarReader([])
+
+        payload = (
+            configure(calendar_reader_factory=lambda timezone: reader)  # noqa: ARG005
+            .get("/v1/courses/NEURO/effective-schedule?days=30", headers=AUTH)
+            .json()
+        )
+
+        assert payload["classes"]
+        assert {entry["status"] for entry in payload["classes"]} == {"scheduled"}
+        assert {entry["source"] for entry in payload["classes"]} == {"baseline"}
+
+    @pytest.mark.parametrize("days", ["0", "121", "many"])
+    def test_rejects_an_unusable_window(self, days: str) -> None:
+        reader = FakeCalendarReader([])
+
+        response = configure(calendar_reader_factory=lambda timezone: reader).get(  # noqa: ARG005
+            f"/v1/courses/NEURO/effective-schedule?days={days}", headers=AUTH
+        )
+
+        assert response.status_code == 422
+
+    def test_reports_an_unknown_course(self) -> None:
+        reader = FakeCalendarReader([])
+
+        response = configure(calendar_reader_factory=lambda timezone: reader).get(  # noqa: ARG005
+            "/v1/courses/CARDIO/effective-schedule", headers=AUTH
+        )
+
+        assert response.status_code == 404
+        assert "CARDIO" in response.json()["detail"]
+
+    def test_reports_missing_configuration_without_a_filesystem_path(
+        self,
+        tmp_path: Path,
+    ) -> None:
+        reader = FakeCalendarReader([])
+
+        response = configure(
+            config_root=tmp_path,
+            calendar_reader_factory=lambda timezone: reader,  # noqa: ARG005
+        ).get("/v1/courses/NEURO/effective-schedule", headers=AUTH)
+
+        assert response.status_code == 404
+        assert str(tmp_path) not in response.json()["detail"]
+
+    def test_requires_a_token(self) -> None:
+        reader = FakeCalendarReader([])
+
+        response = configure(calendar_reader_factory=lambda timezone: reader).get(  # noqa: ARG005
+            "/v1/courses/NEURO/effective-schedule"
+        )
+
+        assert response.status_code == 401
