@@ -1,17 +1,27 @@
 """FastAPI application serving the read-only MedSemiotics backend contracts.
 
-Loop 0.8A gives the mobile and conversational surfaces something to consume: what is being taught,
-what comes next, and how the courses are wired. Every endpoint is read-only, reads tracked
-configuration only, and makes no external call — the backend holds no Google credential.
+Loop 0.8A gives the mobile and conversational surfaces something to consume: what is being taught
+and what comes next. Loop 0.8B adds why something is not working — the coordination view — and when
+the next classes are planned. Every endpoint is read-only, reads tracked configuration only, and
+makes no external call: the backend holds no Google credential.
+
+Because nothing here contacts Google, two things are deliberately absent: the Calendar-reconciled
+effective schedule, and the full Teaching Coach brief that depends on it. Both need live Calendar
+evidence and belong to an increment that runs with those credentials.
 """
 
-from fastapi import Depends, FastAPI, HTTPException, status
+from datetime import UTC, date, datetime
+
+from fastapi import Depends, FastAPI, HTTPException, Query, status
 
 from medsemiotics.api.schemas import (
+    CoordinationResponse,
     CourseStateResponse,
     CourseSummary,
     HealthResponse,
     NextTopicResponse,
+    PlannedClassResponse,
+    ScheduleResponse,
     SemesterResponse,
     TeachingGuideResponse,
 )
@@ -22,6 +32,8 @@ from medsemiotics.api.settings import (
     build_backend_services,
     load_backend_settings,
 )
+from medsemiotics.domain.academic import SemesterConfig
+from medsemiotics.domain.calendar import CourseCalendarConfig
 from medsemiotics.domain.exceptions import MedSemioticsError
 
 app = FastAPI(
@@ -224,3 +236,123 @@ def read_guide(course_code: str, topic_id: str) -> TeachingGuideResponse:
         ) from None
 
     return TeachingGuideResponse.from_guide(guide)
+
+
+@app.get(
+    "/v1/coordination",
+    response_model=CoordinationResponse,
+    dependencies=[Depends(require_backend_token)],
+)
+def read_coordination() -> CoordinationResponse:
+    """Return whether each active course is wired for coordinated teaching support.
+
+    The view reads tracked configuration only, so the Classroom binding of every course reports
+    `not_read`: confirming it needs an authorized Classroom snapshot, which this backend cannot
+    obtain because it holds no Google credential.
+
+    Returns:
+        Per-course Classroom and Calendar bindings, progress, readiness, and recorded gaps.
+
+    Raises:
+        HTTPException: 404 when tracked configuration does not describe an active semester.
+    """
+    services = get_services()
+    try:
+        semester_id = services.current_semester_id()
+        semester = services.semesters.get(semester_id)
+        calendar_configs = _load_calendar_configs(services, semester_id, semester)
+        view = services.coordination.build_view(
+            semester=semester,
+            calendar_configs=calendar_configs,
+            snapshot=None,
+            requested_by="backend-read",
+        )
+    except MedSemioticsError as err:
+        raise _not_found(
+            f"The coordination view could not be built ({type(err).__name__})."
+        ) from None
+
+    return CoordinationResponse.from_view(
+        view,
+        note=(
+            "Built from tracked configuration only. Classroom bindings report not_read because "
+            "this backend holds no Google credential; Calendar bindings are the tracked "
+            "configuration, not live events."
+        ),
+    )
+
+
+@app.get(
+    "/v1/courses/{course_code}/schedule",
+    response_model=ScheduleResponse,
+    dependencies=[Depends(require_backend_token)],
+)
+def read_schedule(
+    course_code: str,
+    limit: int = Query(default=5, ge=1, le=50),
+) -> ScheduleResponse:
+    """Return the next planned class dates from the tracked baseline schedule.
+
+    These are planned dates, not confirmed ones: cancellations, makeup sessions, and exact times
+    are operational Calendar evidence this backend does not read.
+
+    Args:
+        course_code: Tracked course code, such as NEURO.
+        limit: How many upcoming dates to return.
+
+    Returns:
+        The baseline schedule window and the next planned class dates within it.
+
+    Raises:
+        HTTPException: 404 when the course has no tracked schedule in the active semester.
+    """
+    services = get_services()
+    try:
+        semester_id = services.current_semester_id()
+        schedule = services.schedules.get(semester_id, course_code.upper())
+    except MedSemioticsError as err:
+        raise _not_found(
+            f"No tracked schedule for '{course_code}' ({type(err).__name__})."
+        ) from None
+
+    today = _today()
+    upcoming = tuple(
+        PlannedClassResponse(date=class_date, weekday=class_date.strftime("%A").lower())
+        for class_date in schedule.all_class_dates
+        if class_date >= today
+    )[:limit]
+
+    return ScheduleResponse(
+        semester_id=schedule.semester_id,
+        course_code=schedule.course_code,
+        enabled=schedule.enabled,
+        teaching_start_date=schedule.teaching_start_date,
+        teaching_end_date=schedule.teaching_end_date,
+        upcoming=upcoming,
+        note=(
+            "Planned baseline dates. Cancellations, makeup sessions, and exact meeting times are "
+            "Calendar evidence this backend does not read."
+        ),
+    )
+
+
+def _load_calendar_configs(
+    services: BackendServices,
+    semester_id: str,
+    semester: SemesterConfig,
+) -> list[CourseCalendarConfig]:
+    """Load the tracked calendar binding of every active course, skipping those without one."""
+    configs: list[CourseCalendarConfig] = []
+    for course in semester.courses:
+        if not course.active:
+            continue
+        try:
+            configs.append(services.calendars.get(semester_id, course.code))
+        except MedSemioticsError:
+            continue
+    return configs
+
+
+def _today() -> date:
+    """Return the current date, in UTC, for schedule windows."""
+    return datetime.now(UTC).date()

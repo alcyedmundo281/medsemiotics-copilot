@@ -10,11 +10,17 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 
+from medsemiotics.agents.framework import (
+    AgentCapabilityFramework,
+    build_default_agent_framework,
+)
 from medsemiotics.integrations.google_classroom.owner_authorized_caller import (
     build_secret_source,
 )
 from medsemiotics.services.calendar_config_repository import CalendarConfigRepository
+from medsemiotics.services.coordination_view import CoordinationViewService
 from medsemiotics.services.course_state_service import CourseStateService
+from medsemiotics.services.schedule_repository import ScheduleRepository
 from medsemiotics.services.semester_config import load_current_semester_id
 from medsemiotics.services.semester_repository import SemesterRepository
 from medsemiotics.services.syllabus_repository import SyllabusRepository
@@ -64,6 +70,9 @@ class BackendServices:
     course_state: CourseStateService
     guides: TeachingGuideRepository
     calendars: CalendarConfigRepository
+    schedules: ScheduleRepository
+    capabilities: AgentCapabilityFramework
+    coordination: CoordinationViewService
 
     def current_semester_id(self) -> str:
         """Resolve the active semester from tracked configuration."""
@@ -80,13 +89,21 @@ def build_backend_services(settings: BackendSettings) -> BackendServices:
         The services every read endpoint composes.
     """
     root = settings.config_root
+    course_state = CourseStateService(
+        SyllabusRepository(root / "syllabi"),
+        TeachingLogRepository(root / "teaching_logs"),
+    )
+    capabilities = build_default_agent_framework()
     return BackendServices(
         settings=settings,
         semesters=SemesterRepository(root / "semesters"),
-        course_state=CourseStateService(
-            SyllabusRepository(root / "syllabi"),
-            TeachingLogRepository(root / "teaching_logs"),
-        ),
+        course_state=course_state,
         guides=TeachingGuideRepository(root / "teaching_guides"),
         calendars=CalendarConfigRepository(root / "calendar"),
+        schedules=ScheduleRepository(root / "schedules"),
+        capabilities=capabilities,
+        coordination=CoordinationViewService(
+            capability_framework=capabilities,
+            course_state_service=course_state,
+        ),
     )
