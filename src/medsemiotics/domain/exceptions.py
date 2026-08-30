@@ -97,6 +97,10 @@ class ExternalCourseSnapshotError(MedSemioticsError):
     """Raised when provider data cannot be normalized into a provider-neutral snapshot."""
 
 
+class CoordinationViewError(MedSemioticsError):
+    """Raised when a coordination view is requested from inconsistent academic scopes."""
+
+
 class AgentCapabilityError(MedSemioticsError):
     """Base exception for agent capability registration and policy errors."""
 
