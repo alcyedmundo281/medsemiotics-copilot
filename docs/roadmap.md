@@ -17,7 +17,7 @@ master outcomes; they are not additional product loops.
 | 7. PowerSemiotics knowledge and evidence graph | Pending | Topic/class/task links to PowerSemiotics URLs, PMID, DOI, PubMed/Crossref verification, provenance, and source freshness. |
 | 8. Creative studio and publishing | Pending | Wikimedia Commons licensing and attribution, audiovisual material, textbook/e-course assets, and review-before-publish PowerSemiotics authoring. |
 | 9. Assessment and pedagogical intelligence | Pending | Aggregates, competency performance, item and rubric analytics, validity, reliability, longitudinal student trends, and teaching-performance reflection. |
-| 10. Secure cloud mobile orchestrator | In progress through `0.8F` | ChatGPT Work as the primary mobile interface, Claude Cowork as an alternative, Codex Cloud and Claude Code web for development, and one provider-neutral MedSemiotics backend. |
+| 10. Secure cloud mobile orchestrator | In progress through `0.8G` | ChatGPT Work as the primary mobile interface, Claude Cowork as an alternative, Codex Cloud and Claude Code web for development, and one provider-neutral MedSemiotics backend. |
 
 ## Engineering-loop mapping
 
@@ -66,6 +66,7 @@ master loops 5-10.
 | `0.8D` | Complete in code | Class brief with automatic topic selection from the reconciled schedule and tracked state, always marked a draft and produced by a chain with no publish path. |
 | `0.8E` | Complete in code | Deployed surface: the API schema guarded by the same token as the data with the browser doc pages disabled, a GET-only client and operator script that keep the token out of every message, and a Cloud Run runbook plus the documented path for how Cowork or ChatGPT Work consume the contract. |
 | `0.8F` | Complete in code | Backend token carried in its own header so a platform that authenticates callers keeps `Authorization`, with the dedicated header preferred and both layers applying independently. |
+| `0.8G` | Complete in code | Application configured before the first request, fixing a cold container that reported itself unconfigured while holding the mounted secret; idempotent fallback for runners that skip the lifespan. |
 
 ## Cross-cutting operating contract
 
