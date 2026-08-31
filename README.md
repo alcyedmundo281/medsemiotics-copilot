@@ -376,6 +376,15 @@ holds the backend token and nothing else, issues `GET` requests only, and never 
 a message or an error. The loop note carries the Cloud Run runbook and the three steps a surface
 follows. See [`docs/loop-0.8e-deployed-surface.md`](docs/loop-0.8e-deployed-surface.md).
 
+Loop 0.8F resolves what the first real deployment surfaced: where an organization policy forbids
+`allUsers`, Cloud Run authenticates callers itself and reads that identity from `Authorization` —
+the header the backend token was using. The backend token now travels in `X-MedSemiotics-Token`,
+the bearer form still works where nothing else claims that header, and the dedicated header wins
+when both are present, so a platform identity token is never mistaken for a backend token. The two
+authorizations are independent layers: the platform decides who reaches the service, the token
+decides who reads academic state. See
+[`docs/loop-0.8f-platform-authenticated-surface.md`](docs/loop-0.8f-platform-authenticated-surface.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers

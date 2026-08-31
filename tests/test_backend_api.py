@@ -9,6 +9,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from medsemiotics.api import app as api_module
+from medsemiotics.api.security import BACKEND_TOKEN_HEADER
 from medsemiotics.api.settings import (
     API_TOKEN_SECRET,
     CONFIG_ROOT_ENV_VAR,
@@ -148,10 +149,39 @@ class TestAccessControl:
             {"Authorization": TOKEN},
             {"Authorization": "Basic dXNlcjpwYXNz"},
             {"Authorization": "Bearer    "},
+            {BACKEND_TOKEN_HEADER: "wrong-token"},
+            {BACKEND_TOKEN_HEADER: "   "},
         ],
     )
     def test_rejects_a_malformed_or_wrong_token(self, header: dict[str, str]) -> None:
         response = configure().get("/v1/semester", headers=header)
+
+        assert response.status_code == 401
+
+    def test_accepts_the_token_in_its_own_header(self) -> None:
+        response = configure().get("/v1/semester", headers={BACKEND_TOKEN_HEADER: TOKEN})
+
+        assert response.status_code == 200
+
+    def test_accepts_the_backend_token_beside_a_platform_identity_token(self) -> None:
+        response = configure().get(
+            "/v1/semester",
+            headers={
+                "Authorization": "Bearer a-google-identity-token",
+                BACKEND_TOKEN_HEADER: TOKEN,
+            },
+        )
+
+        assert response.status_code == 200
+
+    def test_never_reads_a_platform_identity_token_as_the_backend_token(self) -> None:
+        response = configure().get(
+            "/v1/semester",
+            headers={
+                "Authorization": f"Bearer {TOKEN}",
+                BACKEND_TOKEN_HEADER: "wrong-token",
+            },
+        )
 
         assert response.status_code == 401
 
