@@ -74,6 +74,10 @@ Notes that matter:
 - `--no-allow-unauthenticated` adds platform-level access control *in front of* the backend token.
   The token is not a substitute for it; both are cheap.
 
+> **Updated by Loop 0.8F.** A deployment whose organization policy forbids `allUsers` authenticates
+> its callers, and Cloud Run reads that identity from `Authorization`. The backend token therefore
+> travels in `X-MedSemiotics-Token`; see `docs/loop-0.8f-platform-authenticated-surface.md`.
+
 ## Exit criteria
 
 - the API schema served only to an authenticated caller, with the browser doc pages disabled;

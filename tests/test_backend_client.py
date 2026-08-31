@@ -5,7 +5,13 @@ from collections.abc import Mapping
 
 import pytest
 
-from medsemiotics.api.client import BASE_URL_ENV_VAR, BackendClient, BackendClientError
+from medsemiotics.api.client import (
+    BASE_URL_ENV_VAR,
+    IDENTITY_TOKEN_ENV_VAR,
+    BackendClient,
+    BackendClientError,
+)
+from medsemiotics.api.security import BACKEND_TOKEN_HEADER
 
 BASE_URL = "https://medsemiotics-backend.example.run.app"
 TOKEN = "surface-backend-token"
@@ -51,7 +57,7 @@ class TestConfiguration:
 class TestRequests:
     """Verify the surface authenticates and asks only for what it was told to."""
 
-    def test_sends_the_bearer_token(self) -> None:
+    def test_sends_the_backend_token_in_its_own_header(self) -> None:
         http = RecordingHttp(body=json.dumps({"topic_id": "neuro-intro"}))
 
         payload = make_client(http).get("/v1/courses/NEURO/next-topic")
@@ -59,7 +65,26 @@ class TestRequests:
         assert payload == {"topic_id": "neuro-intro"}
         url, headers = http.calls[0]
         assert url == f"{BASE_URL}/v1/courses/NEURO/next-topic"
-        assert headers["Authorization"] == f"Bearer {TOKEN}"
+        assert headers[BACKEND_TOKEN_HEADER] == TOKEN
+        assert "Authorization" not in headers
+
+    def test_sends_both_tokens_behind_a_platform_that_authenticates_callers(self) -> None:
+        http = RecordingHttp()
+
+        make_client(http, identity_token="google-identity-token").get("/v1/semester")
+
+        headers = http.calls[0][1]
+        assert headers[BACKEND_TOKEN_HEADER] == TOKEN
+        assert headers["Authorization"] == "Bearer google-identity-token"
+
+    def test_explains_a_platform_refusal(self) -> None:
+        http = RecordingHttp(status_code=403, body="Forbidden")
+
+        with pytest.raises(BackendClientError) as err:
+            make_client(http).get("/v1/semester")
+
+        assert IDENTITY_TOKEN_ENV_VAR in str(err.value)
+        assert TOKEN not in str(err.value)
 
     def test_normalizes_slashes(self) -> None:
         http = RecordingHttp()
