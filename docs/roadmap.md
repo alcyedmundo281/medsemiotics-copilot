@@ -17,7 +17,7 @@ master outcomes; they are not additional product loops.
 | 7. PowerSemiotics knowledge and evidence graph | Pending | Topic/class/task links to PowerSemiotics URLs, PMID, DOI, PubMed/Crossref verification, provenance, and source freshness. |
 | 8. Creative studio and publishing | Pending | Wikimedia Commons licensing and attribution, audiovisual material, textbook/e-course assets, and review-before-publish PowerSemiotics authoring. |
 | 9. Assessment and pedagogical intelligence | Pending | Aggregates, competency performance, item and rubric analytics, validity, reliability, longitudinal student trends, and teaching-performance reflection. |
-| 10. Secure cloud mobile orchestrator | In progress through `0.8G` | ChatGPT Work as the primary mobile interface, Claude Cowork as an alternative, Codex Cloud and Claude Code web for development, and one provider-neutral MedSemiotics backend. |
+| 10. Secure cloud mobile orchestrator | Read contracts live verified through `0.8G` | ChatGPT Work as the primary mobile interface, Claude Cowork as an alternative, Codex Cloud and Claude Code web for development, and one provider-neutral MedSemiotics backend. |
 
 ## Engineering-loop mapping
 
@@ -60,13 +60,13 @@ master loops 5-10.
 
 | Increment | Status | Bounded outcome |
 |---|---|---|
-| `0.8A` | Complete in code | Read-only backend contracts for semester, course state, next required topic with its curated guide, and one guide by id; bearer-token access from the secret store, fail-closed when unconfigured; no Google credential, no writes, no student data. |
-| `0.8B` | Complete in code | Coordination view and planned baseline schedule over the same read-only contract, each labelled with what it did and did not consult; Classroom bindings report `not_read` because the backend holds no Google credential. |
-| `0.8C` | Complete in code | Calendar-reconciled effective schedule over the same contract, read with a secret-store credential fixed to `calendar.readonly` and separate from the Classroom caller; an unconfigured backend answers 503 naming the secrets and the planned-baseline endpoint. |
-| `0.8D` | Complete in code | Class brief with automatic topic selection from the reconciled schedule and tracked state, always marked a draft and produced by a chain with no publish path. |
-| `0.8E` | Complete in code | Deployed surface: the API schema guarded by the same token as the data with the browser doc pages disabled, a GET-only client and operator script that keep the token out of every message, and a Cloud Run runbook plus the documented path for how Cowork or ChatGPT Work consume the contract. |
-| `0.8F` | Complete in code | Backend token carried in its own header so a platform that authenticates callers keeps `Authorization`, with the dedicated header preferred and both layers applying independently. |
-| `0.8G` | Complete in code | Application configured before the first request, fixing a cold container that reported itself unconfigured while holding the mounted secret; idempotent fallback for runners that skip the lifespan. |
+| `0.8A` | Complete and live verified | Read-only backend contracts for semester, course state, next required topic with its curated guide, and one guide by id; bearer-token access from the secret store, fail-closed when unconfigured; no Google credential, no writes, no student data. |
+| `0.8B` | Complete and live verified | Coordination view and planned baseline schedule over the same read-only contract, each labelled with what it did and did not consult; Classroom bindings report `not_read` because the backend holds no Google credential. |
+| `0.8C` | Complete in code; live verification pending a Calendar credential | Calendar-reconciled effective schedule over the same contract, read with a secret-store credential fixed to `calendar.readonly` and separate from the Classroom caller; an unconfigured backend answers 503 naming the secrets and the planned-baseline endpoint. |
+| `0.8D` | Complete in code; live verification pending a Calendar credential | Class brief with automatic topic selection from the reconciled schedule and tracked state, always marked a draft and produced by a chain with no publish path. |
+| `0.8E` | Complete and live verified | Deployed surface: the API schema guarded by the same token as the data with the browser doc pages disabled, a GET-only client and operator script that keep the token out of every message, and a Cloud Run runbook plus the documented path for how Cowork or ChatGPT Work consume the contract. |
+| `0.8F` | Complete and live verified | Backend token carried in its own header so a platform that authenticates callers keeps `Authorization`, with the dedicated header preferred and both layers applying independently. |
+| `0.8G` | Complete and live verified | Application configured before the first request, fixing a cold container that reported itself unconfigured while holding the mounted secret; idempotent fallback for runners that skip the lifespan. |
 
 ## Cross-cutting operating contract
 

@@ -393,6 +393,13 @@ distinction between *not yet wired* and *wired with no token* is explicit, so th
 refusal still works. See
 [`docs/loop-0.8g-startup-configuration.md`](docs/loop-0.8g-startup-configuration.md).
 
+The read contracts are live verified. A Cloud Run deployment served the semester contract with both
+credentials, refused with `401` when the backend token was withheld, and with `403` when the
+platform identity was — two independent layers, each refusing on its own. The deployment also found
+two defects the suite had not, both fixed in `0.8F` and `0.8G`. The Calendar-backed endpoints answer
+`503` naming their missing secrets and remain unverified by design. See
+[`docs/loop-0.8-live-backend-verification.md`](docs/loop-0.8-live-backend-verification.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers
