@@ -385,6 +385,14 @@ authorizations are independent layers: the platform decides who reaches the serv
 decides who reads academic state. See
 [`docs/loop-0.8f-platform-authenticated-surface.md`](docs/loop-0.8f-platform-authenticated-surface.md).
 
+Loop 0.8G fixes what the first deployed request exposed: the backend answered `503` while holding
+the correctly mounted secret, because access control reads application state that was only wired
+from inside an endpoint body — and a dependency runs before the body it guards. Configuration now
+happens in a lifespan hook, with an idempotent fallback for runners that skip it, and the
+distinction between *not yet wired* and *wired with no token* is explicit, so the unconfigured
+refusal still works. See
+[`docs/loop-0.8g-startup-configuration.md`](docs/loop-0.8g-startup-configuration.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers

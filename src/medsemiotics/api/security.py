@@ -34,7 +34,9 @@ def require_backend_token(
     """Authorize one request against the configured backend token.
 
     Args:
-        request: Incoming request, carrying the configured settings in application state.
+        request: Incoming request, carrying the configured settings in application state. An
+            application that has not been configured yet is configured here, because this check
+            runs before any endpoint body.
         authorization: Value of the Authorization header, if present.
         x_medsemiotics_token: Value of the dedicated backend-token header, if present.
 
@@ -42,6 +44,11 @@ def require_backend_token(
         HTTPException: 503 when the backend has no token configured, 401 when the caller presents
             no valid token.
     """
+    if not getattr(request.app.state, "configured", False):
+        from medsemiotics.api.app import ensure_configured
+
+        ensure_configured()
+
     expected = getattr(request.app.state, "api_token", None)
     if not expected:
         raise HTTPException(

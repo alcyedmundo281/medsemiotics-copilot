@@ -14,6 +14,8 @@ credential can read Calendar and nothing else; the backend still holds no Classr
 still cannot write anywhere.
 """
 
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 from datetime import UTC, date, datetime, time, timedelta
 from typing import Annotated, Any
 from zoneinfo import ZoneInfo
@@ -54,7 +56,20 @@ from medsemiotics.integrations.google_calendar.secret_backed_auth import (
     CALENDAR_CHANNEL_SECRETS,
 )
 
+
+@asynccontextmanager
+async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+    """Configure the application before it serves its first request.
+
+    Access control reads the configured token before any endpoint body runs, so the wiring cannot
+    be left to the first request that reaches an endpoint.
+    """
+    ensure_configured()
+    yield
+
+
 app = FastAPI(
+    lifespan=lifespan,
     title="MedSemiotics Teaching Copilot API",
     version="0.1.0",
     # The schema describes every contract this backend serves, so it is not public: it is served
@@ -85,6 +100,18 @@ def configure(
         resolved,
         calendar_reader_factory=calendar_reader_factory,
     )
+    app.state.configured = True
+
+
+def ensure_configured() -> None:
+    """Configure the application once, from the environment and secret store.
+
+    Called from the lifespan hook, and again defensively wherever configuration is required, so a
+    server that starts without running the lifespan still serves a configured application rather
+    than reporting itself unconfigured.
+    """
+    if not getattr(app.state, "configured", False):
+        configure()
 
 
 def get_services() -> BackendServices:
@@ -93,11 +120,8 @@ def get_services() -> BackendServices:
     Returns:
         The services every endpoint composes.
     """
-    services = getattr(app.state, "services", None)
-    if services is None:
-        configure()
-        services = app.state.services
-    return services  # type: ignore[no-any-return]
+    ensure_configured()
+    return app.state.services  # type: ignore[no-any-return]
 
 
 def _not_found(detail: str) -> HTTPException:

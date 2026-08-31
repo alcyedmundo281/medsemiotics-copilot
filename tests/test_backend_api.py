@@ -45,7 +45,7 @@ def configure(
 def reset_application_state() -> Iterator[None]:
     """Keep application state from leaking between tests."""
     yield
-    for attribute in ("settings", "api_token", "services"):
+    for attribute in ("settings", "api_token", "services", "configured"):
         if hasattr(api_module.app.state, attribute):
             delattr(api_module.app.state, attribute)
 
@@ -111,20 +111,67 @@ class TestSchemaExposure:
         assert configure().get("/health").status_code == 200
 
 
-class TestLazyConfiguration:
-    """Verify a server started without explicit wiring configures itself from the environment."""
+def clear_application_state() -> None:
+    """Return the application to the state a freshly imported module has."""
+    for attribute in ("settings", "api_token", "services", "configured"):
+        if hasattr(api_module.app.state, attribute):
+            delattr(api_module.app.state, attribute)
+
+
+class TestStartupConfiguration:
+    """Verify a server that nobody configured by hand still serves a configured application.
+
+    A cold container is the case that matters: access control runs before any endpoint body, so
+    configuration cannot wait for the first endpoint to execute.
+    """
 
     def test_configures_itself_on_first_use(self, monkeypatch: pytest.MonkeyPatch) -> None:
         monkeypatch.setenv(CONFIG_ROOT_ENV_VAR, str(CONFIG_ROOT))
         monkeypatch.setenv(API_TOKEN_SECRET, TOKEN)
-        for attribute in ("settings", "api_token", "services"):
-            if hasattr(api_module.app.state, attribute):
-                delattr(api_module.app.state, attribute)
+        clear_application_state()
 
         services = api_module.get_services()
 
         assert services.settings.config_root == CONFIG_ROOT
         assert services.current_semester_id() == "2026-2"
+
+    def test_serves_a_cold_application_through_the_lifespan(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        monkeypatch.setenv(CONFIG_ROOT_ENV_VAR, str(CONFIG_ROOT))
+        monkeypatch.setenv(API_TOKEN_SECRET, TOKEN)
+        clear_application_state()
+
+        with TestClient(api_module.app) as client:
+            response = client.get("/v1/semester", headers=AUTH)
+
+        assert response.status_code == 200
+        assert response.json()["semester_id"] == "2026-2"
+
+    def test_authorizes_a_cold_application_without_a_lifespan(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        monkeypatch.setenv(CONFIG_ROOT_ENV_VAR, str(CONFIG_ROOT))
+        monkeypatch.setenv(API_TOKEN_SECRET, TOKEN)
+        clear_application_state()
+
+        response = TestClient(api_module.app).get("/v1/semester", headers=AUTH)
+
+        assert response.status_code == 200
+
+    def test_still_refuses_when_the_environment_holds_no_token(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        monkeypatch.setenv(CONFIG_ROOT_ENV_VAR, str(CONFIG_ROOT))
+        monkeypatch.delenv(API_TOKEN_SECRET, raising=False)
+        clear_application_state()
+
+        response = TestClient(api_module.app).get("/v1/semester", headers=AUTH)
+
+        assert response.status_code == 503
 
 
 class TestAccessControl:
