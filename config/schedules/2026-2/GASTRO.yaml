@@ -5,6 +5,5 @@ enabled: true
 teaching_start_date: "2026-08-01"
 teaching_end_date: "2026-12-15"
 meeting_rules:
-  - weekday: "monday"
   - weekday: "wednesday"
 exceptions: []
