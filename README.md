@@ -400,6 +400,13 @@ two defects the suite had not, both fixed in `0.8F` and `0.8G`. The Calendar-bac
 `503` naming their missing secrets and remain unverified by design. See
 [`docs/loop-0.8-live-backend-verification.md`](docs/loop-0.8-live-backend-verification.md).
 
+Loop 0.8H puts the provisioning in one idempotent command, `scripts/cloud_run_setup.sh`: it enables
+the APIs, ensures the runtime account and secrets, deploys, and prints the four status codes that
+verify both authorization layers. The Calendar credential stays optional — mounted when the operator
+has authorized one, reported as absent when not, never half-configured silently — and no secret
+value is printed at any point. Minting that credential remains the operator's step, because it needs
+a person's consent. See [`docs/loop-0.8h-operator-setup.md`](docs/loop-0.8h-operator-setup.md).
+
 ---
 
 ## Cloud Agents and Mixed LLM Providers

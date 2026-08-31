@@ -67,6 +67,7 @@ master loops 5-10.
 | `0.8E` | Complete and live verified | Deployed surface: the API schema guarded by the same token as the data with the browser doc pages disabled, a GET-only client and operator script that keep the token out of every message, and a Cloud Run runbook plus the documented path for how Cowork or ChatGPT Work consume the contract. |
 | `0.8F` | Complete and live verified | Backend token carried in its own header so a platform that authenticates callers keeps `Authorization`, with the dedicated header preferred and both layers applying independently. |
 | `0.8G` | Complete and live verified | Application configured before the first request, fixing a cold container that reported itself unconfigured while holding the mounted secret; idempotent fallback for runners that skip the lifespan. |
+| `0.8H` | Complete in code | One idempotent operator script that provisions, deploys and verifies the backend, mounting the Calendar credential when the operator has authorized one and reporting its absence when not. |
 
 ## Cross-cutting operating contract
 
