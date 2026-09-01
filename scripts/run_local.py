@@ -14,13 +14,13 @@ def main() -> None:
     os.environ.setdefault("MEDSEMIOTICS_CONFIG_ROOT", "config")
 
     print("=" * 70)
-    print("🚀 MedSemiotics Teaching Copilot — Servidor LOCAL")
+    print("[+] MedSemiotics Teaching Copilot -- Servidor LOCAL")
     print("=" * 70)
-    print("📍 URL del Servidor Local : http://127.0.0.1:8000")
-    print("🔑 Token de API Local     : local-dev-token")
-    print("📂 Directorio de Config  : config/")
+    print("[*] URL del Servidor Local : http://127.0.0.1:8000")
+    print("[*] Token de API Local     : local-dev-token")
+    print("[*] Directorio de Config  : config/")
     print("=" * 70)
-    print("💡 Endpoints disponibles:")
+    print("[i] Endpoints disponibles:")
     print("   - Health Check        : GET http://127.0.0.1:8000/health")
     print("   - Semestre Activo     : GET http://127.0.0.1:8000/v1/semester")
     print("   - Estado de Cursos    : GET http://127.0.0.1:8000/v1/courses/NEURO/state")
@@ -31,7 +31,7 @@ def main() -> None:
         import uvicorn
         uvicorn.run("medsemiotics.api.app:app", host="127.0.0.1", port=8000, reload=True)
     except ImportError:
-        print("❌ Error: uvicorn no está instalado. Instálalo con 'pip install uvicorn'")
+        print("[!] Error: uvicorn no esta instalado. Instalalo con 'pip install uvicorn'")
         sys.exit(1)
 
 if __name__ == "__main__":
