@@ -5,6 +5,19 @@
 > [!CAUTION]
 > **Privacy and Data Protection**: Student-identifiable data (names, IDs, emails, grades, submissions, or identifiable work) must **NEVER** be committed to Git. All production datasets, student records, and credential tokens are strictly ignored via `.gitignore`.
 
+> [!IMPORTANT]
+> **Modo de Procesamiento 100% LOCAL (Zero Cloud / Sin Cloud Run)**:
+> Esta versión está configurada para procesar y servir datos **exclusivamente de forma local**. No requiere infraestructura en Google Cloud Run, Secret Manager ni servicios de pago en la nube.
+> 
+> **Cómo ejecutar localmente:**
+> ```bash
+> python scripts/run_local.py
+> ```
+> O mediante uvicorn directo:
+> ```bash
+> uvicorn medsemiotics.api.app:app --host 127.0.0.1 --port 8000
+> ```
+
 ---
 
 ## Architectural Principles

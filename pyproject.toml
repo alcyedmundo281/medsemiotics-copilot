@@ -10,7 +10,7 @@ name = "medsemiotics-teaching-copilot"
 version = "0.1.0"
 description = "AI-assisted academic teaching and content-management platform for Neurology and Gastroenterology"
 readme = "README.md"
-requires-python = ">=3.12,<3.13"
+requires-python = ">=3.12"
 authors = [
     { name = "MedSemiotics Team" },
 ]
