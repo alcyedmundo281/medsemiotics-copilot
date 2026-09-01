@@ -1,0 +1,187 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//PowerSemiotics//MedSemiotics Teaching Copilot//ES
+X-WR-CALNAME:Cátedra de Gastroenterología y Semiótica Digestiva
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w01@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20260624T160000
+DTEND;TZID=America/Guayaquil:20260624T173000
+SUMMARY:Sem 01 - Semiología digestiva, anamnesis orientada y semiología del dolor abdominal
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Semiología digestiva, anamnesis orientada y semiología del dolor abdominal\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w02@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20260701T160000
+DTEND;TZID=America/Guayaquil:20260701T173000
+SUMMARY:Sem 02 - Trastornos esofágicos: Semiología de la disfagia, ERGE y acalasia
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Trastornos esofágicos: Semiología de la disfagia, ERGE y acalasia\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w03@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20260708T160000
+DTEND;TZID=America/Guayaquil:20260708T173000
+SUMMARY:Sem 03 - Trastornos gástricos: Dispepsia, gastritis aguda/crónica y enfermedad ulceropéptica
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Trastornos gástricos: Dispepsia, gastritis aguda/crónica y enfermedad ulceropéptica\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w04@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20260715T160000
+DTEND;TZID=America/Guayaquil:20260715T173000
+SUMMARY:Sem 04 - Hemorragia digestiva alta: Variceal vs no variceal y escalas de estratificación (Rockall/Glasgow-Blatchford)
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Hemorragia digestiva alta: Variceal vs no variceal y escalas de estratificación (Rockall/Glasgow-Blatchford)\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w05@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20260722T160000
+DTEND;TZID=America/Guayaquil:20260722T173000
+SUMMARY:Sem 05 - Hemorragia digestiva baja y proctología semiológica (Hemorroides, fisuras, rectorragia)
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Hemorragia digestiva baja y proctología semiológica (Hemorroides, fisuras, rectorragia)\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w06@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20260729T160000
+DTEND;TZID=America/Guayaquil:20260729T173000
+SUMMARY:Sem 06 - Síndromes diarreicos: Diarrea aguda inflamatoria vs no inflamatoria y diarrea crónica
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Síndromes diarreicos: Diarrea aguda inflamatoria vs no inflamatoria y diarrea crónica\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w07@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20260805T160000
+DTEND;TZID=America/Guayaquil:20260805T173000
+SUMMARY:Sem 07 - Síndrome de malabsorción intestinal y enfermedad celíaca
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Síndrome de malabsorción intestinal y enfermedad celíaca\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w08@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20260812T160000
+DTEND;TZID=America/Guayaquil:20260812T173000
+SUMMARY:Sem 08 - Semiología hepática básica, estigmas de hepatopatía y perfil de laboratorio hepático
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Semiología hepática básica, estigmas de hepatopatía y perfil de laboratorio hepático\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w09@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20260819T160000
+DTEND;TZID=America/Guayaquil:20260819T173000
+SUMMARY:Sem 09 - Evaluación del Primer Hemisemestre: Examen Teórico-Práctico
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Evaluación del Primer Hemisemestre: Examen Teórico-Práctico\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w10@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20260826T160000
+DTEND;TZID=America/Guayaquil:20260826T173000
+SUMMARY:Sem 10 - Trastornos funcionales digestivos: Criterios de Roma IV y dispepsia funcional
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Trastornos funcionales digestivos: Criterios de Roma IV y dispepsia funcional\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w11@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20260902T160000
+DTEND;TZID=America/Guayaquil:20260902T173000
+SUMMARY:Sem 11 - Enfermedad Inflamatoria Intestinal I: Colitis Ulcerosa (Semiología, extensión y severidad)
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Enfermedad Inflamatoria Intestinal I: Colitis Ulcerosa (Semiología, extensión y severidad)\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia/trastornos-intestinales.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w12@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20260909T160000
+DTEND;TZID=America/Guayaquil:20260909T173000
+SUMMARY:Sem 12 - Enfermedad Inflamatoria Intestinal II: Enfermedad de Crohn y diagnóstico diferencial
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Enfermedad Inflamatoria Intestinal II: Enfermedad de Crohn y diagnóstico diferencial\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w13@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20260916T160000
+DTEND;TZID=America/Guayaquil:20260916T173000
+SUMMARY:Sem 13 - Síndrome de Intestino Irritable (SII), dolor visceral y eje intestino-cerebro
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Síndrome de Intestino Irritable (SII), dolor visceral y eje intestino-cerebro\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w14@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20260923T160000
+DTEND;TZID=America/Guayaquil:20260923T173000
+SUMMARY:Sem 14 - Hepatopatías crónicas, cirrosis hepática, ascitis e hipertensión portal
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Hepatopatías crónicas, cirrosis hepática, ascitis e hipertensión portal\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w15@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20260930T160000
+DTEND;TZID=America/Guayaquil:20260930T173000
+SUMMARY:Sem 15 - Síndromes ictéricos, colestasis y patología biliar litiásica (Colecistitis/Colangitis aguda)
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Síndromes ictéricos, colestasis y patología biliar litiásica (Colecistitis/Colangitis aguda)\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w16@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20261007T160000
+DTEND;TZID=America/Guayaquil:20261007T173000
+SUMMARY:Sem 16 - Pancreatitis aguda (Etiología, criterios de severidad Balthazar/Atlanta) y pancreatitis crónica
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Pancreatitis aguda (Etiología, criterios de severidad Balthazar/Atlanta) y pancreatitis crónica\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w17@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20261014T160000
+DTEND;TZID=America/Guayaquil:20261014T173000
+SUMMARY:Sem 17 - Abdomen agudo médico vs quirúrgico, peritonitis y urgencias digestivas
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Abdomen agudo médico vs quirúrgico, peritonitis y urgencias digestivas\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:medsemiotics-2026-2-GASTRO-w18@powersemiotics.com
+DTSTAMP:20260901T024314Z
+DTSTART;TZID=America/Guayaquil:20261021T160000
+DTEND;TZID=America/Guayaquil:20261021T173000
+SUMMARY:Sem 18 - Evaluación Final Integral del Segundo Hemisemestre
+DESCRIPTION:Clase de Cátedra de Gastroenterología y Semiótica Digestiva\n\nTema: Evaluación Final Integral del Segundo Hemisemestre\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html\n\nUbicacion: Aula Lúdica
+LOCATION:Aula Lúdica
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR
