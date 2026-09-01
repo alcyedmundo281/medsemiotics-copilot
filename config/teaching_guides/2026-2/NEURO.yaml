@@ -94,3 +94,155 @@ guides:
       - "Algoritmo de banderas rojas EPI frente a PSP, AMS y DCB."
       - "Árbol de decisión para coreas con las causas reversibles destacadas."
       - "Módulo web del tema en el hub de la cátedra."
+
+  - topic_id: "demencias-cognitivo"
+    topic_title: "Síndromes demenciales y deterioro neurocognitivo"
+    learning_objectives:
+      - "Diferenciar deterioro neurocognitivo mayor, delirium y queja cognitiva subjetiva en la cabecera."
+      - "Caracterizar el perfil de dominios afectados para orientar la etiología antes de pedir estudios."
+    critical_points:
+      - "El delirium se separa por su curso agudo y fluctuante con alteración de la atención; debe descartarse antes de diagnosticar demencia."
+      - "El primer dominio comprometido orienta: amnésico en Alzheimer, conductual o del lenguaje en degeneración frontotemporal, fluctuaciones con alucinaciones visuales y parkinsonismo en cuerpos de Lewy, curso escalonado en vascular."
+      - "Buscar siempre causas potencialmente reversibles: fármacos, déficit de B12, hipotiroidismo, depresión e hidrocefalia normotensiva."
+    teaching_questions:
+      - "¿Qué distingue delirium de demencia junto a la cama del paciente?"
+      - "¿Qué dominio se afectó primero y cómo lo documentó?"
+      - "¿Qué dato del informante cambia más su hipótesis?"
+    common_pitfalls:
+      - "Diagnosticar sin un informante fiable sobre el funcionamiento previo."
+      - "Atribuir el deterioro a la edad y cerrar la evaluación."
+      - "Confiar en el puntaje de un test de cribado sin considerar escolaridad ni perfil de dominios."
+    material_notes:
+      - "Guion de anamnesis al informante."
+      - "Tabla de perfiles cognitivos por etiología."
+      - "Lista de causas reversibles a descartar."
+
+  - topic_id: "cefaleas-red-flags"
+    topic_title: "Cefaleas primarias y banderas rojas"
+    learning_objectives:
+      - "Clasificar migraña, cefalea tensional y cefalea en racimos por criterios clínicos."
+      - "Identificar las banderas rojas que obligan a estudio urgente de una cefalea secundaria."
+    critical_points:
+      - "Una cefalea en trueno es hemorragia subaracnoidea hasta demostrar lo contrario."
+      - "Banderas rojas: inicio súbito, comienzo después de los 50 años, cambio del patrón habitual, déficit focal o papiledema, fiebre o inmunosupresión, cáncer, embarazo y puerperio, desencadenada por Valsalva o por el cambio postural, y la que despierta de noche."
+      - "Un examen neurológico normal no descarta una cefalea secundaria cuando hay banderas rojas."
+    teaching_questions:
+      - "¿Cómo describe el paciente el inicio del dolor y por qué esa respuesta cambia la conducta?"
+      - "¿Qué busca en el fondo de ojo antes de decidir la neuroimagen?"
+      - "¿Qué elementos de la anamnesis separan migraña de cefalea tensional?"
+    common_pitfalls:
+      - "Etiquetar de migraña por el antecedente sin comparar el episodio actual con el patrón habitual."
+      - "Omitir el fondo de ojo."
+      - "Pedir neuroimagen indiscriminada y, a la vez, no pedirla ante una bandera roja."
+    material_notes:
+      - "Tabla de criterios de migraña, tensional y racimos."
+      - "Lista de banderas rojas."
+      - "Diagrama de decisión de neuroimagen."
+
+  - topic_id: "epilepsia-crisis"
+    topic_title: "Crisis epilépticas y su diagnóstico diferencial"
+    learning_objectives:
+      - "Distinguir una crisis epiléptica del síncope y de las crisis no epilépticas por el relato del evento."
+      - "Clasificar la crisis en focal o generalizada a partir de su semiología."
+    critical_points:
+      - "El relato del testigo clasifica mejor que el electroencefalograma intercrítico; un trazado normal no descarta epilepsia."
+      - "El síncope convulsivo tiene pródromo, palidez y recuperación rápida; la fase posictal prolongada orienta a crisis epiléptica."
+      - "Una crisis de más de cinco minutos, o crisis repetidas sin recuperación entre ellas, se maneja como estado epiléptico."
+    teaching_questions:
+      - "¿Qué le pregunta al testigo y en qué orden?"
+      - "¿Qué elementos del período posictal orientan el diagnóstico?"
+      - "¿Cuándo una primera crisis exige estudio urgente?"
+    common_pitfalls:
+      - "Diagnosticar epilepsia por un electroencefalograma con hallazgos inespecíficos."
+      - "Documentar el evento sin describir su inicio ni su evolución temporal."
+      - "Olvidar desencadenantes como privación de sueño, alcohol y fármacos."
+    material_notes:
+      - "Guion de entrevista al testigo."
+      - "Tabla comparativa de crisis, síncope y crisis no epiléptica."
+      - "Definición operativa de estado epiléptico."
+
+  - topic_id: "desmielinizantes-em"
+    topic_title: "Enfermedades desmielinizantes del sistema nervioso central"
+    learning_objectives:
+      - "Reconocer el patrón de diseminación en tiempo y espacio que sostiene el diagnóstico."
+      - "Separar esclerosis múltiple de los trastornos del espectro de la neuromielitis óptica."
+    critical_points:
+      - "Un brote instala su déficit en horas o días y persiste; un empeoramiento por fiebre o calor es un pseudobrote y no cuenta como recaída."
+      - "Neuritis óptica bilateral o grave, mielitis longitudinalmente extensa y el síndrome del área postrema orientan al espectro neuromielitis óptica."
+      - "El defecto pupilar aferente relativo es el hallazgo que no debe faltar en la exploración de una neuritis óptica."
+    teaching_questions:
+      - "¿Cómo documenta un brote frente a una fluctuación de síntomas previos?"
+      - "¿Qué elementos del examen visual sugieren neuritis óptica?"
+      - "¿Qué haría sospechar neuromielitis óptica antes que esclerosis múltiple?"
+    common_pitfalls:
+      - "Registrar como recaída un pseudobrote febril."
+      - "No explorar el defecto pupilar aferente."
+      - "Asumir esclerosis múltiple ante una mielitis extensa."
+    material_notes:
+      - "Tabla comparativa de esclerosis múltiple y neuromielitis óptica."
+      - "Ficha de examen de la vía visual."
+      - "Definición operativa de brote."
+
+  - topic_id: "infecciones-snc"
+    topic_title: "Infecciones del sistema nervioso central"
+    learning_objectives:
+      - "Reconocer el síndrome meníngeo y separar meningitis de encefalitis por su semiología."
+      - "Ordenar las prioridades de tratamiento, imagen y punción lumbar en una sospecha de infección del sistema nervioso central."
+    critical_points:
+      - "El tratamiento empírico no se retrasa por la imagen ni por la punción lumbar."
+      - "La encefalitis se define por alteración del estado mental o de la conducta y crisis, más que por el síndrome meníngeo; la sospecha de herpes obliga a cubrir con aciclovir."
+      - "La tomografía previa a la punción se indica ante focalidad, papiledema, crisis reciente, inmunosupresión o deterioro de la conciencia."
+    teaching_questions:
+      - "¿Qué signos meníngeos explora y qué valor real tienen?"
+      - "¿Qué hallazgo lo hace priorizar la cobertura antiviral?"
+      - "¿En qué orden actúa: antibiótico, imagen, punción?"
+    common_pitfalls:
+      - "Esperar el resultado del líquido para iniciar tratamiento."
+      - "Interpretar unos signos meníngeos negativos como exclusión del diagnóstico."
+      - "No considerar encefalitis herpética en un paciente con conducta alterada y fiebre."
+    material_notes:
+      - "Algoritmo tiempo-dependiente de manejo inicial."
+      - "Tabla de perfiles del líquido cefalorraquídeo por etiología."
+      - "Indicaciones de tomografía previa a la punción."
+
+  - topic_id: "coma-neurocritico"
+    topic_title: "Coma, alteraciones de la conciencia y urgencias neurocríticas"
+    learning_objectives:
+      - "Evaluar el nivel de conciencia de forma reproducible y localizar la lesión con los reflejos de tronco."
+      - "Reconocer los prerrequisitos y las exclusiones del diagnóstico de muerte encefálica."
+    critical_points:
+      - "La secuencia de examen es nivel de conciencia, patrón respiratorio, pupilas, reflejos oculocefálicos y oculovestibulares, y respuesta motora; las pupilas y los movimientos oculares localizan mejor que cualquier puntaje."
+      - "Antes de todo juicio pronóstico deben excluirse causas tóxico-metabólicas, hipotermia y sedación residual, y comprobarse la glucemia."
+      - "La muerte encefálica exige causa conocida e irreversible, exclusión de confundidores y una prueba de apnea válida."
+    teaching_questions:
+      - "¿Qué hallazgo pupilar orienta a lesión mesencefálica frente a pontina?"
+      - "¿Cómo diferencia un coma estructural de uno metabólico?"
+      - "¿Qué debe excluir antes de evaluar muerte encefálica?"
+    common_pitfalls:
+      - "Reportar solo el puntaje de la escala sin describir sus componentes."
+      - "Emitir pronóstico con el paciente bajo sedación."
+      - "Omitir la glucemia capilar."
+    material_notes:
+      - "Ficha de examen de tronco encefálico."
+      - "Tabla de coma estructural frente a metabólico."
+      - "Requisitos y exclusiones del diagnóstico de muerte encefálica."
+
+  - topic_id: "eval-hemisemestre-2"
+    topic_title: "Evaluación final integral del segundo hemisemestre"
+    learning_objectives:
+      - "Integrar localización, síndrome y prioridades de actuación en casos del segundo hemisemestre."
+      - "Comunicar el razonamiento clínico declarando sus límites."
+    critical_points:
+      - "Se evalúa el razonamiento sindrómico y su argumentación, no la memorización de listas."
+      - "Todos los casos son sintéticos o desidentificados; no se emplean datos de pacientes reales."
+      - "Los criterios de la rúbrica se conocen antes de la evaluación."
+    teaching_questions:
+      - "¿Qué hallazgo cambiaría su conclusión?"
+      - "¿Qué no puede afirmar con los datos que el caso entrega?"
+    common_pitfalls:
+      - "Proponer una etiología antes de localizar la lesión."
+      - "Omitir las banderas rojas del caso."
+      - "Afirmar más de lo que la información sostiene."
+    material_notes:
+      - "Rúbrica de razonamiento semiológico."
+      - "Casos sintéticos de práctica del segundo hemisemestre."

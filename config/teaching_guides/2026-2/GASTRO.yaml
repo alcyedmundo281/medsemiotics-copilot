@@ -25,3 +25,155 @@ guides:
       - "Cuadro comparativo colitis ulcerosa frente a enfermedad de Crohn."
       - "Criterios de gravedad y banderas rojas de colitis aguda grave."
       - "Módulo web del tema en el hub de la cátedra."
+
+  - topic_id: "enfermedad-crohn"
+    topic_title: "Enfermedad de Crohn y diagnóstico diferencial de la enfermedad inflamatoria intestinal"
+    learning_objectives:
+      - "Diferenciar enfermedad de Crohn y colitis ulcerosa por distribución, continuidad y profundidad del compromiso."
+      - "Reconocer las complicaciones que cambian la conducta: estenosis, fístulas y abscesos."
+    critical_points:
+      - "El compromiso es segmentario y transmural, puede afectar cualquier tramo desde la boca al ano y deja lesiones salteadas; la afectación ileal y la enfermedad perianal son características."
+      - "Dolor y masa en fosa iliaca derecha, pérdida de peso y enfermedad perianal componen el cuadro típico; el examen perianal no es opcional."
+      - "Fiebre con dolor localizado obliga a descartar un absceso antes de intensificar la inmunosupresión."
+    teaching_questions:
+      - "¿Qué elementos de la anamnesis separan Crohn de colitis ulcerosa?"
+      - "¿Qué busca específicamente en el examen perianal?"
+      - "¿Qué hallazgo lo haría no iniciar inmunosupresión hoy?"
+    common_pitfalls:
+      - "Asumir colitis ulcerosa ante toda diarrea con sangre."
+      - "Omitir el examen perianal."
+      - "Atribuir el dolor persistente a actividad inflamatoria sin descartar estenosis o absceso."
+    material_notes:
+      - "Tabla comparativa de colitis ulcerosa y enfermedad de Crohn."
+      - "Ficha de exploración perianal."
+      - "Señales clínicas de complicación."
+
+  - topic_id: "intestino-irritable"
+    topic_title: "Síndrome de intestino irritable y dolor visceral"
+    learning_objectives:
+      - "Aplicar criterios diagnósticos positivos en lugar de un diagnóstico por exclusión indefinida."
+      - "Explicar el dolor visceral y el eje intestino-cerebro en términos que el paciente reconozca."
+    critical_points:
+      - "El diagnóstico es positivo: dolor abdominal recurrente relacionado con la defecación y asociado a cambios en la frecuencia o la forma de las heces."
+      - "Banderas rojas que obligan a estudiar antes de etiquetar: inicio después de los 50 años, pérdida de peso, sangrado, anemia, síntomas nocturnos y antecedente familiar de cáncer colorrectal o enfermedad inflamatoria intestinal."
+      - "La comorbilidad con ansiedad o depresión acompaña al cuadro y no lo invalida; el síntoma es real aunque no haya lesión estructural."
+    teaching_questions:
+      - "¿Qué características del dolor apoyan un origen visceral?"
+      - "¿Qué bandera roja obliga a estudiar antes de dar el diagnóstico?"
+      - "¿Cómo explica el diagnóstico sin que el paciente escuche que no tiene nada?"
+    common_pitfalls:
+      - "Llegar al diagnóstico solo tras repetir estudios normales."
+      - "Ignorar una bandera roja por la cronicidad del cuadro."
+      - "Comunicar el diagnóstico en términos que invaliden el síntoma."
+    material_notes:
+      - "Criterios diagnósticos vigentes."
+      - "Lista de banderas rojas."
+      - "Guion de explicación al paciente."
+
+  - topic_id: "cirrosis-hipertension-portal"
+    topic_title: "Cirrosis hepática, ascitis e hipertensión portal"
+    learning_objectives:
+      - "Reconocer los estigmas de hepatopatía crónica y los signos de hipertensión portal."
+      - "Identificar y ordenar las descompensaciones: ascitis, encefalopatía y sangrado variceal."
+    critical_points:
+      - "Toda ascitis nueva, y toda ascitis con fiebre, dolor o deterioro clínico, se punciona; el gradiente de albúmina suero-ascitis igual o mayor a 1,1 indica hipertensión portal."
+      - "La peritonitis bacteriana espontánea se busca activamente, aun sin signos de peritonismo."
+      - "La encefalopatía hepática obliga a buscar el desencadenante: infección, sangrado digestivo, fármacos sedantes, estreñimiento o alteración electrolítica."
+    teaching_questions:
+      - "¿Qué estigmas explora y qué significa cada uno?"
+      - "¿Cuándo punciona una ascitis y qué pide en el líquido?"
+      - "¿Qué desencadenantes descarta ante una encefalopatía?"
+    common_pitfalls:
+      - "Diferir la paracentesis diagnóstica por alteraciones de la coagulación."
+      - "Tratar la encefalopatía sin buscar su causa."
+      - "Atribuir toda ascitis a cirrosis sin confirmar el gradiente."
+    material_notes:
+      - "Ficha de estigmas de hepatopatía crónica."
+      - "Interpretación del gradiente de albúmina suero-ascitis."
+      - "Lista de desencadenantes de encefalopatía."
+
+  - topic_id: "ictericia-via-biliar"
+    topic_title: "Síndromes ictéricos, colestasis y patología biliar litiásica"
+    learning_objectives:
+      - "Clasificar la ictericia por su patrón clínico y bioquímico antes de pedir imagen."
+      - "Reconocer la colangitis aguda como urgencia que exige drenaje."
+    critical_points:
+      - "La tríada de fiebre, ictericia y dolor en hipocondrio derecho define la sospecha de colangitis; el antibiótico no sustituye al drenaje de la vía biliar."
+      - "Coluria, acolia y prurito orientan a colestasis; su ausencia, con ictericia y orina clara, sugiere hemólisis."
+      - "El signo de Murphy orienta a colecistitis aguda y debe explorarse siempre en el dolor de hipocondrio derecho."
+    teaching_questions:
+      - "¿Qué elementos de la anamnesis separan una colestasis obstructiva de una lesión hepatocelular?"
+      - "¿Qué signo cambia la urgencia del caso?"
+      - "¿Cómo interpreta el color de la orina y de las heces?"
+    common_pitfalls:
+      - "Manejar una colangitis solo con antibiótico."
+      - "No preguntar por el color de orina y heces y confundir ictericia hemolítica con obstructiva."
+      - "Omitir la maniobra de Murphy."
+    material_notes:
+      - "Algoritmo por patrón bioquímico."
+      - "Criterios de sospecha y gravedad de colangitis."
+      - "Tabla de causas de ictericia por grupo etario."
+
+  - topic_id: "pancreatitis-aguda-cronica"
+    topic_title: "Pancreatitis aguda y crónica"
+    learning_objectives:
+      - "Diagnosticar la pancreatitis aguda con criterios clínicos, bioquímicos e imagenológicos y estratificar su gravedad."
+      - "Reconocer la pancreatitis crónica por su semiología y sus consecuencias funcionales."
+    critical_points:
+      - "El diagnóstico requiere dos de tres: dolor característico, elevación enzimática de al menos tres veces el límite superior, o hallazgos en imagen."
+      - "La magnitud de la elevación enzimática no mide gravedad ni sirve para seguimiento; la gravedad la define la falla orgánica persistente más allá de 48 horas."
+      - "La tomografía de estadificación rinde a las 72 horas; en las primeras horas subestima la necrosis. La etiología biliar y la alcohólica se buscan siempre, porque tratarlas cambia el curso."
+    teaching_questions:
+      - "¿Qué caracteriza al dolor de origen pancreático?"
+      - "¿Por qué no repetir la lipasa para seguir la evolución?"
+      - "¿Cuándo pide la tomografía y qué espera responder con ella?"
+    common_pitfalls:
+      - "Usar la cifra enzimática como indicador pronóstico."
+      - "Pedir tomografía en las primeras horas para estadificar."
+      - "No buscar la etiología biliar."
+    material_notes:
+      - "Criterios diagnósticos y de gravedad."
+      - "Cronograma de estudios de imagen."
+      - "Tabla de etiologías y su búsqueda dirigida."
+
+  - topic_id: "abdomen-agudo"
+    topic_title: "Abdomen agudo médico y quirúrgico"
+    learning_objectives:
+      - "Separar el abdomen agudo quirúrgico del médico por la semiología del dolor y del examen."
+      - "Reconocer la irritación peritoneal y priorizar la evaluación quirúrgica."
+    critical_points:
+      - "La secuencia dolor primero y vómito después orienta a causa quirúrgica; la migración del dolor y su localización final son datos de alto rendimiento."
+      - "Defensa, dolor a la descompresión y dolor a la percusión indican irritación peritoneal y obligan a evaluación quirúrgica urgente."
+      - "Ancianos, personas con diabetes, inmunosuprimidos y embarazadas presentan cuadros atenuados; la analgesia adecuada no oculta el diagnóstico y no debe negarse."
+    teaching_questions:
+      - "¿Cómo caracteriza y localiza el dolor, y qué migración observa?"
+      - "¿Qué maniobras confirman irritación peritoneal?"
+      - "¿Qué causas médicas o extraabdominales imitan un abdomen quirúrgico?"
+    common_pitfalls:
+      - "Retrasar la analgesia con la idea de no enmascarar el cuadro."
+      - "Asumir gastroenteritis ante un dolor con defensa abdominal."
+      - "Olvidar imitadores como infarto de cara inferior, cetoacidosis y neumonía basal."
+    material_notes:
+      - "Tabla de abdomen agudo quirúrgico frente a médico."
+      - "Ficha de maniobras de irritación peritoneal."
+      - "Lista de imitadores extraabdominales."
+
+  - topic_id: "eval-hemisemestre-2"
+    topic_title: "Evaluación final integral del segundo hemisemestre"
+    learning_objectives:
+      - "Integrar semiología digestiva, síndrome y prioridades de actuación en casos del segundo hemisemestre."
+      - "Comunicar el razonamiento clínico declarando sus límites."
+    critical_points:
+      - "Se evalúa el razonamiento sindrómico y su argumentación, no la memorización de listas."
+      - "Todos los casos son sintéticos o desidentificados; no se emplean datos de pacientes reales."
+      - "Los criterios de la rúbrica se conocen antes de la evaluación."
+    teaching_questions:
+      - "¿Qué hallazgo cambiaría su conclusión?"
+      - "¿Qué no puede afirmar con los datos que el caso entrega?"
+    common_pitfalls:
+      - "Proponer una etiología antes de caracterizar el síndrome."
+      - "Omitir los signos de alarma del caso."
+      - "Afirmar más de lo que la información sostiene."
+    material_notes:
+      - "Rúbrica de razonamiento semiológico."
+      - "Casos sintéticos de práctica del segundo hemisemestre."
