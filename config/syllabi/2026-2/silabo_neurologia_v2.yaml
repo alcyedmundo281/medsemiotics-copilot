@@ -1,138 +1,167 @@
-version: '2.0'
+# ==============================================================================
+# SÍLABO OFICIAL DE NEUROLOGÍA - VERSIÓN 2 (SEMESTRE 2026-2)
+# Universidad Central del Ecuador - Facultad de Ciencias Médicas / HCAM
+# ==============================================================================
+
+# Este archivo es la fuente de verdad del curso y sus comentarios son parte de la
+# documentación oficial. No lo reescriba con un volcado automático de YAML: eso elimina
+# la cabecera, los separadores de hemisemestre y las anotaciones de evaluación.
+# Para actualizar el motor tras dictar una clase, marque la semana como completed aquí y
+# ejecute: python scripts/sync_syllabus_v2_to_config.py
+
+version: "2.0"
 course_info:
-  name: Cátedra de Neurología Clínica y Semiótica
-  code: NEURO
-  semester: 2026-2
-  group: M6-005
-  hospital_rotation: Hospital de Especialidades Carlos Andrade Marín (HCAM)
-  location: Aula de Administración
-  schedule: Martes 16:00 - 17:30 (1 sesión semanal presencial/híbrida)
-  start_date: '2026-06-23'
-  end_date: '2026-10-20'
-  calendar_id: c_classroom6164396f@group.calendar.google.com
-  web_hub: https://powersemiotics.com/medsemiotics/neurologia.html
+  name: "Cátedra de Neurología Clínica y Semiótica"
+  code: "NEURO"
+  semester: "2026-2"
+  group: "M6-005"
+  hospital_rotation: "Hospital de Especialidades Carlos Andrade Marín (HCAM)"
+  location: "Aula de Administración"
+  schedule: "Martes 16:00 - 17:30 (1 sesión semanal presencial/híbrida)"
+  start_date: "2026-06-23"
+  end_date: "2026-10-20"
+  calendar_id: "c_classroom6164396f@group.calendar.google.com"
+  web_hub: "https://powersemiotics.com/medsemiotics/neurologia.html"
+
 evaluation_scheme:
   primer_hemisemestre:
     porcentaje: 50
-    actividades_formativas: 20
-    evaluacion_sumativa: 30
+    actividades_formativas: 20  # Informes clínicos HCAM, tareas (Rúbrica 6-6-4-4)
+    evaluacion_sumativa: 30     # Examen teórico-práctico (Escala NIHSS / ACV)
   segundo_hemisemestre:
     porcentaje: 50
-    actividades_formativas: 20
-    evaluacion_sumativa: 30
+    actividades_formativas: 20  # Casos clínicos, semiología y análisis bayesiano
+    evaluacion_sumativa: 30     # Examen final integrador
+
 schedule_18_weeks:
-- week: 1
-  date: '2026-06-23'
-  topic_id: neuro-intro
-  title: Introducción a la semiología neurológica e historia clínica orientada al
-    problema
-  status: completed
-  hemisemestre: 1
-  web_module: https://powersemiotics.com/medsemiotics/neurologia.html
-- week: 2
-  date: '2026-06-30'
-  topic_id: mental-status
-  title: Estado mental, funciones cerebrales superiores y semiología del lenguaje
-  status: completed
-  hemisemestre: 1
-- week: 3
-  date: '2026-07-07'
-  topic_id: cranial-nerves-1
-  title: Pares craneales I al VI (Vía visual, fondo de ojo y motilidad ocular)
-  status: completed
-  hemisemestre: 1
-- week: 4
-  date: '2026-07-14'
-  topic_id: cranial-nerves-2
-  title: Pares craneales VII al XII (Facial, auditivo-vestibular, bulbares y deglución)
-  status: completed
-  hemisemestre: 1
-- week: 5
-  date: '2026-07-21'
-  topic_id: motor-system
-  title: 'Sistema motor: inspección, tono, trofismo y gradación de fuerza muscular'
-  status: completed
-  hemisemestre: 1
-- week: 6
-  date: '2026-07-28'
-  topic_id: reflexes-pyramidal
-  title: Reflejos osteotendinosos y signos de liberación piramidal (Babinski y sucedáneos)
-  status: completed
-  hemisemestre: 1
-- week: 7
-  date: '2026-08-04'
-  topic_id: sensory-system
-  title: 'Sistema sensitivo: sensibilidad superficial (tacto/dolor/temperatura) y
-    profunda'
-  status: completed
-  hemisemestre: 1
-- week: 8
-  date: '2026-08-11'
-  topic_id: coordination-cerebellum
-  title: Coordinación motora, marcha y síndrome cerebeloso (ataxias)
-  status: completed
-  hemisemestre: 1
-- week: 9
-  date: '2026-08-18'
-  topic_id: eval-hemisemestre-1
-  title: 'Evaluación del Primer Hemisemestre: Escala NIHSS y Eventos Cerebrovasculares
-    (ACV)'
-  status: completed
-  hemisemestre: 1
-- week: 10
-  date: '2026-08-25'
-  topic_id: trastornos-movimiento-1
-  title: 'Trastornos del movimiento I: Enfermedad de Parkinson Idiopática (EPI)'
-  status: completed
-  hemisemestre: 2
-  web_module: https://powersemiotics.com/medsemiotics/neurologia/trastornos-movimiento-1.html
-- week: 11
-  date: '2026-09-01'
-  topic_id: trastornos-movimiento-2
-  title: 'Trastornos del movimiento II: Parkinsonismos Atípicos (PSP/AMS/DCB) y Coreas'
-  status: projected
-  hemisemestre: 2
-  web_module: https://powersemiotics.com/medsemiotics/neurologia/trastornos-movimiento-2.html
-- week: 12
-  date: '2026-09-08'
-  topic_id: demencias-cognitivo
-  title: Síndromes demenciales, Enfermedad de Alzheimer y deterioro neurocognitivo
-  status: projected
-  hemisemestre: 2
-  web_module: https://powersemiotics.com/medsemiotics/neurologia/demencias.html
-- week: 13
-  date: '2026-09-15'
-  topic_id: cefaleas-red-flags
-  title: Cefaleas primarias (Migraña, Tensional, Cluster) y Banderas Rojas
-  status: projected
-  hemisemestre: 2
-- week: 14
-  date: '2026-09-22'
-  topic_id: epilepsia-crisis
-  title: Epilepsia, crisis epilépticas focales/generalizadas y diagnóstico diferencial
-  status: projected
-  hemisemestre: 2
-- week: 15
-  date: '2026-09-29'
-  topic_id: desmielinizantes-em
-  title: Enfermedades desmielinizantes del SNC (Esclerosis Múltiple y NMO)
-  status: projected
-  hemisemestre: 2
-- week: 16
-  date: '2026-10-06'
-  topic_id: infecciones-snc
-  title: 'Infecciones del SNC: Síndrome meníngeo, meningitis, encefalitis y abscesos'
-  status: projected
-  hemisemestre: 2
-- week: 17
-  date: '2026-10-13'
-  topic_id: coma-neurocritico
-  title: Coma, alteraciones de conciencia, muerte encefálica y urgencias neurocríticas
-  status: projected
-  hemisemestre: 2
-- week: 18
-  date: '2026-10-20'
-  topic_id: eval-hemisemestre-2
-  title: Evaluación Final Integral del Segundo Hemisemestre
-  status: projected
-  hemisemestre: 2
+  # -------------------- PRIMER HEMISEMESTRE --------------------
+  - week: 1
+    date: "2026-06-23"
+    topic_id: "neuro-intro"
+    title: "Introducción a la semiología neurológica e historia clínica orientada al problema"
+    status: "completed"
+    hemisemestre: 1
+    web_module: "https://powersemiotics.com/medsemiotics/neurologia.html"
+
+  - week: 2
+    date: "2026-06-30"
+    topic_id: "mental-status"
+    title: "Estado mental, funciones cerebrales superiores y semiología del lenguaje"
+    status: "completed"
+    hemisemestre: 1
+
+  - week: 3
+    date: "2026-07-07"
+    topic_id: "cranial-nerves-1"
+    title: "Pares craneales I al VI (Vía visual, fondo de ojo y motilidad ocular)"
+    status: "completed"
+    hemisemestre: 1
+
+  - week: 4
+    date: "2026-07-14"
+    topic_id: "cranial-nerves-2"
+    title: "Pares craneales VII al XII (Facial, auditivo-vestibular, bulbares y deglución)"
+    status: "completed"
+    hemisemestre: 1
+
+  - week: 5
+    date: "2026-07-21"
+    topic_id: "motor-system"
+    title: "Sistema motor: inspección, tono, trofismo y gradación de fuerza muscular"
+    status: "completed"
+    hemisemestre: 1
+
+  - week: 6
+    date: "2026-07-28"
+    topic_id: "reflexes-pyramidal"
+    title: "Reflejos osteotendinosos y signos de liberación piramidal (Babinski y sucedáneos)"
+    status: "completed"
+    hemisemestre: 1
+
+  - week: 7
+    date: "2026-08-04"
+    topic_id: "sensory-system"
+    title: "Sistema sensitivo: sensibilidad superficial (tacto/dolor/temperatura) y profunda"
+    status: "completed"
+    hemisemestre: 1
+
+  - week: 8
+    date: "2026-08-11"
+    topic_id: "coordination-cerebellum"
+    title: "Coordinación motora, marcha y síndrome cerebeloso (ataxias)"
+    status: "completed"
+    hemisemestre: 1
+
+  - week: 9
+    date: "2026-08-18"
+    topic_id: "eval-hemisemestre-1"
+    title: "Evaluación del Primer Hemisemestre: Escala NIHSS y Eventos Cerebrovasculares (ACV)"
+    status: "completed"
+    hemisemestre: 1
+
+  # -------------------- SEGUNDO HEMISEMESTRE --------------------
+  - week: 10
+    date: "2026-08-25"
+    topic_id: "trastornos-movimiento-1"
+    title: "Trastornos del movimiento I: Enfermedad de Parkinson Idiopática (EPI)"
+    status: "completed"
+    hemisemestre: 2
+    web_module: "https://powersemiotics.com/medsemiotics/neurologia/trastornos-movimiento-1.html"
+
+  - week: 11
+    date: "2026-09-01"
+    topic_id: "trastornos-movimiento-2"
+    title: "Trastornos del movimiento II: Parkinsonismos Atípicos (PSP/AMS/DCB) y Coreas"
+    status: "projected"
+    hemisemestre: 2
+    web_module: "https://powersemiotics.com/medsemiotics/neurologia/trastornos-movimiento-2.html"
+
+  - week: 12
+    date: "2026-09-08"
+    topic_id: "demencias-cognitivo"
+    title: "Síndromes demenciales, Enfermedad de Alzheimer y deterioro neurocognitivo"
+    status: "projected"
+    hemisemestre: 2
+    web_module: "https://powersemiotics.com/medsemiotics/neurologia/demencias.html"
+
+  - week: 13
+    date: "2026-09-15"
+    topic_id: "cefaleas-red-flags"
+    title: "Cefaleas primarias (Migraña, Tensional, Cluster) y Banderas Rojas"
+    status: "projected"
+    hemisemestre: 2
+
+  - week: 14
+    date: "2026-09-22"
+    topic_id: "epilepsia-crisis"
+    title: "Epilepsia, crisis epilépticas focales/generalizadas y diagnóstico diferencial"
+    status: "projected"
+    hemisemestre: 2
+
+  - week: 15
+    date: "2026-09-29"
+    topic_id: "desmielinizantes-em"
+    title: "Enfermedades desmielinizantes del SNC (Esclerosis Múltiple y NMO)"
+    status: "projected"
+    hemisemestre: 2
+
+  - week: 16
+    date: "2026-10-06"
+    topic_id: "infecciones-snc"
+    title: "Infecciones del SNC: Síndrome meníngeo, meningitis, encefalitis y abscesos"
+    status: "projected"
+    hemisemestre: 2
+
+  - week: 17
+    date: "2026-10-13"
+    topic_id: "coma-neurocritico"
+    title: "Coma, alteraciones de conciencia, muerte encefálica y urgencias neurocríticas"
+    status: "projected"
+    hemisemestre: 2
+
+  - week: 18
+    date: "2026-10-20"
+    topic_id: "eval-hemisemestre-2"
+    title: "Evaluación Final Integral del Segundo Hemisemestre"
+    status: "projected"
+    hemisemestre: 2
