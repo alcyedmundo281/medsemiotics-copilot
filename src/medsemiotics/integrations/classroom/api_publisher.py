@@ -1,48 +1,46 @@
-"""API-based publisher for Google Classroom CourseWorkMaterials."""
+"""Build Google Classroom courseWorkMaterials request bodies.
+
+This module only assembles the request payload. It performs no network call and holds no
+credential, so a caller must carry out the authenticated request itself under the project's
+Classroom access policy.
+"""
 
 import os
-from typing import List, Optional
+from typing import Any
+
 
 class ClassroomApiPublisher:
-    """Uses Google Classroom REST API (courseWorkMaterials endpoint) for programmatic publishing."""
+    """Assemble courseWorkMaterials request bodies for the Classroom REST API."""
 
-    def __init__(self, credentials_path: Optional[str] = None):
+    def __init__(self, credentials_path: str | None = None) -> None:
+        """Record where a caller would find the Classroom credential, without reading it."""
         self.credentials_path = credentials_path or os.getenv("GOOGLE_CLASSROOM_CREDENTIALS")
 
-    def create_material(
+    def build_material_request(
         self,
         course_id: str,
         title: str,
         description: str,
-        links: Optional[List[str]] = None,
-        state: str = "PUBLISHED",
-    ) -> dict:
-        """Create a CourseWorkMaterial item in Google Classroom via REST API.
+        links: list[str] | None = None,
+        state: str = "DRAFT",
+    ) -> dict[str, Any]:
+        """Build the request body for one courseWorkMaterial.
 
         Args:
-            course_id: Classroom Course ID
-            title: Material Title
-            description: Material Body
-            links: List of attachment links
-            state: 'PUBLISHED' or 'DRAFT'
+            course_id: Classroom course identifier.
+            title: Material title.
+            description: Material body.
+            links: URLs to attach as link materials.
+            state: 'DRAFT' (default) or 'PUBLISHED'. Nothing is sent by this method.
 
         Returns:
-            Dict representing the created CourseWorkMaterial resource.
+            The request body a caller may POST to courses.courseWorkMaterials.create.
         """
-        print(f"[ClassroomAPI] Conectando a Google Classroom API v1...")
-        print(f"[ClassroomAPI] Creando material '{title}' en curso ID: {course_id}")
-
-        materials_attachments = []
-        if links:
-            for url in links:
-                materials_attachments.append({"link": {"url": url}})
-
-        resource_body = {
+        materials = [{"link": {"url": url}} for url in links or ()]
+        return {
             "title": title,
             "description": description,
-            "materials": materials_attachments,
+            "materials": materials,
             "state": state,
+            "courseId": course_id,
         }
-
-        print("[ClassroomAPI] Recurso estructurado preparado con éxito.")
-        return resource_body

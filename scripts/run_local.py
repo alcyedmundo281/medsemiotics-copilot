@@ -8,8 +8,11 @@ sin requerir Google Cloud Run, Secret Manager ni credenciales en la nube.
 import os
 import sys
 
+
 def main() -> None:
     # Configurar entorno de desarrollo local por defecto
+    # Only a local loopback server gets a development token by default. Any other deployment
+    # must provide MEDSEMIOTICS_API_TOKEN itself; the backend refuses to serve without one.
     os.environ.setdefault("MEDSEMIOTICS_API_TOKEN", "local-dev-token")
     os.environ.setdefault("MEDSEMIOTICS_CONFIG_ROOT", "config")
 
@@ -17,7 +20,7 @@ def main() -> None:
     print("[+] MedSemiotics Teaching Copilot -- Servidor LOCAL")
     print("=" * 70)
     print("[*] URL del Servidor Local : http://127.0.0.1:8000")
-    print("[*] Token de API Local     : local-dev-token")
+    print("[*] Token de API Local     : el valor de MEDSEMIOTICS_API_TOKEN")
     print("[*] Directorio de Config  : config/")
     print("=" * 70)
     print("[i] Endpoints disponibles:")
@@ -29,10 +32,12 @@ def main() -> None:
 
     try:
         import uvicorn
+
         uvicorn.run("medsemiotics.api.app:app", host="127.0.0.1", port=8000, reload=True)
     except ImportError:
         print("[!] Error: uvicorn no esta instalado. Instalalo con 'pip install uvicorn'")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

@@ -1,45 +1,78 @@
-# First half of the clinical gastroenterology course. The second half is not yet recorded.
-# Each weekly class covers two or three topics; planned_week reflects that pace.
+# GENERATED FILE -- do not edit by hand.
+# Derived from config/syllabi/2026-2/silabo_gastroenterologia_v2.yaml by scripts/sync_syllabus_v2_to_config.py.
+# Edit the official syllabus and re-run that script instead.
 semester_id: "2026-2"
 course_code: "GASTRO"
 topics:
-  - topic_id: "fundamentos-gastroenterologia"
+  - topic_id: "gastro-intro-dolor"
     planned_order: 1
     planned_week: 1
     required: true
-  - topic_id: "pruebas-diagnosticas"
+  - topic_id: "esofago-disfagia-erge"
     planned_order: 2
-    planned_week: 1
+    planned_week: 2
     required: true
-  - topic_id: "hemorragia-gi"
+  - topic_id: "estomago-dispepsia-ulcera"
     planned_order: 3
-    planned_week: 1
+    planned_week: 3
     required: true
-  - topic_id: "gastroenteropatias-aines"
+  - topic_id: "hemorragia-digestiva-alta"
     planned_order: 4
-    planned_week: 2
+    planned_week: 4
     required: true
-  - topic_id: "diarrea-cronica"
+  - topic_id: "hemorragia-digestiva-baja"
     planned_order: 5
-    planned_week: 2
+    planned_week: 5
     required: true
-  - topic_id: "reflujo-gastroesofagico"
+  - topic_id: "diarrea-aguda-cronica"
     planned_order: 6
-    planned_week: 2
+    planned_week: 6
     required: true
-  - topic_id: "trastornos-estomacales"
+  - topic_id: "malabsorcion-celiaca"
     planned_order: 7
-    planned_week: 3
+    planned_week: 7
     required: true
-  - topic_id: "cancer-esofagico-gastrico"
+  - topic_id: "hepatologia-basica"
     planned_order: 8
-    planned_week: 3
+    planned_week: 8
     required: true
-  - topic_id: "helicobacter-pylori"
+  - topic_id: "eval-hemisemestre-1"
     planned_order: 9
-    planned_week: 4
+    planned_week: 9
     required: true
-  - topic_id: "sindrome-intestino-irritable"
+  - topic_id: "funcionales-dispepsia"
     planned_order: 10
-    planned_week: 4
+    planned_week: 10
+    required: true
+  - topic_id: "colitis-ulcerosa"
+    planned_order: 11
+    planned_week: 11
+    required: true
+  - topic_id: "enfermedad-crohn"
+    planned_order: 12
+    planned_week: 12
+    required: true
+  - topic_id: "intestino-irritable"
+    planned_order: 13
+    planned_week: 13
+    required: true
+  - topic_id: "cirrosis-hipertension-portal"
+    planned_order: 14
+    planned_week: 14
+    required: true
+  - topic_id: "ictericia-via-biliar"
+    planned_order: 15
+    planned_week: 15
+    required: true
+  - topic_id: "pancreatitis-aguda-cronica"
+    planned_order: 16
+    planned_week: 16
+    required: true
+  - topic_id: "abdomen-agudo"
+    planned_order: 17
+    planned_week: 17
+    required: true
+  - topic_id: "eval-hemisemestre-2"
+    planned_order: 18
+    planned_week: 18
     required: true

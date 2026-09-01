@@ -1,54 +1,59 @@
 #!/usr/bin/env python3
-"""Script CLI local unificado para publicación en Google Classroom."""
+"""Render a reviewable Google Classroom material draft locally.
+
+Nothing is published: the script prints the post for the instructor to review and paste, or the
+request body a caller may send under the project's Classroom access policy.
+"""
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
-# Configurar PYTHONPATH interno
-src_path = Path(__file__).resolve().parent.parent / "src"
-if str(src_path) not in sys.path:
-    sys.path.insert(0, str(src_path))
+SRC_PATH = Path(__file__).resolve().parent.parent / "src"
+if str(SRC_PATH) not in sys.path:
+    sys.path.insert(0, str(SRC_PATH))
 
-from medsemiotics.integrations.classroom.browser_publisher import ClassroomBrowserPublisher
-from medsemiotics.integrations.classroom.api_publisher import ClassroomApiPublisher
+from medsemiotics.integrations.classroom.api_publisher import (  # noqa: E402
+    ClassroomApiPublisher,
+)
+from medsemiotics.integrations.classroom.browser_publisher import (  # noqa: E402
+    ClassroomBrowserPublisher,
+)
 
-def main():
-    parser = argparse.ArgumentParser(description="MedSemiotics Classroom Publisher CLI")
-    parser.add_argument("--mode", choices=["browser", "api"], default="browser", help="Modo de ejecucion (browser o api)")
-    parser.add_argument("--course", default="Neurología", help="Nombre del curso")
-    parser.add_argument("--title", required=True, help="Titulo del material")
-    parser.add_argument("--description", default="", help="Descripcion / Contenido")
-    parser.add_argument("--links", nargs="*", help="URLs a adjuntar")
-    parser.add_argument("--topic", default="Segundo Hemisemestre", help="Tema en Trabajo de Clase")
 
+def main() -> int:
+    """Render one Classroom material draft and print it."""
+    parser = argparse.ArgumentParser(description="MedSemiotics Classroom draft renderer")
+    parser.add_argument("--mode", choices=["browser", "api"], default="browser")
+    parser.add_argument("--course", default="Neurología", help="Course name or Classroom course id")
+    parser.add_argument("--title", required=True, help="Material title")
+    parser.add_argument("--description", default="", help="Material body")
+    parser.add_argument("--links", nargs="*", help="URLs to attach")
+    parser.add_argument("--topic", default="Segundo Hemisemestre", help="Classroom topic")
     args = parser.parse_args()
 
-    print("=" * 70)
-    print("[+] MedSemiotics Classroom Publisher -- Unificado")
-    print("=" * 70)
-
     if args.mode == "browser":
-        publisher = ClassroomBrowserPublisher()
-        publisher.publish_material(
+        plan = ClassroomBrowserPublisher().plan_material(
             course_name=args.course,
             title=args.title,
             description=args.description,
             topic_name=args.topic,
             links=args.links,
         )
+        print(plan.render())
     else:
-        publisher = ClassroomApiPublisher()
-        publisher.create_material(
+        request = ClassroomApiPublisher().build_material_request(
             course_id=args.course,
             title=args.title,
             description=args.description,
             links=args.links,
         )
+        print(json.dumps(request, ensure_ascii=False, indent=2))
 
-    print("=" * 70)
-    print("[OK] Publicacion procesada con exito.")
-    print("=" * 70)
+    print("\nBORRADOR. Nada fue publicado: revise y publique usted en Google Classroom.")
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

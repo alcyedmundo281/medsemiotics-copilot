@@ -1,17 +1,21 @@
 """Integration tests verifying the actual project configuration files on disk."""
 
-from datetime import date, datetime
+import subprocess
+import sys
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from unittest.mock import MagicMock
 from zoneinfo import ZoneInfo
 
 import pytest
+import yaml
 
 from medsemiotics.agents.framework import build_default_agent_framework
 from medsemiotics.agents.teaching_coach import TeachingCoachAgent
 from medsemiotics.domain.academic_state import TopicProgressStatus
-from medsemiotics.domain.exceptions import TeachingGuideDisabledError
+from medsemiotics.domain.schedule import ClassWeekday
 from medsemiotics.domain.teaching_coach import TeachingCoachPreviewRequest
+from medsemiotics.domain.teaching_log import CoverageStatus
 from medsemiotics.services.calendar_config_repository import (
     CalendarConfigRepository,
 )
@@ -31,6 +35,43 @@ from medsemiotics.services.syllabus_repository import SyllabusRepository
 from medsemiotics.services.teaching_coach_preview import TeachingCoachPreviewService
 from medsemiotics.services.teaching_guide_repository import TeachingGuideRepository
 from medsemiotics.services.teaching_log_repository import TeachingLogRepository
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+CONFIG_ROOT = PROJECT_ROOT / "config"
+SEMESTER_ID = "2026-2"
+
+# The official syllabi are the single source of truth for what is taught and when. These tests
+# assert that the tracked engine configuration is a faithful projection of them, so updating the
+# teaching content never requires editing expectations here.
+OFFICIAL_SYLLABI = {
+    "NEURO": "silabo_neurologia_v2.yaml",
+    "GASTRO": "silabo_gastroenterologia_v2.yaml",
+}
+
+
+def official_weeks(course_code: str) -> list[dict[str, object]]:
+    """Load the official syllabus weeks for a course, ordered by week number."""
+    path = CONFIG_ROOT / "syllabi" / SEMESTER_ID / OFFICIAL_SYLLABI[course_code]
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    return sorted(data["schedule_18_weeks"], key=lambda week: int(week["week"]))
+
+
+def official_course_info(course_code: str) -> dict[str, object]:
+    """Load the official course_info block for a course."""
+    path = CONFIG_ROOT / "syllabi" / SEMESTER_ID / OFFICIAL_SYLLABI[course_code]
+    return dict(yaml.safe_load(path.read_text(encoding="utf-8"))["course_info"])
+
+
+def delivered_weeks(course_code: str) -> list[dict[str, object]]:
+    """Return the official weeks already reported as delivered."""
+    return [week for week in official_weeks(course_code) if week["status"] == "completed"]
+
+
+def next_official_week(course_code: str) -> dict[str, object]:
+    """Return the first official week that has not been delivered yet."""
+    pending = [week for week in official_weeks(course_code) if week["status"] != "completed"]
+    assert pending, f"The official {course_code} syllabus reports no pending week."
+    return pending[0]
 
 
 def test_real_semester_2026_2_config() -> None:
@@ -83,105 +124,77 @@ def test_real_repository_resolution() -> None:
     assert config.timezone == "America/Guayaquil"
 
 
-def test_real_syllabi_2026_2() -> None:
-    """Verify the tracked plans: five semiology topics for NEURO, ten clinical ones for GASTRO."""
-    project_root = Path(__file__).resolve().parent.parent
-    syllabi_dir = project_root / "config" / "syllabi"
+@pytest.mark.parametrize("course_code", ["NEURO", "GASTRO"])
+def test_real_syllabi_2026_2(course_code: str) -> None:
+    """Verify each tracked plan mirrors the topic order of its official syllabus."""
+    plan = SyllabusRepository(CONFIG_ROOT / "syllabi").get(SEMESTER_ID, course_code)
 
-    repo = SyllabusRepository(syllabi_dir)
+    assert plan.semester_id == SEMESTER_ID
+    assert plan.course_code == course_code
 
-    neuro_plan = repo.get("2026-2", "NEURO")
-    assert neuro_plan.semester_id == "2026-2"
-    assert neuro_plan.course_code == "NEURO"
-    assert len(neuro_plan.topics) == 5
-
-    gastro_plan = repo.get("2026-2", "GASTRO")
-    assert gastro_plan.semester_id == "2026-2"
-    assert gastro_plan.course_code == "GASTRO"
-    assert len(gastro_plan.topics) == 10
-    assert gastro_plan.topics[0].topic_id == "fundamentos-gastroenterologia"
-    assert gastro_plan.topics[-1].topic_id == "sindrome-intestino-irritable"
+    weeks = official_weeks(course_code)
+    assert [topic.topic_id for topic in plan.ordered_topics] == [week["topic_id"] for week in weeks]
+    assert [topic.planned_week for topic in plan.ordered_topics] == [
+        int(week["week"]) for week in weeks
+    ]
 
 
-def test_real_teaching_logs_2026_2() -> None:
-    """Verify NEURO has taught nothing yet and GASTRO carries its reconstructed first half."""
-    project_root = Path(__file__).resolve().parent.parent
-    logs_dir = project_root / "config" / "teaching_logs"
+@pytest.mark.parametrize("course_code", ["NEURO", "GASTRO"])
+def test_real_teaching_logs_2026_2(course_code: str) -> None:
+    """Verify the tracked log holds exactly the weeks the official syllabus reports as delivered."""
+    sessions = TeachingLogRepository(CONFIG_ROOT / "teaching_logs").get_sessions(
+        SEMESTER_ID, course_code
+    )
+    delivered = delivered_weeks(course_code)
 
-    repo = TeachingLogRepository(logs_dir)
+    assert len(sessions) == len(delivered)
+    for session, week in zip(sessions, delivered, strict=True):
+        assert session.session_date == date.fromisoformat(str(week["date"]))
+        assert [topic.topic_id for topic in session.topics] == [week["topic_id"]]
+        assert all(topic.status == CoverageStatus.COMPLETED for topic in session.topics)
 
-    neuro_sessions = repo.get_sessions("2026-2", "NEURO")
-    assert neuro_sessions == []
-
-    gastro_sessions = repo.get_sessions("2026-2", "GASTRO")
-    assert len(gastro_sessions) == 4
-    assert sum(len(session.topics) for session in gastro_sessions) == 10
-    assert gastro_sessions[0].session_date == date(2026, 8, 5)
-    assert gastro_sessions[-1].session_date == date(2026, 8, 26)
-    for session in gastro_sessions:
-        assert session.notes is not None
-        assert "reconstructed" in session.notes
+    # A week still marked active or projected must never appear as taught.
+    logged_topics = {topic.topic_id for session in sessions for topic in session.topics}
+    assert next_official_week(course_code)["topic_id"] not in logged_topics
 
 
-def test_real_academic_state_neuro_2026_2() -> None:
-    """Verify NEURO academic state projection against real configuration."""
-    project_root = Path(__file__).resolve().parent.parent
-    syllabi_dir = project_root / "config" / "syllabi"
-    logs_dir = project_root / "config" / "teaching_logs"
-
+@pytest.mark.parametrize("course_code", ["NEURO", "GASTRO"])
+def test_real_academic_state_2026_2(course_code: str) -> None:
+    """Verify the projected state proposes the first week that has not been taught yet."""
     service = CourseStateService(
-        SyllabusRepository(syllabi_dir),
-        TeachingLogRepository(logs_dir),
+        SyllabusRepository(CONFIG_ROOT / "syllabi"),
+        TeachingLogRepository(CONFIG_ROOT / "teaching_logs"),
     )
 
-    state = service.get_state("2026-2", "NEURO")
-    assert len(state.topics) == 5
-    assert all(t.status == TopicProgressStatus.NOT_STARTED for t in state.topics)
-    assert state.completion_ratio == 0.0
+    state = service.get_state(SEMESTER_ID, course_code)
+    weeks = official_weeks(course_code)
+    delivered = delivered_weeks(course_code)
+
+    assert len(state.topics) == len(weeks)
+    completed = [t for t in state.topics if t.status == TopicProgressStatus.COMPLETED]
+    assert len(completed) == len(delivered)
     assert state.next_required_topic is not None
-    assert state.next_required_topic.planned_order == 1
+    assert state.next_required_topic.topic_id == next_official_week(course_code)["topic_id"]
 
-    unplanned = service.get_unplanned_taught_topic_ids("2026-2", "NEURO")
-    assert unplanned == []
-
-
-def test_real_academic_state_gastro_2026_2() -> None:
-    """Verify GASTRO academic state projection against real configuration."""
-    project_root = Path(__file__).resolve().parent.parent
-    syllabi_dir = project_root / "config" / "syllabi"
-    logs_dir = project_root / "config" / "teaching_logs"
-
-    service = CourseStateService(
-        SyllabusRepository(syllabi_dir),
-        TeachingLogRepository(logs_dir),
-    )
-
-    state = service.get_state("2026-2", "GASTRO")
-    assert len(state.topics) == 10
-    assert all(t.status == TopicProgressStatus.COMPLETED for t in state.topics)
-    assert state.completion_ratio == 1.0
-    assert state.next_required_topic is None
-
-    unplanned = service.get_unplanned_taught_topic_ids("2026-2", "GASTRO")
-    assert unplanned == []
+    assert service.get_unplanned_taught_topic_ids(SEMESTER_ID, course_code) == []
 
 
-def test_real_schedules_are_enabled() -> None:
-    """Verify the active date-only baseline for both teaching courses."""
-    project_root = Path(__file__).resolve().parent.parent
-    sched_dir = project_root / "config" / "schedules"
-    repository = ScheduleRepository(sched_dir)
+@pytest.mark.parametrize("course_code", ["NEURO", "GASTRO"])
+def test_real_schedules_are_enabled(course_code: str) -> None:
+    """Verify the date-only baseline covers the official term on the official weekday."""
+    schedule = ScheduleRepository(CONFIG_ROOT / "schedules").get(SEMESTER_ID, course_code)
+    info = official_course_info(course_code)
+    start = date.fromisoformat(str(info["start_date"]))
+    end = date.fromisoformat(str(info["end_date"]))
 
-    neuro = repository.get("2026-2", "NEURO")
-    assert neuro.enabled is True
-    assert neuro.is_class_date(date(2026, 8, 4)) is True
-    assert neuro.is_class_date(date(2026, 8, 5)) is False
+    assert schedule.enabled is True
+    assert schedule.teaching_start_date == start
+    assert schedule.teaching_end_date == end
+    assert [rule.weekday for rule in schedule.meeting_rules] == [ClassWeekday.from_date(start)]
 
-    gastro = repository.get("2026-2", "GASTRO")
-    assert gastro.enabled is True
-    assert gastro.is_class_date(date(2026, 8, 5)) is True
-    assert gastro.is_class_date(date(2026, 8, 3)) is False
-    assert gastro.is_class_date(date(2026, 8, 4)) is False
+    for week in official_weeks(course_code):
+        assert schedule.is_class_date(date.fromisoformat(str(week["date"]))) is True
+    assert schedule.is_class_date(start + timedelta(days=1)) is False
 
 
 def test_real_calendar_config_2026_2() -> None:
@@ -206,82 +219,77 @@ def test_real_calendar_config_2026_2() -> None:
     assert "Gastroenterología" in gastro_cfg.aliases
 
 
-def test_real_teaching_guides_2026_2() -> None:
-    """Verify an enabled catalog covers its syllabus, and a disabled one drafts nothing."""
-    project_root = Path(__file__).resolve().parent.parent
-    repository = TeachingGuideRepository(project_root / "config" / "teaching_guides")
-    syllabus_repository = SyllabusRepository(project_root / "config" / "syllabi")
+@pytest.mark.parametrize("course_code", ["NEURO", "GASTRO"])
+def test_real_teaching_guides_2026_2(course_code: str) -> None:
+    """Verify no curated guide points at a topic the course no longer teaches."""
+    repository = TeachingGuideRepository(CONFIG_ROOT / "teaching_guides")
+    syllabus = SyllabusRepository(CONFIG_ROOT / "syllabi").get(SEMESTER_ID, course_code)
 
-    neuro_catalog = repository.get_catalog("2026-2", "NEURO")
-    neuro_syllabus = syllabus_repository.get("2026-2", "NEURO")
-    assert neuro_catalog.enabled is True
-    assert len(neuro_catalog.guides) == 5
-    assert {guide.topic_id for guide in neuro_catalog.guides} == {
-        topic.topic_id for topic in neuro_syllabus.topics
-    }
-    assert repository.get_guide("2026-2", "NEURO", "neuro-intro").topic_title
+    catalog = repository.get_catalog(SEMESTER_ID, course_code)
+    syllabus_topics = {topic.topic_id for topic in syllabus.topics}
 
-    # GASTRO moved to a clinical syllabus its curated catalog does not cover yet. A disabled
-    # catalog makes the Teaching Coach refuse rather than draft from stale guidance.
-    gastro_catalog = repository.get_catalog("2026-2", "GASTRO")
-    assert gastro_catalog.enabled is False
-    assert gastro_catalog.guides == []
-    with pytest.raises(TeachingGuideDisabledError):
-        repository.get_guide("2026-2", "GASTRO", "fundamentos-gastroenterologia")
+    assert catalog.enabled is True
+    assert catalog.guides
+    assert {guide.topic_id for guide in catalog.guides} <= syllabus_topics
+
+
+@pytest.mark.parametrize("course_code", ["NEURO", "GASTRO"])
+def test_next_topic_of_each_course_has_a_curated_guide(course_code: str) -> None:
+    """Verify the upcoming class can be briefed.
+
+    The Teaching Coach refuses to draft for a topic with no curated guide. When this fails, the
+    fix is to curate the guide for the topic named in the failure, not to relax the assertion.
+    """
+    repository = TeachingGuideRepository(CONFIG_ROOT / "teaching_guides")
+    topic_id = str(next_official_week(course_code)["topic_id"])
+
+    guide = repository.get_guide(SEMESTER_ID, course_code, topic_id)
+
+    assert guide.topic_id == topic_id
+    assert guide.topic_title
 
 
 def test_real_effective_schedule_uses_active_baseline_without_calendar_events() -> None:
     """Verify empty calendars do not erase the active institutional baseline."""
-    project_root = Path(__file__).resolve().parent.parent
-    sem_dir = project_root / "config" / "semesters"
-    sched_dir = project_root / "config" / "schedules"
-    cal_dir = project_root / "config" / "calendar"
-
     calendar_reader = MagicMock()
     calendar_reader.list_events.return_value = []
     service = EffectiveScheduleService(
-        SemesterRepository(sem_dir),
-        ScheduleRepository(sched_dir),
-        CalendarConfigRepository(cal_dir),
+        SemesterRepository(CONFIG_ROOT / "semesters"),
+        ScheduleRepository(CONFIG_ROOT / "schedules"),
+        CalendarConfigRepository(CONFIG_ROOT / "calendar"),
         calendar_reader=calendar_reader,
     )
 
     tz = ZoneInfo("America/Guayaquil")
-    neuro_dates = service.get_class_dates(
-        semester_id="2026-2",
-        course_code="NEURO",
-        time_min=datetime(2026, 8, 1, 0, 0, tzinfo=tz),
-        time_max=datetime(2026, 8, 31, 23, 59, tzinfo=tz),
-    )
-    assert neuro_dates[0] == date(2026, 8, 4)
-    assert date(2026, 8, 27) in neuro_dates
-    assert neuro_dates[-1] == date(2026, 12, 15)
+    for course_code in ("NEURO", "GASTRO"):
+        weeks = official_weeks(course_code)
+        first = date.fromisoformat(str(weeks[0]["date"]))
+        last = date.fromisoformat(str(weeks[-1]["date"]))
+        class_dates = service.get_class_dates(
+            semester_id=SEMESTER_ID,
+            course_code=course_code,
+            time_min=datetime(first.year, first.month, first.day, 0, 0, tzinfo=tz),
+            time_max=datetime(first.year, first.month, first.day, 23, 59, tzinfo=tz),
+        )
+        assert class_dates[0] == first
+        assert class_dates[-1] == last
+        assert [date.fromisoformat(str(week["date"])) for week in weeks] == class_dates
 
-    gastro_dates = service.get_class_dates(
-        semester_id="2026-2",
-        course_code="GASTRO",
-        time_min=datetime(2026, 8, 1, 0, 0, tzinfo=tz),
-        time_max=datetime(2026, 8, 31, 23, 59, tzinfo=tz),
-    )
-    assert gastro_dates[0] == date(2026, 8, 5)
-    assert date(2026, 8, 26) in gastro_dates
-    assert gastro_dates[-1] == date(2026, 12, 9)
     assert calendar_reader.list_events.call_count == 2
 
 
-def test_real_teaching_coach_preview_covers_neuro_and_gastro() -> None:
-    """Verify one-call previews select curated topics for both active teaching courses."""
-    project_root = Path(__file__).resolve().parent.parent
-    config_root = project_root / "config"
+@pytest.mark.parametrize("course_code", ["NEURO", "GASTRO"])
+def test_real_teaching_coach_preview_covers_neuro_and_gastro(course_code: str) -> None:
+    """Verify a one-call preview drafts the next untaught topic for each active course."""
     calendar_reader = MagicMock()
     calendar_reader.list_events.return_value = []
 
-    semester_repository = SemesterRepository(config_root / "semesters")
-    schedule_repository = ScheduleRepository(config_root / "schedules")
-    calendar_repository = CalendarConfigRepository(config_root / "calendar")
-    syllabus_repository = SyllabusRepository(config_root / "syllabi")
-    teaching_log_repository = TeachingLogRepository(config_root / "teaching_logs")
-    teaching_guide_repository = TeachingGuideRepository(config_root / "teaching_guides")
+    semester_repository = SemesterRepository(CONFIG_ROOT / "semesters")
+    schedule_repository = ScheduleRepository(CONFIG_ROOT / "schedules")
+    calendar_repository = CalendarConfigRepository(CONFIG_ROOT / "calendar")
+    syllabus_repository = SyllabusRepository(CONFIG_ROOT / "syllabi")
+    teaching_log_repository = TeachingLogRepository(CONFIG_ROOT / "teaching_logs")
+    teaching_guide_repository = TeachingGuideRepository(CONFIG_ROOT / "teaching_guides")
     effective_schedule_service = EffectiveScheduleService(
         semester_repository,
         schedule_repository,
@@ -310,34 +318,37 @@ def test_real_teaching_coach_preview_covers_neuro_and_gastro() -> None:
     )
     timezone = ZoneInfo("America/Guayaquil")
 
-    class_date = date(2026, 8, 4)
+    pending = next_official_week(course_code)
+    class_date = date.fromisoformat(str(pending["date"]))
     result = preview_service.preview_class_brief(
         TeachingCoachPreviewRequest(
-            semester_id="2026-2",
-            course_code="NEURO",
+            semester_id=SEMESTER_ID,
+            course_code=course_code,
             class_date=class_date,
             time_min=datetime.combine(class_date, datetime.min.time(), tzinfo=timezone),
             time_max=datetime.combine(class_date, datetime.max.time(), tzinfo=timezone),
             requested_by="course-director",
         )
     )
-    assert result.draft.brief.topic_id == "neuro-intro"
-    assert result.preview_title == "NEURO — Introducción a la semiología neurológica"
+
+    assert result.draft.brief.topic_id == pending["topic_id"]
     assert result.draft.capability_decision.allowed is True
 
     # Topic discovery and agent revalidation each read the operational schedule once.
     assert calendar_reader.list_events.call_count == 2
 
-    # GASTRO refuses rather than drafting from a catalog that no longer covers its syllabus.
-    gastro_date = date(2026, 8, 12)
-    with pytest.raises(TeachingGuideDisabledError):
-        preview_service.preview_class_brief(
-            TeachingCoachPreviewRequest(
-                semester_id="2026-2",
-                course_code="GASTRO",
-                class_date=gastro_date,
-                time_min=datetime.combine(gastro_date, datetime.min.time(), tzinfo=timezone),
-                time_max=datetime.combine(gastro_date, datetime.max.time(), tzinfo=timezone),
-                requested_by="course-director",
-            )
-        )
+
+def test_tracked_config_is_derived_from_the_official_syllabi() -> None:
+    """Verify nobody hand-edited a generated file out of step with the official syllabi."""
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(PROJECT_ROOT / "scripts" / "sync_syllabus_v2_to_config.py"),
+            "--check",
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert result.returncode == 0, result.stdout + result.stderr

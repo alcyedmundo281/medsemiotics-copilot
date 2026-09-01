@@ -41,6 +41,95 @@ def configure(
     return TestClient(api_module.app)
 
 
+SYNTHETIC_CALENDAR_ID = "synthetic-neuro@group.calendar.google.com"
+
+
+def _write_full_config(root: Path) -> None:
+    """Write a self-contained configuration the API suite owns end to end.
+
+    These tests verify endpoint behaviour, not teaching content, so they must not break when the
+    instructor updates the tracked syllabus, log, or guide catalog.
+    """
+    for folder in (
+        "semesters",
+        "syllabi/2026-2",
+        "teaching_logs/2026-2",
+        "schedules/2026-2",
+        "calendar/2026-2",
+        "teaching_guides/2026-2",
+    ):
+        (root / folder).mkdir(parents=True, exist_ok=True)
+
+    (root / "current_semester.yaml").write_text('semester_id: "2026-2"\n', encoding="utf-8")
+    (root / "semesters" / "2026-2.yaml").write_text(
+        'semester_id: "2026-2"\n'
+        'display_name: "2026-2"\n'
+        "active: true\n"
+        'timezone: "America/Guayaquil"\n'
+        "courses:\n"
+        '  - code: "NEURO"\n    name: "Neurología"\n    active: true\n'
+        '  - code: "GASTRO"\n    name: "Gastroenterología"\n    active: false\n',
+        encoding="utf-8",
+    )
+    (root / "syllabi" / "2026-2" / "NEURO.yaml").write_text(
+        'semester_id: "2026-2"\n'
+        'course_code: "NEURO"\n'
+        "topics:\n"
+        '  - topic_id: "topic-one"\n    planned_order: 1\n    planned_week: 1\n'
+        "    required: true\n"
+        '  - topic_id: "topic-two"\n    planned_order: 2\n    planned_week: 2\n'
+        "    required: true\n"
+        '  - topic_id: "topic-three"\n    planned_order: 3\n    planned_week: 3\n'
+        "    required: true\n",
+        encoding="utf-8",
+    )
+    (root / "teaching_logs" / "2026-2" / "NEURO.yaml").write_text(
+        'semester_id: "2026-2"\ncourse_code: "NEURO"\nsessions: []\n',
+        encoding="utf-8",
+    )
+    (root / "schedules" / "2026-2" / "NEURO.yaml").write_text(
+        'semester_id: "2026-2"\n'
+        'course_code: "NEURO"\n'
+        "enabled: true\n"
+        'teaching_start_date: "2026-01-06"\n'
+        'teaching_end_date: "2026-12-29"\n'
+        'meeting_rules:\n  - weekday: "tuesday"\n'
+        "exceptions: []\n",
+        encoding="utf-8",
+    )
+    (root / "calendar" / "2026-2" / "NEURO.yaml").write_text(
+        'semester_id: "2026-2"\n'
+        'course_code: "NEURO"\n'
+        "enabled: true\n"
+        f'calendar_id: "{SYNTHETIC_CALENDAR_ID}"\n'
+        'aliases:\n  - "Neurología"\n  - "NEURO"\n'
+        'cancellation_markers:\n  - "cancelada"\n'
+        'makeup_markers:\n  - "recuperación"\n',
+        encoding="utf-8",
+    )
+    (root / "teaching_guides" / "2026-2" / "NEURO.yaml").write_text(
+        'semester_id: "2026-2"\n'
+        'course_code: "NEURO"\n'
+        "enabled: true\n"
+        "guides:\n"
+        '  - topic_id: "topic-one"\n'
+        '    topic_title: "Primer tema sintético"\n'
+        '    learning_objectives:\n      - "Objetivo uno."\n      - "Objetivo dos."\n'
+        '    critical_points:\n      - "Punto crítico."\n'
+        '    teaching_questions:\n      - "¿Pregunta de clase?"\n'
+        '    common_pitfalls:\n      - "Error frecuente."\n'
+        '    material_notes:\n      - "Material de apoyo."\n',
+        encoding="utf-8",
+    )
+
+
+@pytest.fixture
+def full_config(tmp_path: Path) -> Path:
+    """Provide a configuration root the API suite fully controls."""
+    _write_full_config(tmp_path)
+    return tmp_path
+
+
 @pytest.fixture(autouse=True)
 def reset_application_state() -> Iterator[None]:
     """Keep application state from leaking between tests."""
@@ -266,18 +355,19 @@ class TestSemesterEndpoint:
 class TestCourseStateEndpoint:
     """Verify what has been taught, and what comes next, without student data."""
 
-    def test_returns_tracked_progress(self) -> None:
-        response = configure().get("/v1/courses/neuro/state", headers=AUTH)
+    def test_returns_tracked_progress(self, full_config: Path) -> None:
+        response = configure(config_root=full_config).get("/v1/courses/neuro/state", headers=AUTH)
 
         assert response.status_code == 200
         payload = response.json()
         assert payload["course_code"] == "NEURO"
-        assert payload["total_topics"] == 5
-        assert payload["not_started_topics"] == 5
-        assert payload["next_required_topic_id"] == "neuro-intro"
-        assert [topic["topic_id"] for topic in payload["topics"]][:2] == [
-            "neuro-intro",
-            "mental-status",
+        assert payload["total_topics"] == 3
+        assert payload["not_started_topics"] == 3
+        assert payload["next_required_topic_id"] == "topic-one"
+        assert [topic["topic_id"] for topic in payload["topics"]] == [
+            "topic-one",
+            "topic-two",
+            "topic-three",
         ]
 
     def test_reports_an_unknown_course_without_a_filesystem_path(self) -> None:
@@ -292,13 +382,15 @@ class TestCourseStateEndpoint:
 class TestNextTopicEndpoint:
     """Verify the endpoint a phone opens before class."""
 
-    def test_returns_the_next_topic_with_its_curated_guide(self) -> None:
-        response = configure().get("/v1/courses/NEURO/next-topic", headers=AUTH)
+    def test_returns_the_next_topic_with_its_curated_guide(self, full_config: Path) -> None:
+        response = configure(config_root=full_config).get(
+            "/v1/courses/NEURO/next-topic", headers=AUTH
+        )
 
         assert response.status_code == 200
         payload = response.json()
-        assert payload["topic_id"] == "neuro-intro"
-        assert payload["guide"]["topic_title"] == "Introducción a la semiología neurológica"
+        assert payload["topic_id"] == "topic-one"
+        assert payload["guide"]["topic_title"] == "Primer tema sintético"
         assert len(payload["guide"]["learning_objectives"]) == 2
         assert payload["guide"]["common_pitfalls"]
         assert "not_started" in payload["note"]
@@ -335,12 +427,14 @@ class TestNextTopicEndpoint:
 class TestGuideEndpoint:
     """Verify curated guidance is served exactly as the catalog publishes it."""
 
-    def test_returns_one_curated_guide(self) -> None:
-        response = configure().get("/v1/courses/NEURO/guides/cranial-nerves", headers=AUTH)
+    def test_returns_one_curated_guide(self, full_config: Path) -> None:
+        response = configure(config_root=full_config).get(
+            "/v1/courses/NEURO/guides/topic-one", headers=AUTH
+        )
 
         assert response.status_code == 200
         payload = response.json()
-        assert payload["topic_title"] == "Exploración de pares craneales"
+        assert payload["topic_title"] == "Primer tema sintético"
         assert payload["teaching_questions"]
         assert payload["material_notes"]
 
@@ -410,13 +504,14 @@ class TestCoordinationEndpoint:
             assert any(blocker.startswith("classroom:") for blocker in course["blockers"])
         assert "no Google credential" in payload["note"]
 
-    def test_carries_the_tracked_calendar_binding(self) -> None:
-        payload = configure().get("/v1/coordination", headers=AUTH).json()
+    def test_carries_the_tracked_calendar_binding(self, full_config: Path) -> None:
+        payload = configure(config_root=full_config).get("/v1/coordination", headers=AUTH).json()
         neuro = next(course for course in payload["courses"] if course["course_code"] == "NEURO")
 
-        assert neuro["calendar"]["status"] in {"configured", "disabled", "missing"}
+        assert neuro["calendar"]["status"] == "configured"
+        assert neuro["calendar"]["calendar_id"] == SYNTHETIC_CALENDAR_ID
         assert neuro["calendar"]["reason"]
-        assert neuro["total_topics"] == 5
+        assert neuro["total_topics"] == 3
 
     def test_requires_a_token(self) -> None:
         assert configure().get("/v1/coordination").status_code == 401
@@ -493,6 +588,12 @@ class FakeCalendarReader:
         """Record the query window and return the canned events."""
         self.calls.append((calendar_id, time_min, time_max))
         return self.events
+
+
+def next_synthetic_class() -> date:
+    """Find the next class date of the synthetic Tuesday baseline written by ``full_config``."""
+    today = datetime.now(ZoneInfo("America/Guayaquil")).date()
+    return today + timedelta(days=(1 - today.weekday()) % 7)
 
 
 def next_baseline_class(offset: int = 0) -> date:
@@ -634,19 +735,20 @@ class TestBriefEndpoint:
         assert response.status_code == 503
         assert CALENDAR_CLIENT_ID_SECRET in response.json()["detail"]
 
-    def test_composes_a_draft_for_a_teaching_day(self) -> None:
-        class_date = next_baseline_class()
+    def test_composes_a_draft_for_a_teaching_day(self, full_config: Path) -> None:
+        class_date = next_synthetic_class()
         reader = FakeCalendarReader([scheduled_event(class_date)])
 
-        response = configure(calendar_reader_factory=lambda timezone: reader).get(  # noqa: ARG005
-            f"/v1/courses/neuro/brief?date={class_date.isoformat()}", headers=AUTH
-        )
+        response = configure(
+            config_root=full_config,
+            calendar_reader_factory=lambda timezone: reader,  # noqa: ARG005
+        ).get(f"/v1/courses/neuro/brief?date={class_date.isoformat()}", headers=AUTH)
 
         assert response.status_code == 200
         payload = response.json()
         assert payload["course_code"] == "NEURO"
         assert payload["class_date"] == class_date.isoformat()
-        assert payload["topic_id"] == "neuro-intro"
+        assert payload["topic_id"] == "topic-one"
         assert payload["learning_objectives"]
         assert payload["coaching_tips"]
         assert payload["preview_body"]

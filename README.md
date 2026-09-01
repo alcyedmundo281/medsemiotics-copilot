@@ -13,10 +13,16 @@
 > ```bash
 > python scripts/run_local.py
 > ```
-> O mediante uvicorn directo:
+> O mediante uvicorn directo, aportando el token usted mismo (el backend se niega a servir sin
+> uno, en vez de recurrir a un valor conocido):
 > ```bash
-> uvicorn medsemiotics.api.app:app --host 127.0.0.1 --port 8000
+> MEDSEMIOTICS_API_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')" \
+>   uvicorn medsemiotics.api.app:app --host 127.0.0.1 --port 8000
 > ```
+>
+> El sílabo oficial manda: tras dictar una clase, marque esa semana como `completed` en
+> `config/syllabi/2026-2/silabo_*_v2.yaml` y ejecute
+> `python scripts/sync_syllabus_v2_to_config.py`.
 
 ---
 

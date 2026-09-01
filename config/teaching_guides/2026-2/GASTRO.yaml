@@ -1,8 +1,27 @@
-# Disabled until the catalog is re-curated for the clinical gastroenterology syllabus.
-# The previous entries covered a semiology topic list that the course no longer follows; they
-# remain in git history. A disabled catalog makes the Teaching Coach fail closed with a clear
-# message instead of drafting from guidance that does not match what is taught.
+# Public baseline teaching guides. Every Calendar publication still requires named human approval.
+# Topic identifiers follow the official syllabus v2. Weeks without a curated guide are refused
+# by the Teaching Coach rather than drafted from stale guidance.
 semester_id: "2026-2"
 course_code: "GASTRO"
-enabled: false
-guides: []
+enabled: true
+guides:
+  - topic_id: "colitis-ulcerosa"
+    topic_title: "Colitis ulcerosa: semiología, extensión y actividad"
+    learning_objectives:
+      - "Reconocer el patrón clínico de la colitis ulcerosa y diferenciarlo de otras diarreas con sangre."
+      - "Describir extensión y actividad de la enfermedad como base del razonamiento diagnóstico."
+    critical_points:
+      - "Diarrea con sangre y moco, tenesmo y urgencia rectal, con compromiso continuo desde el recto."
+      - "La distinción con enfermedad de Crohn se apoya en distribución, continuidad y profundidad del compromiso."
+      - "Signos de colitis grave (fiebre, taquicardia, distensión, dolor intenso) obligan a evaluación urgente."
+    teaching_questions:
+      - "¿Qué elementos de la anamnesis separan una diarrea inflamatoria de una infecciosa?"
+      - "¿Qué hallazgos del examen abdominal harían sospechar una complicación aguda?"
+      - "¿Cómo cambia la conducta si el compromiso es proctitis frente a colitis extensa?"
+    common_pitfalls:
+      - "Asumir causa infecciosa por un único episodio sin evaluar cronicidad ni manifestaciones extraintestinales."
+      - "Omitir la evaluación de gravedad antes de discutir el tratamiento de mantenimiento."
+    material_notes:
+      - "Cuadro comparativo colitis ulcerosa frente a enfermedad de Crohn."
+      - "Criterios de gravedad y banderas rojas de colitis aguda grave."
+      - "Módulo web del tema en el hub de la cátedra."

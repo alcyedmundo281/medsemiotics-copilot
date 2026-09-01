@@ -68,6 +68,8 @@ master loops 5-10.
 | `0.8F` | Complete and live verified | Backend token carried in its own header so a platform that authenticates callers keeps `Authorization`, with the dedicated header preferred and both layers applying independently. |
 | `0.8G` | Complete and live verified | Application configured before the first request, fixing a cold container that reported itself unconfigured while holding the mounted secret; idempotent fallback for runners that skip the lifespan. |
 | `0.8H` | Complete in code | One idempotent operator script that provisions, deploys and verifies the backend, mounting the Calendar credential when the operator has authorized one and reporting its absence when not. |
+| `0.9A` | Complete | The official syllabi v2 became the single source of truth: schedules, topic plans and teaching logs are generated from them, guides follow the syllabus in force, and the tests assert the projection instead of restating teaching content. |
+| `0.9B` | Complete | Local-only operation after the hosted deployment was retired: the backend still refuses to serve without a token, and the Classroom tooling builds reviewable drafts instead of reporting simulated publications. |
 
 ## Cross-cutting operating contract
 
