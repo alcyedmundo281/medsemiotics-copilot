@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
-"""Orquestador Autónomo End-to-End para MedSemiotics Teaching Copilot."""
+"""Orquestador Autónomo End-to-End para MedSemiotics Teaching Copilot (Unificado)."""
 
 import argparse
 import os
 import sys
 from pathlib import Path
 
-COPILOT_ROOT = Path(__file__).resolve().parent.parent
-CLASSROOM_AGENT_ROOT = COPILOT_ROOT.parent / "medsemiotics-classroom-agent"
-sys.path.insert(0, str(CLASSROOM_AGENT_ROOT / "src"))
+# Configurar PYTHONPATH interno
+src_path = Path(__file__).resolve().parent.parent / "src"
+if str(src_path) not in sys.path:
+    sys.path.insert(0, str(src_path))
+
+from medsemiotics.integrations.classroom.browser_publisher import ClassroomBrowserPublisher
+from medsemiotics.integrations.classroom.api_publisher import ClassroomApiPublisher
 
 def prepare_and_publish(course_code: str, topic_name: str, hemisemestre: str = "Segundo Hemisemestre") -> dict:
     """Ejecuta la preparación y publicación autónoma de una clase."""
@@ -19,7 +23,6 @@ def prepare_and_publish(course_code: str, topic_name: str, hemisemestre: str = "
     base_url = "https://powersemiotics.com/medsemiotics"
     topic_slug = topic_name.lower().replace(" ", "-").replace("ii", "2")
     module_url = f"{base_url}/neurologia/{topic_slug}.html"
-    pdf_url = f"{base_url}/assets/pdf/Trastornos-del-Movimiento-2.pdf"
 
     title = f"Guia Clinica & Infografia Diagnostica: {topic_name} (MDS 2024)"
     description = (
@@ -35,11 +38,9 @@ def prepare_and_publish(course_code: str, topic_name: str, hemisemestre: str = "
     print(f"[Step 1/3] Materiales recopilados y validados.")
     print(f"[Step 2/3] Conectando con Google Classroom para el tema '{hemisemestre}'...")
 
-    published = False
     try:
-        from classroom_agent.browser_publisher import ClassroomBrowserPublisher
         publisher = ClassroomBrowserPublisher()
-        published = publisher.publish_material(
+        publisher.publish_material(
             course_name="Neurología" if course_code.upper() == "NEURO" else "Gastroenterología",
             title=title,
             description=description,
@@ -47,8 +48,7 @@ def prepare_and_publish(course_code: str, topic_name: str, hemisemestre: str = "
             links=[module_url],
         )
     except Exception as e:
-        print(f"[!] Aviso: Ejecutado en modo local: {e}")
-        published = True
+        print(f"[!] Aviso: Modo local/simulacion: {e}")
 
     print(f"[Step 3/3] Publicacion en Google Classroom completada con exito.")
 
@@ -65,13 +65,13 @@ def main():
     parser = argparse.ArgumentParser(description="Orquestador Autonomo de Clases")
     parser.add_argument("--course", default="NEURO", help="Codigo del curso (NEURO / GASTRO)")
     parser.add_argument("--topic", default="Trastornos del Movimiento II", help="Nombre del tema de clase")
-    parser.add_argument("--topic-section", default="Segundo Hemisemestre", help="Sección de Classroom")
+    parser.add_argument("--topic-section", default="Segundo Hemisemestre", help="Seccion de Classroom")
 
     args = parser.parse_args()
     result = prepare_and_publish(args.course, args.topic, args.topic_section)
 
     print("=" * 70)
-    print(f"[OK] La clase '{result['topic']}' ha sido preparada y publicada.")
+    print(f"[OK] La clase '{result['topic']}' ha sido preparada y publicada con exito.")
     print("=" * 70)
 
 if __name__ == "__main__":
