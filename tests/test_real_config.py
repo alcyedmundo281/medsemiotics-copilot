@@ -234,6 +234,27 @@ def test_real_teaching_guides_2026_2(course_code: str) -> None:
 
 
 @pytest.mark.parametrize("course_code", ["NEURO", "GASTRO"])
+def test_every_pending_week_has_a_curated_guide(course_code: str) -> None:
+    """Verify every class still ahead can be briefed, not only the next one.
+
+    The Teaching Coach refuses to draft for a topic with no curated guide. When this fails, the
+    fix is to curate the guides for the topics named in the failure, not to relax the assertion.
+    """
+    repository = TeachingGuideRepository(CONFIG_ROOT / "teaching_guides")
+    catalog = repository.get_catalog(SEMESTER_ID, course_code)
+    curated = {guide.topic_id for guide in catalog.guides}
+
+    pending = [
+        str(week["topic_id"])
+        for week in official_weeks(course_code)
+        if week["status"] != "completed"
+    ]
+
+    assert pending, f"The official {course_code} syllabus reports no pending week."
+    assert [topic_id for topic_id in pending if topic_id not in curated] == []
+
+
+@pytest.mark.parametrize("course_code", ["NEURO", "GASTRO"])
 def test_next_topic_of_each_course_has_a_curated_guide(course_code: str) -> None:
     """Verify the upcoming class can be briefed.
 
