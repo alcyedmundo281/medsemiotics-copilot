@@ -1,158 +1,140 @@
-# ==============================================================================
-# SÍLABO OFICIAL DE GASTROENTEROLOGÍA - VERSIÓN 2 (SEMESTRE 2026-2)
-# Universidad Central del Ecuador - Facultad de Ciencias Médicas / HCAM
-# ==============================================================================
-
-version: "2.0"
+version: '2.0'
 course_info:
-  name: "Cátedra de Gastroenterología y Semiótica Digestiva"
-  code: "GASTRO"
-  semester: "2026-2"
-  group: "M7-003"
-  hospital_rotation: "Hospital de Especialidades Carlos Andrade Marín (HCAM)"
-  location: "Aula Lúdica"
-  schedule: "Miércoles 16:00 - 17:30 (1 sesión semanal presencial/híbrida)"
-  start_date: "2026-06-24"
-  end_date: "2026-10-21"
-  calendar_id: "c_classroom7c5dba86@group.calendar.google.com"
-  web_hub: "https://powersemiotics.com/medsemiotics/gastroenterologia.html"
-
+  name: Cátedra de Gastroenterología y Semiótica Digestiva
+  code: GASTRO
+  semester: 2026-2
+  group: M7-003
+  hospital_rotation: Hospital de Especialidades Carlos Andrade Marín (HCAM)
+  location: Aula Lúdica
+  schedule: Miércoles 16:00 - 17:30 (1 sesión semanal presencial/híbrida)
+  start_date: '2026-06-24'
+  end_date: '2026-10-21'
+  calendar_id: c_classroom7c5dba86@group.calendar.google.com
+  web_hub: https://powersemiotics.com/medsemiotics/gastroenterologia.html
 evaluation_scheme:
   primer_hemisemestre:
     porcentaje: 50
-    actividades_formativas: 20  # Informes clínicos HCAM, tareas (Rúbrica 6-6-4-4)
-    evaluacion_sumativa: 30     # Examen teórico-práctico hemisemestral
+    actividades_formativas: 20
+    evaluacion_sumativa: 30
   segundo_hemisemestre:
     porcentaje: 50
-    actividades_formativas: 20  # Casos clínicos, semiología y análisis bayesiano
-    evaluacion_sumativa: 30     # Examen final integrador
-
+    actividades_formativas: 20
+    evaluacion_sumativa: 30
 schedule_18_weeks:
-  # -------------------- PRIMER HEMISEMESTRE --------------------
-  - week: 1
-    date: "2026-06-24"
-    topic_id: "gastro-intro-dolor"
-    title: "Semiología digestiva, anamnesis orientada y semiología del dolor abdominal"
-    status: "completed"
-    hemisemestre: 1
-
-  - week: 2
-    date: "2026-07-01"
-    topic_id: "esofago-disfagia-erge"
-    title: "Trastornos esofágicos: Semiología de la disfagia, ERGE y acalasia"
-    status: "completed"
-    hemisemestre: 1
-
-  - week: 3
-    date: "2026-07-08"
-    topic_id: "estomago-dispepsia-ulcera"
-    title: "Trastornos gástricos: Dispepsia, gastritis aguda/crónica y enfermedad ulceropéptica"
-    status: "completed"
-    hemisemestre: 1
-
-  - week: 4
-    date: "2026-07-15"
-    topic_id: "hemorragia-digestiva-alta"
-    title: "Hemorragia digestiva alta: Variceal vs no variceal y escalas de estratificación (Rockall/Glasgow-Blatchford)"
-    status: "completed"
-    hemisemestre: 1
-
-  - week: 5
-    date: "2026-07-22"
-    topic_id: "hemorragia-digestiva-baja"
-    title: "Hemorragia digestiva baja y proctología semiológica (Hemorroides, fisuras, rectorragia)"
-    status: "completed"
-    hemisemestre: 1
-
-  - week: 6
-    date: "2026-07-29"
-    topic_id: "diarrea-aguda-cronica"
-    title: "Síndromes diarreicos: Diarrea aguda inflamatoria vs no inflamatoria y diarrea crónica"
-    status: "completed"
-    hemisemestre: 1
-
-  - week: 7
-    date: "2026-08-05"
-    topic_id: "malabsorcion-celiaca"
-    title: "Síndrome de malabsorción intestinal y enfermedad celíaca"
-    status: "completed"
-    hemisemestre: 1
-
-  - week: 8
-    date: "2026-08-12"
-    topic_id: "hepatologia-basica"
-    title: "Semiología hepática básica, estigmas de hepatopatía y perfil de laboratorio hepático"
-    status: "completed"
-    hemisemestre: 1
-
-  - week: 9
-    date: "2026-08-19"
-    topic_id: "eval-hemisemestre-1"
-    title: "Evaluación del Primer Hemisemestre: Examen Teórico-Práctico"
-    status: "completed"
-    hemisemestre: 1
-
-  # -------------------- SEGUNDO HEMISEMESTRE --------------------
-  - week: 10
-    date: "2026-08-26"
-    topic_id: "funcionales-dispepsia"
-    title: "Trastornos funcionales digestivos: Criterios de Roma IV y dispepsia funcional"
-    status: "completed"
-    hemisemestre: 2
-
-  - week: 11
-    date: "2026-09-02"
-    topic_id: "colitis-ulcerosa"
-    title: "Enfermedad Inflamatoria Intestinal I: Colitis Ulcerosa (Semiología, extensión y severidad)"
-    status: "active"
-    hemisemestre: 2
-    web_module: "https://powersemiotics.com/medsemiotics/gastroenterologia/trastornos-intestinales.html"
-
-  - week: 12
-    date: "2026-09-09"
-    topic_id: "enfermedad-crohn"
-    title: "Enfermedad Inflamatoria Intestinal II: Enfermedad de Crohn y diagnóstico diferencial"
-    status: "projected"
-    hemisemestre: 2
-
-  - week: 13
-    date: "2026-09-16"
-    topic_id: "intestino-irritable"
-    title: "Síndrome de Intestino Irritable (SII), dolor visceral y eje intestino-cerebro"
-    status: "projected"
-    hemisemestre: 2
-
-  - week: 14
-    date: "2026-09-23"
-    topic_id: "cirrosis-hipertension-portal"
-    title: "Hepatopatías crónicas, cirrosis hepática, ascitis e hipertensión portal"
-    status: "projected"
-    hemisemestre: 2
-
-  - week: 15
-    date: "2026-09-30"
-    topic_id: "ictericia-via-biliar"
-    title: "Síndromes ictéricos, colestasis y patología biliar litiásica (Colecistitis/Colangitis aguda)"
-    status: "projected"
-    hemisemestre: 2
-
-  - week: 16
-    date: "2026-10-07"
-    topic_id: "pancreatitis-aguda-cronica"
-    title: "Pancreatitis aguda (Etiología, criterios de severidad Balthazar/Atlanta) y pancreatitis crónica"
-    status: "projected"
-    hemisemestre: 2
-
-  - week: 17
-    date: "2026-10-14"
-    topic_id: "abdomen-agudo"
-    title: "Abdomen agudo médico vs quirúrgico, peritonitis y urgencias digestivas"
-    status: "projected"
-    hemisemestre: 2
-
-  - week: 18
-    date: "2026-10-21"
-    topic_id: "eval-hemisemestre-2"
-    title: "Evaluación Final Integral del Segundo Hemisemestre"
-    status: "projected"
-    hemisemestre: 2
+- week: 1
+  date: '2026-06-24'
+  topic_id: gastro-intro-dolor
+  title: Semiología digestiva, anamnesis orientada y semiología del dolor abdominal
+  status: completed
+  hemisemestre: 1
+- week: 2
+  date: '2026-07-01'
+  topic_id: esofago-disfagia-erge
+  title: 'Trastornos esofágicos: Semiología de la disfagia, ERGE y acalasia'
+  status: completed
+  hemisemestre: 1
+- week: 3
+  date: '2026-07-08'
+  topic_id: estomago-dispepsia-ulcera
+  title: 'Trastornos gástricos: Dispepsia, gastritis aguda/crónica y enfermedad ulceropéptica'
+  status: completed
+  hemisemestre: 1
+- week: 4
+  date: '2026-07-15'
+  topic_id: hemorragia-digestiva-alta
+  title: 'Hemorragia digestiva alta: Variceal vs no variceal y escalas de estratificación
+    (Rockall/Glasgow-Blatchford)'
+  status: completed
+  hemisemestre: 1
+- week: 5
+  date: '2026-07-22'
+  topic_id: hemorragia-digestiva-baja
+  title: Hemorragia digestiva baja y proctología semiológica (Hemorroides, fisuras,
+    rectorragia)
+  status: completed
+  hemisemestre: 1
+- week: 6
+  date: '2026-07-29'
+  topic_id: diarrea-aguda-cronica
+  title: 'Síndromes diarreicos: Diarrea aguda inflamatoria vs no inflamatoria y diarrea
+    crónica'
+  status: completed
+  hemisemestre: 1
+- week: 7
+  date: '2026-08-05'
+  topic_id: malabsorcion-celiaca
+  title: Síndrome de malabsorción intestinal y enfermedad celíaca
+  status: completed
+  hemisemestre: 1
+- week: 8
+  date: '2026-08-12'
+  topic_id: hepatologia-basica
+  title: Semiología hepática básica, estigmas de hepatopatía y perfil de laboratorio
+    hepático
+  status: completed
+  hemisemestre: 1
+- week: 9
+  date: '2026-08-19'
+  topic_id: eval-hemisemestre-1
+  title: 'Evaluación del Primer Hemisemestre: Examen Teórico-Práctico'
+  status: completed
+  hemisemestre: 1
+- week: 10
+  date: '2026-08-26'
+  topic_id: funcionales-dispepsia
+  title: 'Trastornos funcionales digestivos: Criterios de Roma IV y dispepsia funcional'
+  status: completed
+  hemisemestre: 2
+- week: 11
+  date: '2026-09-02'
+  topic_id: colitis-ulcerosa
+  title: 'Enfermedad Inflamatoria Intestinal I: Colitis Ulcerosa (Semiología, extensión
+    y severidad)'
+  status: projected
+  hemisemestre: 2
+  web_module: https://powersemiotics.com/medsemiotics/gastroenterologia/trastornos-intestinales.html
+- week: 12
+  date: '2026-09-09'
+  topic_id: enfermedad-crohn
+  title: 'Enfermedad Inflamatoria Intestinal II: Enfermedad de Crohn y diagnóstico
+    diferencial'
+  status: projected
+  hemisemestre: 2
+- week: 13
+  date: '2026-09-16'
+  topic_id: intestino-irritable
+  title: Síndrome de Intestino Irritable (SII), dolor visceral y eje intestino-cerebro
+  status: projected
+  hemisemestre: 2
+- week: 14
+  date: '2026-09-23'
+  topic_id: cirrosis-hipertension-portal
+  title: Hepatopatías crónicas, cirrosis hepática, ascitis e hipertensión portal
+  status: projected
+  hemisemestre: 2
+- week: 15
+  date: '2026-09-30'
+  topic_id: ictericia-via-biliar
+  title: Síndromes ictéricos, colestasis y patología biliar litiásica (Colecistitis/Colangitis
+    aguda)
+  status: projected
+  hemisemestre: 2
+- week: 16
+  date: '2026-10-07'
+  topic_id: pancreatitis-aguda-cronica
+  title: Pancreatitis aguda (Etiología, criterios de severidad Balthazar/Atlanta)
+    y pancreatitis crónica
+  status: projected
+  hemisemestre: 2
+- week: 17
+  date: '2026-10-14'
+  topic_id: abdomen-agudo
+  title: Abdomen agudo médico vs quirúrgico, peritonitis y urgencias digestivas
+  status: projected
+  hemisemestre: 2
+- week: 18
+  date: '2026-10-21'
+  topic_id: eval-hemisemestre-2
+  title: Evaluación Final Integral del Segundo Hemisemestre
+  status: projected
+  hemisemestre: 2
