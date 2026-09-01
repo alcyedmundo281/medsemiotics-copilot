@@ -1,201 +1,177 @@
 #!/usr/bin/env python3
-"""Generador y preparador de material docente y guías clínicas para Neurología y Gastroenterología."""
+"""Prepare the teaching document and the Classroom draft for a course's next class.
+
+The topic, its title, its date and its web module come from the official syllabus, and the
+teaching content comes from the curated guide catalog, so this works for every week of the
+semester rather than for one hardcoded topic.
+
+Nothing is published. The document is written under ``docs/`` and, when a materials directory is
+given, copied there for the instructor to review and share.
+"""
+
+from __future__ import annotations
 
 import argparse
+import os
 import sys
-import yaml
 from pathlib import Path
+from typing import Any
 
-def prepare_material(course_code: str):
-    course_code = course_code.upper()
-    yaml_map = {
-        "GASTRO": "config/syllabi/2026-2/silabo_gastroenterologia_v2.yaml",
-        "NEURO": "config/syllabi/2026-2/silabo_neurologia_v2.yaml"
-    }
+import yaml
 
-    yaml_file = yaml_map.get(course_code)
-    if not yaml_file or not Path(yaml_file).exists():
-        print(f"[!] Curso no valido o archivo no encontrado: {course_code}")
-        return
+REPO_ROOT = Path(__file__).resolve().parent.parent
+SRC_PATH = REPO_ROOT / "src"
+if str(SRC_PATH) not in sys.path:
+    sys.path.insert(0, str(SRC_PATH))
 
-    with open(yaml_file, 'r', encoding='utf-8') as f:
-        syllabus = yaml.safe_load(f)
+from medsemiotics.domain.exceptions import TeachingGuideError  # noqa: E402
+from medsemiotics.integrations.classroom.browser_publisher import (  # noqa: E402
+    ClassroomBrowserPublisher,
+)
+from medsemiotics.services.teaching_guide_repository import (  # noqa: E402
+    TeachingGuideRepository,
+)
 
-    # Identificar la próxima clase activa (Semana 11)
-    target_topic = None
-    for t in syllabus['schedule_18_weeks']:
-        if t.get('week') == 11:
-            target_topic = t
-            break
+CONFIG_ROOT = REPO_ROOT / "config"
+DOCS_ROOT = REPO_ROOT / "docs"
+SEMESTER_ID = "2026-2"
 
-    if not target_topic:
-        target_topic = syllabus['schedule_18_weeks'][10]
+# The instructor's own materials folder is machine-specific and is never tracked here. Pass it
+# with --materials-dir, or set MEDSEMIOTICS_MATERIALS_DIR in the environment.
+MATERIALS_DIR_ENV_VAR = "MEDSEMIOTICS_MATERIALS_DIR"
 
-    title = target_topic['title']
-    week = target_topic['week']
-    date_str = target_topic['date']
-    location = syllabus['course_info']['location']
+COURSES: dict[str, tuple[str, str]] = {
+    "NEURO": ("silabo_neurologia_v2.yaml", "Neurología"),
+    "GASTRO": ("silabo_gastroenterologia_v2.yaml", "Gastroenterología"),
+}
+
+
+def next_pending_week(course_code: str) -> dict[str, Any]:
+    """Return the first week of the official syllabus that is not completed yet."""
+    source, _ = COURSES[course_code]
+    syllabus = yaml.safe_load(
+        (CONFIG_ROOT / "syllabi" / SEMESTER_ID / source).read_text(encoding="utf-8")
+    )
+    weeks = sorted(syllabus["schedule_18_weeks"], key=lambda week: int(week["week"]))
+    pending = [week for week in weeks if week["status"] != "completed"]
+    if not pending:
+        msg = f"The official {course_code} syllabus reports no pending week."
+        raise SystemExit(msg)
+    return {"course_info": syllabus["course_info"], **pending[0]}
+
+
+def render_document(course_code: str, week: dict[str, Any]) -> str:
+    """Render the class document from the syllabus week and its curated guide."""
+    info = week["course_info"]
+    guide = TeachingGuideRepository(CONFIG_ROOT / "teaching_guides").get_guide(
+        SEMESTER_ID, course_code, str(week["topic_id"])
+    )
+
+    def section(heading: str, items: object) -> list[str]:
+        entries = list(items) if isinstance(items, (list, tuple)) else []
+        if not entries:
+            return []
+        return [f"## {heading}", "", *[f"- {entry}" for entry in entries], ""]
+
+    lines = [
+        f"# {guide.topic_title}",
+        "",
+        f"**{info['name']} — semestre {SEMESTER_ID}**",
+        "",
+        f"Semana {int(week['week']):02d} · {week['date']} · {info['schedule']}",
+        "",
+        f"{info['hospital_rotation']} · {info['location']}",
+        "",
+        f"> Tema oficial del sílabo: {week['title']}",
+        "",
+        "---",
+        "",
+    ]
+    lines += section("Objetivos de aprendizaje", guide.learning_objectives)
+    lines += section("Puntos críticos", guide.critical_points)
+    lines += section("Preguntas para la clase", guide.teaching_questions)
+    lines += section("Errores frecuentes", guide.common_pitfalls)
+    lines += section("Material de apoyo", guide.material_notes)
+
+    module_url = str(week.get("web_module", info.get("web_hub", "")))
+    if module_url:
+        lines += [f"Módulo interactivo: {module_url}", ""]
+    lines += [
+        "---",
+        "",
+        "Documento de trabajo docente. Los casos empleados en clase son sintéticos o "
+        "desidentificados.",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def resolve_materials_dir(argument: str | None) -> Path | None:
+    """Resolve the instructor's materials directory from the argument or the environment."""
+    raw = argument or os.getenv(MATERIALS_DIR_ENV_VAR) or ""
+    return Path(raw) if raw.strip() else None
+
+
+def main(argv: list[str] | None = None) -> int:
+    """Write the class document and print the Classroom draft for a course's next class."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--course", default="NEURO", choices=sorted(COURSES))
+    parser.add_argument("--section", default="Segundo Hemisemestre", help="Tema en Classroom")
+    parser.add_argument(
+        "--materials-dir",
+        default=None,
+        help=f"Carpeta local donde copiar el documento (o {MATERIALS_DIR_ENV_VAR}).",
+    )
+    args = parser.parse_args(argv)
+
+    course_code = str(args.course)
+    week = next_pending_week(course_code)
+    _, course_name = COURSES[course_code]
+
+    try:
+        document = render_document(course_code, week)
+    except TeachingGuideError as error:
+        print(f"[!] Sin guía curada para '{week['topic_id']}': {type(error).__name__}")
+        print("    Cure la guía en config/teaching_guides antes de preparar la clase.")
+        return 1
 
     print("=" * 75)
-    print(f"[+] PREPARANDO MATERIAL DOCENTE: {syllabus['course_info']['name']}")
-    print(f"[*] Semana {week:02d} ({date_str}) | Tema: {title}")
-    print(f"[*] Ubicacion: {location}")
+    print(f"[+] {week['course_info']['name']}")
+    print(f"[*] Semana {int(week['week']):02d} ({week['date']}) — {week['title']}")
     print("=" * 75)
 
-    if course_code == "GASTRO":
-        content = f"""# 🫁 GUÍA CLÍNICA & INFOGRAFÍA DIAGNÓSTICA: ENFERMEDAD INFLAMATORIA INTESTINAL I
-## COLITIS ULCEROSA (CU) — CRITERIOS DE EXTENSIÓN DE MONTREAL Y ESCALA DE TRUELOVE-WITTS
-**Cátedra de Gastroenterología y Semiótica Digestiva — Semestre 2026-2**
-*Hospital de Especialidades Carlos Andrade Marín (HCAM) | {location}*
-*Fecha de Clase: {date_str} (Miércoles 16:00 - 17:30)*
+    document_path = DOCS_ROOT / f"guia_clinica_{course_code.lower()}_{week['topic_id']}.md"
+    document_path.write_text(document, encoding="utf-8")
+    print(f"[OK] Documento de clase escrito en: {document_path.relative_to(REPO_ROOT)}")
 
----
+    materials_dir = resolve_materials_dir(args.materials_dir)
+    if materials_dir is None:
+        print(f"[i] Sin carpeta de materiales configurada ({MATERIALS_DIR_ENV_VAR}); no se copió.")
+    elif not materials_dir.is_dir():
+        print(f"[!] La carpeta de materiales no existe; no se copió: {materials_dir}")
+    else:
+        copied = materials_dir / document_path.name
+        copied.write_text(document, encoding="utf-8")
+        print(f"[OK] Copiado a la carpeta de materiales: {copied}")
 
-### 📌 1. DEFINICIÓN & FISIOPATOLOGÍA SEMIOLÓGICA
-La **Colitis Ulcerosa (CU)** es una enfermedad inflamatoria crónica inmunomediada que afecta de forma continua y difusa la mucosa del colon y recto, comenzando invariablemente en el recto y extendiéndose proximalmente sin saltos (*skip lesions*).
+    module_url = str(week.get("web_module", "") or "")
+    plan = ClassroomBrowserPublisher().plan_material(
+        course_name=course_name,
+        title=f"Guía de clase: {week['title']}",
+        description=(
+            f"Material complementario de la clase de la semana {int(week['week']):02d} "
+            f"({week['date']}): {week['title']}."
+            + (f"\n\nMódulo interactivo: {module_url}" if module_url else "")
+            + f"\n\nCátedra de {course_name}"
+        ),
+        topic_name=str(args.section),
+        links=[module_url] if module_url else None,
+    )
+    print()
+    print(plan.render())
+    print("\nBORRADOR. Nada fue publicado: revise y publique usted en Google Classroom.")
+    return 0
 
----
-
-### 🚨 2. TRÍADA SEMIOLÓGICA CARDINAL
-1. **Diarrea Crónica Sanguinolenta (Rectorragia / Hematoquecia):** Presencia constante de moco, pus y sangre en heces (>4 semanas).
-2. **Tenesmo Rectal y Pujo:** Sensación constante de evacuación incompleta por hiperreactividad y proctitis inflamatoria.
-3. **Dolor Abdominal Cólico en Fosa Ilíaca Izquierda (FII):** Alivio parcial o nulo tras la defecación.
-
----
-
-### 📊 3. CLASIFICACIÓN DE EXTENSIÓN DE MONTREAL
-
-| Categoría | Extensión Anatómica | Hallazgo Clínico y Endoscópico |
-| :--- | :--- | :--- |
-| **E1: Proctitis Ulcerosa** | Limitada al recto (distal a la unión rectosigmoidea) | Tenesmo, pujo, sangrado rojo fresco, heces formadas con sangre |
-| **E2: Colitis Izquierda** | Distal al ángulo esplénico | Diarrea sanguinolenta, dolor en FII, urgencia defecatoria |
-| **E3: Pancolitis (Extensa)** | Proximal al ángulo esplénico (afecta ciego/íleon terminal) | Diarrea profusa, síndrome consuntivo, riesgo de megacolon tóxico |
-
----
-
-### ⚖️ 4. ESTRATIFICACIÓN DE SEVERIDAD CLÍNICA (TRUELOVE & WITTS)
-
-| Criterio Clínico | Leve | Moderada | Severa (Criterio de Ingreso HCAM) |
-| :--- | :---: | :---: | :---: |
-| **Deposiciones con sangre / día** | < 4 | 4 – 6 | **≥ 6 deposiciones profusas** |
-| **Frecuencia cardíaca (FC)** | Normal (<90 lpm) | < 90 lpm | **> 90 lpm (Taquicardia)** |
-| **Temperatura corporal** | Normal (<37.5 °C) | Normal / Febrícula | **> 37.8 °C (Fiebre)** |
-| **Hemoglobina (Hb)** | > 11.5 g/dL | 10.5 – 11.5 g/dL | **< 10.5 g/dL (Anemia)** |
-| **Velocidad de Sedimentación (VSG)** | < 20 mm/h | 20 – 30 mm/h | **> 30 mm/h o PCR > 45 mg/L** |
-
----
-
-### 🌲 5. ÁRBOL DE DECISIÓN Y DISCRIMINACIÓN SEMIOLÓGICA
-
-```mermaid
-graph TD
-    A["Paciente con Diarrea Crónica + Rectorragia (>4 semanas)"] --> B{"¿Descartar Infección?"}
-    B -->|"Coprocultivo / Toxina C. difficile (+)"| C["Colitis Infecciosa / Pseudomembranosa"]
-    B -->|"Coprocultivo Negativo + Calprotectina Fecal Elevada"| D{"Colonoscopía + Biopsia"}
-    D -->|"Afectación continua, mucosa friable, solo recto-colon"| E["COLITIS ULCEROSA (CU)"]
-    D -->|"Lesiones parcheadas, úlceras serpiginosas, íleon terminal, granulomas"| F["ENFERMEDAD DE CROHN"]
-    
-    E --> G{"Estratificación Truelove-Witts"}
-    G -->|"Leve (<4 dep/día, afebril)"| H["Manejo Ambulatorio (5-ASA / Mesalazina)"]
-    G -->|"Severa (≥6 dep/día + Taquicardia + Fiebre)"| I["Hospitalización HCAM + Corticoides IV + Vigilancia Megacolon"]
-```
-
----
-
-### 📝 6. RÚBRICA DE EVALUACIÓN PARA EL INFORME CLÍNICO (20 PUNTOS)
-- **Criterio 1: Anamnesis Semiótica (6 pts):** Cronología de la diarrea, características de la rectorragia, tenesmo y síntomas B.
-- **Criterio 2: Examen Físico y Estigmas Extraintestinales (6 pts):** Palpación de cuerda colónica, examen anorrectal, eritema nodoso, pioderma gangrenoso y uveítis.
-- **Criterio 3: Estratificación y Diagnóstico Diferencial (4 pts):** Aplicación de Montreal y Truelove-Witts vs Crohn y colitis infecciosa.
-- **Criterio 4: Plan Diagnóstico y Referencias (4 pts):** Calprotectina fecal, colonoscopía con biopsia y guías ECCO/ACG 2024.
-
----
-🔗 **Módulo Interactivo:** [https://powersemiotics.com/medsemiotics/gastroenterologia/trastornos-intestinales.html](https://powersemiotics.com/medsemiotics/gastroenterologia/trastornos-intestinales.html)
-"""
-        out_path = Path("docs/guia_clinica_gastro_colitis_ulcerosa.md")
-        out_path.write_text(content, encoding='utf-8')
-        print(f"[OK] Guia clinica generada en: {out_path}")
-
-        drive_gastro = Path(r"C:\Users\aetorres\Mi unidad (alcy.torres@powersemiotics.com)\Classroom\Gastroenterología HECAM")
-        if drive_gastro.exists():
-            (drive_gastro / "Guia_Clinica_Colitis_Ulcerosa.md").write_text(content, encoding='utf-8')
-            print(f"[OK] Guia clinica sincronizada en Google Drive: {drive_gastro / 'Guia_Clinica_Colitis_Ulcerosa.md'}")
-
-    elif course_code == "NEURO":
-        content = f"""# 🧠 GUÍA CLÍNICA & INFOGRAFÍA DIAGNÓSTICA: TRASTORNOS DEL MOVIMIENTO II
-## PARKINSONISMOS ATÍPICOS (PARKINSON PLUS) E HIPERCINESIAS (MDS 2024)
-**Cátedra de Neurología Clínica y Semiótica Médica — Semestre 2026-2**
-*Hospital de Especialidades Carlos Andrade Marín (HCAM) | {location}*
-*Fecha de Clase: {date_str} (Martes 16:00 - 17:30)*
-
----
-
-### 📌 1. BANDERAS ROJAS (RED FLAGS) DE LA MDS 2024 PARA PARKINSONISMO ATÍPICO
-1. **Caídas precoces recurrentes:** En el primer año de evolución (altamente sugestivo de PSP).
-2. **Pobre o nula respuesta a levodopa:** A dosis terapéuticas (>600-1000 mg/día).
-3. **Disfunción autonómica grave y temprana:** Hipotensión ortostática severa, síncopes o incontinencia urinaria precoz (AMS).
-4. **Parálisis supranuclear de la mirada vertical:** Especialmente hacia abajo (signo patognomónico de PSP).
-5. **Apraxia, mioclonías corticales o fenómeno de miembro ajeno:** Asimetría marcada (DCB).
-6. **Deterioro cognitivo y alucinaciones visuales precoces:** Fluctuaciones de alerta (Demencia por Cuerpos de Lewy - DCL).
-
----
-
-### 📊 2. TABLA DIFERENCIAL DE PARKINSONISMOS ATÍPICOS (PARKINSON PLUS)
-
-| Entidad Clínica | Fisiopatología / Proteína | Signos Semióticos Cardinales | Signo Clave en Neuroimagen (RMN) |
-| :--- | :--- | :--- | :--- |
-| **Parálisis Supranuclear Progresiva (PSP)** | Taupatía (4R-Tau) | Parálisis de mirada vertical inferior, caídas precoces, facies de asombro (*staring gaze*), retrocollis | **Signo del colibrí / Pingüino** (Atrofia del tegmento mesencefálico) |
-| **Atrofia Multisistémica (AMS)** | Sinucleinopatía (Alfa-sinucleína) | Disautonomía grave, estridor laríngeo nocturno, ataxia cerebelosa (AMS-C) o parkinsonismo simétrico (AMS-P) | **Signo de la cruz de pan / Hot cross bun sign** (Protuberancia) |
-| **Degeneración Corticobasal (DCB)** | Taupatía (4R-Tau) | Asimetría extrema, apraxia ideomotora, miembro ajeno (*alien limb*), distonía fija y mioclonías corticales | **Atrofia cortical asimétrica frontoparietal** |
-| **Demencia por Cuerpos de Lewy (DCL)** | Sinucleinopatía | Deterioro cognitivo antes o dentro de 1 año del parkinsonismo, alucinaciones visuales complejas, hipersensibilidad a neurolépticos | Preservación del hipocampo vs Alzheimer |
-
----
-
-### ⚡ 3. SEMIOLOGÍA DE LAS HIPERCINESIAS
-
-- **Corea:** Movimientos involuntarios rápidos, arrítmicos, no predecibles, que fluyen de un grupo muscular a otro (Enfermedad de Huntington, corea de Sydenham).
-- **Balismo / Hemibalismo:** Movimientos coreiformes proximales violentos, de gran amplitud, típicamente por lesión del **núcleo subtalámico de Luys** (ej. ACV isquémico).
-- **Distonía:** Contracciones musculares sostenidas o intermitentes que causan posturas anormales, torsiones o movimientos repetitivos.
-- **Tics:** Movimientos o vocalizaciones estereotipadas, precedidas por una urgencia premonitoria (*urge*) que se alivia al realizarlos.
-- **Mioclonías:** Sacudidas breves y fulgurantes tipo choque eléctrico causadas por contracción muscular repentina (positivas) o pérdida repentina de tono (asterixis/mioclonías negativas).
-
----
-
-### 🌲 4. ÁRBOL DE DECISIÓN DIAGNÓSTICA
-
-```mermaid
-graph TD
-    A["Paciente con Síndrome Parkinsoniano (Bradicinesia + Rigidez)"] --> B{"¿Respuesta a Levodopa + Asimetría + Temblor de Reposo?"}
-    B -->|"SÍ (Excelente respuesta)"| C["ENFERMEDAD DE PARKINSON IDIOPÁTICA (EPI)"]
-    B -->|"NO / Pobre respuesta + Red Flags"| D{"Evaluar Fenotipo Dominante"}
-    
-    D -->|"Parálisis mirada vertical + Caídas tempranas"| E["PARÁLISIS SUPRANUCLEAR PROGRESIVA (PSP)"]
-    D -->|"Hipotensión ortostática grave + Disautonomía + Estridor"| F["ATROFIA MULTISISTÉMICA (AMS)"]
-    D -->|"Apraxia asimétrica severa + Fenómeno de Miembro Ajeno"| G["DEGENERACIÓN CORTICOBASAL (DCB)"]
-    D -->|"Deterioro cognitivo precoz + Alucinaciones visuales"| H["DEMENCIA POR CUERPOS DE LEWY (DCL)"]
-```
-
----
-
-### 📝 5. RÚBRICA DE EVALUACIÓN PARA EL INFORME CLÍNICO (20 PUNTOS)
-- **Criterio 1: Anamnesis Semiótica (6 pts):** Cronología de las caídas, respuesta a levodopa, síntomas disautonómicos y cognitivos.
-- **Criterio 2: Examen Físico Neurológico (6 pts):** Motilidad ocular vertical, maniobras axiales, tono en rueda dentada vs espasticidad, apraxia y signos cerebelosos.
-- **Criterio 3: Discriminación Sindrómica y Red Flags (4 pts):** Diagnóstico diferencial fundado entre PSP, AMS, DCB y EPI bajo criterios MDS 2024.
-- **Criterio 4: Plan Diagnóstico y Referencias (4 pts):** RMN de encéfalo volumétrica, SPECT/DaTscan, plan terapéutico y guías MDS/AAN 2024.
-
----
-🔗 **Módulo Interactivo:** [https://powersemiotics.com/medsemiotics/neurologia/trastornos-movimiento-2.html](https://powersemiotics.com/medsemiotics/neurologia/trastornos-movimiento-2.html)
-"""
-        out_path = Path("docs/guia_clinica_neuro_trastornos_movimiento_2.md")
-        out_path.write_text(content, encoding='utf-8')
-        print(f"[OK] Guia clinica generada en: {out_path}")
-
-        drive_neuro = Path(r"C:\Users\aetorres\Mi unidad (alcy.torres@powersemiotics.com)\Classroom\Neurologia")
-        if drive_neuro.exists():
-            (drive_neuro / "Guia_Clinica_Trastornos_Movimiento_2.md").write_text(content, encoding='utf-8')
-            print(f"[OK] Guia clinica sincronizada en Google Drive: {drive_neuro / 'Guia_Clinica_Trastornos_Movimiento_2.md'}")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--course", default="NEURO", help="Codigo del curso (GASTRO o NEURO)")
-    args = parser.parse_args()
-    prepare_material(args.course)
+    raise SystemExit(main())
