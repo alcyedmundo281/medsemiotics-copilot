@@ -39,7 +39,7 @@ Course materials live in the instructor's Drive-synced folders and rosters hold 
 Neither is tracked here. Point the tooling at them per machine, for example:
 
 ```powershell
-$env:MEDSEMIOTICS_MATERIALS_ROOT = "C:\Users\<usuario>\Mi unidad (<cuenta>)\Classroom"
+$env:MEDSEMIOTICS_MATERIALS_DIR = "<ruta local a la carpeta del curso>"
 ```
 
 `StudentRosterService` reads `<data_root>/<COURSE>.json` from a directory given at call time and
@@ -50,3 +50,18 @@ raises `RosterUnavailableError` when none is configured, so no roster reaches th
 `scripts/cloud_run_setup.sh` and the deployment runbooks in `docs/loop-0.8e`, `0.8f`, `0.8g`, and
 `0.8h` describe the retired hosted surface. They remain for reference; the service they provision
 no longer exists.
+
+## Nada específico de una máquina se rastrea aquí
+
+El repositorio es público. Rutas locales, nombres de usuario del sistema, carpetas de Drive y
+tokens quedan fuera del árbol: se pasan por parámetro o por variable de entorno.
+
+| Dato | Cómo se entrega |
+|---|---|
+| Carpeta de materiales | `--materials-dir` o `MEDSEMIOTICS_MATERIALS_DIR` |
+| Repositorio local del sitio web | `-SiteRepo` o `MEDSEMIOTICS_SITE_REPO` |
+| Token del backend | `MEDSEMIOTICS_API_TOKEN`; `run_all_teaching_tasks.ps1` genera uno en memoria si no existe |
+| Roster de estudiantes | archivo local fuera del repositorio, leído por `StudentRosterService` |
+
+Los identificadores de calendario que sí están versionados no otorgan acceso por sí mismos, y la
+configuración de cursos no contiene datos de estudiantes ni de pacientes.
