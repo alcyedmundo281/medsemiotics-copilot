@@ -1,3 +1,67 @@
+# Reconstructed record of the first half. The topics and their order are as reported by the
+# instructor; the session dates are the tracked baseline class dates in order, not observed ones.
+# Each session notes that reconstruction. Replace a date here as soon as the real one is known.
 semester_id: "2026-2"
 course_code: "GASTRO"
-sessions: []
+sessions:
+  - session_id: "gastro-2026-2-01"
+    semester_id: "2026-2"
+    course_code: "GASTRO"
+    session_date: "2026-08-05"
+    sequence_number: 1
+    notes: "Date reconstructed from the baseline schedule, not from an observed session."
+    topics:
+      - topic_id: "fundamentos-gastroenterologia"
+        status: "completed"
+        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/fundamentos-de-gastroenterologia.html"
+      - topic_id: "pruebas-diagnosticas"
+        status: "completed"
+        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/pruebas-diagnosticas.html"
+      - topic_id: "hemorragia-gi"
+        status: "completed"
+        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/hemorragia-GI.html"
+
+  - session_id: "gastro-2026-2-02"
+    semester_id: "2026-2"
+    course_code: "GASTRO"
+    session_date: "2026-08-12"
+    sequence_number: 2
+    notes: "Date reconstructed from the baseline schedule, not from an observed session."
+    topics:
+      - topic_id: "gastroenteropatias-aines"
+        status: "completed"
+        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/gastroenteropatias-aines.html"
+      - topic_id: "diarrea-cronica"
+        status: "completed"
+        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/diarrea-cronica.html"
+      - topic_id: "reflujo-gastroesofagico"
+        status: "completed"
+        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/reflujo-gastroesofagico.html"
+
+  - session_id: "gastro-2026-2-03"
+    semester_id: "2026-2"
+    course_code: "GASTRO"
+    session_date: "2026-08-19"
+    sequence_number: 3
+    notes: "Date reconstructed from the baseline schedule, not from an observed session."
+    topics:
+      - topic_id: "trastornos-estomacales"
+        status: "completed"
+        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/trastornos-estomacales.html"
+      - topic_id: "cancer-esofagico-gastrico"
+        status: "completed"
+        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/esophageal_gastric_cancer.html"
+
+  - session_id: "gastro-2026-2-04"
+    semester_id: "2026-2"
+    course_code: "GASTRO"
+    session_date: "2026-08-26"
+    sequence_number: 4
+    notes: "Date reconstructed from the baseline schedule, not from an observed session."
+    topics:
+      - topic_id: "helicobacter-pylori"
+        status: "completed"
+        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/helicobacter_pylori.html"
+      - topic_id: "sindrome-intestino-irritable"
+        status: "completed"
+        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/sindrome-intestino-irritable.html"

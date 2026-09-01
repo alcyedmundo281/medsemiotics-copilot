@@ -140,13 +140,12 @@ class TestCatalogClassroomAssignmentService:
             service.prepare_draft(request=make_request(), entry=make_entry())  # type: ignore[attr-defined]
 
 
-@pytest.mark.parametrize("course_code", ["NEURO", "GASTRO"])
-def test_real_catalog_covers_every_real_syllabus_topic(course_code: str) -> None:
+def test_real_catalog_covers_every_real_syllabus_topic() -> None:
     assignment_repository = AssignmentCatalogRepository(Path("config/assignments"))
     syllabus_repository = SyllabusRepository(Path("config/syllabi"))
 
-    catalog = assignment_repository.get_catalog("2026-2", course_code)
-    syllabus = syllabus_repository.get("2026-2", course_code)
+    catalog = assignment_repository.get_catalog("2026-2", "NEURO")
+    syllabus = syllabus_repository.get("2026-2", "NEURO")
 
     assert catalog.enabled is True
     assert len(catalog.assignments) == 5
@@ -155,3 +154,14 @@ def test_real_catalog_covers_every_real_syllabus_topic(course_code: str) -> None
         topic.topic_id for topic in syllabus.topics
     }
     assert all("sint" in assignment.prompt.lower() for assignment in catalog.assignments)
+
+
+def test_real_gastro_catalog_is_disabled_pending_recuration() -> None:
+    """GASTRO moved to a clinical syllabus its assignment catalog does not cover yet."""
+    catalog = AssignmentCatalogRepository(Path("config/assignments")).get_catalog(
+        "2026-2", "GASTRO"
+    )
+
+    assert catalog.enabled is False
+    assert catalog.assignments == ()
+    assert catalog.rubrics == ()

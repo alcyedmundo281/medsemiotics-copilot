@@ -5,9 +5,12 @@ from pathlib import Path
 from unittest.mock import MagicMock
 from zoneinfo import ZoneInfo
 
+import pytest
+
 from medsemiotics.agents.framework import build_default_agent_framework
 from medsemiotics.agents.teaching_coach import TeachingCoachAgent
 from medsemiotics.domain.academic_state import TopicProgressStatus
+from medsemiotics.domain.exceptions import TeachingGuideDisabledError
 from medsemiotics.domain.teaching_coach import TeachingCoachPreviewRequest
 from medsemiotics.services.calendar_config_repository import (
     CalendarConfigRepository,
@@ -81,7 +84,7 @@ def test_real_repository_resolution() -> None:
 
 
 def test_real_syllabi_2026_2() -> None:
-    """Verify config/syllabi/2026-2 NEURO and GASTRO have exactly 5 planned topics each."""
+    """Verify the tracked plans: five semiology topics for NEURO, ten clinical ones for GASTRO."""
     project_root = Path(__file__).resolve().parent.parent
     syllabi_dir = project_root / "config" / "syllabi"
 
@@ -95,11 +98,13 @@ def test_real_syllabi_2026_2() -> None:
     gastro_plan = repo.get("2026-2", "GASTRO")
     assert gastro_plan.semester_id == "2026-2"
     assert gastro_plan.course_code == "GASTRO"
-    assert len(gastro_plan.topics) == 5
+    assert len(gastro_plan.topics) == 10
+    assert gastro_plan.topics[0].topic_id == "fundamentos-gastroenterologia"
+    assert gastro_plan.topics[-1].topic_id == "sindrome-intestino-irritable"
 
 
 def test_real_teaching_logs_2026_2() -> None:
-    """Verify config/teaching_logs/2026-2 NEURO and GASTRO files exist and have empty sessions."""
+    """Verify NEURO has taught nothing yet and GASTRO carries its reconstructed first half."""
     project_root = Path(__file__).resolve().parent.parent
     logs_dir = project_root / "config" / "teaching_logs"
 
@@ -109,7 +114,13 @@ def test_real_teaching_logs_2026_2() -> None:
     assert neuro_sessions == []
 
     gastro_sessions = repo.get_sessions("2026-2", "GASTRO")
-    assert gastro_sessions == []
+    assert len(gastro_sessions) == 4
+    assert sum(len(session.topics) for session in gastro_sessions) == 10
+    assert gastro_sessions[0].session_date == date(2026, 8, 5)
+    assert gastro_sessions[-1].session_date == date(2026, 8, 26)
+    for session in gastro_sessions:
+        assert session.notes is not None
+        assert "reconstructed" in session.notes
 
 
 def test_real_academic_state_neuro_2026_2() -> None:
@@ -146,11 +157,10 @@ def test_real_academic_state_gastro_2026_2() -> None:
     )
 
     state = service.get_state("2026-2", "GASTRO")
-    assert len(state.topics) == 5
-    assert all(t.status == TopicProgressStatus.NOT_STARTED for t in state.topics)
-    assert state.completion_ratio == 0.0
-    assert state.next_required_topic is not None
-    assert state.next_required_topic.planned_order == 1
+    assert len(state.topics) == 10
+    assert all(t.status == TopicProgressStatus.COMPLETED for t in state.topics)
+    assert state.completion_ratio == 1.0
+    assert state.next_required_topic is None
 
     unplanned = service.get_unplanned_taught_topic_ids("2026-2", "GASTRO")
     assert unplanned == []
@@ -197,24 +207,27 @@ def test_real_calendar_config_2026_2() -> None:
 
 
 def test_real_teaching_guides_2026_2() -> None:
-    """Verify both enabled catalogs cover every planned syllabus topic."""
+    """Verify an enabled catalog covers its syllabus, and a disabled one drafts nothing."""
     project_root = Path(__file__).resolve().parent.parent
     repository = TeachingGuideRepository(project_root / "config" / "teaching_guides")
     syllabus_repository = SyllabusRepository(project_root / "config" / "syllabi")
 
-    for course_code in ("NEURO", "GASTRO"):
-        catalog = repository.get_catalog("2026-2", course_code)
-        syllabus = syllabus_repository.get("2026-2", course_code)
-        assert catalog.semester_id == "2026-2"
-        assert catalog.course_code == course_code
-        assert catalog.enabled is True
-        assert len(catalog.guides) == 5
-        assert {guide.topic_id for guide in catalog.guides} == {
-            topic.topic_id for topic in syllabus.topics
-        }
-
+    neuro_catalog = repository.get_catalog("2026-2", "NEURO")
+    neuro_syllabus = syllabus_repository.get("2026-2", "NEURO")
+    assert neuro_catalog.enabled is True
+    assert len(neuro_catalog.guides) == 5
+    assert {guide.topic_id for guide in neuro_catalog.guides} == {
+        topic.topic_id for topic in neuro_syllabus.topics
+    }
     assert repository.get_guide("2026-2", "NEURO", "neuro-intro").topic_title
-    assert repository.get_guide("2026-2", "GASTRO", "gastro-intro").topic_title
+
+    # GASTRO moved to a clinical syllabus its curated catalog does not cover yet. A disabled
+    # catalog makes the Teaching Coach refuse rather than draft from stale guidance.
+    gastro_catalog = repository.get_catalog("2026-2", "GASTRO")
+    assert gastro_catalog.enabled is False
+    assert gastro_catalog.guides == []
+    with pytest.raises(TeachingGuideDisabledError):
+        repository.get_guide("2026-2", "GASTRO", "fundamentos-gastroenterologia")
 
 
 def test_real_effective_schedule_uses_active_baseline_without_calendar_events() -> None:
@@ -297,29 +310,34 @@ def test_real_teaching_coach_preview_covers_neuro_and_gastro() -> None:
     )
     timezone = ZoneInfo("America/Guayaquil")
 
-    cases = (
-        ("NEURO", date(2026, 8, 4), "neuro-intro", "Introducción a la semiología neurológica"),
-        (
-            "GASTRO",
-            date(2026, 8, 5),
-            "gastro-intro",
-            "Introducción a la semiología gastrointestinal",
-        ),
+    class_date = date(2026, 8, 4)
+    result = preview_service.preview_class_brief(
+        TeachingCoachPreviewRequest(
+            semester_id="2026-2",
+            course_code="NEURO",
+            class_date=class_date,
+            time_min=datetime.combine(class_date, datetime.min.time(), tzinfo=timezone),
+            time_max=datetime.combine(class_date, datetime.max.time(), tzinfo=timezone),
+            requested_by="course-director",
+        )
     )
-    for course_code, class_date, topic_id, topic_title in cases:
-        result = preview_service.preview_class_brief(
+    assert result.draft.brief.topic_id == "neuro-intro"
+    assert result.preview_title == "NEURO — Introducción a la semiología neurológica"
+    assert result.draft.capability_decision.allowed is True
+
+    # Topic discovery and agent revalidation each read the operational schedule once.
+    assert calendar_reader.list_events.call_count == 2
+
+    # GASTRO refuses rather than drafting from a catalog that no longer covers its syllabus.
+    gastro_date = date(2026, 8, 12)
+    with pytest.raises(TeachingGuideDisabledError):
+        preview_service.preview_class_brief(
             TeachingCoachPreviewRequest(
                 semester_id="2026-2",
-                course_code=course_code,
-                class_date=class_date,
-                time_min=datetime.combine(class_date, datetime.min.time(), tzinfo=timezone),
-                time_max=datetime.combine(class_date, datetime.max.time(), tzinfo=timezone),
+                course_code="GASTRO",
+                class_date=gastro_date,
+                time_min=datetime.combine(gastro_date, datetime.min.time(), tzinfo=timezone),
+                time_max=datetime.combine(gastro_date, datetime.max.time(), tzinfo=timezone),
                 requested_by="course-director",
             )
         )
-        assert result.draft.brief.topic_id == topic_id
-        assert result.preview_title == f"{course_code} — {topic_title}"
-        assert result.draft.capability_decision.allowed is True
-
-    # Topic discovery and agent revalidation each read the operational schedule once.
-    assert calendar_reader.list_events.call_count == 4
