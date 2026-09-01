@@ -1,3 +1,108 @@
+# GENERATED FILE -- do not edit by hand.
+# Derived from config/syllabi/2026-2/silabo_neurologia_v2.yaml by scripts/sync_syllabus_v2_to_config.py.
+# Edit the official syllabus and re-run that script instead.
+# Sessions the official syllabus reports as delivered. Weeks still marked active or
+# projected are absent on purpose: the engine proposes the first week not taught yet.
 semester_id: "2026-2"
 course_code: "NEURO"
-sessions: []
+sessions:
+  - session_id: "neuro-2026-2-w01"
+    semester_id: "2026-2"
+    course_code: "NEURO"
+    session_date: "2026-06-23"
+    sequence_number: 1
+    notes: "Week 01 of the official syllabus."
+    topics:
+      - topic_id: "neuro-intro"
+        status: "completed"
+        notes: "Introducción a la semiología neurológica e historia clínica orientada al problema"
+  - session_id: "neuro-2026-2-w02"
+    semester_id: "2026-2"
+    course_code: "NEURO"
+    session_date: "2026-06-30"
+    sequence_number: 2
+    notes: "Week 02 of the official syllabus."
+    topics:
+      - topic_id: "mental-status"
+        status: "completed"
+        notes: "Estado mental, funciones cerebrales superiores y semiología del lenguaje"
+  - session_id: "neuro-2026-2-w03"
+    semester_id: "2026-2"
+    course_code: "NEURO"
+    session_date: "2026-07-07"
+    sequence_number: 3
+    notes: "Week 03 of the official syllabus."
+    topics:
+      - topic_id: "cranial-nerves-1"
+        status: "completed"
+        notes: "Pares craneales I al VI (Vía visual, fondo de ojo y motilidad ocular)"
+  - session_id: "neuro-2026-2-w04"
+    semester_id: "2026-2"
+    course_code: "NEURO"
+    session_date: "2026-07-14"
+    sequence_number: 4
+    notes: "Week 04 of the official syllabus."
+    topics:
+      - topic_id: "cranial-nerves-2"
+        status: "completed"
+        notes: "Pares craneales VII al XII (Facial, auditivo-vestibular, bulbares y deglución)"
+  - session_id: "neuro-2026-2-w05"
+    semester_id: "2026-2"
+    course_code: "NEURO"
+    session_date: "2026-07-21"
+    sequence_number: 5
+    notes: "Week 05 of the official syllabus."
+    topics:
+      - topic_id: "motor-system"
+        status: "completed"
+        notes: "Sistema motor: inspección, tono, trofismo y gradación de fuerza muscular"
+  - session_id: "neuro-2026-2-w06"
+    semester_id: "2026-2"
+    course_code: "NEURO"
+    session_date: "2026-07-28"
+    sequence_number: 6
+    notes: "Week 06 of the official syllabus."
+    topics:
+      - topic_id: "reflexes-pyramidal"
+        status: "completed"
+        notes: "Reflejos osteotendinosos y signos de liberación piramidal (Babinski y sucedáneos)"
+  - session_id: "neuro-2026-2-w07"
+    semester_id: "2026-2"
+    course_code: "NEURO"
+    session_date: "2026-08-04"
+    sequence_number: 7
+    notes: "Week 07 of the official syllabus."
+    topics:
+      - topic_id: "sensory-system"
+        status: "completed"
+        notes: "Sistema sensitivo: sensibilidad superficial (tacto/dolor/temperatura) y profunda"
+  - session_id: "neuro-2026-2-w08"
+    semester_id: "2026-2"
+    course_code: "NEURO"
+    session_date: "2026-08-11"
+    sequence_number: 8
+    notes: "Week 08 of the official syllabus."
+    topics:
+      - topic_id: "coordination-cerebellum"
+        status: "completed"
+        notes: "Coordinación motora, marcha y síndrome cerebeloso (ataxias)"
+  - session_id: "neuro-2026-2-w09"
+    semester_id: "2026-2"
+    course_code: "NEURO"
+    session_date: "2026-08-18"
+    sequence_number: 9
+    notes: "Week 09 of the official syllabus."
+    topics:
+      - topic_id: "eval-hemisemestre-1"
+        status: "completed"
+        notes: "Evaluación del Primer Hemisemestre: Escala NIHSS y Eventos Cerebrovasculares (ACV)"
+  - session_id: "neuro-2026-2-w10"
+    semester_id: "2026-2"
+    course_code: "NEURO"
+    session_date: "2026-08-25"
+    sequence_number: 10
+    notes: "Week 10 of the official syllabus."
+    topics:
+      - topic_id: "trastornos-movimiento-1"
+        status: "completed"
+        notes: "Trastornos del movimiento I: Enfermedad de Parkinson Idiopática (EPI)"

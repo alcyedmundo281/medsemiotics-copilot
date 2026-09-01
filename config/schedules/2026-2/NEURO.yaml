@@ -1,10 +1,12 @@
-# Active date-only baseline. Exact meeting times remain operational Calendar evidence.
+# GENERATED FILE -- do not edit by hand.
+# Derived from config/syllabi/2026-2/silabo_neurologia_v2.yaml by scripts/sync_syllabus_v2_to_config.py.
+# Edit the official syllabus and re-run that script instead.
+# Date-only baseline. Exact meeting times remain operational Calendar evidence.
 semester_id: "2026-2"
 course_code: "NEURO"
 enabled: true
-teaching_start_date: "2026-08-01"
-teaching_end_date: "2026-12-15"
+teaching_start_date: "2026-06-23"
+teaching_end_date: "2026-10-20"
 meeting_rules:
   - weekday: "tuesday"
-  - weekday: "thursday"
 exceptions: []

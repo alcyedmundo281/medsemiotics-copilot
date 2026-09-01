@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# RETIRED: the hosted deployment was removed by the owner to avoid recurring cost.
+# The supported surface is the local server (scripts/run_local.py). This script is kept for
+# reference and will recreate billable resources if it is run.
 # Provision and deploy the read-only MedSemiotics backend on Cloud Run.
 #
 # Usage, from a Cloud Shell session in the repository root:

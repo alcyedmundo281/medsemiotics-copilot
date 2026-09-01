@@ -1,4 +1,7 @@
 # Public faculty-review baseline. It contains no student or patient-identifiable data.
+# Topic identifiers follow the official syllabus v2. The pares craneales assignment was retired
+# because syllabus v2 splits that week into cranial-nerves-1 and cranial-nerves-2; it remains in
+# git history and must be re-curated as two assignments before it is offered again.
 semester_id: "2026-2"
 course_code: "NEURO"
 enabled: true
@@ -54,16 +57,6 @@ assignments:
       - "Registro estructurado de los dominios evaluados."
       - "Interpretación del patrón, separada del puntaje o resultado bruto."
       - "Dos factores contextuales que pueden sesgar la evaluación."
-    rubric_id: "neuro-clinical-reasoning"
-    suggested_due_days: 7
-  - assignment_id: "cranial-nerves-localization"
-    topic_id: "cranial-nerves"
-    title: "Patrón de pares craneales y localización"
-    prompt: "Integre un patrón sintético de déficits de pares craneales, identifique las maniobras necesarias para confirmarlo y proponga una localización anatómica razonada."
-    deliverables:
-      - "Tabla de hallazgo, maniobra confirmatoria y vía aferente/eferente."
-      - "Localización principal con argumentos anatómicos."
-      - "Una explicación alternativa y cómo distinguirla."
     rubric_id: "neuro-clinical-reasoning"
     suggested_due_days: 7
   - assignment_id: "motor-system-pattern"

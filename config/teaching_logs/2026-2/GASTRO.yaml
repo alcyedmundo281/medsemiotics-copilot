@@ -1,67 +1,108 @@
-# Reconstructed record of the first half. The topics and their order are as reported by the
-# instructor; the session dates are the tracked baseline class dates in order, not observed ones.
-# Each session notes that reconstruction. Replace a date here as soon as the real one is known.
+# GENERATED FILE -- do not edit by hand.
+# Derived from config/syllabi/2026-2/silabo_gastroenterologia_v2.yaml by scripts/sync_syllabus_v2_to_config.py.
+# Edit the official syllabus and re-run that script instead.
+# Sessions the official syllabus reports as delivered. Weeks still marked active or
+# projected are absent on purpose: the engine proposes the first week not taught yet.
 semester_id: "2026-2"
 course_code: "GASTRO"
 sessions:
-  - session_id: "gastro-2026-2-01"
+  - session_id: "gastro-2026-2-w01"
+    semester_id: "2026-2"
+    course_code: "GASTRO"
+    session_date: "2026-06-24"
+    sequence_number: 1
+    notes: "Week 01 of the official syllabus."
+    topics:
+      - topic_id: "gastro-intro-dolor"
+        status: "completed"
+        notes: "Semiología digestiva, anamnesis orientada y semiología del dolor abdominal"
+  - session_id: "gastro-2026-2-w02"
+    semester_id: "2026-2"
+    course_code: "GASTRO"
+    session_date: "2026-07-01"
+    sequence_number: 2
+    notes: "Week 02 of the official syllabus."
+    topics:
+      - topic_id: "esofago-disfagia-erge"
+        status: "completed"
+        notes: "Trastornos esofágicos: Semiología de la disfagia, ERGE y acalasia"
+  - session_id: "gastro-2026-2-w03"
+    semester_id: "2026-2"
+    course_code: "GASTRO"
+    session_date: "2026-07-08"
+    sequence_number: 3
+    notes: "Week 03 of the official syllabus."
+    topics:
+      - topic_id: "estomago-dispepsia-ulcera"
+        status: "completed"
+        notes: "Trastornos gástricos: Dispepsia, gastritis aguda/crónica y enfermedad ulceropéptica"
+  - session_id: "gastro-2026-2-w04"
+    semester_id: "2026-2"
+    course_code: "GASTRO"
+    session_date: "2026-07-15"
+    sequence_number: 4
+    notes: "Week 04 of the official syllabus."
+    topics:
+      - topic_id: "hemorragia-digestiva-alta"
+        status: "completed"
+        notes: "Hemorragia digestiva alta: Variceal vs no variceal y escalas de estratificación (Rockall/Glasgow-Blatchford)"
+  - session_id: "gastro-2026-2-w05"
+    semester_id: "2026-2"
+    course_code: "GASTRO"
+    session_date: "2026-07-22"
+    sequence_number: 5
+    notes: "Week 05 of the official syllabus."
+    topics:
+      - topic_id: "hemorragia-digestiva-baja"
+        status: "completed"
+        notes: "Hemorragia digestiva baja y proctología semiológica (Hemorroides, fisuras, rectorragia)"
+  - session_id: "gastro-2026-2-w06"
+    semester_id: "2026-2"
+    course_code: "GASTRO"
+    session_date: "2026-07-29"
+    sequence_number: 6
+    notes: "Week 06 of the official syllabus."
+    topics:
+      - topic_id: "diarrea-aguda-cronica"
+        status: "completed"
+        notes: "Síndromes diarreicos: Diarrea aguda inflamatoria vs no inflamatoria y diarrea crónica"
+  - session_id: "gastro-2026-2-w07"
     semester_id: "2026-2"
     course_code: "GASTRO"
     session_date: "2026-08-05"
-    sequence_number: 1
-    notes: "Date reconstructed from the baseline schedule, not from an observed session."
+    sequence_number: 7
+    notes: "Week 07 of the official syllabus."
     topics:
-      - topic_id: "fundamentos-gastroenterologia"
+      - topic_id: "malabsorcion-celiaca"
         status: "completed"
-        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/fundamentos-de-gastroenterologia.html"
-      - topic_id: "pruebas-diagnosticas"
-        status: "completed"
-        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/pruebas-diagnosticas.html"
-      - topic_id: "hemorragia-gi"
-        status: "completed"
-        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/hemorragia-GI.html"
-
-  - session_id: "gastro-2026-2-02"
+        notes: "Síndrome de malabsorción intestinal y enfermedad celíaca"
+  - session_id: "gastro-2026-2-w08"
     semester_id: "2026-2"
     course_code: "GASTRO"
     session_date: "2026-08-12"
-    sequence_number: 2
-    notes: "Date reconstructed from the baseline schedule, not from an observed session."
+    sequence_number: 8
+    notes: "Week 08 of the official syllabus."
     topics:
-      - topic_id: "gastroenteropatias-aines"
+      - topic_id: "hepatologia-basica"
         status: "completed"
-        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/gastroenteropatias-aines.html"
-      - topic_id: "diarrea-cronica"
-        status: "completed"
-        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/diarrea-cronica.html"
-      - topic_id: "reflujo-gastroesofagico"
-        status: "completed"
-        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/reflujo-gastroesofagico.html"
-
-  - session_id: "gastro-2026-2-03"
+        notes: "Semiología hepática básica, estigmas de hepatopatía y perfil de laboratorio hepático"
+  - session_id: "gastro-2026-2-w09"
     semester_id: "2026-2"
     course_code: "GASTRO"
     session_date: "2026-08-19"
-    sequence_number: 3
-    notes: "Date reconstructed from the baseline schedule, not from an observed session."
+    sequence_number: 9
+    notes: "Week 09 of the official syllabus."
     topics:
-      - topic_id: "trastornos-estomacales"
+      - topic_id: "eval-hemisemestre-1"
         status: "completed"
-        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/trastornos-estomacales.html"
-      - topic_id: "cancer-esofagico-gastrico"
-        status: "completed"
-        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/esophageal_gastric_cancer.html"
-
-  - session_id: "gastro-2026-2-04"
+        notes: "Evaluación del Primer Hemisemestre: Examen Teórico-Práctico"
+  - session_id: "gastro-2026-2-w10"
     semester_id: "2026-2"
     course_code: "GASTRO"
     session_date: "2026-08-26"
-    sequence_number: 4
-    notes: "Date reconstructed from the baseline schedule, not from an observed session."
+    sequence_number: 10
+    notes: "Week 10 of the official syllabus."
     topics:
-      - topic_id: "helicobacter-pylori"
+      - topic_id: "funcionales-dispepsia"
         status: "completed"
-        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/helicobacter_pylori.html"
-      - topic_id: "sindrome-intestino-irritable"
-        status: "completed"
-        notes: "https://powersemiotics.com/medsemiotics/gastroenterologia/sindrome-intestino-irritable.html"
+        notes: "Trastornos funcionales digestivos: Criterios de Roma IV y dispepsia funcional"

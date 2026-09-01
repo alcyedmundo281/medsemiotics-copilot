@@ -140,19 +140,23 @@ class TestCatalogClassroomAssignmentService:
             service.prepare_draft(request=make_request(), entry=make_entry())  # type: ignore[attr-defined]
 
 
-def test_real_catalog_covers_every_real_syllabus_topic() -> None:
+def test_real_catalog_only_targets_topics_the_course_still_teaches() -> None:
+    """Every tracked assignment must point at a topic of the official syllabus in force."""
     assignment_repository = AssignmentCatalogRepository(Path("config/assignments"))
     syllabus_repository = SyllabusRepository(Path("config/syllabi"))
 
     catalog = assignment_repository.get_catalog("2026-2", "NEURO")
     syllabus = syllabus_repository.get("2026-2", "NEURO")
+    syllabus_topics = {topic.topic_id for topic in syllabus.topics}
 
     assert catalog.enabled is True
-    assert len(catalog.assignments) == 5
+    assert catalog.assignments
     assert len(catalog.rubrics) == 1
-    assert {assignment.topic_id for assignment in catalog.assignments} == {
-        topic.topic_id for topic in syllabus.topics
-    }
+    assert {assignment.topic_id for assignment in catalog.assignments} <= syllabus_topics
+    assert all(
+        assignment.rubric_id in {rubric.rubric_id for rubric in catalog.rubrics}
+        for assignment in catalog.assignments
+    )
     assert all("sint" in assignment.prompt.lower() for assignment in catalog.assignments)
 
 

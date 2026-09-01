@@ -1,51 +1,79 @@
-"""Browser automation module for publishing advanced materials in Google Classroom."""
+"""Plan a Google Classroom material post for local, human-driven browser publishing.
 
-import time
-from typing import List, Optional
+Nothing here contacts Google. The planner renders exactly what a human would paste into
+Classroom, so the teacher reviews the post before it exists. Publishing stays a human action,
+which is the same boundary the rest of the project applies to Calendar.
+"""
+
+from dataclasses import dataclass, field
+
+
+@dataclass(frozen=True)
+class ClassroomMaterialPlan:
+    """A reviewable draft of one Classroom material post."""
+
+    course_name: str
+    title: str
+    description: str
+    topic_name: str | None = None
+    links: tuple[str, ...] = field(default_factory=tuple)
+    file_paths: tuple[str, ...] = field(default_factory=tuple)
+    published: bool = False
+
+    def render(self) -> str:
+        """Render the plan as the text a human reviews before posting it."""
+        lines = [
+            f"Curso      : {self.course_name}",
+            f"Sección    : {self.topic_name or '(sin sección)'}",
+            f"Título     : {self.title}",
+            "Descripción:",
+            self.description,
+        ]
+        if self.links:
+            lines.append("Enlaces adjuntos:")
+            lines.extend(f"  - {link}" for link in self.links)
+        if self.file_paths:
+            lines.append("Archivos adjuntos:")
+            lines.extend(f"  - {path}" for path in self.file_paths)
+        lines.append("Estado     : BORRADOR — requiere publicación manual en Classroom.")
+        return "\n".join(lines)
+
 
 class ClassroomBrowserPublisher:
-    """Automates interacting with Google Classroom via local browser (Playwright/Selenium/Chrome)."""
+    """Build reviewable Classroom material drafts for local publishing."""
 
-    def __init__(self, headless: bool = False, user_data_dir: Optional[str] = None):
+    def __init__(self, headless: bool = False, user_data_dir: str | None = None) -> None:
+        """Record the browser preferences a future local automation would use."""
         self.headless = headless
         self.user_data_dir = user_data_dir
 
-    def publish_material(
+    def plan_material(
         self,
         course_name: str,
         title: str,
         description: str,
-        topic_name: Optional[str] = None,
-        links: Optional[List[str]] = None,
-        file_paths: Optional[List[str]] = None,
-    ) -> bool:
-        """Publishes an advanced material post to a Google Classroom course.
+        topic_name: str | None = None,
+        links: list[str] | None = None,
+        file_paths: list[str] | None = None,
+    ) -> ClassroomMaterialPlan:
+        """Build the draft post for one course without contacting Google Classroom.
 
         Args:
-            course_name: Name of the course (e.g. 'Neurología')
-            title: Material title
-            description: Detailed markdown/text body of the material
-            topic_name: Classroom Topic under Classwork (Trabajo de clase)
-            links: List of web URLs to attach
-            file_paths: List of local files to upload
+            course_name: Name of the course, e.g. 'Neurología'.
+            title: Material title.
+            description: Body of the material.
+            topic_name: Classroom topic under Trabajo de clase.
+            links: Web URLs to attach.
+            file_paths: Local files to attach.
 
         Returns:
-            True if successful.
+            A reviewable plan. It is never published by this call.
         """
-        print(f"[ClassroomAgent] Iniciando automatizador de navegador para el curso: '{course_name}'...")
-        print(f"[ClassroomAgent] Titulo del Material: '{title}'")
-        if links:
-            print(f"[ClassroomAgent] Enlaces a adjuntar: {len(links)}")
-        if file_paths:
-            print(f"[ClassroomAgent] Archivos a adjuntar: {len(file_paths)}")
-
-        # Simulación de pasos agénticos
-        print("[ClassroomAgent] 1. Navegando a https://classroom.google.com ...")
-        print(f"[ClassroomAgent] 2. Buscando y seleccionando la clase '{course_name}'...")
-        print("[ClassroomAgent] 3. Abriendo la pestaña 'Trabajo de clase' (Classwork)...")
-        print("[ClassroomAgent] 4. Haciendo clic en '+ Crear' -> 'Material'...")
-        print("[ClassroomAgent] 5. Rellenando Título, Descripción y Adjuntos...")
-        print("[ClassroomAgent] 6. Asignando el tema o sección correspondiente...")
-        print("[ClassroomAgent] 7. Publicando material para los estudiantes...")
-
-        return True
+        return ClassroomMaterialPlan(
+            course_name=course_name,
+            title=title,
+            description=description,
+            topic_name=topic_name,
+            links=tuple(links or ()),
+            file_paths=tuple(file_paths or ()),
+        )

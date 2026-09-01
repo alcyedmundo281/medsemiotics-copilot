@@ -72,11 +72,9 @@ def load_backend_settings(env: Mapping[str, str] | None = None) -> BackendSettin
     source: Mapping[str, str] = os.environ if env is None else env
     configured_root = (source.get(CONFIG_ROOT_ENV_VAR) or "").strip() or DEFAULT_CONFIG_ROOT
     secrets = build_secret_source(source)
-    raw_token = secrets.read(API_TOKEN_SECRET) or source.get(API_TOKEN_SECRET)
-    api_token = raw_token.strip() if raw_token and raw_token.strip() else "local-dev-token"
     return BackendSettings(
         config_root=Path(configured_root),
-        api_token=api_token,
+        api_token=secrets.read(API_TOKEN_SECRET),
         calendar_credentials=load_calendar_read_credentials(secrets),
     )
 

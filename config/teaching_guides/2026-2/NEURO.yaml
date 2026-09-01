@@ -1,4 +1,6 @@
 # Public baseline teaching guides. Every Calendar publication still requires named human approval.
+# Topic identifiers follow the official syllabus v2. Weeks without a curated guide are refused
+# by the Teaching Coach rather than drafted from stale guidance.
 semester_id: "2026-2"
 course_code: "NEURO"
 enabled: true
@@ -38,23 +40,6 @@ guides:
     material_notes:
       - "Hoja de evaluación cognitiva breve y reloj para tareas temporizadas."
 
-  - topic_id: "cranial-nerves"
-    topic_title: "Exploración de pares craneales"
-    learning_objectives:
-      - "Ejecutar una exploración ordenada de los pares craneales con maniobras clínicas básicas."
-      - "Integrar déficits aislados o combinados para orientar una localización anatómica."
-    critical_points:
-      - "Comparar ambos lados y correlacionar el hallazgo con vías aferentes y eferentes."
-      - "Distinguir un déficit verdadero de limitaciones por comprensión, dolor o técnica."
-    teaching_questions:
-      - "¿Qué combinación de hallazgos sugiere una lesión de tronco encefálico?"
-      - "¿Cómo diferencias una asimetría facial central de una periférica?"
-    common_pitfalls:
-      - "Examinar cada par como un dato aislado sin integrar el patrón."
-      - "Omitir agudeza visual, campos visuales o respuesta pupilar por falta de material."
-    material_notes:
-      - "Cartilla visual, linterna, algodón, bajalenguas y diapasón."
-
   - topic_id: "motor-system"
     topic_title: "Sistema motor"
     learning_objectives:
@@ -88,3 +73,24 @@ guides:
       - "Atribuir dismetría a cerebelo sin excluir debilidad, dolor o déficit visual."
     material_notes:
       - "Espacio seguro para marcha, diapasón y objetivos para pruebas de coordinación."
+  - topic_id: "trastornos-movimiento-2"
+    topic_title: "Trastornos del movimiento II: parkinsonismos atípicos y coreas"
+    learning_objectives:
+      - "Distinguir la enfermedad de Parkinson idiopática de los parkinsonismos atípicos por su semiología."
+      - "Reconocer el patrón semiológico de una corea y ordenar su diagnóstico diferencial."
+    critical_points:
+      - "Banderas rojas de atipicidad: caídas precoces, disautonomía temprana, parálisis supranuclear de la mirada, signos corticales asimétricos y pobre respuesta a levodopa."
+      - "PSP, AMS y DCB se separan clínicamente antes que por imagen; describir el hallazgo, no la etiqueta."
+      - "Ante corea en paciente joven, descartar causas tratables antes de asumir una neurodegeneración."
+    teaching_questions:
+      - "¿Qué hallazgo del examen cambia más la probabilidad de un parkinsonismo atípico frente a EPI?"
+      - "¿Qué elementos de la marcha y la mirada explora primero ante una caída precoz?"
+      - "En una corea de inicio subagudo, ¿qué causas reversibles busca primero?"
+    common_pitfalls:
+      - "Atribuir a EPI todo temblor de reposo sin evaluar respuesta a levodopa ni progresión."
+      - "Solicitar neuroimagen antes de completar la caracterización semiológica del movimiento."
+      - "Confundir corea con otros movimientos hipercinéticos por no describir su curso temporal."
+    material_notes:
+      - "Algoritmo de banderas rojas EPI frente a PSP, AMS y DCB."
+      - "Árbol de decisión para coreas con las causas reversibles destacadas."
+      - "Módulo web del tema en el hub de la cátedra."
