@@ -169,7 +169,8 @@ def test_real_schedules_are_enabled() -> None:
 
     gastro = repository.get("2026-2", "GASTRO")
     assert gastro.enabled is True
-    assert gastro.is_class_date(date(2026, 8, 3)) is True
+    assert gastro.is_class_date(date(2026, 8, 5)) is True
+    assert gastro.is_class_date(date(2026, 8, 3)) is False
     assert gastro.is_class_date(date(2026, 8, 4)) is False
 
 
@@ -249,9 +250,9 @@ def test_real_effective_schedule_uses_active_baseline_without_calendar_events() 
         time_min=datetime(2026, 8, 1, 0, 0, tzinfo=tz),
         time_max=datetime(2026, 8, 31, 23, 59, tzinfo=tz),
     )
-    assert gastro_dates[0] == date(2026, 8, 3)
-    assert date(2026, 8, 31) in gastro_dates
-    assert gastro_dates[-1] == date(2026, 12, 14)
+    assert gastro_dates[0] == date(2026, 8, 5)
+    assert date(2026, 8, 26) in gastro_dates
+    assert gastro_dates[-1] == date(2026, 12, 9)
     assert calendar_reader.list_events.call_count == 2
 
 
@@ -300,7 +301,7 @@ def test_real_teaching_coach_preview_covers_neuro_and_gastro() -> None:
         ("NEURO", date(2026, 8, 4), "neuro-intro", "Introducción a la semiología neurológica"),
         (
             "GASTRO",
-            date(2026, 8, 3),
+            date(2026, 8, 5),
             "gastro-intro",
             "Introducción a la semiología gastrointestinal",
         ),
