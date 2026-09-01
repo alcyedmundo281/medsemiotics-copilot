@@ -1,10 +1,21 @@
 #!/usr/bin/env python3
-"""Generador de archivos iCalendar (.ics) con los 18 temas individuales específicos del Sílabo."""
+"""Generate one iCalendar file per official syllabus, with a real event for every week.
 
-from datetime import UTC, datetime
+Every timestamp is emitted in UTC. A local time carried as ``DTSTART;TZID=America/Guayaquil``
+is only valid when the file also defines that zone in a ``VTIMEZONE`` block, and Google
+Calendar imports such a file unreliably. Ecuador observes no daylight saving, so converting
+the class hour to UTC once is exact.
+"""
+
+from datetime import UTC, datetime, time, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import yaml
+
+COURSE_TIMEZONE = ZoneInfo("America/Guayaquil")
+CLASS_START_LOCAL = time(16, 0)
+CLASS_DURATION = timedelta(minutes=90)
 
 
 def generate_ics(yaml_file: str, output_ics: str) -> None:
@@ -31,17 +42,25 @@ def generate_ics(yaml_file: str, output_ics: str) -> None:
         title = item["title"]
         module_url = item.get("web_module", web_hub)
 
-        dt_start = date_str.replace("-", "") + "T160000"
-        dt_end = date_str.replace("-", "") + "T173000"
-        uid = f"medsemiotics-2026-2-{data['course_info']['code']}-w{week:02d}@powersemiotics.com"
+        local_start = datetime.combine(
+            datetime.strptime(date_str, "%Y-%m-%d").date(),
+            CLASS_START_LOCAL,
+            tzinfo=COURSE_TIMEZONE,
+        )
+        dt_start = local_start.astimezone(UTC).strftime("%Y%m%dT%H%M%SZ")
+        dt_end = (local_start + CLASS_DURATION).astimezone(UTC).strftime("%Y%m%dT%H%M%SZ")
+        code = data["course_info"]["code"]
+        uid = (
+            f"medsemiotics-2026-2-{code}-w{week:02d}-{date_str.replace('-', '')}@powersemiotics.com"
+        )
 
         lines.extend(
             [
                 "BEGIN:VEVENT",
                 f"UID:{uid}",
                 f"DTSTAMP:{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}",
-                f"DTSTART;TZID=America/Guayaquil:{dt_start}",
-                f"DTEND;TZID=America/Guayaquil:{dt_end}",
+                f"DTSTART:{dt_start}",
+                f"DTEND:{dt_end}",
                 f"SUMMARY:Sem {week:02d} - {title}",
                 (
                     f"DESCRIPTION:Clase de {course_name}\\n\\nTema: {title}\\n\\n"
@@ -56,7 +75,10 @@ def generate_ics(yaml_file: str, output_ics: str) -> None:
     lines.append("END:VCALENDAR")
 
     Path(output_ics).write_text("\r\n".join(lines), encoding="utf-8")
-    print(f"[OK] Calendario generado: {output_ics} ({len(topics)} clases con su tema especifico)")
+    print(
+        f"[OK] Calendario generado en UTC: {output_ics} "
+        f"({len(topics)} clases con su tema especifico)"
+    )
 
 
 if __name__ == "__main__":
