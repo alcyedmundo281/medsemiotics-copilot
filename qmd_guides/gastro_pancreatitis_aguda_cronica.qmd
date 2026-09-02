@@ -1,0 +1,59 @@
+---
+title: "Pancreatitis aguda y crónica"
+subtitle: "Guía Docente y Razonamiento Clínico — GASTRO (2026-2)"
+author: "Cátedra de Gastroenterología y Semiótica Digestiva — UCE / HCAM"
+date: "2026-09-02"
+lang: es
+format:
+  epub:
+    toc: true
+    toc-depth: 3
+    toc-title: "Índice de la Guía"
+    number-sections: false
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    code-fold: true
+    embed-resources: true
+---
+
+# Pancreatitis aguda y crónica
+
+**Asignatura:** GASTRO · **Semestre:** 2026-2  
+**Tópico / Código:** `pancreatitis-aguda-cronica`  
+**Marco Pedagógico:** `KNOW -> REASON -> ACT` (Material docente para discusión)
+
+---
+
+## 1. 🎯 Resultados de Aprendizaje
+
+- Diagnosticar la pancreatitis aguda con criterios clínicos, bioquímicos e imagenológicos y estratificar su gravedad.
+- Reconocer la pancreatitis crónica por su semiología y sus consecuencias funcionales.
+
+## 2. ⚡ Puntos Críticos y Semiótica Clave
+
+- El diagnóstico requiere dos de tres: dolor característico, elevación enzimática de al menos tres veces el límite superior, o hallazgos en imagen.
+- La magnitud de la elevación enzimática no mide gravedad ni sirve para seguimiento; la gravedad la define la falla orgánica persistente más allá de 48 horas.
+- La tomografía de estadificación rinde a las 72 horas; en las primeras horas subestima la necrosis. La etiología biliar y la alcohólica se buscan siempre, porque tratarlas cambia el curso.
+
+## 3. ❓ Preguntas Socráticas para la Discusión Docente
+
+1. **¿Qué caracteriza al dolor de origen pancreático?**
+1. **¿Por qué no repetir la lipasa para seguir la evolución?**
+1. **¿Cuándo pide la tomografía y qué espera responder con ella?**
+
+## 4. ⚠️ Errores Frecuentes y Trampas Diagnósticas
+
+- **Trampa / Error:** Usar la cifra enzimática como indicador pronóstico.
+- **Trampa / Error:** Pedir tomografía en las primeras horas para estadificar.
+- **Trampa / Error:** No buscar la etiología biliar.
+
+## 5. 📚 Materiales y Notas Docentes
+
+- Criterios diagnósticos y de gravedad.
+- Cronograma de estudios de imagen.
+- Tabla de etiologías y su búsqueda dirigida.
+
+---
+*MedSemiotics Copilot — GASTRO 2026-2 — UCE / HCAM*

@@ -1,0 +1,58 @@
+---
+title: "Colitis ulcerosa: semiología, extensión y actividad"
+subtitle: "Guía Docente y Razonamiento Clínico — GASTRO (2026-2)"
+author: "Cátedra de Gastroenterología y Semiótica Digestiva — UCE / HCAM"
+date: "2026-09-02"
+lang: es
+format:
+  epub:
+    toc: true
+    toc-depth: 3
+    toc-title: "Índice de la Guía"
+    number-sections: false
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    code-fold: true
+    embed-resources: true
+---
+
+# Colitis ulcerosa: semiología, extensión y actividad
+
+**Asignatura:** GASTRO · **Semestre:** 2026-2  
+**Tópico / Código:** `colitis-ulcerosa`  
+**Marco Pedagógico:** `KNOW -> REASON -> ACT` (Material docente para discusión)
+
+---
+
+## 1. 🎯 Resultados de Aprendizaje
+
+- Reconocer el patrón clínico de la colitis ulcerosa y diferenciarlo de otras diarreas con sangre.
+- Describir extensión y actividad de la enfermedad como base del razonamiento diagnóstico.
+
+## 2. ⚡ Puntos Críticos y Semiótica Clave
+
+- Diarrea con sangre y moco, tenesmo y urgencia rectal, con compromiso continuo desde el recto.
+- La distinción con enfermedad de Crohn se apoya en distribución, continuidad y profundidad del compromiso.
+- Signos de colitis grave (fiebre, taquicardia, distensión, dolor intenso) obligan a evaluación urgente.
+
+## 3. ❓ Preguntas Socráticas para la Discusión Docente
+
+1. **¿Qué elementos de la anamnesis separan una diarrea inflamatoria de una infecciosa?**
+1. **¿Qué hallazgos del examen abdominal harían sospechar una complicación aguda?**
+1. **¿Cómo cambia la conducta si el compromiso es proctitis frente a colitis extensa?**
+
+## 4. ⚠️ Errores Frecuentes y Trampas Diagnósticas
+
+- **Trampa / Error:** Asumir causa infecciosa por un único episodio sin evaluar cronicidad ni manifestaciones extraintestinales.
+- **Trampa / Error:** Omitir la evaluación de gravedad antes de discutir el tratamiento de mantenimiento.
+
+## 5. 📚 Materiales y Notas Docentes
+
+- Cuadro comparativo colitis ulcerosa frente a enfermedad de Crohn.
+- Criterios de gravedad y banderas rojas de colitis aguda grave.
+- Módulo web del tema en el hub de la cátedra.
+
+---
+*MedSemiotics Copilot — GASTRO 2026-2 — UCE / HCAM*

@@ -1,0 +1,59 @@
+---
+title: "Síndrome de intestino irritable y dolor visceral"
+subtitle: "Guía Docente y Razonamiento Clínico — GASTRO (2026-2)"
+author: "Cátedra de Gastroenterología y Semiótica Digestiva — UCE / HCAM"
+date: "2026-09-02"
+lang: es
+format:
+  epub:
+    toc: true
+    toc-depth: 3
+    toc-title: "Índice de la Guía"
+    number-sections: false
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    code-fold: true
+    embed-resources: true
+---
+
+# Síndrome de intestino irritable y dolor visceral
+
+**Asignatura:** GASTRO · **Semestre:** 2026-2  
+**Tópico / Código:** `intestino-irritable`  
+**Marco Pedagógico:** `KNOW -> REASON -> ACT` (Material docente para discusión)
+
+---
+
+## 1. 🎯 Resultados de Aprendizaje
+
+- Aplicar criterios diagnósticos positivos en lugar de un diagnóstico por exclusión indefinida.
+- Explicar el dolor visceral y el eje intestino-cerebro en términos que el paciente reconozca.
+
+## 2. ⚡ Puntos Críticos y Semiótica Clave
+
+- El diagnóstico es positivo: dolor abdominal recurrente relacionado con la defecación y asociado a cambios en la frecuencia o la forma de las heces.
+- Banderas rojas que obligan a estudiar antes de etiquetar: inicio después de los 50 años, pérdida de peso, sangrado, anemia, síntomas nocturnos y antecedente familiar de cáncer colorrectal o enfermedad inflamatoria intestinal.
+- La comorbilidad con ansiedad o depresión acompaña al cuadro y no lo invalida; el síntoma es real aunque no haya lesión estructural.
+
+## 3. ❓ Preguntas Socráticas para la Discusión Docente
+
+1. **¿Qué características del dolor apoyan un origen visceral?**
+1. **¿Qué bandera roja obliga a estudiar antes de dar el diagnóstico?**
+1. **¿Cómo explica el diagnóstico sin que el paciente escuche que no tiene nada?**
+
+## 4. ⚠️ Errores Frecuentes y Trampas Diagnósticas
+
+- **Trampa / Error:** Llegar al diagnóstico solo tras repetir estudios normales.
+- **Trampa / Error:** Ignorar una bandera roja por la cronicidad del cuadro.
+- **Trampa / Error:** Comunicar el diagnóstico en términos que invaliden el síntoma.
+
+## 5. 📚 Materiales y Notas Docentes
+
+- Criterios diagnósticos vigentes.
+- Lista de banderas rojas.
+- Guion de explicación al paciente.
+
+---
+*MedSemiotics Copilot — GASTRO 2026-2 — UCE / HCAM*

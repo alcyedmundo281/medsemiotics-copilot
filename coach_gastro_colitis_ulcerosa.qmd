@@ -1,0 +1,235 @@
+---
+title: "Teaching Coach: Gastroenterología y Semiótica Digestiva"
+subtitle: "Sílabo Oficial y Guía Clínica de Colitis Ulcerosa (Semana 11 · Semestre 2026-2)"
+author: "Cátedra de Gastroenterología — UCE / HCAM"
+date: "2026-09-02"
+lang: es
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    toc-title: "Índice de la Sesión"
+    code-fold: show
+    code-tools: true
+    code-summary: "Mostrar código Python"
+    smooth-scroll: true
+    highlight-style: github
+    embed-resources: true
+---
+
+::: {.callout-note}
+## Información Institucional y Encuadre
+- **Institución:** Universidad Central del Ecuador — Facultad de Ciencias Médicas
+- **Sede Hospitalaria:** Hospital de Especialidades Carlos Andrade Marín (HCAM), Aula Lúdica
+- **Horario:** Miércoles 16:00 – 17:30 (Semana 11 · Segundo Hemisemestre)
+- **Contrato Pedagógico:** `KNOW -> REASON -> ACT`. Material docente interactivo; los casos clínicos son sintéticos.
+:::
+
+## 1. Sílabo y Cronograma Académico
+
+El semestre 2026-2 consta de 18 semanas divididas en dos hemisemestres (40% evaluación formativa continua mediante rúbrica analítica HCAM `6–6–4–4` y 60% evaluación sumativa).
+
+```{python}
+#| label: explorador-silabo
+#| echo: true
+from IPython.display import display, HTML
+
+syllabus_data = [
+    {"sem": 1, "fecha": "24 Jun 2026", "tema": "Semiología digestiva, dolor abdominal y anamnesis", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 2, "fecha": "01 Jul 2026", "tema": "Trastornos esofágicos: Disfagia, ERGE y acalasia", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 3, "fecha": "08 Jul 2026", "tema": "Trastornos gástricos: Dispepsia, gastritis y úlcera péptica", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 4, "fecha": "15 Jul 2026", "tema": "Hemorragia digestiva alta (Variceal y No Variceal)", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 5, "fecha": "22 Jul 2026", "tema": "Hemorragia digestiva baja y proctología básica", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 6, "fecha": "29 Jul 2026", "tema": "Síndromes diarreicos agudos y crónicos", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 7, "fecha": "05 Ago 2026", "tema": "Síndrome de malabsorción y enfermedad celíaca", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 8, "fecha": "12 Ago 2026", "tema": "Semiología hepática básica y pruebas funcionales", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 9, "fecha": "19 Ago 2026", "tema": "Evaluación del Primer Hemisemestre", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 10, "fecha": "26 Ago 2026", "tema": "Trastornos funcionales digestivos y dispepsia funcional", "hemi": 2, "estado": "Ejecutada"},
+    {"sem": 11, "fecha": "02 Sep 2026", "tema": "Enfermedad Inflamatoria Intestinal I: Colitis Ulcerosa", "hemi": 2, "estado": "ACTIVA (HOY)"},
+    {"sem": 12, "fecha": "09 Sep 2026", "tema": "Enfermedad Inflamatoria Intestinal II: Enfermedad de Crohn", "hemi": 2, "estado": "Proyectada"},
+    {"sem": 13, "fecha": "16 Sep 2026", "tema": "Síndrome de Intestino Irritable y motilidad digestiva", "hemi": 2, "estado": "Proyectada"},
+    {"sem": 14, "fecha": "23 Sep 2026", "tema": "Hepatopatías crónicas, cirrosis e hipertensión portal", "hemi": 2, "estado": "Proyectada"},
+    {"sem": 15, "fecha": "30 Sep 2026", "tema": "Ictericia, colestasis y patología biliar litiásica", "hemi": 2, "estado": "Proyectada"},
+    {"sem": 16, "fecha": "07 Oct 2026", "tema": "Pancreatitis aguda y crónica", "hemi": 2, "estado": "Proyectada"},
+    {"sem": 17, "fecha": "14 Oct 2026", "tema": "Abdomen agudo médico vs quirúrgico y urgencias digestivas", "hemi": 2, "estado": "Proyectada"},
+    {"sem": 18, "fecha": "21 Oct 2026", "tema": "Evaluación Final Integral del Segundo Hemisemestre", "hemi": 2, "estado": "Proyectada"},
+]
+
+html = """
+<table style="width:100%; border-collapse:collapse; font-size:13px; margin:10px 0;">
+  <thead>
+    <tr style="background-color:#1e3a8a; color:white; text-align:left;">
+      <th style="padding:8px; border:1px solid #cbd5e1;">Sem</th>
+      <th style="padding:8px; border:1px solid #cbd5e1;">Fecha</th>
+      <th style="padding:8px; border:1px solid #cbd5e1;">Tema Académico</th>
+      <th style="padding:8px; border:1px solid #cbd5e1;">Hemi</th>
+      <th style="padding:8px; border:1px solid #cbd5e1;">Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+"""
+for r in syllabus_data:
+    bg = "#fef3c7" if "ACTIVA" in r["estado"] else ("#f8fafc" if r["estado"] == "Ejecutada" else "#ffffff")
+    badge = f"<b style='color:#b45309; background:#fde68a; padding:2px 6px; border-radius:4px;'>🔥 {r['estado']}</b>" if "ACTIVA" in r["estado"] else (f"<span style='color:#16a34a;'>✓ {r['estado']}</span>" if r["estado"] == "Ejecutada" else f"<span style='color:#64748b;'>{r['estado']}</span>")
+    html += f"<tr style='background-color:{bg};'><td style='padding:6px 8px; border:1px solid #cbd5e1; text-align:center;'><b>{r['sem']}</b></td><td style='padding:6px 8px; border:1px solid #cbd5e1;'>{r['fecha']}</td><td style='padding:6px 8px; border:1px solid #cbd5e1;'>{r['tema']}</td><td style='padding:6px 8px; border:1px solid #cbd5e1; text-align:center;'>{r['hemi']}°</td><td style='padding:6px 8px; border:1px solid #cbd5e1;'>{badge}</td></tr>"
+html += "</tbody></table>"
+display(HTML(html))
+```
+
+---
+
+## 2. Guía Clínica: Colitis Ulcerosa
+
+### Resultados de Aprendizaje
+1. Reconocer el patrón clínico (hematoquecia, diarrea sanguinolenta, urgencia, tenesmo).
+2. Excluir causas infecciosas (*Clostridioides difficile*, bacterias invasivas, amebiasis) antes de confirmar EII.
+3. Diferenciar **Extensión Anatómica (Montreal)** de **Actividad Clínica (Truelove & Witts)**.
+4. Identificar **Colitis Ulcerosa Aguda Grave (CUAG)** como urgencia médica hospitalaria.
+5. Comparar razonadamente Colitis Ulcerosa con Enfermedad de Crohn.
+
+### Extensión Anatómica: Clasificación de Montreal
+
+| Categoría | Extensión Anatómica | Clave Semiótica |
+| :---: | :--- | :--- |
+| **E1** | **Proctitis Ulcerosa** (limitada al recto) | Predomina sangrado rectal, urgencia y tenesmo; heces formes. |
+| **E2** | **Colitis Izquierda** (hasta ángulo esplénico) | Diarrea sanguinolenta franca y dolor cólico en fosa ilíaca izquierda. |
+| **E3** | **Colitis Extensa / Pancolitis** (proximal al ángulo esplénico) | Afectación difusa del marco cólico; mayor superficie inflamada. |
+
+::: {.callout-warning}
+## Regla de Oro Semiótica
+La **extensión** describe anatomía, **NO gravedad**. Una proctitis (E1) puede ser sumamente sintomática y una colitis extensa (E3) puede estar en remisión clínica.
+:::
+
+### Actividad Clínica: Criterios de Truelove y Witts
+
+La **Colitis Ulcerosa Aguda Grave (CUAG)** se define por:
+
+> **≥ 6 deposiciones sanguinolentas/día** + **al menos 1 signo de toxicidad sistémica:**
+>
+> 1. **Temperatura:** > 37.8 °C
+> 2. **Frecuencia Cardíaca:** > 90 lpm
+> 3. **Hemoglobina:** < 10.5 g/dL
+> 4. **Reactantes de Fase Aguda:** VSG > 30 mm/h o PCR elevada (> 30 mg/L)
+
+```{python}
+#| label: evaluador-truelove-witts
+#| echo: true
+def evaluar_truelove_witts(deposiciones_dia, con_sangre=True, temperatura=36.5, fc=75, hb=13.5, vsg=15, pcr=3.0):
+    signos_sistemicos = []
+    if temperatura > 37.8:
+        signos_sistemicos.append(f"Fiebre ({temperatura} °C > 37.8 °C)")
+    if fc > 90:
+        signos_sistemicos.append(f"Taquicardia ({fc} lpm > 90 lpm)")
+    if hb < 10.5:
+        signos_sistemicos.append(f"Anemia ({hb} g/dL < 10.5 g/dL)")
+    if vsg > 30 or pcr > 30:
+        signos_sistemicos.append(f"Inflamación sistémica (VSG: {vsg} mm/h, PCR: {pcr} mg/L)")
+        
+    es_grave = (deposiciones_dia >= 6) and con_sangre and (len(signos_sistemicos) >= 1)
+    
+    html = "<div style='padding:15px; border-radius:8px; margin:10px 0; font-family:sans-serif;"
+    if es_grave:
+        html += "background-color:#fee2e2; border:2px solid #ef4444; color:#991b1b;'>"
+        html += "<h4 style='margin-top:0;'>🚨 COLITIS ULCEROSA AGUDA GRAVE (CUAG) / URGENCIA HOSPITALARIA</h4>"
+        html += f"<p><b>Frecuencia:</b> {deposiciones_dia} deposiciones/día con sangre (Criterio ≥ 6 cumplido).</p>"
+        html += "<p><b>Signos de toxicidad sistémica:</b></p><ul>"
+        for s in signos_sistemicos:
+            html += f"<li>{s}</li>"
+        html += "</ul>"
+        html += "<p><b>Conducta:</b> Hospitalización inmediata, descartar <i>C. difficile</i> y megacolon tóxico, sigmoidoscopia flexible temprana sin preparación agresiva, manejo multidisciplinario (Gastroenterología + Cirugía).</p>"
+    else:
+        html += "background-color:#dcfce7; border:2px solid #22c55e; color:#166534;'>"
+        html += "<h4 style='margin-top:0;'>✅ ACTIVIDAD LEVE / MODERADA</h4>"
+        html += f"<p>{deposiciones_dia} deposiciones/día sin toxicidad sistémica grave.</p>"
+    html += "</div>"
+    display(HTML(html))
+
+evaluar_truelove_witts(deposiciones_dia=7, con_sangre=True, temperatura=38.0, fc=104, hb=10.2, vsg=35, pcr=48.0)
+```
+
+---
+
+## 3. Teaching Coach: Caso Clínico Central Sintético (HCAM)
+
+::: {.callout-note}
+## Viñeta Clínica
+Mujer de 27 años con **6 semanas** de diarrea con moco y sangre viva, urgencia y tenesmo. En los **últimos 2 días** presenta **7 deposiciones sanguinolentas al día**, dolor cólico en fosa ilíaca izquierda y astenia.  
+- **Signos Vitales:** T 38.0 °C, FC 104 lpm, PA 108/68 mmHg, FR 18 rpm.  
+- **Examen Físico:** Abdomen blando, discretamente doloroso en marco cólico izquierdo, sin defensa ni irritación peritoneal.  
+- **Laboratorio:** Hb 10.2 g/dL, Leucocitos 12.800/mm³, PCR 48 mg/L.  
+- **Antecedentes:** Amoxicilina/ácido clavulánico hace 4 semanas por infección odontológica.
+:::
+
+```{python}
+#| label: simulador-socratico
+#| echo: true
+class SocraticCaseCoach:
+    def __init__(self):
+        self.preguntas = [
+            {
+                "id": 1,
+                "pregunta": "1. Construya la Representación del Problema en UNA sola frase.",
+                "clave": "Mujer joven con diarrea sanguinolenta crónica agudizada, síndrome disentérico/urgencia fecal y repercusión sistémica (fiebre, taquicardia, anemia leve), con antecedente de uso reciente de antibióticos."
+            },
+            {
+                "id": 2,
+                "pregunta": "2. ¿Qué datos apoyan diarrea inflamatoria?",
+                "clave": "Presencia de sangre macroscópica (hematoquecia), moco, pujo/tenesmo, fiebre (38.0 °C), leucocitosis con desviación a la izquierda y elevación marcada de PCR (48 mg/L)."
+            },
+            {
+                "id": 3,
+                "pregunta": "3. ¿Qué diagnósticos infecciosos deben descartarse obligatoriamente?",
+                "clave": "Infección por Clostridioides difficile (especialmente por antecedente de amoxicilina/clavulánico hace 1 mes) y bacterias invasivas (coprocultivo)."
+            },
+            {
+                "id": 4,
+                "pregunta": "4. ¿Podemos asignarle extensión de Montreal solo con los datos clínicos?",
+                "clave": "NO. La clasificación de Montreal es puramente anatómica y requiere confirmación endoscópica e histológica de los límites mucosos."
+            },
+            {
+                "id": 5,
+                "pregunta": "5. ¿Cumple criterios de Colitis Ulcerosa Aguda Grave (CUAG)?",
+                "clave": "SÍ. Presenta 7 deposiciones sanguinolentas al día (≥ 6) y múltiples signos de toxicidad sistémica (Fiebre 38.0 °C, FC 104 lpm, Hb 10.2 g/dL, PCR 48 mg/L)."
+            },
+            {
+                "id": 6,
+                "pregunta": "6. ¿Cuáles son las prioridades iniciales de manejo hospitalario?",
+                "clave": "Hospitalización inmediata, reposición hidroelectrolítica, Rx simple de abdomen para descartar megacolon tóxico (> 5.5-6 cm), sigmoidoscopia flexible temprana sin preparación agresiva y valoración conjunta por Gastroenterología y Cirugía."
+            }
+        ]
+        
+    def render(self):
+        for p in self.preguntas:
+            html = f"""
+            <div style="background:#f1f5f9; border-left:4px solid #3b82f6; padding:12px; margin-bottom:10px; border-radius:4px;">
+              <p style="font-weight:bold; color:#1e40af; margin:0 0 6px 0;">{p['pregunta']}</p>
+              <details style="background:white; padding:8px 12px; border-radius:4px; border:1px solid #cbd5e1;">
+                <summary style="cursor:pointer; color:#0f766e; font-weight:bold; font-size:13px;">🔍 Ver Clave Docente</summary>
+                <p style="margin:8px 0 0 0; color:#1e293b; font-size:13.5px;">{p['clave']}</p>
+              </details>
+            </div>
+            """
+            display(HTML(html))
+
+SocraticCaseCoach().render()
+```
+
+---
+
+## 4. Ticket de Salida y Cierre
+
+1. **¿Cuál es la combinación mínima que define una CUAG según Truelove y Witts?**  
+   *Al menos 6 deposiciones con sangre al día + al menos 1 signo de toxicidad sistémica.*
+2. **¿Qué infección debe excluirse siempre ante diarrea sanguinolenta con antecedente de antibióticos?**  
+   *Clostridioides difficile.*
+3. **¿Por qué no se puede asignar Montreal solo por la clínica?**  
+   *Porque es una clasificación estrictamente anatómica y requiere visualización endoscópica/biopsia.*
+
+---
+
+## 5. Referencias Docentes
+
+- American College of Gastroenterology (ACG) Clinical Guideline Update: Ulcerative Colitis in Adults (2025).
+- NICE NG130: Ulcerative colitis: management.
+- Módulo web oficial de la cátedra: [powersemiotics.com](https://powersemiotics.com/medsemiotics/gastroenterologia/trastornos-intestinales.html)

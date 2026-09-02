@@ -1,0 +1,59 @@
+---
+title: "Abdomen agudo médico y quirúrgico"
+subtitle: "Guía Docente y Razonamiento Clínico — GASTRO (2026-2)"
+author: "Cátedra de Gastroenterología y Semiótica Digestiva — UCE / HCAM"
+date: "2026-09-02"
+lang: es
+format:
+  epub:
+    toc: true
+    toc-depth: 3
+    toc-title: "Índice de la Guía"
+    number-sections: false
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    code-fold: true
+    embed-resources: true
+---
+
+# Abdomen agudo médico y quirúrgico
+
+**Asignatura:** GASTRO · **Semestre:** 2026-2  
+**Tópico / Código:** `abdomen-agudo`  
+**Marco Pedagógico:** `KNOW -> REASON -> ACT` (Material docente para discusión)
+
+---
+
+## 1. 🎯 Resultados de Aprendizaje
+
+- Separar el abdomen agudo quirúrgico del médico por la semiología del dolor y del examen.
+- Reconocer la irritación peritoneal y priorizar la evaluación quirúrgica.
+
+## 2. ⚡ Puntos Críticos y Semiótica Clave
+
+- La secuencia dolor primero y vómito después orienta a causa quirúrgica; la migración del dolor y su localización final son datos de alto rendimiento.
+- Defensa, dolor a la descompresión y dolor a la percusión indican irritación peritoneal y obligan a evaluación quirúrgica urgente.
+- Ancianos, personas con diabetes, inmunosuprimidos y embarazadas presentan cuadros atenuados; la analgesia adecuada no oculta el diagnóstico y no debe negarse.
+
+## 3. ❓ Preguntas Socráticas para la Discusión Docente
+
+1. **¿Cómo caracteriza y localiza el dolor, y qué migración observa?**
+1. **¿Qué maniobras confirman irritación peritoneal?**
+1. **¿Qué causas médicas o extraabdominales imitan un abdomen quirúrgico?**
+
+## 4. ⚠️ Errores Frecuentes y Trampas Diagnósticas
+
+- **Trampa / Error:** Retrasar la analgesia con la idea de no enmascarar el cuadro.
+- **Trampa / Error:** Asumir gastroenteritis ante un dolor con defensa abdominal.
+- **Trampa / Error:** Olvidar imitadores como infarto de cara inferior, cetoacidosis y neumonía basal.
+
+## 5. 📚 Materiales y Notas Docentes
+
+- Tabla de abdomen agudo quirúrgico frente a médico.
+- Ficha de maniobras de irritación peritoneal.
+- Lista de imitadores extraabdominales.
+
+---
+*MedSemiotics Copilot — GASTRO 2026-2 — UCE / HCAM*

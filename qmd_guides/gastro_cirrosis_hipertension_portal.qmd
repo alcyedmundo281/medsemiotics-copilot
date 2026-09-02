@@ -1,0 +1,59 @@
+---
+title: "Cirrosis hepática, ascitis e hipertensión portal"
+subtitle: "Guía Docente y Razonamiento Clínico — GASTRO (2026-2)"
+author: "Cátedra de Gastroenterología y Semiótica Digestiva — UCE / HCAM"
+date: "2026-09-02"
+lang: es
+format:
+  epub:
+    toc: true
+    toc-depth: 3
+    toc-title: "Índice de la Guía"
+    number-sections: false
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    code-fold: true
+    embed-resources: true
+---
+
+# Cirrosis hepática, ascitis e hipertensión portal
+
+**Asignatura:** GASTRO · **Semestre:** 2026-2  
+**Tópico / Código:** `cirrosis-hipertension-portal`  
+**Marco Pedagógico:** `KNOW -> REASON -> ACT` (Material docente para discusión)
+
+---
+
+## 1. 🎯 Resultados de Aprendizaje
+
+- Reconocer los estigmas de hepatopatía crónica y los signos de hipertensión portal.
+- Identificar y ordenar las descompensaciones: ascitis, encefalopatía y sangrado variceal.
+
+## 2. ⚡ Puntos Críticos y Semiótica Clave
+
+- Toda ascitis nueva, y toda ascitis con fiebre, dolor o deterioro clínico, se punciona; el gradiente de albúmina suero-ascitis igual o mayor a 1,1 indica hipertensión portal.
+- La peritonitis bacteriana espontánea se busca activamente, aun sin signos de peritonismo.
+- La encefalopatía hepática obliga a buscar el desencadenante: infección, sangrado digestivo, fármacos sedantes, estreñimiento o alteración electrolítica.
+
+## 3. ❓ Preguntas Socráticas para la Discusión Docente
+
+1. **¿Qué estigmas explora y qué significa cada uno?**
+1. **¿Cuándo punciona una ascitis y qué pide en el líquido?**
+1. **¿Qué desencadenantes descarta ante una encefalopatía?**
+
+## 4. ⚠️ Errores Frecuentes y Trampas Diagnósticas
+
+- **Trampa / Error:** Diferir la paracentesis diagnóstica por alteraciones de la coagulación.
+- **Trampa / Error:** Tratar la encefalopatía sin buscar su causa.
+- **Trampa / Error:** Atribuir toda ascitis a cirrosis sin confirmar el gradiente.
+
+## 5. 📚 Materiales y Notas Docentes
+
+- Ficha de estigmas de hepatopatía crónica.
+- Interpretación del gradiente de albúmina suero-ascitis.
+- Lista de desencadenantes de encefalopatía.
+
+---
+*MedSemiotics Copilot — GASTRO 2026-2 — UCE / HCAM*

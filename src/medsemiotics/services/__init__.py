@@ -32,6 +32,10 @@ from medsemiotics.services.effective_schedule_service import (
 from medsemiotics.services.effective_teaching_day_service import (
     EffectiveTeachingDayService,
 )
+from medsemiotics.services.quarto_guide_exporter import (
+    QuartoGuideExporter,
+    format_guide_as_qmd,
+)
 from medsemiotics.services.schedule_repository import ScheduleRepository
 from medsemiotics.services.semester_config import (
     load_current_semester_id,
@@ -55,6 +59,7 @@ __all__ = [
     "CourseStateService",
     "EffectiveScheduleService",
     "EffectiveTeachingDayService",
+    "QuartoGuideExporter",
     "ScheduleRepository",
     "SemesterRepository",
     "SyllabusRepository",
@@ -68,6 +73,7 @@ __all__ = [
     "filter_course_calendar_events",
     "find_unplanned_taught_topic_ids",
     "format_coaching_brief",
+    "format_guide_as_qmd",
     "load_current_semester_id",
     "load_semester_config",
     "resolve_teaching_position",

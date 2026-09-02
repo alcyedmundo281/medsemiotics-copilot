@@ -1,0 +1,59 @@
+---
+title: "Síndromes ictéricos, colestasis y patología biliar litiásica"
+subtitle: "Guía Docente y Razonamiento Clínico — GASTRO (2026-2)"
+author: "Cátedra de Gastroenterología y Semiótica Digestiva — UCE / HCAM"
+date: "2026-09-02"
+lang: es
+format:
+  epub:
+    toc: true
+    toc-depth: 3
+    toc-title: "Índice de la Guía"
+    number-sections: false
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    code-fold: true
+    embed-resources: true
+---
+
+# Síndromes ictéricos, colestasis y patología biliar litiásica
+
+**Asignatura:** GASTRO · **Semestre:** 2026-2  
+**Tópico / Código:** `ictericia-via-biliar`  
+**Marco Pedagógico:** `KNOW -> REASON -> ACT` (Material docente para discusión)
+
+---
+
+## 1. 🎯 Resultados de Aprendizaje
+
+- Clasificar la ictericia por su patrón clínico y bioquímico antes de pedir imagen.
+- Reconocer la colangitis aguda como urgencia que exige drenaje.
+
+## 2. ⚡ Puntos Críticos y Semiótica Clave
+
+- La tríada de fiebre, ictericia y dolor en hipocondrio derecho define la sospecha de colangitis; el antibiótico no sustituye al drenaje de la vía biliar.
+- Coluria, acolia y prurito orientan a colestasis; su ausencia, con ictericia y orina clara, sugiere hemólisis.
+- El signo de Murphy orienta a colecistitis aguda y debe explorarse siempre en el dolor de hipocondrio derecho.
+
+## 3. ❓ Preguntas Socráticas para la Discusión Docente
+
+1. **¿Qué elementos de la anamnesis separan una colestasis obstructiva de una lesión hepatocelular?**
+1. **¿Qué signo cambia la urgencia del caso?**
+1. **¿Cómo interpreta el color de la orina y de las heces?**
+
+## 4. ⚠️ Errores Frecuentes y Trampas Diagnósticas
+
+- **Trampa / Error:** Manejar una colangitis solo con antibiótico.
+- **Trampa / Error:** No preguntar por el color de orina y heces y confundir ictericia hemolítica con obstructiva.
+- **Trampa / Error:** Omitir la maniobra de Murphy.
+
+## 5. 📚 Materiales y Notas Docentes
+
+- Algoritmo por patrón bioquímico.
+- Criterios de sospecha y gravedad de colangitis.
+- Tabla de causas de ictericia por grupo etario.
+
+---
+*MedSemiotics Copilot — GASTRO 2026-2 — UCE / HCAM*

@@ -1,0 +1,57 @@
+---
+title: "Evaluación final integral del segundo hemisemestre"
+subtitle: "Guía Docente y Razonamiento Clínico — GASTRO (2026-2)"
+author: "Cátedra de Gastroenterología y Semiótica Digestiva — UCE / HCAM"
+date: "2026-09-02"
+lang: es
+format:
+  epub:
+    toc: true
+    toc-depth: 3
+    toc-title: "Índice de la Guía"
+    number-sections: false
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    code-fold: true
+    embed-resources: true
+---
+
+# Evaluación final integral del segundo hemisemestre
+
+**Asignatura:** GASTRO · **Semestre:** 2026-2  
+**Tópico / Código:** `eval-hemisemestre-2`  
+**Marco Pedagógico:** `KNOW -> REASON -> ACT` (Material docente para discusión)
+
+---
+
+## 1. 🎯 Resultados de Aprendizaje
+
+- Integrar semiología digestiva, síndrome y prioridades de actuación en casos del segundo hemisemestre.
+- Comunicar el razonamiento clínico declarando sus límites.
+
+## 2. ⚡ Puntos Críticos y Semiótica Clave
+
+- Se evalúa el razonamiento sindrómico y su argumentación, no la memorización de listas.
+- Todos los casos son sintéticos o desidentificados; no se emplean datos de pacientes reales.
+- Los criterios de la rúbrica se conocen antes de la evaluación.
+
+## 3. ❓ Preguntas Socráticas para la Discusión Docente
+
+1. **¿Qué hallazgo cambiaría su conclusión?**
+1. **¿Qué no puede afirmar con los datos que el caso entrega?**
+
+## 4. ⚠️ Errores Frecuentes y Trampas Diagnósticas
+
+- **Trampa / Error:** Proponer una etiología antes de caracterizar el síndrome.
+- **Trampa / Error:** Omitir los signos de alarma del caso.
+- **Trampa / Error:** Afirmar más de lo que la información sostiene.
+
+## 5. 📚 Materiales y Notas Docentes
+
+- Rúbrica de razonamiento semiológico.
+- Casos sintéticos de práctica del segundo hemisemestre.
+
+---
+*MedSemiotics Copilot — GASTRO 2026-2 — UCE / HCAM*

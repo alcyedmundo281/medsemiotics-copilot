@@ -1,0 +1,59 @@
+---
+title: "Enfermedad de Crohn y diagnóstico diferencial de la enfermedad inflamatoria intestinal"
+subtitle: "Guía Docente y Razonamiento Clínico — GASTRO (2026-2)"
+author: "Cátedra de Gastroenterología y Semiótica Digestiva — UCE / HCAM"
+date: "2026-09-02"
+lang: es
+format:
+  epub:
+    toc: true
+    toc-depth: 3
+    toc-title: "Índice de la Guía"
+    number-sections: false
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    code-fold: true
+    embed-resources: true
+---
+
+# Enfermedad de Crohn y diagnóstico diferencial de la enfermedad inflamatoria intestinal
+
+**Asignatura:** GASTRO · **Semestre:** 2026-2  
+**Tópico / Código:** `enfermedad-crohn`  
+**Marco Pedagógico:** `KNOW -> REASON -> ACT` (Material docente para discusión)
+
+---
+
+## 1. 🎯 Resultados de Aprendizaje
+
+- Diferenciar enfermedad de Crohn y colitis ulcerosa por distribución, continuidad y profundidad del compromiso.
+- Reconocer las complicaciones que cambian la conducta: estenosis, fístulas y abscesos.
+
+## 2. ⚡ Puntos Críticos y Semiótica Clave
+
+- El compromiso es segmentario y transmural, puede afectar cualquier tramo desde la boca al ano y deja lesiones salteadas; la afectación ileal y la enfermedad perianal son características.
+- Dolor y masa en fosa iliaca derecha, pérdida de peso y enfermedad perianal componen el cuadro típico; el examen perianal no es opcional.
+- Fiebre con dolor localizado obliga a descartar un absceso antes de intensificar la inmunosupresión.
+
+## 3. ❓ Preguntas Socráticas para la Discusión Docente
+
+1. **¿Qué elementos de la anamnesis separan Crohn de colitis ulcerosa?**
+1. **¿Qué busca específicamente en el examen perianal?**
+1. **¿Qué hallazgo lo haría no iniciar inmunosupresión hoy?**
+
+## 4. ⚠️ Errores Frecuentes y Trampas Diagnósticas
+
+- **Trampa / Error:** Asumir colitis ulcerosa ante toda diarrea con sangre.
+- **Trampa / Error:** Omitir el examen perianal.
+- **Trampa / Error:** Atribuir el dolor persistente a actividad inflamatoria sin descartar estenosis o absceso.
+
+## 5. 📚 Materiales y Notas Docentes
+
+- Tabla comparativa de colitis ulcerosa y enfermedad de Crohn.
+- Ficha de exploración perianal.
+- Señales clínicas de complicación.
+
+---
+*MedSemiotics Copilot — GASTRO 2026-2 — UCE / HCAM*
