@@ -1,68 +1,80 @@
-# 🫁 GUÍA CLÍNICA & INFOGRAFÍA DIAGNÓSTICA: ENFERMEDAD INFLAMATORIA INTESTINAL I
-## COLITIS ULCEROSA (CU) — CRITERIOS DE EXTENSIÓN DE MONTREAL Y ESCALA DE TRUELOVE-WITTS
-**Cátedra de Gastroenterología y Semiótica Digestiva — Semestre 2026-2**
-*Hospital de Especialidades Carlos Andrade Marín (HCAM) | Aula Lúdica*
-*Fecha de Clase: 2026-09-02 (Miércoles 16:00 - 17:30)*
+# Guía clínica ampliada: colitis ulcerosa
 
----
+**Gastroenterología y Semiótica Digestiva — semestre 2026-2**
 
-### 📌 1. DEFINICIÓN & FISIOPATOLOGÍA SEMIOLÓGICA
-La **Colitis Ulcerosa (CU)** es una enfermedad inflamatoria crónica inmunomediada que afecta de forma continua y difusa la mucosa del colon y recto, comenzando invariablemente en el recto y extendiéndose proximalmente sin saltos (*skip lesions*).
+**Semana 11 · miércoles 2 de septiembre de 2026 · 16:00–17:30**
 
----
+**HCAM · Aula Lúdica**
 
-### 🚨 2. TRÍADA SEMIOLÓGICA CARDINAL
-1. **Diarrea Crónica Sanguinolenta (Rectorragia / Hematoquecia):** Presencia constante de moco, pus y sangre en heces (>4 semanas).
-2. **Tenesmo Rectal y Pujo:** Sensación constante de evacuación incompleta por hiperreactividad y proctitis inflamatoria.
-3. **Dolor Abdominal Cólico en Fosa Ilíaca Izquierda (FII):** Alivio parcial o nulo tras la defecación.
+> Material docente para discusión. Los casos son sintéticos y no sustituyen protocolos locales ni decisiones clínicas individualizadas.
 
----
+## Resultados de aprendizaje
 
-### 📊 3. CLASIFICACIÓN DE EXTENSIÓN DE MONTREAL
+Al terminar, el estudiante podrá:
 
-| Categoría | Extensión Anatómica | Hallazgo Clínico y Endoscópico |
-| :--- | :--- | :--- |
-| **E1: Proctitis Ulcerosa** | Limitada al recto (distal a la unión rectosigmoidea) | Tenesmo, pujo, sangrado rojo fresco, heces formadas con sangre |
-| **E2: Colitis Izquierda** | Distal al ángulo esplénico | Diarrea sanguinolenta, dolor en FII, urgencia defecatoria |
-| **E3: Pancolitis (Extensa)** | Proximal al ángulo esplénico (afecta ciego/íleon terminal) | Diarrea profusa, síndrome consuntivo, riesgo de megacolon tóxico |
+1. reconocer el patrón clínico que hace sospechar colitis ulcerosa;
+2. excluir diagnósticos infecciosos antes de atribuir los síntomas a enfermedad inflamatoria intestinal;
+3. describir la extensión anatómica y distinguirla de la actividad clínica;
+4. identificar una colitis ulcerosa aguda grave y priorizar hospitalización y evaluación multidisciplinaria;
+5. comparar colitis ulcerosa con enfermedad de Crohn sin convertir un solo hallazgo en diagnóstico.
 
----
+## Patrón clínico y confirmación diagnóstica
 
-### ⚖️ 4. ESTRATIFICACIÓN DE SEVERIDAD CLÍNICA (TRUELOVE & WITTS)
+La sospecha aumenta ante hematoquecia, aumento de la frecuencia de las deposiciones y urgencia. La anamnesis debe precisar duración, número de deposiciones, sangre, urgencia, tenesmo, dolor, síntomas nocturnos, pérdida de peso, fiebre, fármacos, viajes, exposición infecciosa, tabaquismo, antecedentes familiares y manifestaciones extraintestinales.
 
-| Criterio Clínico | Leve | Moderada | Severa (Criterio de Ingreso HCAM) |
-| :--- | :---: | :---: | :---: |
-| **Deposiciones con sangre / día** | < 4 | 4 – 6 | **≥ 6 deposiciones profusas** |
-| **Frecuencia cardíaca (FC)** | Normal (<90 lpm) | < 90 lpm | **> 90 lpm (Taquicardia)** |
-| **Temperatura corporal** | Normal (<37.5 °C) | Normal / Febrícula | **> 37.8 °C (Fiebre)** |
-| **Hemoglobina (Hb)** | > 11.5 g/dL | 10.5 – 11.5 g/dL | **< 10.5 g/dL (Anemia)** |
-| **Velocidad de Sedimentación (VSG)** | < 20 mm/h | 20 – 30 mm/h | **> 30 mm/h o PCR > 45 mg/L** |
+El diagnóstico no se establece por un síntoma aislado. Deben excluirse causas infecciosas, incluida *Clostridioides difficile* cuando corresponda, y confirmarse la inflamación mediante ileocolonoscopia con biopsias de mucosa afectada y no afectada. En un paciente con colitis aguda grave, la evaluación endoscópica inicial suele ser una sigmoidoscopia flexible temprana, no una colonoscopia completa.
 
----
+## Extensión: clasificación de Montreal
 
-### 🌲 5. ÁRBOL DE DECISIÓN Y DISCRIMINACIÓN SEMIOLÓGICA
+| Categoría | Extensión | Clave docente |
+|---|---|---|
+| E1 | Proctitis, limitada al recto | Puede predominar sangrado, urgencia y tenesmo con heces formadas. |
+| E2 | Colitis izquierda, hasta el ángulo esplénico | Suma diarrea sanguinolenta y dolor abdominal, con frecuencia izquierdo. |
+| E3 | Colitis extensa, proximal al ángulo esplénico | Incluye pancolitis; aumenta la superficie inflamada y el riesgo de complicaciones. |
 
-```mermaid
-graph TD
-    A["Paciente con Diarrea Crónica + Rectorragia (>4 semanas)"] --> B¿Descartar Infección?
-    B -->|"Coprocultivo / Toxina C. difficile (+)"| C["Colitis Infecciosa / Pseudomembranosa"]
-    B -->|"Coprocultivo Negativo + Calprotectina Fecal Elevada"| DColonoscopía + Biopsia
-    D -->|"Afectación continua, mucosa friable, solo recto-colon"| E["COLITIS ULCEROSA (CU)"]
-    D -->|"Lesiones parcheadas, úlceras serpiginosas, íleon terminal, granulomas"| F["ENFERMEDAD DE CROHN"]
-    
-    E --> GEstratificación Truelove-Witts
-    G -->|"Leve (<4 dep/día, afebril)"| H["Manejo Ambulatorio (5-ASA / Mesalazina)"]
-    G -->|"Severa (≥6 dep/día + Taquicardia + Fiebre)"| I["Hospitalización HCAM + Corticoides IV + Vigilancia Megacolon"]
-```
+La extensión describe anatomía, no gravedad. Una proctitis puede ser muy sintomática y una enfermedad extensa no necesariamente cumple criterios de colitis aguda grave.
 
----
+## Actividad: Truelove y Witts
 
-### 📝 6. RÚBRICA DE EVALUACIÓN PARA EL INFORME CLÍNICO (20 PUNTOS)
+La colitis ulcerosa aguda grave en adultos se reconoce con **6 o más deposiciones con sangre al día y al menos un signo de repercusión sistémica**:
 
-- **Criterio 1: Anamnesis Semiótica (6 pts):** Cronología de la diarrea, características de la rectorragia, tenesmo y síntomas B.
-- **Criterio 2: Examen Físico y Estigmas Extraintestinales (6 pts):** Palpación de cuerda colónica, examen anorrectal, eritema nodoso, pioderma gangrenoso y uveítis.
-- **Criterio 3: Estratificación y Diagnóstico Diferencial (4 pts):** Aplicación de Montreal y Truelove-Witts vs Crohn y colitis infecciosa.
-- **Criterio 4: Plan Diagnóstico y Referencias (4 pts):** Calprotectina fecal, colonoscopía con biopsia y guías ECCO/ACG 2024.
+- temperatura mayor de 37,8 °C;
+- frecuencia cardiaca mayor de 90/min;
+- hemoglobina menor de 10,5 g/dL;
+- VSG mayor de 30 mm/h.
 
----
-🔗 **Módulo Interactivo:** [https://powersemiotics.com/medsemiotics/gastroenterologia/trastornos-intestinales.html](https://powersemiotics.com/medsemiotics/gastroenterologia/trastornos-intestinales.html)
+Es una urgencia hospitalaria. Debe valorarse megacolon tóxico, infección y necesidad de cirugía; gastroenterología y cirugía colorrectal deben participar tempranamente. El material de esta clase se concentra en reconocimiento y prioridades, no en prescripción individual.
+
+## Comparación razonada con enfermedad de Crohn
+
+| Dimensión | Colitis ulcerosa | Enfermedad de Crohn |
+|---|---|---|
+| Distribución típica | Colon, con afectación continua desde el recto | Cualquier segmento gastrointestinal, con lesiones salteadas |
+| Profundidad | Predominio mucoso | Transmural |
+| Pistas clínicas | Hematoquecia, urgencia y tenesmo | Dolor, pérdida de peso, enfermedad perianal, fístulas o estenosis |
+| Complicación de alarma | Colitis aguda grave, megacolon tóxico | Absceso, obstrucción, fístula |
+
+Estas son tendencias; la integración clínica, endoscópica e histológica es necesaria.
+
+## Banderas rojas para la discusión
+
+- fiebre, taquicardia o deterioro general;
+- distensión o dolor abdominal intenso;
+- 6 o más deposiciones sanguinolentas al día;
+- anemia o inflamación sistémica marcada;
+- signos de deshidratación, sangrado importante o irritación peritoneal.
+
+## Preguntas de alto rendimiento
+
+1. ¿Qué dato separa extensión anatómica de actividad clínica?
+2. ¿Qué infección debe excluirse en la evaluación inicial?
+3. ¿Qué combinación cumple criterios de colitis ulcerosa aguda grave?
+4. ¿Qué hallazgo obliga a pensar en megacolon tóxico o perforación?
+5. ¿Qué datos hacen más probable Crohn que colitis ulcerosa?
+
+## Fuentes docentes verificadas
+
+- American College of Gastroenterology. *ACG Clinical Guideline Update: Ulcerative Colitis in Adults* (2025): https://gi.org/journals-publications/ebgi/alkazzi_aug2025/
+- ACG. *Guideline Highlights: Management of Ulcerative Colitis in Adults* (2025): https://webfiles.gi.org/GuidelineHighlights/UC-highlights-final.pdf
+- NICE NG130. *Ulcerative colitis: management*: https://www.nice.org.uk/guidance/ng130/chapter/recommendations
+- Módulo de la cátedra: https://powersemiotics.com/medsemiotics/gastroenterologia/trastornos-intestinales.html
