@@ -63,6 +63,8 @@ dmypy.json
 *~
 .DS_Store
 Thumbs.db
+.Rhistory
+*.Rhistory
 
 # Environment variables & secrets
 .env
