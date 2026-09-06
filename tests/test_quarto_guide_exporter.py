@@ -1,6 +1,7 @@
 """Unit tests for Quarto guide exporter service."""
 
 from pathlib import Path
+
 import pytest
 
 from medsemiotics.domain.teaching_coach import TeachingTopicGuide

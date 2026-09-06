@@ -6,20 +6,28 @@ from pathlib import Path
 
 from medsemiotics.domain.teaching_coach import CourseTeachingGuideCatalog, TeachingTopicGuide
 
+DEFAULT_AUTHORS: dict[str, str] = {
+    "GASTRO": "Cátedra de Gastroenterología y Semiótica Digestiva — UCE / HCAM",
+    "NEURO": "Cátedra de Neurología Clínica y Semiótica — UCE / HCAM",
+}
+
 
 def format_guide_as_qmd(
     guide: TeachingTopicGuide,
     course_code: str,
     semester_id: str,
-    author: str = "Cátedra de Gastroenterología y Semiótica Digestiva — UCE / HCAM",
+    author: str | None = None,
     date: str = "2026-09-02",
 ) -> str:
     """Formats a TeachingTopicGuide into a complete Quarto Markdown (.qmd) document."""
+    resolved_author = author or DEFAULT_AUTHORS.get(
+        course_code, f"Cátedra de {course_code} — UCE / HCAM"
+    )
     qmd_lines = [
         "---",
         f'title: "{guide.topic_title}"',
         f'subtitle: "Guía Docente y Razonamiento Clínico — {course_code} ({semester_id})"',
-        f'author: "{author}"',
+        f'author: "{resolved_author}"',
         f'date: "{date}"',
         "lang: es",
         "format:",
@@ -145,7 +153,8 @@ class QuartoGuideExporter:
         if not quarto_bin:
             msg = (
                 "Quarto CLI was not found on system PATH. "
-                f"Please install Quarto (https://quarto.org) and run: quarto render {qmd_file} --to epub"
+                "Please install Quarto (https://quarto.org) and run: "
+                f"quarto render {qmd_file} --to epub"
             )
             raise RuntimeError(msg)
 
