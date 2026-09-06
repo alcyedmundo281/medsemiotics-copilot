@@ -112,4 +112,4 @@ check_untyped_defs = true
 minversion = "8.0"
 testpaths = ["tests"]
 pythonpath = ["src"]
-addopts = "-v --cov=medsemiotics --cov-report=term-missing"
+addopts = "-v --basetemp=.pytest_tmp --cov=medsemiotics --cov-report=term-missing"

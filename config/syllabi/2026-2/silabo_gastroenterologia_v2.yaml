@@ -110,50 +110,51 @@ schedule_18_weeks:
     date: "2026-09-02"
     topic_id: "colitis-ulcerosa"
     title: "Enfermedad Inflamatoria Intestinal I: Colitis Ulcerosa (Semiología, extensión y severidad)"
-    status: "projected"
+    status: "completed"
     hemisemestre: 2
     web_module: "https://powersemiotics.com/medsemiotics/gastroenterologia/trastornos-intestinales.html"
 
   - week: 12
     date: "2026-09-09"
-    topic_id: "enfermedad-crohn"
-    title: "Enfermedad Inflamatoria Intestinal II: Enfermedad de Crohn y diagnóstico diferencial"
-    status: "projected"
-    hemisemestre: 2
-
-  - week: 13
-    date: "2026-09-16"
-    topic_id: "intestino-irritable"
-    title: "Síndrome de Intestino Irritable (SII), dolor visceral y eje intestino-cerebro"
-    status: "projected"
-    hemisemestre: 2
-
-  - week: 14
-    date: "2026-09-23"
-    topic_id: "cirrosis-hipertension-portal"
-    title: "Hepatopatías crónicas, cirrosis hepática, ascitis e hipertensión portal"
-    status: "projected"
-    hemisemestre: 2
-
-  - week: 15
-    date: "2026-09-30"
-    topic_id: "ictericia-via-biliar"
-    title: "Síndromes ictéricos, colestasis y patología biliar litiásica (Colecistitis/Colangitis aguda)"
-    status: "projected"
-    hemisemestre: 2
-
-  - week: 16
-    date: "2026-10-07"
     topic_id: "pancreatitis-aguda-cronica"
     title: "Pancreatitis aguda (Etiología, criterios de severidad Balthazar/Atlanta) y pancreatitis crónica"
     status: "projected"
     hemisemestre: 2
 
-  - week: 17
-    date: "2026-10-14"
+  - week: 13
+    date: "2026-09-16"
+    topic_id: "cirrosis-hipertension-portal"
+    title: "Hepatopatías crónicas, cirrosis hepática, ascitis e hipertensión portal"
+    status: "projected"
+    hemisemestre: 2
+
+  - week: 14
+    date: "2026-09-23"
+    topic_id: "ictericia-via-biliar"
+    title: "Síndromes ictéricos, colestasis y patología biliar litiásica (Colecistitis/Colangitis aguda)"
+    status: "projected"
+    hemisemestre: 2
+
+  - week: 15
+    date: "2026-09-30"
     topic_id: "abdomen-agudo"
     title: "Abdomen agudo médico vs quirúrgico, peritonitis y urgencias digestivas"
     status: "projected"
+    hemisemestre: 2
+
+  - week: 16
+    date: "2026-10-07"
+    topic_id: "enfermedad-crohn"
+    title: "Enfermedad Inflamatoria Intestinal II: Enfermedad de Crohn y diagnóstico diferencial"
+    status: "completed"
+    hemisemestre: 2
+    web_module: "https://powersemiotics.com/medsemiotics/gastroenterologia/enfermedad-crohn.html"
+
+  - week: 17
+    date: "2026-10-14"
+    topic_id: "intestino-irritable"
+    title: "Síndrome de Intestino Irritable (SII), dolor visceral y eje intestino-cerebro"
+    status: "completed"
     hemisemestre: 2
 
   - week: 18

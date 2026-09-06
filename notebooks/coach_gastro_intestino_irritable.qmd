@@ -1,0 +1,247 @@
+---
+title: "Teaching Coach Interactivo: Síndrome de Intestino Irritable y Dolor Visceral"
+subtitle: "Cátedra de Gastroenterología y Semiótica Digestiva (HCAM — UCE)"
+author: "Asistente Semiótico Pedagógico (KNOW -> REASON -> ACT)"
+date: "2026-09-09"
+semester: "2026-2"
+session: "Semana 13 (Miércoles 16:00 – 17:30)"
+location: "Aula Lúdica, HCAM"
+lang: es
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    code-fold: true
+    code-summary: "Mostrar código Python"
+    embed-resources: true
+  epub:
+    toc: true
+    toc-depth: 3
+    toc-title: "Índice del Libro"
+    number-sections: false
+jupyter: python3
+---
+
+# 🫁 Universidad Central del Ecuador — Facultad de Ciencias Médicas
+## Cátedra de Gastroenterología y Semiótica Digestiva (HCAM)
+### 🩺 Teaching Coach Interactivo: Síndrome de Intestino Irritable (Semana 13)
+
+**Semestre:** 2026-2 · **Sesión Activa:** Miércoles 16:00 – 17:30 · **Sede:** Aula Lúdica, HCAM  
+**Docente / Coach:** Asistente Semiótico Pedagógico (`KNOW -> REASON -> ACT`)  
+
+> *Material docente interactivo para facilitación docente y razonamiento clínico socrático. Los casos clínicos son sintéticos.*
+
+```{python}
+#| label: setup
+# Configuración inicial e importación de herramientas del Coach
+from IPython.display import display, HTML, Markdown
+
+print("Entorno del Teaching Coach de Gastroenterología listo.")
+print("Cátedra: Gastroenterología y Semiótica Digestiva (HCAM - UCE)")
+print("Semestre 2026-2 | Sesión: Síndrome de Intestino Irritable y Eje Intestino-Cerebro (Semana 13)")
+```
+
+---
+
+## 1. 📋 Sílabo Oficial y Navegación del Semestre 2026-2
+
+Cronograma oficial actualizado de 18 semanas de la cátedra de Gastroenterología. La sesión activa para este miércoles corresponde a la **Semana 13 (Segundo Hemisemestre)**.
+
+### Sistema de Evaluación y Rúbrica HCAM (sobre 20 puntos):
+1. **Anamnesis Semiótica y Motivo de Consulta** (6 pts)
+2. **Examen Físico Abdominal y Estigmas Digestivos** (6 pts)
+3. **Razonamiento Sindrómico y Diagnósticos Diferenciales** (4 pts)
+4. **Plan Diagnóstico y Referencias Bibliográficas** (4 pts)
+
+```{python}
+#| label: explorador-silabo
+# Explorador Interactivo del Sílabo 2026-2
+syllabus_data = [
+    {"sem": 1, "fecha": "24 Jun 2026", "tema": "Semiología digestiva, dolor abdominal y anamnesis", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 2, "fecha": "01 Jul 2026", "tema": "Trastornos esofágicos: Disfagia, ERGE y acalasia", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 3, "fecha": "08 Jul 2026", "tema": "Trastornos gástricos: Dispepsia, gastritis y úlcera péptica", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 4, "fecha": "15 Jul 2026", "tema": "Hemorragia digestiva alta (Variceal y No Variceal)", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 5, "fecha": "22 Jul 2026", "tema": "Hemorragia digestiva baja y proctología básica", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 6, "fecha": "29 Jul 2026", "tema": "Síndromes diarreicos agudos y crónicos", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 7, "fecha": "05 Ago 2026", "tema": "Síndrome de malabsorción y enfermedad celíaca", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 8, "fecha": "12 Ago 2026", "tema": "Semiología hepática básica y pruebas funcionales", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 9, "fecha": "19 Ago 2026", "tema": "Evaluación del Primer Hemisemestre", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 10, "fecha": "26 Ago 2026", "tema": "Trastornos funcionales digestivos y dispepsia funcional", "hemi": 2, "estado": "Ejecutada"},
+    {"sem": 11, "fecha": "02 Sep 2026", "tema": "Enfermedad Inflamatoria Intestinal I: Colitis Ulcerosa", "hemi": 2, "estado": "Ejecutada"},
+    {"sem": 12, "fecha": "09 Sep 2026", "tema": "Enfermedad Inflamatoria Intestinal II: Enfermedad de Crohn", "hemi": 2, "estado": "Ejecutada"},
+    {"sem": 13, "fecha": "16 Sep 2026", "tema": "Síndrome de Intestino Irritable (SII), dolor visceral y eje intestino-cerebro", "hemi": 2, "estado": "ACTIVA (MIÉRCOLES)"},
+    {"sem": 14, "fecha": "23 Sep 2026", "tema": "Hepatopatías crónicas, cirrosis e hipertensión portal", "hemi": 2, "estado": "Proyectada"},
+    {"sem": 15, "fecha": "30 Sep 2026", "tema": "Ictericia, colestasis y patología biliar litiásica", "hemi": 2, "estado": "Proyectada"},
+    {"sem": 16, "fecha": "07 Oct 2026", "tema": "Pancreatitis aguda y crónica", "hemi": 2, "estado": "Proyectada"},
+    {"sem": 17, "fecha": "14 Oct 2026", "tema": "Abdomen agudo médico vs quirúrgico y urgencias digestivas", "hemi": 2, "estado": "Proyectada"},
+    {"sem": 18, "fecha": "21 Oct 2026", "tema": "Evaluación Final Integral del Segundo Hemisemestre", "hemi": 2, "estado": "Proyectada"},
+]
+
+def mostrar_cronograma():
+    html = """
+    <table style="width:100%; border-collapse:collapse; font-family:sans-serif; font-size:13px;">
+      <thead>
+        <tr style="background-color:#0f766e; color:white; text-align:left;">
+          <th style="padding:8px; border:1px solid #cbd5e1;">Semana</th>
+          <th style="padding:8px; border:1px solid #cbd5e1;">Fecha Oficial</th>
+          <th style="padding:8px; border:1px solid #cbd5e1;">Tema Académico</th>
+          <th style="padding:8px; border:1px solid #cbd5e1;">Hemisemestre</th>
+          <th style="padding:8px; border:1px solid #cbd5e1;">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+    """
+    for row in syllabus_data:
+        bg = "#f8fafc"
+        estado_badge = f"<span style='color:#64748b;'>{row['estado']}</span>"
+        if "ACTIVA" in row["estado"]:
+            bg = "#ccfbf1"
+            estado_badge = f"<b style='color:#0f766e; background:#99f6e4; padding:3px 8px; border-radius:4px;'>🔥 {row['estado']}</b>"
+        elif row["estado"] == "Ejecutada":
+            estado_badge = f"<span style='color:#16a34a;'>✓ {row['estado']}</span>"
+        
+        html += f"""
+        <tr style="background-color:{bg};">
+          <td style="padding:6px 8px; border:1px solid #cbd5e1; font-weight:bold; text-align:center;">{row['sem']}</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1;">{row['fecha']}</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1;">{row['tema']}</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1; text-align:center;">{row['hemi']}° Hemi</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1;">{estado_badge}</td>
+        </tr>
+        """
+    html += "</tbody></table>"
+    display(HTML(html))
+
+mostrar_cronograma()
+```
+
+---
+
+## 2. 📖 Guía Clínica Ampliada: Síndrome de Intestino Irritable (Semana 13)
+
+### 🎯 Resultados de Aprendizaje:
+1. **Aplicar los criterios de Roma IV:** Diagnóstico positivo basado en dolor abdominal y alteración defecatoria, superando el dogma de la exclusión ilimitada.
+2. **Subtipificar mediante la Escala de Bristol:** SII-E (estreñimiento), SII-D (diarrea), SII-M (mixto) y SII-I (indeterminado).
+3. **Comprender la neurofisiología del eje intestino-cerebro:** Hipersensibilidad visceral, hiperalgesia mecánica, disbiosis y procesamiento cerebral alterado.
+4. **Reconocer banderas rojas:** Edad > 50 años, sangrado, anemia, síntomas nocturnos, fiebre y calprotectina elevada.
+5. **Comunicación asertiva:** Explicar el origen biológico del dolor sin desestimar la dolencia del paciente.
+
+---
+
+### 🧪 Calculadora Interactiva: Criterios de Roma IV y Subtipo de Bristol
+
+```{python}
+#| label: calculadora-roma-iv
+def evaluar_roma_iv_y_bristol(meses_evolucion: int, dias_dolor_semana: int, 
+                              relacionado_defecacion: bool, cambio_frecuencia: bool, 
+                              cambio_consistencia: bool, pct_bristol_1_2: float, pct_bristol_6_7: float):
+    
+    # Evaluación de criterios cronológicos y de dolor
+    cumple_cronologia = (meses_evolucion >= 6) and (dias_dolor_semana >= 1)
+    asociaciones = sum([relacionado_defecacion, cambio_frecuencia, cambio_consistencia])
+    cumple_roma_iv = cumple_cronologia and (asociaciones >= 2)
+    
+    # Subtipo de Bristol
+    if pct_bristol_1_2 >= 25 and pct_bristol_6_7 < 25:
+        subtipo = "SII-E (Predominio Estreñimiento)"
+        color_subtipo = "#d97706"
+    elif pct_bristol_6_7 >= 25 and pct_bristol_1_2 < 25:
+        subtipo = "SII-D (Predominio Diarrea)"
+        color_subtipo = "#2563eb"
+    elif pct_bristol_1_2 >= 25 and pct_bristol_6_7 >= 25:
+        subtipo = "SII-M (Subtipo Mixto)"
+        color_subtipo = "#7c3aed"
+    else:
+        subtipo = "SII-I (Indeterminado / Inclasificable)"
+        color_subtipo = "#475569"
+        
+    resultado_box = f"""
+    <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:15px; font-family:sans-serif;">
+      <h4 style="margin:0 0 10px 0; color:#0f766e;">Resultado de la Evaluación Clínica:</h4>
+      <p><b>Cumplimiento Criterios de Roma IV:</b> {'<span style="color:#16a34a; font-weight:bold;">SÍ CUMPLE</span>' if cumple_roma_iv else '<span style="color:#dc2626; font-weight:bold;">NO CUMPLE</span>'}</p>
+      <ul>
+        <li>Cronología (≥ 6 meses, ≥ 1 día/sem en últimos 3 m): {'✓' if cumple_cronologia else '✗'}</li>
+        <li>Criterios asociados (requiere ≥ 2 de 3): {asociaciones} de 3</li>
+      </ul>
+      <p><b>Subtipo Fenotípico (Bristol):</b> <span style="color:{color_subtipo}; font-weight:bold;">{subtipo}</span></p>
+    </div>
+    """
+    display(HTML(resultado_box))
+
+print("Evaluación del Caso Central (Abogada de 28 años):")
+evaluar_roma_iv_y_bristol(
+    meses_evolucion=8,
+    dias_dolor_semana=3,
+    relacionado_defecacion=True,
+    cambio_frecuencia=True,
+    cambio_consistencia=True,
+    pct_bristol_1_2=35.0,
+    pct_bristol_6_7=30.0
+)
+```
+
+---
+
+## 3. 🧩 Caso Clínico Central Sintético y Taller Socrático
+
+### Viñeta del Caso (HCAM — Consulta Externa):
+> **Mujer de 28 años**, abogada, con 8 meses de dolor cólico abdominal recurrente en hipogastrio y FII (EVA 7/10) presente 2 a 3 días por semana, con distensión vespertina que alivia al evacuar. Alterna 3-4 días de heces duras en bolas (Bristol 1) con días de 3 deposiciones pastosas con urgencia matutina (Bristol 6).  
+> **Examen físico:** Sin masa, timpanismo difuso, molestia en sigmoides, tacto rectal normal sin sangrado.  
+> **Paraclínica:** Biometría normal (Hb 13,8), PCR 1,2 mg/L, Calprotectina fecal 24 ug/g (negativa), FIT negativo.
+
+```{python}
+#| label: simulador-decisiones-sii
+def evaluar_conducta_sii(opcion: int):
+    retroalimentacion = {
+        1: ("❌ ERROR: SOBREESTUDIO INVASIVO", 
+            "Indicar colonoscopia en una paciente de 28 años con Criterios de Roma IV claros, sin banderas rojas y con calprotectina fecal normal (< 50 ug/g) expone a riesgos innecesarios y perpetúa la ansiedad de enfermedad.", 
+            "#fee2e2", "#991b1b"),
+        2: ("❌ ERROR: INVALIDACIÓN DEL PACIENTE", 
+            "Decirle que 'todos sus exámenes salieron limpios, usted no tiene nada orgánico y es solo estrés' destruye la alianza terapéutica y desestima un dolor biológico real mediado por hipersensibilidad visceral.", 
+            "#fee2e2", "#991b1b"),
+        3: ("✅ CONDUCTA ÓPTIMA (KNOW -> REASON -> ACT)", 
+            "Establecer diagnóstico positivo de SII-M, explicar la neurobiología del dolor visceral y el eje intestino-cerebro, validar su dolencia, indicar medidas higiénico-dietéticas (ensayo bajo en FODMAPs guiado) y antiespasmódico periférico en crisis dolorosas.", 
+            "#dcfce7", "#166534")
+    }
+    
+    titulo, texto, bg, color = retroalimentacion.get(opcion, ("?", "Opción no válida", "#f1f5f9", "#334155"))
+    html = f"""
+    <div style="background-color:{bg}; border-left:4px solid {color}; padding:12px; margin:10px 0; font-family:sans-serif;">
+      <h4 style="margin:0 0 6px 0; color:{color};">{titulo}</h4>
+      <p style="margin:0; color:#1e293b; font-size:13px;">{texto}</p>
+    </div>
+    """
+    display(HTML(html))
+
+print("Opciones de conducta evaluables:")
+print("1: Solicitar colonoscopia completa inmediata para estar completamente seguros.")
+print("2: Informar que no tiene nada y derivar únicamente a psiquiatría.")
+print("3: Diagnóstico positivo de SII-M, validación del síntoma, educación y manejo de primera línea.")
+print("\nEvaluación de la Opción 3 (Recomendada):")
+evaluar_conducta_sii(3)
+```
+
+---
+
+## 4. ⚠️ Banderas Rojas Imperativas que Exigen Colonoscopia
+
+::: {.callout-warning}
+### Banderas Rojas que Anulan el Manejo como TIIC Puro:
+1. **Edad > 50 años al inicio del cuadro:** Obliga a descartar neoplasia colorrectal.
+2. **Sangrado rectal o anemia ferropénica:** Exige estudio endoscópico completo.
+3. **Síntomas nocturnos (dolor o diarrea que despierta al paciente):** El intestino se apaga durante el sueño; la diarrea nocturna sugiere organicidad (EII, colitis microscópica, neuroendocrino).
+4. **Pérdida ponderal inexplicable o fiebre:** Banderas de malignidad o inflamación sistémica.
+5. **Calprotectina fecal > 50–100 ug/g:** Elevada sospecha de EII.
+:::
+
+---
+
+## 5. 🎯 Ticket de Salida (Evaluación Formativa Rápida)
+
+1. ¿Cuáles son los tres criterios asociados al dolor en Roma IV? (Mencione al menos 2).
+2. ¿Por qué la calprotectina fecal normal descarta EII con altísima certeza?
+3. ¿Cómo define la escala de Bristol el subtipo SII-M?
+
+---
+*Cátedra de Gastroenterología y Semiótica Digestiva · Facultad de Ciencias Médicas · Universidad Central del Ecuador*

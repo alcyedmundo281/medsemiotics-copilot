@@ -1,0 +1,699 @@
+"""Render standalone HTML web module for Enfermedad de Crohn and Differential Diagnosis.
+
+MedSemiotics Copilot - Cátedra de Gastroenterología y Semiótica Digestiva (HCAM - UCE).
+"""
+
+from pathlib import Path
+
+
+def get_crohn_html_content() -> str:
+    """Generate the rich interactive HTML web page for Enfermedad de Crohn."""
+    return """<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedSemiotics: Enfermedad de Crohn y Diagnóstico Diferencial de la EII</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0f766e;
+      --primary-dark: #115e59;
+      --primary-light: #14b8a6;
+      --primary-subtle: #f0fdfa;
+      --secondary: #1e3a8a;
+      --secondary-light: #3b82f6;
+      --secondary-subtle: #eff6ff;
+      --accent: #d97706;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --danger-bg: #fef2f2;
+      --danger-border: #ef4444;
+      --danger-text: #991b1b;
+      --warning-bg: #fffbeb;
+      --warning-border: #f59e0b;
+      --warning-text: #92400e;
+      --success-bg: #f0fdf4;
+      --success-border: #22c55e;
+      --success-text: #166534;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      color: var(--text-main);
+      background-color: var(--bg-page);
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 36px auto;
+      padding: 0 20px;
+    }
+
+    /* Top Navigation / Brand */
+    .brand-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding: 12px 18px;
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .brand-title {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand-status {
+      font-size: 12px;
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    /* Header Hero Card */
+    .header-hero {
+      background: linear-gradient(135deg, #0f766e 0%, #115e59 45%, #1e3a8a 100%);
+      color: white;
+      padding: 36px 32px;
+      border-radius: 16px;
+      box-shadow: 0 15px 30px -10px rgba(15, 118, 110, 0.35);
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header-hero::after {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 200px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 50%;
+    }
+    .header-hero h1 {
+      margin: 0 0 10px 0;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .header-hero h2 {
+      margin: 0 0 18px 0;
+      font-size: 17px;
+      font-weight: 400;
+      opacity: 0.92;
+      line-height: 1.4;
+    }
+    .badge-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 12.5px;
+    }
+    .badge {
+      background: rgba(255, 255, 255, 0.16);
+      padding: 5px 12px;
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      font-weight: 500;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 26px;
+      margin-bottom: 26px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: #cbd5e1;
+    }
+    .card h3 {
+      margin-top: 0;
+      font-size: 20px;
+      color: var(--primary);
+      border-bottom: 2px solid var(--primary-subtle);
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+    }
+    .card h4 {
+      margin: 20px 0 10px 0;
+      color: var(--secondary);
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    /* Interactive Grids & Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      margin: 16px 0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 11px 14px;
+      border: 1px solid var(--border-color);
+      text-align: left;
+    }
+    th {
+      background-color: #0f766e;
+      color: white;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    tr:nth-child(even) { background-color: #f8fafc; }
+    tr:hover { background-color: #f1f5f9; }
+
+    /* Callouts */
+    .callout {
+      border-left: 4px solid var(--primary-light);
+      background: var(--primary-subtle);
+      padding: 16px 18px;
+      border-radius: 0 10px 10px 0;
+      margin: 18px 0;
+      font-size: 14px;
+    }
+    .callout.warning {
+      border-left-color: var(--warning-border);
+      background: var(--warning-bg);
+      color: var(--warning-text);
+    }
+    .callout.danger {
+      border-left-color: var(--danger-border);
+      background: var(--danger-bg);
+      color: var(--danger-text);
+    }
+    .callout.info {
+      border-left-color: var(--secondary-light);
+      background: var(--secondary-subtle);
+      color: #1e3a8a;
+    }
+
+    /* Montreal Calculator Widget */
+    .widget-container {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 22px;
+      margin: 18px 0;
+    }
+    .widget-title {
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--secondary);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .widget-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .widget-field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .widget-field select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: white;
+      font-family: inherit;
+      font-size: 13.5px;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+    .widget-field select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
+    }
+    .widget-result-box {
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+    .result-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      background: #0f766e;
+      color: white;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .result-desc {
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: #334155;
+    }
+
+    /* Socratic Questions / Accordions */
+    .question-box {
+      background: #f8fafc;
+      border-left: 4px solid var(--secondary-light);
+      border-radius: 0 8px 8px 0;
+      padding: 18px;
+      margin-bottom: 18px;
+      border-top: 1px solid #f1f5f9;
+      border-right: 1px solid #f1f5f9;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .question-box h4 {
+      margin: 0 0 8px 0;
+      color: var(--secondary);
+      font-size: 15px;
+      font-weight: 700;
+    }
+    details {
+      background: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      margin-top: 12px;
+    }
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 13.5px;
+      user-select: none;
+    }
+    summary:hover {
+      color: var(--primary-dark);
+    }
+
+    /* Comparison Tabs / Highlights */
+    .pill-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .pill-crohn { background: #ccfbf1; color: #0f766e; }
+    .pill-cu { background: #dbeafe; color: #1e40af; }
+    .pill-tb { background: #fee2e2; color: #991b1b; }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 48px 0 24px 0;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Brand / Navigation Bar -->
+    <div class="brand-nav">
+      <div class="brand-title">
+        <span>🩺</span> MedSemiotics Gastro · UCE / HCAM
+      </div>
+      <div class="brand-status">
+        Módulo Web Activo · Semestre 2026-2
+      </div>
+    </div>
+
+    <!-- Header Hero -->
+    <header class="header-hero">
+      <h1>Enfermedad de Crohn y Diagnóstico Diferencial</h1>
+      <h2>Enfermedad Inflamatoria Intestinal II: Semiótica del Compromiso Transmural, Fenotipos de Montreal y Reto Diagnóstico con Tuberculosis Intestinal</h2>
+      <div class="badge-bar">
+        <span class="badge">🏥 HCAM · Hospital Carlos Andrade Marín</span>
+        <span class="badge">📍 Aula Lúdica</span>
+        <span class="badge">🧠 KNOW ➔ REASON ➔ ACT</span>
+        <span class="badge">⚖️ Rúbrica HCAM 6-6-4-4</span>
+      </div>
+    </header>
+
+    <!-- Section 1: Objetivos y Síntesis Semiótica -->
+    <section class="card">
+      <h3>🎯 1. Objetivos de Aprendizaje & Fundamentos Semióticos</h3>
+      <p style="font-size:14px; color:var(--text-muted);">
+        La enfermedad de Crohn se caracteriza por una <b>inflamación granulomatosa transmural y discontinua (<i>skip lesions</i>)</b> que puede afectar cualquier segmento desde la boca hasta el ano, con especial predilección por el íleon terminal y el ciego (50–60%).
+      </p>
+      
+      <div class="callout info">
+        <b>💡 Tríada Cardinal del Fenotipo Ileocecal:</b>
+        <ol style="margin: 8px 0 0 0; padding-left: 20px;">
+          <li><b>Dolor cólico en fosa ilíaca derecha (FID)</b> o periumbilical, frecuentemente posprandial.</li>
+          <li><b>Masa o empastamiento palpable en FID</b> (conglomerado inflamatorio ileocecal y mesenterio engrosado).</li>
+          <li><b>Diarrea crónica intermitente</b> con pérdida ponderal y febrícula vespertina recurrente.</li>
+        </ol>
+      </div>
+
+      <div class="callout warning">
+        <b>⚠️ Regla de Oro del Examen Físico:</b> La inspección perianal <b>NUNCA es opcional</b> en un paciente con sospecha de EII. La presencia de plicomas engrosados ("centinelas"), fisuras indoloras fuera de la línea media o fístulas complejas es fuertemente patognomónica de Crohn y <b>descarta colitis ulcerosa</b>.
+      </div>
+    </section>
+
+    <!-- Section 2: Montreal Calculator Widget -->
+    <section class="card">
+      <h3>📐 2. Calculadora Fenotípica Interactiva de Montreal (2005)</h3>
+      <p style="font-size:13.5px; color:var(--text-muted);">
+        Seleccione las variables clínicas del paciente para determinar la clasificación estandarizada de Montreal, su implicación pronóstica y la conducta sugerida:
+      </p>
+
+      <div class="widget-container">
+        <div class="widget-title">⚙️ Selector de Parámetros de Montreal</div>
+        <div class="widget-grid">
+          <div class="widget-field">
+            <label for="montreal-age">Edad al Diagnóstico (A)</label>
+            <select id="montreal-age" onchange="updateMontreal()">
+              <option value="A1">A1: &lt; 17 años (Pediátrico)</option>
+              <option value="A2" selected>A2: 17 – 40 años (Adulto joven)</option>
+              <option value="A3">A3: &gt; 40 años (Adulto mayor)</option>
+            </select>
+          </div>
+
+          <div class="widget-field">
+            <label for="montreal-loc">Localización Anatómica (L)</label>
+            <select id="montreal-loc" onchange="updateMontreal()">
+              <option value="L1" selected>L1: Ileal terminal aislada</option>
+              <option value="L2">L2: Colónica aislada (Recto respetado)</option>
+              <option value="L3">L3: Ileocolónica (Combinada)</option>
+              <option value="L1+L4">L1 + L4: Ileal + Tracto digestivo alto</option>
+              <option value="L3+L4">L3 + L4: Ileocolónica + Tracto alto</option>
+            </select>
+          </div>
+
+          <div class="widget-field">
+            <label for="montreal-beh">Comportamiento (B)</label>
+            <select id="montreal-beh" onchange="updateMontreal()">
+              <option value="B1" selected>B1: Inflamatorio no estenosante / no penetrante</option>
+              <option value="B2">B2: Estenosante (Stricturing)</option>
+              <option value="B3">B3: Penetrante (Fístulas / Abscesos)</option>
+            </select>
+          </div>
+
+          <div class="widget-field">
+            <label for="montreal-perianal">Modificador Perianal (p)</label>
+            <select id="montreal-perianal" onchange="updateMontreal()">
+              <option value="none">Sin enfermedad perianal</option>
+              <option value="+p" selected>+p: Fístulas / Fisuras perianales complejas</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="widget-result-box">
+          <div style="font-size:12px; font-weight:700; color:#0f766e; text-transform:uppercase; margin-bottom:4px;">Fenotipo Resultante</div>
+          <span id="montreal-result-code" class="result-badge">A2 · L1 · B1 + p</span>
+          <div id="montreal-result-desc" class="result-desc">
+            Cargando recomendaciones clínicas...
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Diagnostic Differential (CU vs Crohn) -->
+    <section class="card">
+      <h3>⚖️ 3. Diagnóstico Diferencial: Colitis Ulcerosa vs. Enfermedad de Crohn</h3>
+      <p style="font-size:13.5px; color:var(--text-muted);">
+        Matriz de confrontación semiológica y fisiopatológica para la práctica clínica y discusión de pase de visita en el HCAM:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width:22%;">Parámetro Semiótico</th>
+            <th style="width:39%; background:#1e3a8a;"><span class="pill-tag pill-cu">Colitis Ulcerosa</span></th>
+            <th style="width:39%; background:#0f766e;"><span class="pill-tag pill-crohn">Enfermedad de Crohn</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Topografía & Distribución</b></td>
+            <td>Continua y simétrica; inicia en recto y asciende sin saltos. Limitada a colon.</td>
+            <td><b>Segmentaria, parchada con <i>skip lesions</i></b>; panentérica (boca a ano). Recto frecuentemente respetado.</td>
+          </tr>
+          <tr>
+            <td><b>Profundidad Lesional</b></td>
+            <td>Mucosa y submucosa superficial. Sin daño seroso.</td>
+            <td><b>Transmural</b> (todas las capas parietales hasta serosa y grasa mesentérica).</td>
+          </tr>
+          <tr>
+            <td><b>Histopatología Clave</b></td>
+            <td>Criptitis, abscesos crípticos y distorsión glandular. <b>Sin granulomas</b>.</td>
+            <td><b>Granulomas epitelioides NO caseificantes</b> (30–50% en biopsia); fisuras profundas en hoja de cuchillo.</td>
+          </tr>
+          <tr>
+            <td><b>Síntoma Guía</b></td>
+            <td>Diarrea con sangre franca (hematoquecia), moco, pujo y tenesmo rectal.</td>
+            <td>Dolor cólico en FID/posprandial, pérdida de peso, febrícula y diarrea acuosa/intermitente.</td>
+          </tr>
+          <tr>
+            <td><b>Compromiso Perianal</b></td>
+            <td>Excepcional (solo hemorroides secundarias al pujo).</td>
+            <td><b>Frecuente (25–35%)</b>: Fístulas perianales complejas, fisuras atípicas, abscesos recidivantes.</td>
+          </tr>
+          <tr>
+            <td><b>Complicaciones Mecánicas</b></td>
+            <td>Megacolon tóxico y perforación en colon dilatado agudo.</td>
+            <td><b>Estenosis fibroestenóticas</b> (suboclusión), fístulas entero-entéricas/vesicales, abscesos tabicados.</td>
+          </tr>
+          <tr>
+            <td><b>Aspecto Endoscópico</b></td>
+            <td>Eritema granular homogéneo, pérdida de trama vascular, sangrado en sábana continuo.</td>
+            <td>Úlceras aftoides sobre mucosa normal circundante, úlceras serpiginosas longitudinales, <b>mucosa en empedrado</b>.</td>
+          </tr>
+          <tr>
+            <td><b>Biomarcadores Serológicos</b></td>
+            <td><b>pANCA positivo</b> en 60–70% de los casos.</td>
+            <td><b>ASCA positivo</b> (anti-<i>Saccharomyces cerevisiae</i>) en 50–60%.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Section 4: Critical Ecuador Challenge (Crohn vs TB Intestinal) -->
+    <section class="card">
+      <h3>🏔️ 4. El Gran Reto en Ecuador: Enfermedad de Crohn vs. Tuberculosis Intestinal</h3>
+      <div class="callout danger">
+        <b>🚨 ALERTA ROJA DE SEGURIDAD CLÍNICA (HCAM):</b><br>
+        En el Ecuador, la región ileocecal es el blanco predilecto tanto de la Tuberculosis (TBC) intestinal como del Crohn. <b>Iniciar agentes biológicos anti-TNF (Infliximab / Adalimumab) o altas dosis de corticoides en un paciente con TBC no reconocida desencadena diseminación hematógena miliar y shock séptico fatal.</b>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width:25%;">Criterio Diferencial</th>
+            <th style="width:37%; background:#991b1b;"><span class="pill-tag pill-tb">Tuberculosis Intestinal</span></th>
+            <th style="width:38%; background:#0f766e;"><span class="pill-tag pill-crohn">Enfermedad de Crohn</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Granulomas Histológicos</b></td>
+            <td><b>Grandes, confluentes y con necrosis caseosa central</b>.</td>
+            <td><b>Pequeños, aislados y NO caseificantes</b> (en submucosa/lámina propia).</td>
+          </tr>
+          <tr>
+            <td><b>Orientación de Úlceras</b></td>
+            <td><b>Transversales / Circunferenciales</b> (perpendiculares al eje del asa, siguen vasos linfáticos).</td>
+            <td><b>Longitudinales y serpiginosas</b> (en el eje largo del asa, patrón en empedrado).</td>
+          </tr>
+          <tr>
+            <td><b>Válvula Ileocecal</b></td>
+            <td>Incompetente, fija, rígida y gaping (ampliamente abierta).</td>
+            <td>Estenosada, engrosada asimétricamente, con aftas salteadas.</td>
+          </tr>
+          <tr>
+            <td><b>Adenopatías en TC / RM</b></td>
+            <td>Ganglios mesentéricos voluminosos con <b>centro hipodenso necrótico</b> y realce en anillo.</td>
+            <td>Adenopatías reactivas homogéneas, con signo del peine (*comb sign*) y <b>grasa reptante (*creeping fat*)</b>.</td>
+          </tr>
+          <tr>
+            <td><b>Tórax & Pruebas Inmunes</b></td>
+            <td>PPD / IGRA (Quantiferon) positivo; Rx tórax frecuentemente con secuela apical o caverna.</td>
+            <td>PPD / IGRA habitualmente negativos; Rx tórax normal (salvo infección latente previa).</td>
+          </tr>
+          <tr>
+            <td><b>Enfermedad Perianal</b></td>
+            <td>Rara vez fístulas complejas (si ocurren, suelen ser abscesos fríos).</td>
+            <td><b>Muy frecuente</b>, fístulas ramificadas complejas transesfinterianas.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Section 5: Interactive Socratic Case -->
+    <section class="card">
+      <h3>🧠 5. Caso Clínico Socrático Interactivo (Rotación HCAM)</h3>
+      <div class="callout info">
+        <b>📋 Viñeta Clínica Sintética:</b><br>
+        Paciente masculino de 23 años, estudiante universitario, acude por 4 meses de dolor cólico recurrente en fosa ilíaca derecha, exacerbado 30 minutos tras las comidas, acompañado de 4 a 6 deposiciones pastosas/líquidas diarias sin sangre visible y febrícula nocturna intermitente (37.9 °C). Ha perdido 7 kg involuntariamente. En la última semana nota secreción purulenta y ardor perianal.
+        <br><br>
+        <b>Examen Físico:</b> Delgado, palidez mucocutánea leve. Abdomen: blando, doloroso a la palpación profunda en FID donde se palpa <b>empastamiento/masa fija de aprox. 4x3 cm</b> con ruidos hidroaéreos aumentados proximales. Inspección perianal: <b>plicoma violáceo edematoso a las 6 del reloj y orificio fistuloso a las 4 del reloj con salida de pus a la compresión</b>.
+        <br>
+        <b>Laboratorio:</b> Hb 10.4 g/dL, Leucocitos 11.200/mm³, Plaquetas 490.000/mm³, PCR 62 mg/L, Calprotectina fecal 820 µg/g.
+      </div>
+
+      <div class="question-box">
+        <h4>1. Representación del Problema en una sola frase</h4>
+        <p style="font-size:13.5px;">Sintetice el caso identificando el sujeto, la temporalidad y los síndromes cardinales.</p>
+        <details>
+          <summary>🔍 Ver Clave Docente & Rúbrica</summary>
+          <p style="font-size:13.5px; color:#1e293b; margin-top:8px;">
+            <b>Respuesta modelo:</b> Varón joven con diarrea crónica, síndrome suboclusivo/dolor cólico en FID, masa inflamatoria ileocecal palpable, fístula perianal activa y respuesta de fase aguda marcada con trombocitosis y calprotectina fecal elevada.
+          </p>
+        </details>
+      </div>
+
+      <div class="question-box">
+        <h4>2. Clasificación de Montreal aplicada al paciente</h4>
+        <p style="font-size:13.5px;">¿Qué categoría de Montreal le corresponde con la evidencia actual?</p>
+        <details>
+          <summary>🔍 Ver Clave Docente & Rúbrica</summary>
+          <p style="font-size:13.5px; color:#1e293b; margin-top:8px;">
+            <b>Respuesta modelo:</b> <b>A2</b> (23 años) · <b>L1</b> (ileal terminal / masa en FID) · <b>B2 o B3</b> (dolor cólico postprandial sugiere estenosis B2; la masa puede contener fístula o absceso oculto B3) · <b>+p</b> (fístula perianal presente).
+          </p>
+        </details>
+      </div>
+
+      <div class="question-box">
+        <h4>3. Banderas Rojas y Estudio de Imagen Mandatorio</h4>
+        <p style="font-size:13.5px;">¿Por qué está CONTRAINDICADO iniciar prednisona o infliximab hoy mismo en este paciente?</p>
+        <details>
+          <summary>🔍 Ver Clave Docente & Rúbrica</summary>
+          <p style="font-size:13.5px; color:#1e293b; margin-top:8px;">
+            <b>Respuesta modelo:</b> La masa palpable en FID con fiebre y PCR 62 mg/L puede corresponder a un <b>absceso intraabdominal o fístula penetrante</b>. Iniciar corticoides o biológicos ante una colección purulenta cerrada puede causar peritonitis o sepsis letal. Se debe solicitar <b>Entero-TC o Entero-RM de abdomen</b> urgente para descartar absceso antes de inmunosuprimir.
+          </p>
+        </details>
+      </div>
+
+      <div class="question-box">
+        <h4>4. Manejo Perianal Conjunto</h4>
+        <p style="font-size:13.5px;">¿Cuál es la conducta inicial respecto a la fístula perianal activa?</p>
+        <details>
+          <summary>🔍 Ver Clave Docente & Rúbrica</summary>
+          <p style="font-size:13.5px; color:#1e293b; margin-top:8px;">
+            <b>Respuesta modelo:</b> Valoración por Coloproctología para <b>Examen Bajo Anestesia (EBA)</b> y colocación de <b>setón laxo no cortante</b> para drenaje continuo y prevención de nuevos abscesos perianales o flemones en herradura, antes de considerar biológicos anti-TNF.
+          </p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Section 6: Ticket de Salida -->
+    <section class="card">
+      <h3>🎫 6. Ticket de Salida: Perlas Diagnósticas y Memorables</h3>
+      <ol style="font-size:14px; line-height:1.7;">
+        <li><b>Distribución y profundidad:</b> Crohn es <b>panentérica, discontinua (<i>skip lesions</i>) y transmural</b>; la CU es continua, ascendente desde el recto y mucosa.</li>
+        <li><b>Estigma perianal:</b> La presencia de fístulas, plicomas centinelas o fisuras complejas apunta a <b>Crohn</b> y descarta colitis ulcerosa pura.</li>
+        <li><b>Diferenciación con TBC en Ecuador:</b> Granulomas caseificantes y úlceras transversales corresponden a TBC; granulomas no caseificantes y úlceras longitudinales en empedrado corresponden a Crohn.</li>
+        <li><b>Seguridad pre-biológicos:</b> Siempre descartar abscesos con Entero-TC/RM, drenar fístulas con setón y descartar TBC latente (PPD/Quantiferon + Rx tórax) antes de prescribir anti-TNF.</li>
+      </ol>
+    </section>
+
+    <footer>
+      <b>MedSemiotics Copilot</b> · Cátedra de Gastroenterología y Semiótica Digestiva (HCAM — UCE) · Semestre 2026-2<br>
+      Sistema de Apoyo a la Docencia Médica · Contrato de Aprendizaje Socrático
+    </footer>
+  </div>
+
+  <script>
+    // Montreal Dynamic Calculator Logic
+    function updateMontreal() {
+      const age = document.getElementById('montreal-age').value;
+      const loc = document.getElementById('montreal-loc').value;
+      const beh = document.getElementById('montreal-beh').value;
+      const peri = document.getElementById('montreal-perianal').value;
+
+      let code = age + ' · ' + loc + ' · ' + beh;
+      if (peri === '+p') {
+        code += ' + p';
+      }
+
+      document.getElementById('montreal-result-code').innerText = code;
+
+      let desc = '';
+      if (beh === 'B1') {
+        desc = '<b>Patrón Inflamatorio Puro:</b> Responde favorablemente a tratamiento médico temprano. Menor riesgo inmediato de cirugía resectiva.';
+      } else if (beh === 'B2') {
+        desc = '<b>Patrón Estenosante:</b> Alto riesgo de episodios suboclusivos mecánicos (signo de la cuerda en imagen). Requiere monitoreo con Entero-RM para distinguir estenosis inflamatoria activa de estenosis fibrótica cicatrizal irreductible.';
+      } else if (beh === 'B3') {
+        desc = '<b>Patrón Penetrante:</b> Riesgo elevado de fístulas internas (entero-entéricas, entero-vesicales) y abscesos intraabdominales. <b>Contraindicado iniciar inmunosupresión hasta drenar colecciones purulentas.</b>';
+      }
+
+      if (loc.includes('L1')) {
+        desc += ' Foco ileocecal: vigilar malabsorción de vitamina B12 y sales biliares (diarrea colerética).';
+      } else if (loc.includes('L2')) {
+        desc += ' Foco colónico: requiere colonoscopia para diagnóstico diferencial histológico con colitis ulcerosa y colitis por amebiasis.';
+      }
+
+      if (peri === '+p') {
+        desc += ' <br><b>Alerta Perianal (+p):</b> Requiere interconsulta urgente con Coloproctología para colocación de setón no cortante antes de cualquier escalamiento a terapia biológica.';
+      }
+
+      document.getElementById('montreal-result-desc').innerHTML = desc;
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', updateMontreal);
+  </script>
+</body>
+</html>
+"""
+
+
+def render_crohn_webpage(output_path: Path) -> None:
+    """Write the Crohn HTML file to the specified destination."""
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    content = get_crohn_html_content()
+    output_path.write_text(content, encoding="utf-8")
+    print(f"[OK] Rendered Crohn HTML successfully to: {output_path.resolve()}")
+
+
+if __name__ == "__main__":
+    render_crohn_webpage(Path("coach_gastro_enfermedad_crohn.html"))
+    render_crohn_webpage(Path("notebooks/coach_gastro_enfermedad_crohn.html"))
