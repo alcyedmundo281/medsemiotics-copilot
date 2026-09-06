@@ -106,3 +106,13 @@ sessions:
       - topic_id: "trastornos-movimiento-1"
         status: "completed"
         notes: "Trastornos del movimiento I: Enfermedad de Parkinson Idiopática (EPI)"
+  - session_id: "neuro-2026-2-w11"
+    semester_id: "2026-2"
+    course_code: "NEURO"
+    session_date: "2026-09-01"
+    sequence_number: 11
+    notes: "Week 11 of the official syllabus."
+    topics:
+      - topic_id: "trastornos-movimiento-2"
+        status: "completed"
+        notes: "Trastornos del movimiento II: Parkinsonismos Atípicos (PSP/AMS/DCB) y Coreas"

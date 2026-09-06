@@ -112,7 +112,7 @@ schedule_18_weeks:
     date: "2026-09-01"
     topic_id: "trastornos-movimiento-2"
     title: "Trastornos del movimiento II: Parkinsonismos Atípicos (PSP/AMS/DCB) y Coreas"
-    status: "projected"
+    status: "completed"
     hemisemestre: 2
     web_module: "https://powersemiotics.com/medsemiotics/neurologia/trastornos-movimiento-2.html"
 
