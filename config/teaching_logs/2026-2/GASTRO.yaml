@@ -106,3 +106,33 @@ sessions:
       - topic_id: "funcionales-dispepsia"
         status: "completed"
         notes: "Trastornos funcionales digestivos: Criterios de Roma IV y dispepsia funcional"
+  - session_id: "gastro-2026-2-w11"
+    semester_id: "2026-2"
+    course_code: "GASTRO"
+    session_date: "2026-09-02"
+    sequence_number: 11
+    notes: "Week 11 of the official syllabus."
+    topics:
+      - topic_id: "colitis-ulcerosa"
+        status: "completed"
+        notes: "Enfermedad Inflamatoria Intestinal I: Colitis Ulcerosa (Semiología, extensión y severidad)"
+  - session_id: "gastro-2026-2-w16"
+    semester_id: "2026-2"
+    course_code: "GASTRO"
+    session_date: "2026-10-07"
+    sequence_number: 12
+    notes: "Week 16 of the official syllabus."
+    topics:
+      - topic_id: "enfermedad-crohn"
+        status: "completed"
+        notes: "Enfermedad Inflamatoria Intestinal II: Enfermedad de Crohn y diagnóstico diferencial"
+  - session_id: "gastro-2026-2-w17"
+    semester_id: "2026-2"
+    course_code: "GASTRO"
+    session_date: "2026-10-14"
+    sequence_number: 13
+    notes: "Week 17 of the official syllabus."
+    topics:
+      - topic_id: "intestino-irritable"
+        status: "completed"
+        notes: "Síndrome de Intestino Irritable (SII), dolor visceral y eje intestino-cerebro"

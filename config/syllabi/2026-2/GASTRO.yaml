@@ -48,27 +48,27 @@ topics:
     planned_order: 11
     planned_week: 11
     required: true
-  - topic_id: "enfermedad-crohn"
+  - topic_id: "pancreatitis-aguda-cronica"
     planned_order: 12
     planned_week: 12
     required: true
-  - topic_id: "intestino-irritable"
+  - topic_id: "cirrosis-hipertension-portal"
     planned_order: 13
     planned_week: 13
     required: true
-  - topic_id: "cirrosis-hipertension-portal"
+  - topic_id: "ictericia-via-biliar"
     planned_order: 14
     planned_week: 14
     required: true
-  - topic_id: "ictericia-via-biliar"
+  - topic_id: "abdomen-agudo"
     planned_order: 15
     planned_week: 15
     required: true
-  - topic_id: "pancreatitis-aguda-cronica"
+  - topic_id: "enfermedad-crohn"
     planned_order: 16
     planned_week: 16
     required: true
-  - topic_id: "abdomen-agudo"
+  - topic_id: "intestino-irritable"
     planned_order: 17
     planned_week: 17
     required: true

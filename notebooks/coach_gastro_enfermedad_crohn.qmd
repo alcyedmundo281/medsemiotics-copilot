@@ -1,0 +1,301 @@
+---
+title: "Teaching Coach Interactivo: Sílabo & Guía Clínica de Enfermedad de Crohn"
+subtitle: "Cátedra de Gastroenterología y Semiótica Digestiva (HCAM — UCE)"
+author: "Asistente Semiótico Pedagógico (KNOW -> REASON -> ACT)"
+date: "2026-09-09"
+semester: "2026-2"
+session: "Semana 12 (Miércoles 16:00 – 17:30)"
+location: "Aula Lúdica, HCAM"
+lang: es
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    code-fold: true
+    code-summary: "Mostrar código Python"
+    embed-resources: true
+  epub:
+    toc: true
+    toc-depth: 3
+    toc-title: "Índice del Libro"
+    number-sections: false
+jupyter: python3
+---
+
+# 🫁 Universidad Central del Ecuador — Facultad de Ciencias Médicas
+## Cátedra de Gastroenterología y Semiótica Digestiva (HCAM)
+### 🩺 Teaching Coach Interactivo: Sílabo & Guía Clínica de Enfermedad de Crohn (Semana 12)
+
+**Semestre:** 2026-2 · **Sesión Activa:** Miércoles 16:00 – 17:30 · **Sede:** Aula Lúdica, HCAM  
+**Docente / Coach:** Asistente Semiótico Pedagógico (`KNOW -> REASON -> ACT`)  
+
+> *Material docente interactivo para facilitación docente y razonamiento clínico socrático. Los casos clínicos son sintéticos.*
+
+```{python}
+#| label: setup
+# Configuración inicial e importación de herramientas del Coach
+from IPython.display import display, HTML, Markdown
+
+print("Entorno del Teaching Coach de Gastroenterología listo.")
+print("Cátedra: Gastroenterología y Semiótica Digestiva (HCAM - UCE)")
+print("Semestre 2026-2 | Sesión: Enfermedad de Crohn y Diagnóstico Diferencial (Semana 12)")
+```
+
+---
+
+## 1. 📋 Sílabo Oficial y Navegación del Semestre 2026-2
+
+A continuación se presenta el cronograma actualizado de 18 semanas de la cátedra. La sesión actual se encuentra en la **Semana 12 (Segundo Hemisemestre)**.
+
+### Sistema de Evaluación y Rúbrica HCAM (sobre 20 puntos):
+1. **Anamnesis Semiótica y Motivo de Consulta** (6 pts)
+2. **Examen Físico Abdominal y Estigmas Digestivos** (6 pts)
+3. **Razonamiento Sindrómico y Diagnósticos Diferenciales** (4 pts)
+4. **Plan Diagnóstico y Referencias Bibliográficas** (4 pts)
+
+```{python}
+#| label: explorador-silabo
+# Explorador Interactivo del Sílabo 2026-2
+syllabus_data = [
+    {"sem": 1, "fecha": "24 Jun 2026", "tema": "Semiología digestiva, dolor abdominal y anamnesis", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 2, "fecha": "01 Jul 2026", "tema": "Trastornos esofágicos: Disfagia, ERGE y acalasia", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 3, "fecha": "08 Jul 2026", "tema": "Trastornos gástricos: Dispepsia, gastritis y úlcera péptica", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 4, "fecha": "15 Jul 2026", "tema": "Hemorragia digestiva alta (Variceal y No Variceal)", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 5, "fecha": "22 Jul 2026", "tema": "Hemorragia digestiva baja y proctología básica", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 6, "fecha": "29 Jul 2026", "tema": "Síndromes diarreicos agudos y crónicos", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 7, "fecha": "05 Ago 2026", "tema": "Síndrome de malabsorción y enfermedad celíaca", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 8, "fecha": "12 Ago 2026", "tema": "Semiología hepática básica y pruebas funcionales", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 9, "fecha": "19 Ago 2026", "tema": "Evaluación del Primer Hemisemestre", "hemi": 1, "estado": "Ejecutada"},
+    {"sem": 10, "fecha": "26 Ago 2026", "tema": "Trastornos funcionales digestivos y dispepsia funcional", "hemi": 2, "estado": "Ejecutada"},
+    {"sem": 11, "fecha": "02 Sep 2026", "tema": "Enfermedad Inflamatoria Intestinal I: Colitis Ulcerosa", "hemi": 2, "estado": "Ejecutada"},
+    {"sem": 12, "fecha": "09 Sep 2026", "tema": "Enfermedad Inflamatoria Intestinal II: Enfermedad de Crohn", "hemi": 2, "estado": "ACTIVA (MIÉRCOLES)"},
+    {"sem": 13, "fecha": "16 Sep 2026", "tema": "Síndrome de Intestino Irritable y motilidad digestiva", "hemi": 2, "estado": "Proyectada"},
+    {"sem": 14, "fecha": "23 Sep 2026", "tema": "Hepatopatías crónicas, cirrosis e hipertensión portal", "hemi": 2, "estado": "Proyectada"},
+    {"sem": 15, "fecha": "30 Sep 2026", "tema": "Ictericia, colestasis y patología biliar litiásica", "hemi": 2, "estado": "Proyectada"},
+    {"sem": 16, "fecha": "07 Oct 2026", "tema": "Pancreatitis aguda y crónica", "hemi": 2, "estado": "Proyectada"},
+    {"sem": 17, "fecha": "14 Oct 2026", "tema": "Abdomen agudo médico vs quirúrgico y urgencias digestivas", "hemi": 2, "estado": "Proyectada"},
+    {"sem": 18, "fecha": "21 Oct 2026", "tema": "Evaluación Final Integral del Segundo Hemisemestre", "hemi": 2, "estado": "Proyectada"},
+]
+
+def mostrar_cronograma():
+    html = """
+    <table style="width:100%; border-collapse:collapse; font-family:sans-serif; font-size:13px;">
+      <thead>
+        <tr style="background-color:#1e3a8a; color:white; text-align:left;">
+          <th style="padding:8px; border:1px solid #cbd5e1;">Semana</th>
+          <th style="padding:8px; border:1px solid #cbd5e1;">Fecha</th>
+          <th style="padding:8px; border:1px solid #cbd5e1;">Tema Académico</th>
+          <th style="padding:8px; border:1px solid #cbd5e1;">Hemisemestre</th>
+          <th style="padding:8px; border:1px solid #cbd5e1;">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+    """
+    for row in syllabus_data:
+        bg = "#f8fafc"
+        estado_badge = f"<span style='color:#64748b;'>{row['estado']}</span>"
+        if "ACTIVA" in row["estado"]:
+            bg = "#fef3c7"
+            estado_badge = f"<b style='color:#b45309; background:#fde68a; padding:3px 8px; border-radius:4px;'>🔥 {row['estado']}</b>"
+        elif row["estado"] == "Ejecutada":
+            estado_badge = f"<span style='color:#16a34a;'>✓ {row['estado']}</span>"
+        
+        html += f"""
+        <tr style="background-color:{bg};">
+          <td style="padding:6px 8px; border:1px solid #cbd5e1; font-weight:bold; text-align:center;">{row['sem']}</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1;">{row['fecha']}</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1;">{row['tema']}</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1; text-align:center;">{row['hemi']}° Hemi</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1;">{estado_badge}</td>
+        </tr>
+        """
+    html += "</tbody></table>"
+    display(HTML(html))
+
+mostrar_cronograma()
+```
+
+---
+
+## 2. 📖 Guía Clínica Ampliada: Enfermedad de Crohn (Semana 12)
+
+### 🎯 Resultados de Aprendizaje:
+1. **Diferenciar** el compromiso transmural discontinuo panentérico de Crohn frente al compromiso mucoso continuo de la colitis ulcerosa.
+2. **Reconocer la tríada clínica habitual:** Dolor cólico en fosa ilíaca derecha, diarrea crónica y síndrome de repercusión general con pérdida ponderal.
+3. **Explorar exhaustivamente la región perianal:** Identificar plicomas violáceos edematosos, fisuras anales profundas fuera de línea media y fístulas perianales.
+4. **Fenotipificar** mediante la clasificación de Montreal: Edad (A1-A3), Localización (L1-L4), Comportamiento (B1-B3) y modificador perianal (p).
+5. **Diferenciar de la Tuberculosis Intestinal:** Clave epidemiológica y semiológica en Ecuador antes de indicar terapia biológica.
+6. **Detectar contraindicaciones pre-inmunosupresión:** Descartar colecciones sépticas/abscesos intraabdominales antes de iniciar corticoides o biológicos.
+
+---
+
+### 🗺️ Clasificación Fenotípica de Montreal
+
+```{python}
+#| label: montreal-crohn-calculator
+# Herramienta interactiva de fenotipificación de Montreal para Crohn
+
+def clasificar_montreal_crohn(edad: int, localizacion: str, comportamiento: str, perianal: bool):
+    # Edad
+    if edad < 17:
+        a = "A1 (<17 años, curso pediátrico/agresivo)"
+    elif edad <= 40:
+        a = "A2 (17-40 años, presentación típica)"
+    else:
+        a = "A3 (>40 años, inicio tardío)"
+    
+    # Localización
+    locs = {
+        "ileal": "L1 (Íleon terminal ± ciego)",
+        "colon": "L2 (Colon aislado)",
+        "ileocolon": "L3 (Ileocolónica, patrón más frecuente)",
+        "alto": "L4 (Tracto gastrointestinal superior aislado)"
+    }
+    l = locs.get(localizacion, "L1")
+    
+    # Comportamiento
+    comps = {
+        "inflamatorio": "B1 (No estenosante, no penetrante / Inflamatorio)",
+        "estenosante": "B2 (Estenosante / Fibroestenótico)",
+        "penetrante": "B3 (Penetrante / Fístulas o abscesos)"
+    }
+    b = comps.get(comportamiento, "B1")
+    if perianal:
+        b += " + p (Modificador de Enfermedad Perianal concomitante)"
+        
+    res_html = f"""
+    <div style="background-color:#eff6ff; border-left:4px solid #2563eb; padding:12px; margin:10px 0; font-family:sans-serif;">
+      <h4 style="margin:0 0 8px 0; color:#1e40af;">Clasificación de Montreal Calculada:</h4>
+      <ul style="margin:0; padding-left:20px; color:#1e293b;">
+        <li><b>Edad (A):</b> {a}</li>
+        <li><b>Localización (L):</b> {l}</li>
+        <li><b>Comportamiento (B):</b> {b}</li>
+      </ul>
+    </div>
+    """
+    display(HTML(res_html))
+
+# Ejemplo de caso típico HCAM:
+print("Ejemplo de fenotipo de nuestro caso central:")
+clasificar_montreal_crohn(edad=23, localizacion="ileocolon", comportamiento="penetrante", perianal=True)
+```
+
+---
+
+### ⚖️ Matriz Comparativa: Colitis Ulcerosa vs. Enfermedad de Crohn
+
+```{python}
+#| label: tabla-comparativa-eii
+def mostrar_matriz_eii():
+    html = """
+    <table style="width:100%; border-collapse:collapse; font-family:sans-serif; font-size:13px; margin:15px 0;">
+      <thead>
+        <tr style="background-color:#334155; color:white;">
+          <th style="padding:8px; border:1px solid #cbd5e1;">Característica</th>
+          <th style="padding:8px; border:1px solid #cbd5e1;">Colitis Ulcerosa (CU)</th>
+          <th style="padding:8px; border:1px solid #cbd5e1;">Enfermedad de Crohn (EC)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1; font-weight:bold;">Topografía</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1;">Colon exclusiva (inicia en recto, continua)</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1; background:#fef9c3;">Panentérica (boca a ano); lesiones salteadas (*skip lesions*)</td>
+        </tr>
+        <tr style="background-color:#f8fafc;">
+          <td style="padding:6px 8px; border:1px solid #cbd5e1; font-weight:bold;">Profundidad</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1;">Mucosa y submucosa superficial</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1; background:#fef9c3; font-weight:bold; color:#b45309;">Transmural (todas las capas parietales)</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1; font-weight:bold;">Semiología Principal</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1;">Rectorragia franca, urgencia y tenesmo</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1;">Dolor en FID, masa palpable, diarrea, pérdida de peso</td>
+        </tr>
+        <tr style="background-color:#f8fafc;">
+          <td style="padding:6px 8px; border:1px solid #cbd5e1; font-weight:bold;">Enfermedad Perianal</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1;">Rara (< 2%, hemorroides por tenesmo)</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1; background:#fef9c3; font-weight:bold;">Frecuente (25–35%): fístulas, plicomas edematosos</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1; font-weight:bold;">Histopatología</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1;">Criptitis, microabscesos de criptas</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1;">Granulomas no caseificantes (30-50%), fisuras</td>
+        </tr>
+        <tr style="background-color:#f8fafc;">
+          <td style="padding:6px 8px; border:1px solid #cbd5e1; font-weight:bold;">Endoscopia</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1;">Eritema difuso granular, sangrado en napa</td>
+          <td style="padding:6px 8px; border:1px solid #cbd5e1;">Úlceras aftoides lineales, patrón empedrado (*cobblestone*)</td>
+        </tr>
+      </tbody>
+    </table>
+    """
+    display(HTML(html))
+
+mostrar_matriz_eii()
+```
+
+---
+
+## 3. 🧩 Caso Clínico Central Sintético y Taller Socrático
+
+### Viñeta del Caso (HCAM — Rotación de Gastroenterología):
+> **Varón de 23 años**, estudiante universitario, con 4 meses de dolor cólico intermitente en fosa ilíaca derecha exacerbado posprandialmente, 4 deposiciones pastosas al día, febrícula vespertina recurrente y pérdida involuntaria de 7 kg de peso. Hace 3 semanas nota dolor perianal y exudado en ropa interior.  
+> **Examen físico:** Adelgazado (IMC 18,2). Abdomen con masa dolorosa empastada mal delimitada en FID. Región perianal con plicomas edematosos centinela y orificio fistuloso activo a hora 5 con exudado seropurulento.  
+> **Analítica:** Hb 10,4 g/dL, Leucocitos 11.200/uL, Plaquetas 480.000/uL, PCR 48 mg/L, Calprotectina fecal > 800 ug/g.
+
+```{python}
+#| label: simulador-decisiones
+# Algoritmo de Decisión Clínica Interactiva para el Caso
+def evaluar_conducta_clinica(opcion: int):
+    retroalimentacion = {
+        1: ("❌ ERROR CRÍTICO GRAVE", 
+            "Indicar corticoides sistémicos o biológicos de inmediato ante una masa dolorosa en FID con fiebre y fístula supurativa puede provocar peritonitis o sepsis fatal por perforación o diseminación de un absceso no drenado.", 
+            "#fee2e2", "#991b1b"),
+        2: ("⚠️ INCOMPLETO", 
+            "La colonoscopia es esencial para el diagnóstico mucosal, pero en fase aguda con masa y sospecha de absceso se requiere primero una prueba seccional (Entero-TC/RM) para asegurar indemnidad transmural y descartar fístulas/colecciones.", 
+            "#fef3c7", "#92400e"),
+        3: ("✅ CONDUCTA ÓPTIMA (KNOW -> REASON -> ACT)", 
+            "Solicitar Entero-TC / Entero-RM de abdomen y pelvis para mapear el íleon, confirmar masa vs absceso tabicado, valoración por coloproctología para examen bajo anestesia de la fístula (colocación de setón) y tamizaje estricto de TBC latente (Rx tórax + IGRA) y serologías virales.", 
+            "#dcfce7", "#166534")
+    }
+    
+    titulo, texto, bg, color = retroalimentacion.get(opcion, ("?", "Opción no válida", "#f1f5f9", "#334155"))
+    html = f"""
+    <div style="background-color:{bg}; border-left:4px solid {color}; padding:12px; margin:10px 0; font-family:sans-serif;">
+      <h4 style="margin:0 0 6px 0; color:{color};">{titulo}</h4>
+      <p style="margin:0; color:#1e293b; font-size:13px;">{texto}</p>
+    </div>
+    """
+    display(HTML(html))
+
+print("Opciones de conducta inicial evaluables:")
+print("1: Iniciar metilprednisolona IV a 1 mg/kg/día por sospecha de brote grave.")
+print("2: Solicitar ileocolonoscopia completa inmediata sin imágenes previas.")
+print("3: Solicitar Entero-TC/RM, evaluar región perianal y tamizar TBC/infecciones antes de inmunosupresión.")
+print("\nEvaluación de la Opción 3 (Recomendada):")
+evaluar_conducta_clinica(3)
+```
+
+---
+
+## 4. ⚠️ Banderas Rojas y Puntos Críticos Docentes
+
+::: {.callout-warning}
+### Banderas Rojas Imperativas en Enfermedad de Crohn:
+1. **La inspección perianal nunca es opcional:** La presencia de fístulas anales o plicomas engrosados puede preceder en meses o años a la clínica digestiva luminal.
+2. **Masa en FID + Fiebre = Sospechar Absceso:** No asuma que toda masa es solo inflamación luminal. Un absceso intraabdominal o flemón mesentérico tabicado contraindica corticoides en monoterapia.
+3. **Descarte riguroso de Tuberculosis Intestinal en Ecuador:** Dado que la TBC ileocecal mimetiza al Crohn, el inicio erróneo de agentes anti-TNF (Infliximab/Adalimumab) en TBC no tratada desencadena tuberculosis miliar fulminante.
+:::
+
+---
+
+## 5. 🎯 Ticket de Salida (Evaluación Formativa Rápida)
+
+1. ¿Por qué la afectación ileocecal produce masa palpable en FID en Crohn pero no en Colitis Ulcerosa?
+2. ¿Qué exploraciones complementarias son obligatorias antes de prescribir un fármaco biológico anti-TNF?
+3. En la clasificación de Montreal, ¿qué significa el modificador `+ p`?
+
+---
+*Cátedra de Gastroenterología y Semiótica Digestiva · Facultad de Ciencias Médicas · Universidad Central del Ecuador*
