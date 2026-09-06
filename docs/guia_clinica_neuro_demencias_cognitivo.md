@@ -93,4 +93,12 @@ graph TD
 ```
 
 ---
+
+### 🎬 6. MATERIAL AUDIOVISUAL & MULTIMODAL COMPLEMENTARIO (CLASSROOM)
+
+* 🎙️ **Audio Deep Dive / Podcast:** [Google NotebookLM — Discusión Semiótica de Síndromes Demenciales](https://notebook.google.com/notebook/4544fc73-d0a0-450b-bb80-ed53ff07ce98/artifact/7a7497a1-0cb0-43ba-8291-bdc2af54d926?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_)
+* 🎥 **Video Clínico de Semiología:** [YouTube — Exploración y Diagnóstico de Demencias](https://youtu.be/_1i9smR2ExU?si=SeIE7v-dtwFv-udg)
+* 🌐 **Módulo Interactivo Web:** [PowerSemiotics — Cátedra de Neurología: Demencias](https://powersemiotics.com/medsemiotics/neurologia/demencias.html)
+
+---
 *MedSemiotics Copilot — Cátedra de Neurología Clínica y Semiótica — UCE / HCAM*
