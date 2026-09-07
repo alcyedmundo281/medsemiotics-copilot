@@ -50,6 +50,10 @@ from medsemiotics.services.teaching_position import (
     resolve_teaching_position,
     resolve_teaching_position_from_effective_schedule,
 )
+from medsemiotics.services.web_publisher import (
+    WebPublisher,
+    WebPublisherError,
+)
 
 __all__ = [
     "CalendarCoachingService",
@@ -66,6 +70,8 @@ __all__ = [
     "TeachingDayService",
     "TeachingGuideRepository",
     "TeachingLogRepository",
+    "WebPublisher",
+    "WebPublisherError",
     "build_calendar_publish_request",
     "build_course_academic_state",
     "build_effective_teaching_schedule",
