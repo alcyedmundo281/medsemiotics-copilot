@@ -124,7 +124,17 @@ from medsemiotics.domain.teaching_position import (
     TeachingPaceStatus,
     TeachingPosition,
 )
-from medsemiotics.domain.topics import Topic, TopicId, validate_and_normalize_topic_id
+from medsemiotics.domain.topics import (
+    Topic,
+    TopicId,
+    validate_and_normalize_topic_id,
+)
+from medsemiotics.domain.web_publication import (
+    CourseWebSection,
+    WebModuleSpec,
+    WebPublishPlan,
+    WebPublishResult,
+)
 
 __all__ = [
     "GOOGLE_CLASSROOM_COURSES_READONLY_SCOPE",
@@ -170,6 +180,7 @@ __all__ = [
     "CourseCode",
     "CourseTeachingGuideCatalog",
     "CourseTeachingSchedule",
+    "CourseWebSection",
     "CoverageStatus",
     "CuratedTeachingCoachDraftRequest",
     "EffectiveClassEvent",
@@ -222,6 +233,9 @@ __all__ = [
     "TopicId",
     "TopicProgress",
     "TopicProgressStatus",
+    "WebModuleSpec",
+    "WebPublishPlan",
+    "WebPublishResult",
     "validate_and_normalize_course_code",
     "validate_and_normalize_semester_id",
     "validate_and_normalize_session_id",
