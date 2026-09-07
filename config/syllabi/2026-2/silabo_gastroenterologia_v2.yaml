@@ -120,6 +120,7 @@ schedule_18_weeks:
     title: "Pancreatitis aguda (Etiología, criterios de severidad Balthazar/Atlanta) y pancreatitis crónica"
     status: "projected"
     hemisemestre: 2
+    web_module: "https://powersemiotics.com/medsemiotics/gastroenterologia/pancreatitis_aguda/index.html"
 
   - week: 13
     date: "2026-09-16"

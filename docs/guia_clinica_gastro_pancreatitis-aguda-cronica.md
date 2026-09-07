@@ -2,7 +2,7 @@
 
 **Cátedra de Gastroenterología y Semiótica Digestiva — semestre 2026-2**
 
-Semana 16 (o sesión activa en rotación) · Miércoles 16:00 - 17:30 (1 sesión semanal presencial/híbrida)
+Semana 12 · 2026-09-09 · Miércoles 16:00 - 17:30 (1 sesión semanal presencial/híbrida)
 
 Hospital de Especialidades Carlos Andrade Marín (HCAM) · Aula Lúdica
 
@@ -35,11 +35,12 @@ Hospital de Especialidades Carlos Andrade Marín (HCAM) · Aula Lúdica
 
 ## Material de apoyo
 
-- Criterios diagnósticos y de gravedad (Clasificación de Atlanta revisada).
-- Cronograma de estudios de imagen (Ecografía precoz vs. TC contrastada a las 72 h).
-- Tabla de etiologías y su búsqueda dirigida (Biliar, alcohólica, hipertrigliceridemia).
+- Criterios diagnósticos y de gravedad.
+- Cronograma de estudios de imagen.
+- Tabla de etiologías y su búsqueda dirigida.
 
-Módulo interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html
+Módulo interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia/pancreatitis_aguda/index.html
+Video audiovisual: https://youtu.be/H6Xo3Ra0ncw
 
 ---
 
