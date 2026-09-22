@@ -3,7 +3,7 @@
 **Cátedra de Neurología Clínica y Semiótica Médica — Semestre 2026-2**  
 *Hospital de Especialidades Carlos Andrade Marín (HCAM) | Aula de Administración*  
 *Fecha de Clase: 2026-09-22 (Martes 16:00 - 17:30) — Semana 14 (adelantada desde la semana 15)*  
-*Módulo Interactivo:* https://powersemiotics.com/medsemiotics/neurologia/desmielinizantes.html
+*Módulo Interactivo:* https://powersemiotics.com/medsemiotics/neurologia/enfermedades_desmielinizantes.html
 
 ---
 
@@ -129,7 +129,7 @@ graph TD
 
 * 🎙️ **Audio Deep Dive / Podcast:** *(pendiente: agregar enlace de NotebookLM tras generarlo)*
 * 🎥 **Video Clínico de Semiología:** *(pendiente: agregar enlace de YouTube)*
-* 🌐 **Módulo Interactivo Web:** [PowerSemiotics — Cátedra de Neurología: Enfermedades Desmielinizantes](https://powersemiotics.com/medsemiotics/neurologia/desmielinizantes.html)
+* 🌐 **Módulo Interactivo Web:** [PowerSemiotics — Cátedra de Neurología: Enfermedades Desmielinizantes](https://powersemiotics.com/medsemiotics/neurologia/enfermedades_desmielinizantes.html)
 * 🧩 **Caso socrático de la clase:** `docs/caso_clinico_socratico_desmielinizantes_em.md`
 
 ### 📚 Referencias de consulta docente

@@ -6,7 +6,7 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w01-20260623@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20260623T210000Z
 DTEND:20260623T223000Z
 SUMMARY:Sem 01 - Introducción a la semiología neurológica e historia clínica orientada al problema
@@ -16,7 +16,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w02-20260630@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20260630T210000Z
 DTEND:20260630T223000Z
 SUMMARY:Sem 02 - Estado mental, funciones cerebrales superiores y semiología del lenguaje
@@ -26,7 +26,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w03-20260707@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20260707T210000Z
 DTEND:20260707T223000Z
 SUMMARY:Sem 03 - Pares craneales I al VI (Vía visual, fondo de ojo y motilidad ocular)
@@ -36,7 +36,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w04-20260714@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20260714T210000Z
 DTEND:20260714T223000Z
 SUMMARY:Sem 04 - Pares craneales VII al XII (Facial, auditivo-vestibular, bulbares y deglución)
@@ -46,7 +46,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w05-20260721@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20260721T210000Z
 DTEND:20260721T223000Z
 SUMMARY:Sem 05 - Sistema motor: inspección, tono, trofismo y gradación de fuerza muscular
@@ -56,7 +56,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w06-20260728@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20260728T210000Z
 DTEND:20260728T223000Z
 SUMMARY:Sem 06 - Reflejos osteotendinosos y signos de liberación piramidal (Babinski y sucedáneos)
@@ -66,7 +66,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w07-20260804@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20260804T210000Z
 DTEND:20260804T223000Z
 SUMMARY:Sem 07 - Sistema sensitivo: sensibilidad superficial (tacto/dolor/temperatura) y profunda
@@ -76,7 +76,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w08-20260811@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20260811T210000Z
 DTEND:20260811T223000Z
 SUMMARY:Sem 08 - Coordinación motora, marcha y síndrome cerebeloso (ataxias)
@@ -86,7 +86,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w09-20260818@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20260818T210000Z
 DTEND:20260818T223000Z
 SUMMARY:Sem 09 - Evaluación del Primer Hemisemestre: Escala NIHSS y Eventos Cerebrovasculares (ACV)
@@ -96,7 +96,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w10-20260825@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20260825T210000Z
 DTEND:20260825T223000Z
 SUMMARY:Sem 10 - Trastornos del movimiento I: Enfermedad de Parkinson Idiopática (EPI)
@@ -106,7 +106,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w11-20260901@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20260901T210000Z
 DTEND:20260901T223000Z
 SUMMARY:Sem 11 - Trastornos del movimiento II: Parkinsonismos Atípicos (PSP/AMS/DCB) y Coreas
@@ -116,7 +116,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w12-20260908@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20260908T210000Z
 DTEND:20260908T223000Z
 SUMMARY:Sem 12 - Síndromes demenciales, Enfermedad de Alzheimer y deterioro neurocognitivo
@@ -126,7 +126,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w13-20260915@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20260915T210000Z
 DTEND:20260915T223000Z
 SUMMARY:Sem 13 - Cefaleas primarias (Migraña, Tensional, Cluster) y Banderas Rojas
@@ -136,17 +136,17 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w14-20260922@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20260922T210000Z
 DTEND:20260922T223000Z
 SUMMARY:Sem 14 - Enfermedades desmielinizantes del SNC (Esclerosis Múltiple y NMO)
-DESCRIPTION:Clase de Cátedra de Neurología Clínica y Semiótica\n\nTema: Enfermedades desmielinizantes del SNC (Esclerosis Múltiple y NMO)\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/neurologia/desmielinizantes.html\n\nUbicacion: Aula de Administración
+DESCRIPTION:Clase de Cátedra de Neurología Clínica y Semiótica\n\nTema: Enfermedades desmielinizantes del SNC (Esclerosis Múltiple y NMO)\n\nModulo Web Interactivo: https://powersemiotics.com/medsemiotics/neurologia/enfermedades_desmielinizantes.html\n\nUbicacion: Aula de Administración
 LOCATION:Aula de Administración
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w15-20260929@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20260929T210000Z
 DTEND:20260929T223000Z
 SUMMARY:Sem 15 - Epilepsia, crisis epilépticas focales/generalizadas y diagnóstico diferencial
@@ -156,7 +156,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w16-20261006@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20261006T210000Z
 DTEND:20261006T223000Z
 SUMMARY:Sem 16 - Infecciones del SNC: Síndrome meníngeo, meningitis, encefalitis y abscesos
@@ -166,7 +166,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w17-20261013@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20261013T210000Z
 DTEND:20261013T223000Z
 SUMMARY:Sem 17 - Coma, alteraciones de conciencia, muerte encefálica y urgencias neurocríticas
@@ -176,7 +176,7 @@ STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:medsemiotics-2026-2-NEURO-w18-20261020@powersemiotics.com
-DTSTAMP:20260921T235837Z
+DTSTAMP:20260922T001115Z
 DTSTART:20261020T210000Z
 DTEND:20261020T223000Z
 SUMMARY:Sem 18 - Evaluación Final Integral del Segundo Hemisemestre

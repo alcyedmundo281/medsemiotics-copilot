@@ -39,7 +39,7 @@ Hospital de Especialidades Carlos Andrade Marín (HCAM) · Aula de Administraci�
 - Ficha de examen de la vía visual.
 - Definición operativa de brote.
 
-Módulo interactivo: https://powersemiotics.com/medsemiotics/neurologia/desmielinizantes.html
+Módulo interactivo: https://powersemiotics.com/medsemiotics/neurologia/enfermedades_desmielinizantes.html
 
 ---
 

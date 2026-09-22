@@ -139,7 +139,7 @@ schedule_18_weeks:
     title: "Enfermedades desmielinizantes del SNC (Esclerosis Múltiple y NMO)"
     status: "projected"
     hemisemestre: 2
-    web_module: "https://powersemiotics.com/medsemiotics/neurologia/desmielinizantes.html"
+    web_module: "https://powersemiotics.com/medsemiotics/neurologia/enfermedades_desmielinizantes.html"
 
   - week: 15
     date: "2026-09-29"

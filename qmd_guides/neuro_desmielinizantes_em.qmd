@@ -54,7 +54,7 @@ format:
 - Tabla comparativa de esclerosis múltiple y neuromielitis óptica.
 - Ficha de examen de la vía visual.
 - Definición operativa de brote.
-- **Módulo Interactivo:** https://powersemiotics.com/medsemiotics/neurologia/desmielinizantes.html
+- **Módulo Interactivo:** https://powersemiotics.com/medsemiotics/neurologia/enfermedades_desmielinizantes.html
 - **Caso socrático:** docs/caso_clinico_socratico_desmielinizantes_em.md
 
 ---
