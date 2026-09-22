@@ -1,0 +1,61 @@
+---
+title: "Enfermedades desmielinizantes del sistema nervioso central"
+subtitle: "Guía Docente y Razonamiento Clínico — NEURO (2026-2)"
+author: "Cátedra de Neurología Clínica y Semiótica — UCE / HCAM"
+date: "2026-09-22"
+lang: es
+format:
+  epub:
+    toc: true
+    toc-depth: 3
+    toc-title: "Índice de la Guía"
+    number-sections: false
+  html:
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    code-fold: true
+    embed-resources: true
+---
+
+# Enfermedades desmielinizantes del sistema nervioso central
+
+**Asignatura:** NEURO · **Semestre:** 2026-2  
+**Tópico / Código:** `desmielinizantes-em`  
+**Marco Pedagógico:** `KNOW -> REASON -> ACT` (Material docente para discusión)
+
+---
+
+## 1. 🎯 Resultados de Aprendizaje
+
+- Reconocer el patrón de diseminación en tiempo y espacio que sostiene el diagnóstico.
+- Separar esclerosis múltiple de los trastornos del espectro de la neuromielitis óptica.
+
+## 2. ⚡ Puntos Críticos y Semiótica Clave
+
+- Un brote instala su déficit en horas o días y persiste; un empeoramiento por fiebre o calor es un pseudobrote y no cuenta como recaída.
+- Neuritis óptica bilateral o grave, mielitis longitudinalmente extensa y el síndrome del área postrema orientan al espectro neuromielitis óptica.
+- El defecto pupilar aferente relativo es el hallazgo que no debe faltar en la exploración de una neuritis óptica.
+
+## 3. ❓ Preguntas Socráticas para la Discusión Docente
+
+1. **¿Cómo documenta un brote frente a una fluctuación de síntomas previos?**
+1. **¿Qué elementos del examen visual sugieren neuritis óptica?**
+1. **¿Qué haría sospechar neuromielitis óptica antes que esclerosis múltiple?**
+
+## 4. ⚠️ Errores Frecuentes y Trampas Diagnósticas
+
+- **Trampa / Error:** Registrar como recaída un pseudobrote febril.
+- **Trampa / Error:** No explorar el defecto pupilar aferente.
+- **Trampa / Error:** Asumir esclerosis múltiple ante una mielitis extensa.
+
+## 5. 📚 Materiales y Notas Docentes
+
+- Tabla comparativa de esclerosis múltiple y neuromielitis óptica.
+- Ficha de examen de la vía visual.
+- Definición operativa de brote.
+- **Módulo Interactivo:** https://powersemiotics.com/medsemiotics/neurologia/desmielinizantes.html
+- **Caso socrático:** docs/caso_clinico_socratico_desmielinizantes_em.md
+
+---
+*MedSemiotics Copilot — NEURO 2026-2 — UCE / HCAM*
