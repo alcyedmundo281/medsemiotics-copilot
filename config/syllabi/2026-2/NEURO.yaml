@@ -56,11 +56,11 @@ topics:
     planned_order: 13
     planned_week: 13
     required: true
-  - topic_id: "epilepsia-crisis"
+  - topic_id: "desmielinizantes-em"
     planned_order: 14
     planned_week: 14
     required: true
-  - topic_id: "desmielinizantes-em"
+  - topic_id: "epilepsia-crisis"
     planned_order: 15
     planned_week: 15
     required: true

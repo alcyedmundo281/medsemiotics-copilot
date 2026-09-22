@@ -116,3 +116,23 @@ sessions:
       - topic_id: "trastornos-movimiento-2"
         status: "completed"
         notes: "Trastornos del movimiento II: Parkinsonismos Atípicos (PSP/AMS/DCB) y Coreas"
+  - session_id: "neuro-2026-2-w12"
+    semester_id: "2026-2"
+    course_code: "NEURO"
+    session_date: "2026-09-08"
+    sequence_number: 12
+    notes: "Week 12 of the official syllabus."
+    topics:
+      - topic_id: "demencias-cognitivo"
+        status: "completed"
+        notes: "Síndromes demenciales, Enfermedad de Alzheimer y deterioro neurocognitivo"
+  - session_id: "neuro-2026-2-w13"
+    semester_id: "2026-2"
+    course_code: "NEURO"
+    session_date: "2026-09-15"
+    sequence_number: 13
+    notes: "Week 13 of the official syllabus."
+    topics:
+      - topic_id: "cefaleas-red-flags"
+        status: "completed"
+        notes: "Cefaleas primarias (Migraña, Tensional, Cluster) y Banderas Rojas"

@@ -62,11 +62,11 @@ La evaluación se estructura en dos hemisemestres (50% cada uno) conforme al reg
 | Sem. | Fecha | Tema Académico | Estado |
 | :---: | :---: | :--- | :---: |
 | **10**| 25 Ago 2026 | Trastornos del movimiento I: Enfermedad de Parkinson | ✅ Ejecutada |
-| **11**| **01 Sep 2026** | **Trastornos del movimiento II: Parkinsonismos Atípicos y Coreas** | 🔵 **ACTIVA (MAÑANA)** |
-| **12**| 08 Sep 2026 | Síndromes demenciales, Alzheimer y deterioro neurocognitivo | ⏳ Proyectada |
-| **13**| 15 Sep 2026 | Cefaleas primarias (Migraña, Tensional) y Banderas Rojas | ⏳ Proyectada |
-| **14**| 22 Sep 2026 | Epilepsia, crisis convulsivas y diagnóstico diferencial | ⏳ Proyectada |
-| **15**| 29 Sep 2026 | Enfermedades desmielinizantes (Esclerosis Múltiple y NMO) | ⏳ Proyectada |
+| **11**| 01 Sep 2026 | Trastornos del movimiento II: Parkinsonismos Atípicos y Coreas | ✅ Ejecutada |
+| **12**| 08 Sep 2026 | Síndromes demenciales, Alzheimer y deterioro neurocognitivo | ✅ Ejecutada |
+| **13**| 15 Sep 2026 | Cefaleas primarias (Migraña, Tensional) y Banderas Rojas | ✅ Ejecutada |
+| **14**| **22 Sep 2026** | **Enfermedades desmielinizantes (Esclerosis Múltiple y NMO)** | 🔵 **ACTIVA (MAÑANA)** |
+| **15**| 29 Sep 2026 | Epilepsia, crisis convulsivas y diagnóstico diferencial | ⏳ Proyectada |
 | **16**| 06 Oct 2026 | Infecciones del SNC: Meningitis, encefalitis y abscesos | ⏳ Proyectada |
 | **17**| 13 Oct 2026 | Coma, muerte encefálica y semiología neurocrítica | ⏳ Proyectada |
 | **18**| **20 Oct 2026** | **Evaluación Final Integral del Segundo Hemisemestre** | ⏳ Proyectada |
