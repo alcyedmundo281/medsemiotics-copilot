@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 from typing import Any
+
 import yaml
 
 
@@ -84,7 +85,8 @@ def export_notebook_to_yaml(
                 ],
                 "clinical_urgency": (
                     "Hospitalización urgente, sigmoidoscopia flexible temprana sin preparación "
-                    "agresiva, descarte de megacolon tóxico y valoración por Gastroenterología y Cirugía."
+                    "agresiva, descarte de megacolon tóxico y valoración por Gastroenterología y "
+                    "Cirugía."
                 ),
             },
             "differential_crohn_vs_cu": [
@@ -145,7 +147,9 @@ def export_notebook_to_yaml(
                 },
                 {
                     "step": 4,
-                    "question": "¿Podemos asignar clasificación Montreal (E1-E3) solo con la clínica?",
+                    "question": (
+                        "¿Podemos asignar clasificación Montreal (E1-E3) solo con la clínica?"
+                    ),
                     "model_answer": (
                         "No. Montreal es anatómica y exige confirmación endoscópica e histológica."
                     ),
@@ -173,7 +177,9 @@ def export_notebook_to_yaml(
             {
                 "id": 1,
                 "question": "Combinación mínima para CUAG según Truelove y Witts",
-                "answer": ">= 6 deposiciones con sangre/día + al menos 1 signo de toxicidad sistémica.",
+                "answer": (
+                    ">= 6 deposiciones con sangre/día + al menos 1 signo de toxicidad sistémica."
+                ),
             },
             {
                 "id": 2,
@@ -216,8 +222,10 @@ def export_notebook_to_yaml(
         md_lines = [
             f"# {doc['metadata']['title']}",
             f"**Tema:** {doc['metadata']['subject']}",
-            f"**Institución:** {doc['metadata']['institution']} | **Semestre:** {doc['metadata']['semester']}",
-            f"**Sesión:** Semana {sess['week']} ({sess['date']}, {sess['time']}) - {sess['location']}",
+            f"**Institución:** {doc['metadata']['institution']} | "
+            f"**Semestre:** {doc['metadata']['semester']}",
+            f"**Sesión:** Semana {sess['week']} ({sess['date']}, {sess['time']}) - "
+            f"{sess['location']}",
             "\n---\n",
             "## 1. Sílabo y Rúbrica de Evaluación",
             f"- **Asignatura:** {doc['syllabus_summary']['course']}",
@@ -234,7 +242,9 @@ def export_notebook_to_yaml(
 
         md_lines.append("\n### Clasificación de Montreal (Extensión Anatómica):")
         for m in cg["montreal_classification"]:
-            md_lines.append(f"- **{m['category']} ({m['name']}):** {m['extent']} — *{m['clinical_notes']}*")
+            md_lines.append(
+                f"- **{m['category']} ({m['name']}):** {m['extent']} — *{m['clinical_notes']}*"
+            )
 
         md_lines.append("\n### Criterios de Colitis Ulcerosa Aguda Grave (Truelove y Witts):")
         md_lines.append(f"- **Criterio obligatorio:** {tw['mandatory_stools_criterion']}")

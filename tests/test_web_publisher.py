@@ -117,7 +117,7 @@ def test_inject_card_into_hub() -> None:
 </body>
 </html>"""
 
-    card = "<!-- New Card -->\n<a href=\"gastroenterologia/new.html\">New</a>"
+    card = '<!-- New Card -->\n<a href="gastroenterologia/new.html">New</a>'
     injected = WebPublisher.inject_card_into_hub(sample_hub, card, "gastroenterologia/new.html")
     assert "<!-- New Card -->" in injected
     assert "<!-- Existing Card -->" in injected

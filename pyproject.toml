@@ -49,6 +49,9 @@ dev = [
 target-version = "py312"
 line-length = 100
 src = ["src", "tests"]
+# Teaching-coach notebooks are generated artifacts (see scripts/generate_gastro_coach_notebook.py);
+# lint their generator, not the embedded display code in the output.
+extend-exclude = ["notebooks/*.ipynb"]
 
 [tool.ruff.lint]
 select = [
@@ -66,6 +69,8 @@ select = [
     "RUF",    # Ruff-specific rules
 ]
 ignore = []
+# Spanish teaching content uses the en dash for time ranges and titles.
+allowed-confusables = ["–"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["medsemiotics"]
