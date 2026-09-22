@@ -8,3 +8,6 @@ other confidential material in the repository, logs, issues, or pull requests.
 
 Keep LLM reasoning behind the provider-neutral boundary described in
 `docs/llm-provider-strategy.md`; never couple an LLM client directly to Calendar publishing.
+
+This repository no longer manages the instructor's calendar: secretario-clinico owns every
+Calendar write and consumes the teaching-events bridge described in `docs/puente-secretario-clinico.md`.
