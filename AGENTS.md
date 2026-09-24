@@ -9,7 +9,8 @@ data, protected health information, private clinical records, or confidential in
 - Preserve the `KNOW -> REASON -> ACT` boundaries documented in `ARCHITECTURE.md`.
 - Keep academic state and schedules deterministic and rebuildable from tracked configuration.
 - Treat LLM output as a proposal or draft, never as authoritative academic or clinical state.
-- Require explicit, named human approval before any Google Calendar write.
+- Do not write to the instructor's Google Calendar. Calendar ownership moved to secretario-clinico;
+  hand the schedule over through the teaching-events bridge (`docs/puente-secretario-clinico.md`).
 - Do not add Calendar deletion, bulk publishing, grade publication, or autonomous external writes.
 - Run pytest, Ruff, and strict mypy before proposing a merge.
 - Work on a feature branch and keep changes reviewable.
@@ -19,6 +20,11 @@ data, protected health information, private clinical records, or confidential in
 NEURO and GASTRO are active for semester `2026-2`. Their tracked schedules are date-only
 baselines; Google Calendar supplies operational evidence such as exact event times, cancellations,
 and makeup sessions. An empty calendar must not erase a baseline class date.
+
+After any syllabus change, regenerate the bridge with `python scripts/export_teaching_bridge.py`.
+secretario-clinico imports `docs/puente_secretario/eventos_docentes_<semester>.json` into the
+clinical agenda and is the only system that writes those classes to Google Calendar. The existing
+Calendar writer code stays for reference but must not be invoked.
 
 Teaching guide catalogs are public baseline content. A generated coaching brief remains a draft
 until an accountable person approves the separate publication request.
