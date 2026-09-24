@@ -120,7 +120,7 @@ schedule_18_weeks:
     date: "2026-09-08"
     topic_id: "demencias-cognitivo"
     title: "Síndromes demenciales, Enfermedad de Alzheimer y deterioro neurocognitivo"
-    status: "projected"
+    status: "completed"
     hemisemestre: 2
     web_module: "https://powersemiotics.com/medsemiotics/neurologia/demencias.html"
 
@@ -128,20 +128,23 @@ schedule_18_weeks:
     date: "2026-09-15"
     topic_id: "cefaleas-red-flags"
     title: "Cefaleas primarias (Migraña, Tensional, Cluster) y Banderas Rojas"
-    status: "projected"
+    status: "completed"
     hemisemestre: 2
 
+  # Reprogramación 2026-09-21: Desmielinizantes se adelanta del 29-sep al 22-sep y
+  # Epilepsia pasa a la semana 15. Las semanas 16-18 no cambian.
   - week: 14
     date: "2026-09-22"
-    topic_id: "epilepsia-crisis"
-    title: "Epilepsia, crisis epilépticas focales/generalizadas y diagnóstico diferencial"
+    topic_id: "desmielinizantes-em"
+    title: "Enfermedades desmielinizantes del SNC (Esclerosis Múltiple y NMO)"
     status: "projected"
     hemisemestre: 2
+    web_module: "https://powersemiotics.com/medsemiotics/neurologia/enfermedades_desmielinizantes.html"
 
   - week: 15
     date: "2026-09-29"
-    topic_id: "desmielinizantes-em"
-    title: "Enfermedades desmielinizantes del SNC (Esclerosis Múltiple y NMO)"
+    topic_id: "epilepsia-crisis"
+    title: "Epilepsia, crisis epilépticas focales/generalizadas y diagnóstico diferencial"
     status: "projected"
     hemisemestre: 2
 

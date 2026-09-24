@@ -74,7 +74,8 @@ def generate_ics(yaml_file: str, output_ics: str) -> None:
 
     lines.append("END:VCALENDAR")
 
-    Path(output_ics).write_text("\r\n".join(lines), encoding="utf-8")
+    # newline="" keeps the CRLF separators intact; otherwise Windows turns them into CR CR LF.
+    Path(output_ics).write_text("\r\n".join(lines), encoding="utf-8", newline="")
     print(
         f"[OK] Calendario generado en UTC: {output_ics} "
         f"({len(topics)} clases con su tema especifico)"

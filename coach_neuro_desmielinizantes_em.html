@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedSemiotics: Enfermedades Desmielinizantes del SNC (EM, NMOSD y MOGAD)</title>
+  <meta name="description" content="Módulo interactivo de semiología de las enfermedades desmielinizantes: brote vs pseudobrote, criterios de McDonald y diferencial EM, NMOSD y MOGAD.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4338ca;
+      --primary-dark: #3730a3;
+      --primary-light: #6366f1;
+      --primary-subtle: #eef2ff;
+      --secondary: #1e3a8a;
+      --accent: #d97706;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --danger-bg: #fef2f2;
+      --danger-border: #ef4444;
+      --danger-text: #991b1b;
+      --warning-bg: #fffbeb;
+      --warning-border: #f59e0b;
+      --warning-text: #92400e;
+      --success-bg: #f0fdf4;
+      --success-border: #22c55e;
+      --success-text: #166534;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      color: var(--text-main);
+      background-color: var(--bg-page);
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 980px; margin: 36px auto; padding: 0 16px; }
+    .brand-nav {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 24px; padding: 12px 18px; background: var(--bg-card);
+      border: 1px solid var(--border-color); border-radius: 12px; box-shadow: var(--shadow-sm);
+    }
+    .brand-title { font-weight: 700; font-size: 15px; color: var(--secondary); }
+    .brand-status {
+      font-size: 12px; background: var(--primary-subtle); color: var(--primary-dark);
+      padding: 4px 10px; border-radius: 999px; font-weight: 600;
+    }
+    .header-hero {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+      color: white; border-radius: 16px; padding: 32px 28px; margin-bottom: 28px; box-shadow: var(--shadow-md);
+    }
+    .header-hero h1 { margin: 0 0 8px; font-size: clamp(22px, 4vw, 30px); line-height: 1.25; }
+    .header-hero p { margin: 0; opacity: 0.92; }
+    .badge-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .badge {
+      background: rgb(255 255 255 / 0.18); border: 1px solid rgb(255 255 255 / 0.3);
+      padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600;
+    }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px;
+      padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow-sm);
+    }
+    .card h2 { margin-top: 0; font-size: 20px; color: var(--primary-dark); }
+    .card h3 { font-size: 16px; margin-bottom: 8px; }
+    .callout { border-left: 4px solid; border-radius: 8px; padding: 12px 16px; margin: 16px 0; }
+    .callout.danger { background: var(--danger-bg); border-color: var(--danger-border); color: var(--danger-text); }
+    .callout.warning { background: var(--warning-bg); border-color: var(--warning-border); color: var(--warning-text); }
+    .callout.success { background: var(--success-bg); border-color: var(--success-border); color: var(--success-text); }
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 640px; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid var(--border-color); text-align: left; vertical-align: top; }
+    th { background: var(--primary-subtle); color: var(--primary-dark); font-weight: 700; }
+    td:first-child { font-weight: 600; }
+    .widget-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+    .widget-field {
+      display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px;
+      border: 1px solid var(--border-color); border-radius: 10px; cursor: pointer; font-size: 14px;
+    }
+    .widget-field:hover { border-color: var(--primary-light); }
+    .widget-field input { margin-top: 4px; accent-color: var(--primary); }
+    .widget-result-box {
+      margin-top: 16px; padding: 14px 16px; border-radius: 10px; border: 1px solid var(--border-color);
+      background: var(--bg-page); font-size: 15px;
+    }
+    .result-badge {
+      display: inline-block; font-weight: 700; padding: 3px 10px; border-radius: 999px;
+      font-size: 13px; margin-bottom: 6px;
+    }
+    .result-badge.ok { background: var(--success-bg); color: var(--success-text); }
+    .result-badge.warn { background: var(--warning-bg); color: var(--warning-text); }
+    .result-badge.bad { background: var(--danger-bg); color: var(--danger-text); }
+    details.question-box {
+      border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 16px; margin-bottom: 10px;
+    }
+    details.question-box summary { cursor: pointer; font-weight: 600; }
+    details.question-box[open] summary { color: var(--primary-dark); margin-bottom: 8px; }
+    .vignette { background: var(--primary-subtle); border-radius: 10px; padding: 14px 16px; }
+    footer { text-align: center; font-size: 13px; color: var(--text-muted); margin: 32px 0; }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text-main: #e2e8f0; --text-muted: #94a3b8; --bg-page: #0b1120; --bg-card: #111827;
+        --border-color: #1f2937; --primary-subtle: #1e1b4b; --primary-dark: #a5b4fc; --secondary: #93c5fd;
+        --danger-bg: #3f1d1d; --danger-text: #fecaca; --warning-bg: #3b2a0a; --warning-text: #fde68a;
+        --success-bg: #0f2e1a; --success-text: #bbf7d0;
+      }
+      .header-hero { background: linear-gradient(135deg, #312e81, #4f46e5); }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <nav class="brand-nav">
+    <span class="brand-title">🧠 MedSemiotics · Cátedra de Neurología Clínica y Semiótica</span>
+    <span class="brand-status">Semana 14 · 22 sep 2026</span>
+  </nav>
+
+  <header class="header-hero">
+    <h1>Enfermedades desmielinizantes del SNC</h1>
+    <p>Esclerosis múltiple, espectro de neuromielitis óptica (NMOSD) y MOGAD: de la semiología al diagnóstico.</p>
+    <div class="badge-bar">
+      <span class="badge">UCE · HCAM</span>
+      <span class="badge">KNOW → REASON → ACT</span>
+      <span class="badge">McDonald 2017 / 2024</span>
+      <span class="badge">Casos sintéticos</span>
+    </div>
+  </header>
+
+  <!-- 1. Brote vs pseudobrote -->
+  <section class="card" id="brote">
+    <h2>1. ¿Brote o pseudobrote? Clasificador semiótico</h2>
+    <p>Marque lo que encuentra en el paciente que consulta por síntomas neurológicos.</p>
+    <div class="widget-grid">
+      <label class="widget-field"><input type="checkbox" id="b-24h"> El déficit dura 24 horas o más</label>
+      <label class="widget-field"><input type="checkbox" id="b-30d"> Pasaron 30 días o más desde el evento anterior</label>
+      <label class="widget-field"><input type="checkbox" id="b-new"> Es un síntoma nuevo o claramente distinto</label>
+      <label class="widget-field"><input type="checkbox" id="b-fever"> Tiene fiebre o una infección (p. ej. urinaria)</label>
+      <label class="widget-field"><input type="checkbox" id="b-heat"> Apareció con calor, ejercicio o baño caliente</label>
+      <label class="widget-field"><input type="checkbox" id="b-old"> Solo reaparecen síntomas antiguos ya conocidos</label>
+    </div>
+    <div class="widget-result-box" id="brote-result" aria-live="polite">Marque los hallazgos para ver la interpretación.</div>
+  </section>
+
+  <!-- 2. Síndromes clínicos -->
+  <section class="card" id="sindromes">
+    <h2>2. Síndromes clínicos aislados: típico vs atípico</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Síndrome</th><th>Típico de esclerosis múltiple</th><th>Atípico: piense en otra cosa</th></tr></thead>
+        <tbody>
+          <tr><td>Neuritis óptica</td><td>Unilateral, dolor con los movimientos oculares, desaturación del rojo, defecto pupilar aferente relativo, recuperación en semanas.</td><td>Bilateral, pérdida visual grave sin recuperación, quiasma, edema de papila florido → NMOSD / MOGAD.</td></tr>
+          <tr><td>Mielitis</td><td>Parcial, asimétrica, menos de 3 segmentos vertebrales, signo de Lhermitte.</td><td>Transversa completa, longitudinalmente extensa (3 o más segmentos) → NMOSD.</td></tr>
+          <tr><td>Tronco / cerebelo</td><td>Oftalmoplejía internuclear (bilateral en un adulto joven), ataxia, diplopía.</td><td>Hipo o vómito incoercible (síndrome del área postrema) → NMOSD.</td></tr>
+          <tr><td>Hemisferio</td><td>Déficit motor o sensitivo subagudo, sin encefalopatía.</td><td>Encefalopatía, crisis y fiebre tras infección o vacuna → ADEM / MOGAD.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warning"><strong>Exploración que no puede faltar:</strong> prueba de la linterna oscilante. Al pasar la luz al ojo afectado, ambas pupilas se dilatan en lugar de contraerse (defecto pupilar aferente relativo).</div>
+  </section>
+
+  <!-- 3. McDonald -->
+  <section class="card" id="mcdonald">
+    <h2>3. Calculadora docente de McDonald (DIS + DIT)</h2>
+    <p>Paciente con un síndrome clínico aislado típico. Marque las regiones con lesiones T2 y los datos de diseminación en tiempo.</p>
+    <h3>Diseminación en espacio: regiones con ≥ 1 lesión T2</h3>
+    <div class="widget-grid">
+      <label class="widget-field"><input type="checkbox" class="dis"> Periventricular</label>
+      <label class="widget-field"><input type="checkbox" class="dis"> Cortical o yuxtacortical</label>
+      <label class="widget-field"><input type="checkbox" class="dis"> Infratentorial</label>
+      <label class="widget-field"><input type="checkbox" class="dis"> Médula espinal</label>
+    </div>
+    <h3>Diseminación en tiempo</h3>
+    <div class="widget-grid">
+      <label class="widget-field"><input type="checkbox" class="dit"> Lesiones que realzan y que no realzan en la misma RM</label>
+      <label class="widget-field"><input type="checkbox" class="dit"> Lesión nueva en una RM de control</label>
+      <label class="widget-field"><input type="checkbox" class="dit"> Segundo brote clínico</label>
+      <label class="widget-field"><input type="checkbox" class="dit"> Bandas oligoclonales restringidas al LCR</label>
+    </div>
+    <label class="widget-field" style="margin-top:10px"><input type="checkbox" id="m-better"> Existe una explicación mejor (bandera roja, AQP4-IgG o MOG-IgG positivos, etc.)</label>
+    <div class="widget-result-box" id="mcdonald-result" aria-live="polite">Marque los hallazgos para evaluar los criterios.</div>
+    <p style="font-size:13px;color:var(--text-muted)">Herramienta docente simplificada según McDonald 2017. La revisión de 2024 añade el nervio óptico como quinta región y nuevos biomarcadores; no sustituye el juicio del especialista.</p>
+  </section>
+
+  <!-- 4. EM vs NMOSD vs MOGAD -->
+  <section class="card" id="diferencial">
+    <h2>4. EM vs NMOSD vs MOGAD</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Dominio</th><th>Esclerosis múltiple</th><th>NMOSD (AQP4-IgG+)</th><th>MOGAD</th></tr></thead>
+        <tbody>
+          <tr><td>Mecanismo</td><td>Inflamación T/B multifocal y neurodegeneración</td><td>Astrocitopatía por anticuerpos anti-acuaporina-4</td><td>Anticuerpos contra MOG</td></tr>
+          <tr><td>Perfil</td><td>Mujer, 20–40 años</td><td>Mujer (≈ 9:1), 30–40 años</td><td>Niños y adultos jóvenes</td></tr>
+          <tr><td>Neuritis óptica</td><td>Unilateral, leve, buena recuperación</td><td>Bilateral o grave, quiasmática, recuperación pobre</td><td>Bilateral, anterior, edema de papila</td></tr>
+          <tr><td>Mielitis</td><td>Corta y periférica</td><td>Longitudinalmente extensa y central</td><td>Extensa o corta; cono medular</td></tr>
+          <tr><td>RM cerebral</td><td>Dedos de Dawson, yuxtacortical, infratentorial</td><td>Normal o periependimaria / área postrema</td><td>Lesiones difusas, mal delimitadas</td></tr>
+          <tr><td>LCR</td><td>Bandas oligoclonales positivas</td><td>Bandas ausentes; pleocitosis puede ser &gt; 50</td><td>Bandas ausentes</td></tr>
+          <tr><td>Curso</td><td>Remitente-recurrente → progresiva</td><td>Recaídas graves, sin fase progresiva</td><td>Monofásico o recurrente</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout danger"><strong>Error con consecuencias:</strong> algunos fármacos de esclerosis múltiple (interferón β, natalizumab, fingolimod) pueden empeorar la NMOSD. Ante una mielitis extensa o una neuritis grave, solicite AQP4-IgG y MOG-IgG antes de rotular.</div>
+  </section>
+
+  <!-- 5. Caso -->
+  <section class="card" id="caso">
+    <h2>5. Caso socrático (sintético)</h2>
+    <div class="vignette">
+      <strong>Mujer de 27 años.</strong> Parestesias desde el ombligo hacia abajo desde hace cinco días, instaladas en 48 horas, con urgencia miccional y corriente eléctrica por la espalda al flexionar el cuello. Afebril. Hace 14 meses tuvo visión borrosa del ojo derecho con dolor al moverlo, que mejoró sola. Al ducharse con agua caliente la visión del ojo derecho se empaña unos minutos.
+    </div>
+    <p><strong>Examen:</strong> defecto pupilar aferente relativo derecho con palidez temporal del disco, oftalmoplejía internuclear derecha, nivel sensitivo T10 incompleto, hiperreflexia en miembros inferiores y Babinski bilateral.</p>
+    <details class="question-box"><summary>1. ¿Es un brote o un pseudobrote?</summary>Brote: déficit nuevo, más de 24 horas, instalación en días, sin fiebre y con EMO normal.</details>
+    <details class="question-box"><summary>2. ¿Qué es el empañamiento visual con el calor?</summary>Fenómeno de Uhthoff: bloqueo de conducción transitorio en un nervio previamente desmielinizado. No es un brote.</details>
+    <details class="question-box"><summary>3. ¿Qué hallazgo prueba que la neuritis previa fue real?</summary>El defecto pupilar aferente relativo derecho con palidez temporal del disco: convierte un antecedente relatado en evidencia objetiva.</details>
+    <details class="question-box"><summary>4. ¿Cuántas localizaciones hay clínicamente?</summary>Tres: nervio óptico (previo), tronco (oftalmoplejía internuclear) y médula (actual). Ya hay diseminación clínica en espacio y tiempo.</details>
+    <details class="question-box"><summary>5. ¿Y si la mielitis abarcara de T3 a T9 y la neuritis previa hubiera sido bilateral y grave?</summary>Sospecha de NMOSD: solicitar AQP4-IgG y no iniciar fármacos de esclerosis múltiple que pueden empeorarla.</details>
+    <details class="question-box"><summary>6. ¿Qué hace en la guardia?</summary>Brote discapacitante: pulsos de metilprednisolona IV según protocolo institucional (referencia docente: 1 g/día por 3–5 días). Acelera la recuperación, no cambia el pronóstico a largo plazo. Referir a Neurología para terapia modificadora.</details>
+  </section>
+
+  <footer>
+    MedSemiotics Copilot · Cátedra de Neurología Clínica y Semiótica · UCE / HCAM · Semestre 2026-2<br>
+    Material docente. Los casos son sintéticos y no sustituyen la valoración del especialista.
+  </footer>
+</div>
+
+<script>
+  (function () {
+    const $ = (id) => document.getElementById(id);
+
+    function renderBrote() {
+      const h24 = $('b-24h').checked, d30 = $('b-30d').checked, nuevo = $('b-new').checked;
+      const fiebre = $('b-fever').checked, calor = $('b-heat').checked, viejo = $('b-old').checked;
+      const box = $('brote-result');
+      const any = [h24, d30, nuevo, fiebre, calor, viejo].some(Boolean);
+      if (!any) { box.innerHTML = 'Marque los hallazgos para ver la interpretación.'; return; }
+      if (fiebre || calor || viejo) {
+        box.innerHTML = '<span class="result-badge bad">Probable pseudobrote</span><br>' +
+          'Hay un desencadenante (fiebre, infección o calor) o solo reaparecen síntomas antiguos. ' +
+          'Busque y trate la causa (EMO, urocultivo, hemograma). No indique corticoides por este evento.';
+      } else if (h24 && d30 && nuevo) {
+        box.innerHTML = '<span class="result-badge ok">Cumple la definición de brote</span><br>' +
+          'Déficit nuevo, de 24 horas o más, separado 30 días o más del anterior y sin desencadenante. ' +
+          'Si es discapacitante, valore pulsos de corticoide según protocolo.';
+      } else {
+        box.innerHTML = '<span class="result-badge warn">Aún no se puede definir</span><br>' +
+          'Falta documentar duración de 24 horas o más, separación de 30 días o que el déficit sea nuevo.';
+      }
+    }
+
+    function renderMcDonald() {
+      const dis = document.querySelectorAll('.dis:checked').length;
+      const dit = document.querySelectorAll('.dit:checked').length;
+      const better = $('m-better').checked;
+      const box = $('mcdonald-result');
+      if (better) {
+        box.innerHTML = '<span class="result-badge bad">No diagnosticar esclerosis múltiple</span><br>' +
+          'Existe una explicación mejor. Los criterios de McDonald solo se aplican cuando esta se ha descartado.';
+        return;
+      }
+      if (dis === 0 && dit === 0) { box.innerHTML = 'Marque los hallazgos para evaluar los criterios.'; return; }
+      const disOk = dis >= 2, ditOk = dit >= 1;
+      if (disOk && ditOk) {
+        box.innerHTML = '<span class="result-badge ok">Cumple DIS y DIT</span><br>' +
+          'Regiones típicas: ' + dis + '/4. Con un síndrome clínico típico y sin mejor explicación, apoya el diagnóstico de esclerosis múltiple.';
+      } else {
+        const faltas = [];
+        if (!disOk) faltas.push('diseminación en espacio (' + dis + '/4 regiones; se requieren 2)');
+        if (!ditOk) faltas.push('diseminación en tiempo');
+        box.innerHTML = '<span class="result-badge warn">Síndrome clínico aislado sin criterios completos</span><br>' +
+          'Falta ' + faltas.join(' y ') + '. Considere punción lumbar (bandas oligoclonales) o RM de control.';
+      }
+    }
+
+    document.querySelectorAll('#brote input').forEach((el) => el.addEventListener('change', renderBrote));
+    document.querySelectorAll('#mcdonald input').forEach((el) => el.addEventListener('change', renderMcDonald));
+  })();
+</script>
+</body>
+</html>
