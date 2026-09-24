@@ -126,22 +126,22 @@ class WebPublisher:
             heading = clean_title
 
         return (
-            f'        <!-- {heading} -->\n'
-            f'        <a\n'
+            f"        <!-- {heading} -->\n"
+            f"        <a\n"
             f'          href="{relative_href}"\n'
             f'          class="block w-full bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl '
             f'transition-all duration-300 border border-gray-200 group card-hover-effect"\n'
-            f'        >\n'
+            f"        >\n"
             f'          <div class="flex items-center mb-4">\n'
             f'            <i class="fas fa-{icon} text-4xl gradient-text"></i>\n'
-            f'          </div>\n'
+            f"          </div>\n"
             f'          <h2 class="text-2xl font-bold text-gray-800">\n'
-            f'            {heading}\n'
-            f'          </h2>\n'
+            f"            {heading}\n"
+            f"          </h2>\n"
             f'          <p class="text-gray-600 text-md mt-2">\n'
-            f'            {description.strip()}\n'
-            f'          </p>\n'
-            f'        </a>'
+            f"            {description.strip()}\n"
+            f"          </p>\n"
+            f"        </a>"
         )
 
     @staticmethod
@@ -160,7 +160,7 @@ class WebPublisher:
                 html_content,
             )
 
-        head_open_match = re.search(r'<head\b[^>]*>', html_content, re.IGNORECASE)
+        head_open_match = re.search(r"<head\b[^>]*>", html_content, re.IGNORECASE)
         if head_open_match:
             insert_pos = head_open_match.end()
             return f"{html_content[:insert_pos]}\n{canonical_tag}{html_content[insert_pos:]}"
@@ -177,18 +177,14 @@ class WebPublisher:
         # Match the end of the cards grid before closing </main> or </div>\n    </main>
         # Looking for the closing </div> of the grid
         grid_closing_pattern = re.compile(
-            r'(\s*</div>\s*</main>)',
+            r"(\s*</div>\s*</main>)",
             re.IGNORECASE,
         )
 
         match = grid_closing_pattern.search(hub_html)
         if match:
             insert_point = match.start()
-            new_hub = (
-                f"{hub_html[:insert_point]}\n\n"
-                f"{card_html}\n"
-                f"{hub_html[insert_point:]}"
-            )
+            new_hub = f"{hub_html[:insert_point]}\n\n{card_html}\n{hub_html[insert_point:]}"
             return new_hub
 
         msg = "Could not locate card grid closing tags in the hub HTML."
@@ -361,7 +357,7 @@ class WebPublisher:
                 text=True,
                 check=False,
             )
-            pushed = (push_proc.returncode == 0)
+            pushed = push_proc.returncode == 0
 
             return committed, pushed
         except Exception as err:
