@@ -89,20 +89,21 @@ Indicada exclusivamente si existe al menos uno de los siguientes:
 
 | Factor predisponente | Patógenos bacterianos comunes | Terapia antimicrobiana empírica |
 |---|---|---|
-| **< 1 mes** | *S. agalactiae, E. coli, L. monocytogenes* | Ampicilina + Cefotaxima; **O** Ampicilina + un aminoglucósido |
-| **1 a 23 meses** | *S. pneumoniae, N. meningitidis, S. agalactiae, H. influenzae, E. coli* | Vancomicina + Cefalosporina de 3.ª gen (Ceftriaxona o Cefotaxima) |
-| **2 a 50 años** | *N. meningitidis, S. pneumoniae* | **Vancomicina + Cefalosporina de 3.ª gen** (Ceftriaxona o Cefotaxima) |
-| **> 50 años** | *S. pneumoniae, N. meningitidis, L. monocytogenes*, bacilos gramnegativos aerobios | **Vancomicina + Ampicilina + Cefalosporina de 3.ª gen** |
-| **Trauma craneal: Fractura de base** | *S. pneumoniae, H. influenzae*, estreptococos beta-hemolíticos grupo A | Vancomicina + Cefalosporina de 3.ª gen |
-| **Trauma craneal penetrante** | *S. aureus*, estafilococos coagulasa negativos (*S. epidermidis*), bacilos gramnegativos aerobios (*P. aeruginosa*) | Vancomicina + Cefepima; **O** Vancomicina + Ceftazidima; **O** Vancomicina + Meropenem |
-| **Postneurocirugía** | Bacilos gramnegativos aerobios (*P. aeruginosa*), *S. aureus*, estafilococos coagulasa negativos (*S. epidermidis*) | Vancomicina + Cefepima; **O** Vancomicina + Ceftazidima; **O** Vancomicina + Meropenem |
-| **Estado inmunocomprometido** | *S. pneumoniae, N. meningitidis, L. monocytogenes*, bacilos gramnegativos aerobios (*P. aeruginosa*) | **Vancomicina + Ampicilina + Cefepima**; **O** Vancomicina + Meropenem (si se confirma *Listeria*, pasar a Ampicilina) |
+| **< 1 mes** | *Streptococcus agalactiae, Escherichia coli, Listeria monocytogenes* | Ampicilina + Cefotaxima; **O** Ampicilina + un aminoglucósido |
+| **1 a 23 meses** | *Streptococcus pneumoniae, Neisseria meningitidis, S. agalactiae, Haemophilus influenzae, E. coli* | Vancomicina + Cefalosporina de 3.ª gen ¶ Δ ⋄ |
+| **2 a 50 años** | *N. meningitidis, S. pneumoniae* | **Vancomicina + Cefalosporina de 3.ª gen** ¶ Δ ⋄ |
+| **> 50 años** | *S. pneumoniae, N. meningitidis, L. monocytogenes*, bacilos gramnegativos aerobios | **Vancomicina + Ampicilina + Cefalosporina de 3.ª gen** ¶ Δ |
+| **Trauma craneal: Fractura de base de cráneo** | *S. pneumoniae, H. influenzae*, estreptococos beta-hemolíticos grupo A | Vancomicina + Cefalosporina de 3.ª gen ¶ Δ |
+| **Trauma craneal penetrante** | *Staphylococcus aureus*, estafilococos coagulasa negativos (especialmente *S. epidermidis*), bacilos gramnegativos aerobios (incluyendo *Pseudomonas aeruginosa*) | Vancomicina + Cefepima; **O** Vancomicina + Ceftazidima; **O** Vancomicina + Meropenem |
+| **Postneurocirugía** | Bacilos gramnegativos aerobios (incluyendo *P. aeruginosa*), *S. aureus*, estafilococos coagulasa negativos (especialmente *S. epidermidis*) | Vancomicina + Cefepima; **O** Vancomicina + Ceftazidima; **O** Vancomicina + Meropenem |
+| **Estado inmunocomprometido** | *S. pneumoniae, N. meningitidis, L. monocytogenes*, bacilos gramnegativos aerobios (incluyendo *P. aeruginosa*) | **Vancomicina + Ampicilina + Cefepima**; **O** Vancomicina + Meropenem § |
 
-*Notas:*
-- Cefalosporina de 3.ª generación = Ceftriaxona o Cefotaxima.
-- Añadir **Ampicilina** siempre que se sospeche o haya riesgo de *Listeria monocytogenes* (>50 años, inmunocompromiso, alcoholismo, embarazo).
-- En sospecha concomitante de **Encefalitis por VHS**, añadir **Aciclovir 10 mg/kg IV c/8 h** de inmediato.
-- Algunos expertos agregan **Rifampicina** si se administra dexametasona y hay alta sospecha de neumococo resistente a cefalosporinas.
+*Notas al pie oficiales (UpToDate / Tunkel AR et al. Clin Infect Dis 2004):*
+- ¶ **Ceftriaxona o cefotaxima.**
+- Δ **Adición de Rifampicina:** Algunos expertos recomiendan añadir rifampicina si se administra simultáneamente dexametasona (para asegurar erradicación de cepas de neumococo con sensibilidad intermedia o disminuida a cefalosporinas).
+- ⋄ **Adición de Ampicilina:** Añadir ampicilina si se sospecha o hay riesgo epidemiológico/clínico de infección por *Listeria monocytogenes*.
+- § **Cobertura de Meropenem en inmunocompromiso:** El meropenem aporta cobertura suficiente para *Listeria* como parte del esquema empírico inicial. No obstante, si se identifica y confirma *Listeria*, el paciente debe cambiarse a un régimen definitivo que incluya ampicilina.
+- **Encefalitis concomitante:** Si existe compromiso encefálico (alteración del sensorio, desorientación, afasia, crisis focales), añadir obligatoriamente **Aciclovir 10 mg/kg IV cada 8 horas**.
 
 ### Dosificación intravenosa recomendada en adultos (Función renal y hepática normal - UpToDate)
 

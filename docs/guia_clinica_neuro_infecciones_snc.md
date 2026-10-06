@@ -74,13 +74,19 @@ Sospecha de Meningitis Aguda (Fiebre + Cefalea aguda / Rigidez / Alteración men
 | Factor predisponente | Patógenos bacterianos comunes | Régimen antimicrobiano empírico |
 | :--- | :--- | :--- |
 | **Edad < 1 mes** | *Streptococcus agalactiae, Escherichia coli, Listeria monocytogenes* | **Ampicilina + Cefotaxima**; O Ampicilina + Aminoglucósido |
-| **Edad 1 a 23 meses** | *S. pneumoniae, N. meningitidis, S. agalactiae, H. influenzae, E. coli* | **Vancomicina + Cefalosporina de 3.ª generación** (Ceftriaxona o Cefotaxima) |
-| **Edad 2 a 50 años** | *Neisseria meningitidis, Streptococcus pneumoniae* | **Vancomicina + Cefalosporina de 3.ª generación** (Ceftriaxona o Cefotaxima) |
-| **Edad > 50 años** | *S. pneumoniae, N. meningitidis, L. monocytogenes*, bacilos gramnegativos aerobios | **Vancomicina + Ampicilina + Cefalosporina de 3.ª generación** |
-| **Trauma craneal: Fractura de base de cráneo** | *S. pneumoniae, H. influenzae*, estreptococos beta-hemolíticos grupo A | **Vancomicina + Cefalosporina de 3.ª generación** |
-| **Trauma craneal penetrante** | *Staphylococcus aureus*, estafilococos coagulasa negativos (*S. epidermidis*), bacilos gramnegativos aerobios (*P. aeruginosa*) | **Vancomicina + Cefepima**; O Vancomicina + Ceftazidima; O Vancomicina + Meropenem |
-| **Postneurocirugía** | Bacilos gramnegativos aerobios (*P. aeruginosa*), *S. aureus*, estafilococos coagulasa negativos (*S. epidermidis*) | **Vancomicina + Cefepima**; O Vancomicina + Ceftazidima; O Vancomicina + Meropenem |
-| **Estado inmunocomprometido** | *S. pneumoniae, N. meningitidis, L. monocytogenes*, bacilos gramnegativos aerobios (*P. aeruginosa*) | **Vancomicina + Ampicilina + Cefepima**; O Vancomicina + Meropenem (si se confirma *Listeria*, pasar a Ampicilina) |
+| **Edad 1 a 23 meses** | *Streptococcus pneumoniae, Neisseria meningitidis, S. agalactiae, Haemophilus influenzae, E. coli* | **Vancomicina + Cefalosporina de 3.ª generación** ¶ Δ ⋄ |
+| **Edad 2 a 50 años** | *N. meningitidis, Streptococcus pneumoniae* | **Vancomicina + Cefalosporina de 3.ª generación** ¶ Δ ⋄ |
+| **Edad > 50 años** | *S. pneumoniae, N. meningitidis, L. monocytogenes*, bacilos gramnegativos aerobios | **Vancomicina + Ampicilina + Cefalosporina de 3.ª generación** ¶ Δ |
+| **Trauma craneal: Fractura de base de cráneo** | *S. pneumoniae, H. influenzae*, estreptococos beta-hemolíticos grupo A | **Vancomicina + Cefalosporina de 3.ª generación** ¶ Δ |
+| **Trauma craneal penetrante** | *Staphylococcus aureus*, estafilococos coagulasa negativos (especialmente *S. epidermidis*), bacilos gramnegativos aerobios (incluyendo *Pseudomonas aeruginosa*) | **Vancomicina + Cefepima**; O **Vancomicina + Ceftazidima**; O **Vancomicina + Meropenem** |
+| **Postneurocirugía** | Bacilos gramnegativos aerobios (incluyendo *P. aeruginosa*), *S. aureus*, estafilococos coagulasa negativos (especialmente *S. epidermidis*) | **Vancomicina + Cefepima**; O **Vancomicina + Ceftazidima**; O **Vancomicina + Meropenem** |
+| **Estado inmunocomprometido** | *S. pneumoniae, N. meningitidis, L. monocytogenes*, bacilos gramnegativos aerobios (incluyendo *P. aeruginosa*) | **Vancomicina + Ampicilina + Cefepima**; O **Vancomicina + Meropenem** § |
+
+*Notas explicativas (UpToDate / Tunkel AR et al. CID 2004):*
+* ¶ **Ceftriaxona o cefotaxima.**
+* Δ **Rifampicina:** Algunos expertos recomiendan añadir rifampicina si se administra simultáneamente dexametasona para garantizar erradicación en neumococo resistente.
+* ⋄ **Ampicilina:** Añadir ampicilina si existe sospecha o riesgo clínico de meningitis por *Listeria monocytogenes*.
+* § **Meropenem:** Provee cobertura suficiente para *Listeria* como esquema empírico inicial; si se aísla e identifica *Listeria*, el paciente debe cambiarse a un esquema definitivo con ampicilina.
 
 #### B. Dosificación intravenosa recomendada en adultos con función renal y hepática normal (UpToDate):
 
