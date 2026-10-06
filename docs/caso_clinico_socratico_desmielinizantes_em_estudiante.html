@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Caso Clínico Socrático — Enfermedades Desmielinizantes (Estudiante)</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 14mm 14mm 14mm 14mm;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 9.8pt;
+      line-height: 1.45;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+      border-bottom: 2px solid #1e3a8a;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    .header-table td {
+      vertical-align: middle;
+    }
+    .header-title {
+      font-size: 13.5pt;
+      font-weight: 800;
+      color: #1e3a8a;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin: 0;
+    }
+    .header-subtitle {
+      font-size: 9.5pt;
+      font-weight: 600;
+      color: #475569;
+      margin: 2px 0 0;
+    }
+    .badge-pill {
+      display: inline-block;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-size: 8pt;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .meta-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 6px 10px;
+      margin-bottom: 12px;
+      font-size: 8.8pt;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .meta-field {
+      display: inline-block;
+    }
+    .meta-line {
+      display: inline-block;
+      border-bottom: 1px solid #64748b;
+      min-width: 130px;
+      margin-left: 4px;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 9px 12px;
+      margin-bottom: 10px;
+      page-break-inside: avoid;
+    }
+    .card-vignette {
+      background: #f8fafc;
+      border-left: 4px solid #3b82f6;
+    }
+    .card-title {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0 0 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .card-title .icon {
+      font-size: 11pt;
+    }
+    .exam-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8.7pt;
+      margin-top: 6px;
+    }
+    .exam-table th {
+      background: #f1f5f9;
+      color: #334155;
+      text-align: left;
+      padding: 5px 8px;
+      border: 1px solid #cbd5e1;
+      font-weight: 700;
+      width: 25%;
+    }
+    .exam-table td {
+      padding: 5px 8px;
+      border: 1px solid #cbd5e1;
+      vertical-align: top;
+    }
+    .exam-table tr:nth-child(even) td {
+      background: #fafafa;
+    }
+    .stage-section {
+      margin-top: 12px;
+      page-break-inside: avoid;
+    }
+    .stage-header {
+      font-size: 10pt;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+    }
+    .stage-1 { background: #dcfce7; color: #166534; border-left: 4px solid #22c55e; }
+    .stage-2 { background: #fef9c3; color: #854d0e; border-left: 4px solid #eab308; }
+    .stage-3 { background: #ffedd5; color: #9a3412; border-left: 4px solid #f97316; }
+    .stage-4 { background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
+
+    .question-block {
+      margin-bottom: 9px;
+      page-break-inside: avoid;
+    }
+    .question-text {
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 3px;
+      font-size: 9.2pt;
+    }
+    .write-area {
+      border: 1px dashed #94a3b8;
+      background: #fafafa;
+      border-radius: 4px;
+      height: 38px;
+      margin-top: 3px;
+    }
+    .write-area-lg {
+      height: 48px;
+    }
+    .ticket-card {
+      border: 2px dashed #64748b;
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-top: 14px;
+      page-break-inside: avoid;
+    }
+    .ticket-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 5px;
+      margin-bottom: 8px;
+    }
+    .ticket-title {
+      font-size: 10pt;
+      font-weight: 800;
+      color: #1e3a8a;
+    }
+    .page-break {
+      page-break-before: always;
+    }
+    .bullet-list {
+      margin: 4px 0 6px 16px;
+      padding: 0;
+    }
+    .bullet-list li {
+      margin-bottom: 3px;
+    }
+    .text-sm {
+      font-size: 8.5pt;
+      color: #475569;
+    }
+    .highlight {
+      font-weight: 700;
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ENCABEZADO INSTITUCIONAL -->
+  <table class="header-table">
+    <tr>
+      <td>
+        <div class="badge-pill">Cátedra de Neurología Clínica y Semiótica • UCE / HCAM</div>
+        <div class="header-title" style="margin-top:4px;">Taller Socrático: Enfermedades Desmielinizantes del SNC</div>
+        <div class="header-subtitle">Docente: Dr. Alcy Torres | Semestre 2026-2 | Semana 14 | Marco: <code>KNOW → REASON → ACT</code></div>
+      </td>
+      <td style="text-align:right; width:150px;">
+        <span class="badge-pill" style="background:#fef3c7; color:#92400e; border-color:#fde68a;">Guía del Estudiante</span>
+      </td>
+    </tr>
+  </table>
+
+  <!-- METADATOS DEL EQUIPO -->
+  <div class="meta-box">
+    <div class="meta-field"><strong>Integrantes:</strong> <span class="meta-line" style="min-width:320px;"></span></div>
+    <div class="meta-field"><strong>Grupo N°:</strong> <span class="meta-line" style="min-width:50px;"></span></div>
+    <div class="meta-field"><strong>Fecha:</strong> 22 / 09 / 2026</div>
+  </div>
+
+  <!-- VIÑETA CLÍNICA -->
+  <div class="card card-vignette">
+    <div class="card-title"><span class="icon">📋</span> Viñeta Clínica de Entrada</div>
+    <p style="margin: 0 0 5px 0;"><strong>Paciente:</strong> Femenina de 27 años, diseñadora gráfica, diestra, sin antecedentes mórbidos conocidos.</p>
+    <p style="margin: 0 0 6px 0;"><strong>Motivo de consulta:</strong> <em>«Desde hace 5 días siento las piernas dormidas desde el ombligo hacia abajo y, cuando agacho el cuello, me baja una corriente por la espalda.»</em></p>
+    <ul class="bullet-list" style="margin-top:0;">
+      <li><strong>Enfermedad actual:</strong> Parestesias ascendentes en miembros inferiores instaladas en 48 h; estables desde hace 3 días. Urgencia miccional sin incontinencia. Afebril, sin síntomas infecciosos ni respiratorios previos.</li>
+      <li><strong>Signo referido:</strong> Sensación eléctrica fulgurante que desciende por el raquis al flexionar activamente el cuello.</li>
+      <li><strong>Antecedente clave (interrogatorio dirigido):</strong> Hace <strong>14 meses</strong> presentó visión borrosa en <strong>ojo derecho</strong> con <strong>dolor al movimiento ocular</strong> durante 3 semanas. Fondo de ojo fue reportado normal en ese momento; remitió espontáneamente sin estudios.</li>
+      <li><strong>Otros síntomas:</strong> Fatiga vespertina crónica. Al bañarse con agua muy caliente nota que la visión del ojo derecho «se empaña» transitoriamente por unos minutos.</li>
+    </ul>
+  </div>
+
+  <!-- EXAMEN FÍSICO -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🩺</span> Examen Físico y Neurológico Dirigido</div>
+    <table class="exam-table">
+      <tr>
+        <th>Signos Vitales</th>
+        <td>T: 36,6 °C, PA: 112/70 mmHg, FC: 74 lpm, SatO₂: 98 % aire ambiente. Afebril.</td>
+      </tr>
+      <tr>
+        <th>Vía Visual</th>
+        <td>AV: OD 20/30, OI 20/20. <strong>Desaturación al color rojo en OD</strong>.<br>
+            Linterna oscilante: <strong>Defecto Pupilar Aferente Relativo (DPAR / Pupila de Marcus Gunn) en OD</strong>.<br>
+            Fondo de ojo: <strong>Palidez temporal del disco óptico en OD</strong>. OI normal.</td>
+      </tr>
+      <tr>
+        <th>Motilidad Ocular</th>
+        <td>Mirada conjugada hacia la izquierda: <strong>limitación de aducción en OD</strong> + <strong>nistagmo monocular en abducción en OI</strong>. Convergencia pupilar y ocular rigurosamente conservadas.</td>
+      </tr>
+      <tr>
+        <th>Motor y Reflejos</th>
+        <td>Fuerza 5/5 en MMSS; 4+/5 en flexores de cadera y rodilla bilateral.<br>
+            Reflejos osteotendinosos: rotulianos y aquíleos <strong>3/4 bilateralmente</strong>; <strong>signo de Babinski bilateral presente</strong>.</td>
+      </tr>
+      <tr>
+        <th>Sensibilidad</th>
+        <td>Hipoestesia táctil y termoalgésica con <strong>nivel sensitivo T10 incompleto</strong> (mayor a la izquierda). Palestesia (vibración) disminuida en maléolos. <strong>Signo de Lhermitte positivo</strong>.</td>
+      </tr>
+      <tr>
+        <th>Coordinación y Marcha</th>
+        <td>Dismetría leve talón-rodilla. Marcha en tándem insegura con lateropulsión. Romberg negativo.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ESTUDIOS PARACLÍNICOS -->
+  <div class="card" style="background:#f1f5f9;">
+    <div class="card-title" style="font-size:9.5pt; color:#334155;"><span class="icon">🔬</span> Resultados de Estudios (Entregados en Mesa de Discusión)</div>
+    <div style="font-size:8.5pt; line-height:1.4;">
+      <strong>• RM cerebral con Gd:</strong> 6 lesiones ovoides hiperintensas T2/FLAIR: 3 periventriculares perpendiculares al cuerpo calloso (dedos de Dawson), 1 yuxtacortical frontal derecha, 1 en pedúnculo cerebeloso medio derecho. <em>Ninguna capta gadolinio.</em><br>
+      <strong>• RM de columna dorsal con Gd:</strong> Lesión focal T2 posterolateral en T8-T9 (< 1 segmento vertebral) que <strong>capta gadolinio intensamente</strong>.<br>
+      <strong>• Punción Lumbar / LCR:</strong> 6 leucocitos/mm³ (linfocitos), glucosa normal, proteínas 42 mg/dL. <strong>Bandas oligoclonales tipo 2 positivas (exclusivas del LCR)</strong>.<br>
+      <strong>• Serología celular (CBA):</strong> Anticuerpos <strong>anti-AQP4 (IgG)</strong> y <strong>anti-MOG (IgG)</strong>: <strong>Negativos</strong>.
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- GUÍA DE PREGUNTAS SOCRÁTICAS -->
+  <div style="font-size:11.5pt; font-weight:800; color:#1e3a8a; margin-bottom:8px;">
+    GUÍA DE TRABAJO Y DEBATE SOCRÁTICO
+  </div>
+
+  <!-- ETAPA 1 -->
+  <div class="stage-section">
+    <div class="stage-header stage-1">🟢 Etapa 1 — KNOW: Identificación y Topografía del Evento Actual</div>
+    <div class="question-block">
+      <div class="question-text">1. ¿Cumple este episodio la definición operativa de <em>brote desmielinizante</em>? Cite 3 argumentos del caso que lo fundamenten.</div>
+      <div class="write-area"></div>
+    </div>
+    <div class="question-block">
+      <div class="question-text">2. Diagnóstico topográfico: ¿Dónde radica la lesión responsable de la clínica actual? ¿Qué sustrato tiene el signo de Lhermitte?</div>
+      <div class="write-area"></div>
+    </div>
+    <div class="question-block">
+      <div class="question-text">3. La paciente nota que al bañarse con agua caliente se le "empaña" la visión en OD. ¿Qué fenómeno es y por qué no es un nuevo brote?</div>
+      <div class="write-area"></div>
+    </div>
+  </div>
+
+  <!-- ETAPA 2 -->
+  <div class="stage-section">
+    <div class="stage-header stage-2">🟡 Etapa 2 — REASON: Reconstrucción Longitudinal y Hallazgos Subclínicos</div>
+    <div class="question-block">
+      <div class="question-text">4. ¿Qué datos del examen físico prueban objetivamente que la neuritis óptica de hace 14 meses existió y dejó secuela estructural?</div>
+      <div class="write-area"></div>
+    </div>
+    <div class="question-block">
+      <div class="question-text">5. ¿Qué alteración presenta la motilidad ocular conjugada, qué haz anatómico está lesionado y qué aporta a la localización?</div>
+      <div class="write-area"></div>
+    </div>
+    <div class="question-block">
+      <div class="question-text">6. Con la clínica y el examen físico solamente (sin ver imágenes), ¿podemos afirmar diseminación en tiempo (DIT) y espacio (DIS)? Justifique.</div>
+      <div class="write-area"></div>
+    </div>
+  </div>
+
+  <!-- ETAPA 3 -->
+  <div class="stage-section">
+    <div class="stage-header stage-3">🟠 Etapa 3 — REASON: Criterios McDonald y Diagnóstico Diferencial Crítico</div>
+    <div class="question-block">
+      <div class="question-text">7. Aplique los Criterios de McDonald 2017 a la RM: ¿Qué regiones anatómicas cumplen DIS? ¿Cómo se demuestra DIT en esta sola resonancia?</div>
+      <div class="write-area-lg"></div>
+    </div>
+    <div class="question-block">
+      <div class="question-text">8. Si la RM ya demostraba DIS y DIT, ¿cuál es el valor clínico y de seguridad de haber obtenido bandas oligoclonales en LCR?</div>
+      <div class="write-area"></div>
+    </div>
+    <div class="question-block">
+      <div class="question-text">9. EL GIRO CRÍTICO: Si la RM medular mostrara una mielitis longitudinalmente extensa (T3 a T8) y la neuritis previa hubiera dejado amaurosis residual (20/200), ¿en qué patología pensaría y qué fármacos habituales de EM estarían contraindicados?</div>
+      <div class="write-area-lg"></div>
+    </div>
+  </div>
+
+  <!-- ETAPA 4 -->
+  <div class="stage-section">
+    <div class="stage-header stage-4">🔴 Etapa 4 — ACT: Conducta en la Guardia y Plan al Alta</div>
+    <div class="question-block">
+      <div class="question-text">10. ¿Cuál es el tratamiento de elección para este brote agudo (fármaco y posología) y qué objetivo clínico real se busca?</div>
+      <div class="write-area"></div>
+    </div>
+    <div class="question-block">
+      <div class="question-text">11. ¿Qué educación preventiva le da a la paciente si en el futuro presenta fiebre o infección urinaria y reaparecen sus parestesias?</div>
+      <div class="write-area"></div>
+    </div>
+    <div class="question-block">
+      <div class="question-text">12. Plan al alta: ¿Cuáles son las tres acciones prioritarias que deben programarse con el servicio de Neurología?</div>
+      <div class="write-area"></div>
+    </div>
+  </div>
+
+  <!-- TICKET DE SALIDA -->
+  <div class="ticket-card">
+    <div class="ticket-header">
+      <div class="ticket-title">✂️ TICKET DE SALIDA INDIVIDUAL (Entregar al docente antes de salir)</div>
+      <div style="font-size:8.5pt;"><strong>Estudiante:</strong> ___________________________ | <strong>Fecha:</strong> 22/09/2026</div>
+    </div>
+    <div style="font-size:8.8pt;">
+      <p style="margin:2px 0 4px 0;"><strong>1. Defina operativamente un brote desmielinizante en una sola frase:</strong></p>
+      <div style="border-bottom:1px solid #94a3b8; height:18px;"></div>
+
+      <p style="margin:6px 0 4px 0;"><strong>2. Mencione 2 rasgos clínicos o de imagen que orientan fuertemente a NMOSD en vez de Esclerosis Múltiple:</strong></p>
+      <div style="border-bottom:1px solid #94a3b8; height:18px;">a) </div>
+      <div style="border-bottom:1px solid #94a3b8; height:18px; margin-top:3px;">b) </div>
+
+      <p style="margin:6px 0 4px 0;"><strong>3. ¿Cómo se explora el DPAR (linterna oscilante) y qué respuesta pupilar patológica se observa en el ojo afectado?</strong></p>
+      <div style="border-bottom:1px solid #94a3b8; height:18px;"></div>
+    </div>
+  </div>
+
+</body>
+</html>
