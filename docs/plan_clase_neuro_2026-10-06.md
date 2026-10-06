@@ -55,28 +55,39 @@ Población de Thomas 2002: 297 adultos con sospecha de meningitis explorados ant
 meningitis definida como ≥ 6 leucocitos/mm³ en LCR. No extrapolar a lactantes, ancianos,
 inmunodeprimidos ni pacientes ya tratados con antibióticos.
 
-## Contenido que el artículo no cubre (completar en clase)
+## Contenido que el artículo no cubre (completar en clase con UpToDate / IDSA)
 
-El propio artículo declara estas necesidades de aprendizaje; se cubren con la guía curada del
-sílabo y el protocolo local.
+El propio artículo declara estas necesidades de aprendizaje; se cubren con la guía clínica ampliada (`docs/guia_clinica_neuro_infecciones_snc.md`) y el protocolo estándar de UpToDate / IDSA.
 
-**TC antes de la punción lumbar** solo si hay: inmunosupresión, enfermedad previa del SNC, crisis
-reciente, papiledema, alteración del nivel de conciencia o focalidad neurológica (criterios IDSA).
-Si se pide TC, se extraen hemocultivos y se inicia el tratamiento empírico **antes** de la imagen.
+**TC de cráneo antes de la punción lumbar (Criterios IDSA / UpToDate - Hasbun R):**
+Indicada exclusivamente si existe al menos uno de los siguientes:
+1. Déficit neurológico focal (paresia, alteración pupilar, pares craneales motores).
+2. Alteración del estado mental o nivel de conciencia (Glasgow < 15, estupor o coma).
+3. Crisis convulsiva de inicio reciente (última semana).
+4. Papiledema en el fondo de ojo.
+5. Inmunodepresión severa (VIH, terapia inmunosupresora intensa, postrasplante).
+6. Antecedente conocido de patología del SNC (neoplasia, neurocirugía, ACV previo).
 
-**Perfiles orientativos del LCR**
+> **Regla de oro de UpToDate:** La TC **jamás** debe retrasar el inicio de la terapia antimicrobiana. Si el paciente requiere TC, se extraen hemocultivos inmediatos y se infunden los antibióticos y la dexametasona **antes** de trasladarlo a la sala de tomografía.
 
-| Etiología | Células | Predominio | Glucosa | Proteínas |
-|---|---|---|---|---|
-| Bacteriana | Cientos a miles | Neutrófilos | Baja (cociente LCR/suero < 0.4) | Muy elevadas |
-| Viral | Decenas a cientos | Linfocitos | Normal | Normales o poco elevadas |
-| Tuberculosa / fúngica | Decenas a cientos | Linfocitos | Baja | Muy elevadas |
+**Dexametasona adyuvante (Ensayo De Gans & van de Beek / UpToDate):**
+- **Dosis:** 10 mg IV cada 6 h por 4 días.
+- **Momento crítico:** Administrar 15–20 min antes o **junto** con la primera dosis del antibiótico empírico. La lisis bacteriana inicial libera componentes inflamatorios que empeoran el edema cerebral y la pérdida auditiva neurosensorial. Si se administra después de varias horas de iniciado el antibiótico, pierde su beneficio.
+- Se mantiene si el cultivo/LCR confirma *Streptococcus pneumoniae*; se suspende si se identifican otros patógenos.
 
-**Tratamiento empírico del adulto:** ceftriaxona + vancomicina; añadir ampicilina en mayores de
-50 años, inmunodeprimidos o embarazadas (cobertura de *Listeria*); dexametasona con o antes de la
-primera dosis antibiótica; aciclovir IV si hay sospecha de encefalitis. Dosis de referencia rápida:
-ceftriaxona 2 g IV c/12 h + vancomicina 15–20 mg/kg IV c/8–12 h; ampicilina 2 g IV c/4 h;
-dexametasona 10 mg IV c/6 h; aciclovir 10 mg/kg IV c/8 h (ajustar según protocolo local del HCAM y función renal).
+**Perfiles orientativos del LCR:**
+
+| Etiología | Presión | Leucocitos / mm³ | Predominio | Glucosa | Cociente LCR/suero | Proteínas |
+|---|---|---|---|---|---|---|
+| Bacteriana | Elevada (>200) | 1.000 – 10.000+ | Neutrófilos (>80%) | < 40 mg/dL | **< 0.4** | Muy altas (100–500+) |
+| Viral | Normal / leve ↑ | 50 – 500 | Linfocitos | Normal | > 0.6 | Leve ↑ (50–100) |
+| VHS Encefalitis | Normal / leve ↑ | 50 – 500 + hematíes | Linfocitos | Normal | > 0.6 | Elevadas (PCR +) |
+| TBC / Fúngica | Muy elevada | 100 – 500 | Linfocitos | Muy baja (<30) | **< 0.3** | Marcadas (100–500+) |
+
+**Tratamiento empírico del adulto (UpToDate):**
+- **< 50 años inmunocompetente:** Ceftriaxona 2 g IV c/12 h + Vancomicina 15–20 mg/kg IV c/8–12 h + Dexametasona 10 mg IV c/6 h.
+- **≥ 50 años o inmunodeprimido:** Añadir Ampicilina 2 g IV c/4 h (cobertura imperativa de *Listeria monocytogenes*).
+- **Sospecha de encefalitis:** Añadir Aciclovir 10 mg/kg IV c/8 h de inmediato.
 
 ## Giro final: encefalitis y absceso (viñeta ficticia para 17:15)
 
