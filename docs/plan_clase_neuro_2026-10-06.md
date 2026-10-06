@@ -4,7 +4,8 @@
 **Semana:** 16 (`topic_id: infecciones-snc`)
 **Horario base:** Martes 16:00–17:30
 **Lugar base:** HCAM, Aula de Administración
-**Material ancla:** [Meningitis aguda: hallazgos y evidencia clínica](https://powersemiotics.com/medsemiotics/post.html?slug=meningitis-aguda-sacudida-cefalica) (HM:6004, caso socrático de 45 min, 6 etapas, calculadora bayesiana, 2 preguntas de autoevaluación)
+**Módulo interactivo oficial:** [Infecciones del SNC: Meningitis, Encefalitis y Abscesos](https://powersemiotics.com/medsemiotics/neurologia/infecciones-snc.html)
+**Material ancla / caso socrático:** [Meningitis aguda: hallazgos y evidencia clínica](https://powersemiotics.com/medsemiotics/post.html?slug=meningitis-aguda-sacudida-cefalica) (HM:6004, caso socrático de 45 min, 6 etapas, calculadora bayesiana, 2 preguntas de autoevaluación)
 **Videos previos (Classroom):** [Meningitis Aguda Bacteriana](https://www.youtube.com/watch?v=KJDO0J_UNsY) · [Meningitis y la trampa del cuello flexible](https://www.youtube.com/watch?v=6nFAjsgN9Sk) (canal biosemiotics)
 **Estado:** borrador docente; nada publicado en Calendar ni Classroom
 

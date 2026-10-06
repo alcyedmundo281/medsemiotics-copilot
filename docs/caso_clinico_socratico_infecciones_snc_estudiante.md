@@ -4,6 +4,7 @@
 **Infecciones del SNC · Hoja del estudiante (sin claves)**
 
 > Caso clínico ficticio con fines docentes. Las cifras de evidencia provienen de medsemiotics-db.
+> Módulo interactivo del curso: https://powersemiotics.com/medsemiotics/neurologia/infecciones-snc.html
 > Videos preparatorios: [Meningitis Aguda Bacteriana](https://www.youtube.com/watch?v=KJDO0J_UNsY) · [Meningitis y la trampa del cuello flexible](https://www.youtube.com/watch?v=6nFAjsgN9Sk)
 > Versión web con calculadora y autoevaluación:
 > https://powersemiotics.com/medsemiotics/post.html?slug=meningitis-aguda-sacudida-cefalica
