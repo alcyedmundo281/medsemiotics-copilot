@@ -29,9 +29,16 @@ Calendar writer code stays for reference but must not be invoked.
 Teaching guide catalogs are public baseline content. A generated coaching brief remains a draft
 until an accountable person approves the separate publication request.
 
-Assignment and qualitative-rubric catalogs are also public baseline content. Catalog-backed
-Classroom output remains one reviewable `DRAFT` plan; it must not gain student data, grading,
-student-visible publication, native rubric writes, or batch execution implicitly.
+Assignment and rubric catalogs are public baseline content. The instructor may explicitly
+authorize creating and assigning a task in Google Classroom, including its native grading rubric.
+Creating a rubric defines assessment criteria; it does not assign or publish student grades.
+Choose criterion weights from each assignment's learning objectives and keep its approved total.
+The 6-6-4-4 distribution is an example, not a fixed template or a default requirement.
+The privacy restriction prohibits committing student names, grades, submissions, or other personal
+data to this public repository; it does not prohibit instructor-authorized Classroom assignments.
+The existing catalog-backed API adapter supports only `DRAFT` plans. This is an implementation
+limit, not a blanket prohibition on authorized Classroom publication through a supported workflow.
+Do not silently extend that adapter, publish grades, access student data, or execute batches.
 
 Student-visible Classroom materials are a separate capability using only
 `classroom.courseworkmaterials`. It may publish one folder-backed package to all students only
