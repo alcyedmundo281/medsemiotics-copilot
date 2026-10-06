@@ -146,3 +146,13 @@ sessions:
       - topic_id: "desmielinizantes-em"
         status: "completed"
         notes: "Enfermedades desmielinizantes del SNC (Esclerosis Múltiple y NMO)"
+  - session_id: "neuro-2026-2-w15"
+    semester_id: "2026-2"
+    course_code: "NEURO"
+    session_date: "2026-09-29"
+    sequence_number: 15
+    notes: "Week 15 of the official syllabus."
+    topics:
+      - topic_id: "epilepsia-crisis"
+        status: "completed"
+        notes: "Epilepsia, crisis epilépticas focales/generalizadas y diagnóstico diferencial"

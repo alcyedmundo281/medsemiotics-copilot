@@ -147,7 +147,7 @@ schedule_18_weeks:
     date: "2026-09-29"
     topic_id: "epilepsia-crisis"
     title: "Epilepsia, crisis epilépticas focales/generalizadas y diagnóstico diferencial"
-    status: "projected"
+    status: "completed"
     hemisemestre: 2
 
   - week: 16
@@ -156,6 +156,7 @@ schedule_18_weeks:
     title: "Infecciones del SNC: Síndrome meníngeo, meningitis, encefalitis y abscesos"
     status: "projected"
     hemisemestre: 2
+    web_module: "https://powersemiotics.com/medsemiotics/post.html?slug=meningitis-aguda-sacudida-cefalica"
 
   - week: 17
     date: "2026-10-13"

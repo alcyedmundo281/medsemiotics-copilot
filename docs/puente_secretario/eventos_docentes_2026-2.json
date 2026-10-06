@@ -441,7 +441,7 @@
       "end_local": "17:30",
       "location": "Aula de Administración",
       "web_module": "https://powersemiotics.com/medsemiotics/neurologia.html",
-      "status": "projected"
+      "status": "completed"
     },
     {
       "event_id": "medsemiotics-2026-2-GASTRO-w15",
@@ -470,7 +470,7 @@
       "start_local": "16:00",
       "end_local": "17:30",
       "location": "Aula de Administración",
-      "web_module": "https://powersemiotics.com/medsemiotics/neurologia.html",
+      "web_module": "https://powersemiotics.com/medsemiotics/post.html?slug=meningitis-aguda-sacudida-cefalica",
       "status": "projected"
     },
     {
