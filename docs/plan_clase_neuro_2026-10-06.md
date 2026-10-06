@@ -85,10 +85,55 @@ Indicada exclusivamente si existe al menos uno de los siguientes:
 | VHS Encefalitis | Normal / leve ↑ | 50 – 500 + hematíes | Linfocitos | Normal | > 0.6 | Elevadas (PCR +) |
 | TBC / Fúngica | Muy elevada | 100 – 500 | Linfocitos | Muy baja (<30) | **< 0.3** | Marcadas (100–500+) |
 
-**Tratamiento empírico del adulto (UpToDate):**
-- **< 50 años inmunocompetente:** Ceftriaxona 2 g IV c/12 h + Vancomicina 15–20 mg/kg IV c/8–12 h + Dexametasona 10 mg IV c/6 h.
-- **≥ 50 años o inmunodeprimido:** Añadir Ampicilina 2 g IV c/4 h (cobertura imperativa de *Listeria monocytogenes*).
-- **Sospecha de encefalitis:** Añadir Aciclovir 10 mg/kg IV c/8 h de inmediato.
+### Tratamiento antimicrobiano empírico según edad y condición predisponente (UpToDate / IDSA)
+
+| Factor predisponente | Patógenos bacterianos comunes | Terapia antimicrobiana empírica |
+|---|---|---|
+| **< 1 mes** | *S. agalactiae, E. coli, L. monocytogenes* | Ampicilina + Cefotaxima; **O** Ampicilina + un aminoglucósido |
+| **1 a 23 meses** | *S. pneumoniae, N. meningitidis, S. agalactiae, H. influenzae, E. coli* | Vancomicina + Cefalosporina de 3.ª gen (Ceftriaxona o Cefotaxima) |
+| **2 a 50 años** | *N. meningitidis, S. pneumoniae* | **Vancomicina + Cefalosporina de 3.ª gen** (Ceftriaxona o Cefotaxima) |
+| **> 50 años** | *S. pneumoniae, N. meningitidis, L. monocytogenes*, bacilos gramnegativos aerobios | **Vancomicina + Ampicilina + Cefalosporina de 3.ª gen** |
+| **Trauma craneal: Fractura de base** | *S. pneumoniae, H. influenzae*, estreptococos beta-hemolíticos grupo A | Vancomicina + Cefalosporina de 3.ª gen |
+| **Trauma craneal penetrante** | *S. aureus*, estafilococos coagulasa negativos (*S. epidermidis*), bacilos gramnegativos aerobios (*P. aeruginosa*) | Vancomicina + Cefepima; **O** Vancomicina + Ceftazidima; **O** Vancomicina + Meropenem |
+| **Postneurocirugía** | Bacilos gramnegativos aerobios (*P. aeruginosa*), *S. aureus*, estafilococos coagulasa negativos (*S. epidermidis*) | Vancomicina + Cefepima; **O** Vancomicina + Ceftazidima; **O** Vancomicina + Meropenem |
+| **Estado inmunocomprometido** | *S. pneumoniae, N. meningitidis, L. monocytogenes*, bacilos gramnegativos aerobios (*P. aeruginosa*) | **Vancomicina + Ampicilina + Cefepima**; **O** Vancomicina + Meropenem (si se confirma *Listeria*, pasar a Ampicilina) |
+
+*Notas:*
+- Cefalosporina de 3.ª generación = Ceftriaxona o Cefotaxima.
+- Añadir **Ampicilina** siempre que se sospeche o haya riesgo de *Listeria monocytogenes* (>50 años, inmunocompromiso, alcoholismo, embarazo).
+- En sospecha concomitante de **Encefalitis por VHS**, añadir **Aciclovir 10 mg/kg IV c/8 h** de inmediato.
+- Algunos expertos agregan **Rifampicina** si se administra dexametasona y hay alta sospecha de neumococo resistente a cefalosporinas.
+
+### Dosificación intravenosa recomendada en adultos (Función renal y hepática normal - UpToDate)
+
+| Antimicrobiano | Dosis en adultos (meningitis) | Consideraciones clínicas / Monitoreo |
+|---|---|---|
+| **Ceftriaxona** | **2 g IV cada 12 horas** | Cefalosporina de elección en adultos. Dosis meníngea duplica la estándar de sepsis (1-2 g c/24h). |
+| **Vancomicina** | **15 a 20 mg/kg IV cada 8 a 12 horas** | Dosis de carga 20-35 mg/kg en estado crítico (máx. 3.000 mg). Meta valle: **15 a 20 mcg/mL**. No superar 2 g/dosis o 60 mg/kg/día sin monitorización. |
+| **Ampicilina** | **2 g IV cada 4 horas** | Cobertura obligada de *Listeria monocytogenes*. |
+| **Cefepima** | **2 g IV cada 8 horas** | Cobertura antipseudomónica en trauma penetrante, postneurocirugía o neutropenia. |
+| **Meropenem** | **2 g IV cada 8 horas** | Carbapenémico con penetración meníngea para bacilos multirresistentes o alergia a cefalosporinas. |
+| **Ceftazidima** | **2 g IV cada 8 horas** | Alternativa antipseudomónica en neuroquirúrgicos. |
+| **Cefotaxima** | **2 g IV cada 4 a 6 horas** | Alternativa a ceftriaxona (de elección en neonatos por riesgo de kernicterus con ceftriaxona). |
+| **Aciclovir** | **10 mg/kg IV cada 8 horas** | Obligatorio ante sospecha de encefalitis herpética. Ajustar por peso ideal y función renal. |
+| **Dexametasona** | **10 mg IV cada 6 horas por 4 días** | Administrar 15–20 min antes o con la 1.ª dosis de antibiótico. Mantener si *S. pneumoniae*. |
+| **Rifampicina** | **600 mg IV/VO cada 24 horas** | Coadyuvante en neumococo resistente o infección de derivación ventrículo-peritoneal. |
+| **Trimetoprim-Sulfametoxazol** | **5 mg/kg (TMP) IV cada 8 horas** | Alternativa de primera línea para *Listeria* en pacientes con alergia grave a penicilinas. |
+| **Aztreonam** | **2 g IV cada 6 a 8 horas** | Para bacilos gramnegativos en alergia severa a betalactámicos. |
+| **Gentamicina / Tobramicina** | **1.7 mg/kg IV cada 8 horas** | Monitoreo: pico 7–9 mcg/mL, valle < 1–2 mcg/mL. |
+| **Amikacina** | **5 mg/kg IV cada 8 horas** | Monitoreo: pico 25–40 mcg/mL, valle < 4–8 mcg/mL. |
+| **Penicilina G potásica** | **4 millones UI IV cada 4 horas** | Terapia dirigida para *N. meningitidis* o *S. pneumoniae* sensible. |
+| **Cloranfenicol** | **1 a 1.5 g IV cada 6 horas** | Alternativa histórica en alérgicos a betalactámicos (meningococo/neumococo). |
+
+### Diagnóstico diferencial de causas seleccionadas de meningitis aséptica (UpToDate / Connolly & Hammer)
+
+- **Virales:** Enterovirus (Coxsackie A y B, Echovirus), VHS tipo 1 y 2, VZV, CMV, EBV, VIH (infección aguda precoz), Arbovirus, Parotiditis (Mumps), Virus coriomeningitis linfocítica (LCMV).
+- **Bacterianas no purulentas / parameníngeas:** *Borrelia burgdorferi* (Enfermedad de Lyme), *Treponema pallidum* (Neurosífilis), *Mycobacterium tuberculosis*, *Mycoplasma pneumoniae*, *Listeria*, meningitis bacteriana parcialmente tratada, absceso epidural/subdural.
+- **Fúngicas:** *Cryptococcus neoformans/gattii*, *Histoplasma capsulatum*, *Coccidioides immitis*, *Candida spp.*, *Aspergillus spp.*
+- **Parasitarias:** *Toxoplasma gondii*, *Taenia solium* (Neurocisticercosis), *Angiostrongylus cantonensis*.
+- **Farmacológicas (Drug-induced aseptic meningitis):** AINEs (especialmente Ibuprofeno), Trimetoprim-Sulfametoxazol (TMP-SMX), Azatioprina, Anticuerpos monoclonales anti-CD3.
+- **Neoplásicas:** Carcinomatosis meníngea, Linfoma del SNC, Leucemia meníngea.
+- **Autoinmunes / Sistémicas:** Enfermedad de Behçet, Sarcoidosis del SNC (Neurosarcoidosis), Lupus eritematoso sistémico (LES), Síndrome de Vogt-Koyanagi-Harada.
 
 ## Giro final: encefalitis y absceso (viñeta ficticia para 17:15)
 

@@ -67,22 +67,50 @@ Sospecha de Meningitis Aguda (Fiebre + Cefalea aguda / Rigidez / Alteración men
 
 ---
 
-### 💊 4. ESQUEMA ANTIMICROBIANO EMPÍRICO Y ADYUVANCIA (ADULTOS)
+### 💊 4. ESQUEMA ANTIMICROBIANO EMPÍRICO, POSOLOGÍA Y ADYUVANCIA (UpToDate / IDSA)
 
-#### A. Terapia antimicrobiana empírica estándar:
-*   **Adulto inmunocompetente < 50 años:**  
-    - **Ceftriaxona:** 2 g IV cada 12 horas (o Cefotaxima 2 g IV cada 4–6 h)  
-    - **+ Vancomicina:** 15–20 mg/kg IV cada 8–12 horas (ajustar por niveles para cubrir *S. pneumoniae* resistente a penicilina).
-*   **Adulto ≥ 50 años, alcohólicos, inmunodeprimidos o embarazadas:**  
-    - Añadir **Ampicilina:** 2 g IV cada 4 horas (cobertura imperativa de *Listeria monocytogenes*).
-*   **Alergia severa a betalactámicos:**  
-    - Vancomicina + Moxifloxacino (o Cloranfenicol) ± Trimetoprim-Sulfametoxazol (para *Listeria*).
+#### A. Recomendaciones de terapia antimicrobiana empírica según edad y factor predisponente (UpToDate):
 
-#### B. Dexametasona adyuvante (Protocolo UpToDate / De Gans & van de Beek):
-*   **Dosis:** **10 mg IV cada 6 horas por 4 días**.
-*   **Momento:** Administrar **15–20 minutos antes o junto con la primera dosis de antibiótico**.  
-    *Justificación:* La lisis bacteriana inicial libera endotoxinas y mediadores inflamatorios que agravan el edema cerebral, la hipertensión intracraneal y el riesgo de hipoacusia neurosensorial. Si el antibiótico ya fue administrado hace varias horas, el beneficio de la dexametasona es insignificante.
-*   **Continuación:** Se mantiene si se confirma *Streptococcus pneumoniae*; se suspende habitualmente si se aíslan otros patógenos o se descarta causa bacteriana.
+| Factor predisponente | Patógenos bacterianos comunes | Régimen antimicrobiano empírico |
+| :--- | :--- | :--- |
+| **Edad < 1 mes** | *Streptococcus agalactiae, Escherichia coli, Listeria monocytogenes* | **Ampicilina + Cefotaxima**; O Ampicilina + Aminoglucósido |
+| **Edad 1 a 23 meses** | *S. pneumoniae, N. meningitidis, S. agalactiae, H. influenzae, E. coli* | **Vancomicina + Cefalosporina de 3.ª generación** (Ceftriaxona o Cefotaxima) |
+| **Edad 2 a 50 años** | *Neisseria meningitidis, Streptococcus pneumoniae* | **Vancomicina + Cefalosporina de 3.ª generación** (Ceftriaxona o Cefotaxima) |
+| **Edad > 50 años** | *S. pneumoniae, N. meningitidis, L. monocytogenes*, bacilos gramnegativos aerobios | **Vancomicina + Ampicilina + Cefalosporina de 3.ª generación** |
+| **Trauma craneal: Fractura de base de cráneo** | *S. pneumoniae, H. influenzae*, estreptococos beta-hemolíticos grupo A | **Vancomicina + Cefalosporina de 3.ª generación** |
+| **Trauma craneal penetrante** | *Staphylococcus aureus*, estafilococos coagulasa negativos (*S. epidermidis*), bacilos gramnegativos aerobios (*P. aeruginosa*) | **Vancomicina + Cefepima**; O Vancomicina + Ceftazidima; O Vancomicina + Meropenem |
+| **Postneurocirugía** | Bacilos gramnegativos aerobios (*P. aeruginosa*), *S. aureus*, estafilococos coagulasa negativos (*S. epidermidis*) | **Vancomicina + Cefepima**; O Vancomicina + Ceftazidima; O Vancomicina + Meropenem |
+| **Estado inmunocomprometido** | *S. pneumoniae, N. meningitidis, L. monocytogenes*, bacilos gramnegativos aerobios (*P. aeruginosa*) | **Vancomicina + Ampicilina + Cefepima**; O Vancomicina + Meropenem (si se confirma *Listeria*, pasar a Ampicilina) |
+
+#### B. Dosificación intravenosa recomendada en adultos con función renal y hepática normal (UpToDate):
+
+| Fármaco antimicrobiano | Dosis en adultos (Infección meníngea) | Perlas de administración y monitoreo |
+| :--- | :--- | :--- |
+| **Ceftriaxona** | **2 g IV cada 12 horas** | Dosis duplicada respecto a infección sistémica habitual. De elección en adultos. |
+| **Vancomicina** | **15 a 20 mg/kg IV cada 8 a 12 horas** | Carga: 20–35 mg/kg en paciente crítico. Meta valle: **15 a 20 mcg/mL**. Máx 2 g/dosis. |
+| **Ampicilina** | **2 g IV cada 4 horas** | Cobertura imperativa de *Listeria*. |
+| **Cefepima** | **2 g IV cada 8 horas** | Cobertura antipseudomónica y bacilos gramnegativos nosocomiales. |
+| **Meropenem** | **2 g IV cada 8 horas** | Carbapenémico de elección en alergia o resistencia a cefalosporinas. |
+| **Ceftazidima** | **2 g IV cada 8 horas** | Alternativa antipseudomónica. |
+| **Cefotaxima** | **2 g IV cada 4 a 6 horas** | Alternativa a ceftriaxona en neonatos o hepatopatía. |
+| **Aciclovir** | **10 mg/kg IV cada 8 horas** | Dosis de encefalitis viral herpética. Ajustar por función renal e hidratación adecuada. |
+| **Dexametasona** | **10 mg IV cada 6 horas por 4 días** | **15–20 min antes o junto** con la 1.ª dosis de antibiótico. Mantener si *S. pneumoniae*. |
+| **Rifampicina** | **600 mg IV/VO cada 24 horas** | Coadyuvante si se usa dexametasona y hay sospecha de neumococo resistente. |
+| **Trimetoprim-Sulfametoxazol** | **5 mg/kg (TMP) IV cada 8 horas** | De elección para *Listeria* en alérgicos graves a penicilinas. |
+| **Aztreonam** | **2 g IV cada 6 a 8 horas** | Cobertura gramnegativa en anafilaxia a betalactámicos. |
+| **Gentamicina / Tobramicina** | **1.7 mg/kg IV cada 8 horas** | Monitoreo estrecho de niveles séricos (pico 7–9, valle < 1–2 mcg/mL). |
+| **Amikacina** | **5 mg/kg IV cada 8 horas** | Pico 25–40 mcg/mL, valle < 4–8 mcg/mL. |
+| **Penicilina G potásica** | **4 millones UI IV cada 4 horas** | Terapia dirigida ante confirmación de meningococo o neumococo sensible. |
+
+#### C. Diagnóstico diferencial de causas seleccionadas de meningitis aséptica (Connolly & Hammer / UpToDate):
+
+*   **Virales:** Enterovirus (Coxsackie A y B, Echovirus), Virus Herpes Simple tipo 1 y 2, Virus Varicela-Zóster (VZV), Citomegalovirus (CMV), Epstein-Barr (EBV), Virus de Inmunodeficiencia Humana (VIH primario), Arbovirus, Parotiditis, Coriomeningitis linfocítica (LCMV).
+*   **Bacterianas atípicas / parameníngeas:** *Borrelia burgdorferi* (Lyme), *Treponema pallidum* (Neurosífilis), *Mycobacterium tuberculosis*, *Mycoplasma pneumoniae*, meningitis bacteriana decapitada por antibiótico previo, infección parameníngea (absceso epidural/subdural).
+*   **Fúngicas:** *Cryptococcus neoformans/gattii*, *Histoplasma capsulatum*, *Coccidioides immitis*, *Candida spp.*, *Aspergillus spp.*
+*   **Parasitarias:** *Toxoplasma gondii*, *Taenia solium* (Neurocisticercosis), *Angiostrongylus cantonensis*.
+*   **Inducida por fármacos (DIAM):** AINEs (especialmente Ibuprofeno), Trimetoprim-Sulfametoxazol (TMP-SMX), Azatioprina, Anticuerpos monoclonales anti-CD3.
+*   **Neoplásicas:** Carcinomatosis leptomeníngea, Linfoma del SNC, Leucemia meníngea.
+*   **Autoinmunes:** Enfermedad de Behçet, Neurosarcoidosis, Lupus eritematoso sistémico (LES), Síndrome de Vogt-Koyanagi-Harada.
 
 ---
 
