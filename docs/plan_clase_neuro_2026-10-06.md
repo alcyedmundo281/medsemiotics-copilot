@@ -135,6 +135,57 @@ Indicada exclusivamente si existe al menos uno de los siguientes:
 - **Neoplásicas:** Carcinomatosis meníngea, Linfoma del SNC, Leucemia meníngea.
 - **Autoinmunes / Sistémicas:** Enfermedad de Behçet, Sarcoidosis del SNC (Neurosarcoidosis), Lupus eritematoso sistémico (LES), Síndrome de Vogt-Koyanagi-Harada.
 
+### Terapia antimicrobiana presuntiva según Tinción de Gram urgente del LCR (UpToDate / Tunkel AR 2004)
+
+| Microorganismo presuntivo en Gram | Terapia recomendada | Terapias alternativas |
+|---|---|---|
+| **Diplococos grampositivos (*S. pneumoniae*)** | **Vancomicina + Cefalosporina de 3.ª gen** (Ceftriaxona o Cefotaxima) + Dexametasona | Fluoroquinolona (Moxifloxacino); considerar añadir Rifampicina si se usa dexametasona |
+| **Diplococos gramnegativos (*N. meningitidis*)** | **Cefalosporina de 3.ª gen** (Ceftriaxona o Cefotaxima) | Cloranfenicol, fluoroquinolona, aztreonam |
+| **Bacilos grampositivos (*Listeria monocytogenes*)** | **Ampicilina** (2 g c/4h) **o Penicilina G** (4 mill UI c/4h) (+ considerar aminoglucósido) | Trimetoprim-sulfametoxazol (TMP-SMX) |
+| **Cocobacilos gramnegativos (*H. influenzae*)** | **Cefalosporina de 3.ª gen** | Cloranfenicol, cefepima, meropenem, fluoroquinolona |
+
+### Terapia antimicrobiana dirigida según patógeno aislado y susceptibilidad (CIM) (UpToDate / Lancet 2012)
+
+| Microorganismo y susceptibilidad (CIM) | Terapia estándar | Terapias alternativas |
+|---|---|---|
+| ***Streptococcus pneumoniae*** | | |
+| • Penicilina CIM ≤ 0.06 mcg/mL | **Penicilina G o Ampicilina** | Cefalosporina de 3.ª gen, cloranfenicol |
+| • Penicilina CIM ≥ 0.12 mcg/mL y Ceftriaxona CIM < 1 mcg/mL | **Cefalosporina de 3.ª gen** (Ceftriaxona) | Cefepima, meropenem |
+| • Penicilina CIM ≥ 0.12 mcg/mL y Ceftriaxona CIM ≥ 1 mcg/mL | **Vancomicina + Cefalosporina de 3.ª gen** (añadir Rifampicina si CIM ceftriaxona > 2 mcg/mL) | Fluoroquinolona (moxifloxacino) |
+| ***Neisseria meningitidis*** | | |
+| • Penicilina CIM < 0.1 mcg/mL | **Penicilina G o Ampicilina** | Cefalosporina de 3.ª gen, cloranfenicol |
+| • Penicilina CIM 0.1 a 1.0 mcg/mL | **Cefalosporina de 3.ª gen** | Fluoroquinolona, meropenem, cloranfenicol |
+| ***Listeria monocytogenes*** | **Ampicilina o Penicilina G** (+ aminoglucósido) | Trimetoprim-sulfametoxazol |
+| ***Streptococcus agalactiae* (GBS)** | **Ampicilina o Penicilina G** | Cefalosporina de 3.ª gen |
+| ***Escherichia coli* y Enterobacterias** | **Cefalosporina de 3.ª gen** | Aztreonam, fluoroquinolona, meropenem, TMP-SMX, ampicilina |
+| ***Pseudomonas aeruginosa*** | **Cefepima o Ceftazidima** | Aztreonam, ciprofloxacino, meropenem |
+| ***Acinetobacter baumannii*** | **Meropenem** | Colistina (colistimetato sódico) o polimixina B (incluyendo vía intraventricular/intratecal) |
+| ***Haemophilus influenzae*** | | |
+| • Betalactamasa negativa | **Ampicilina** | Cefalosporina 3.ª gen, cefepima, fluoroquinolona, aztreonam, cloranfenicol |
+| • Betalactamasa positiva | **Cefalosporina de 3.ª gen** | Cefepima, fluoroquinolona, aztreonam, cloranfenicol |
+| ***Staphylococcus aureus*** | | |
+| • Sensible a meticilina (MSSA) | **Nafcilina u Oxacilina** | Vancomicina, meropenem, linezolid, daptomicina |
+| • Resistente a meticilina (MRSA) | **Vancomicina** (considerar añadir rifampicina) | TMP-SMX, linezolid, daptomicina |
+| ***Staphylococcus epidermidis*** | **Vancomicina** (considerar añadir rifampicina) | Linezolid |
+
+### Elección de antibióticos empíricos en adultos con sospecha de meningitis y antecedente de hipersensibilidad a betalactámicos (UpToDate)
+
+| Antecedente de reacción a betalactámicos | Régimen inicial recomendado | Comentarios clínicos y ajustes |
+|---|---|---|
+| **Reacción cutánea leve a penicilina** (erupción leve, prurito o urticaria aislada sin anafilaxia, especialmente en infancia o > 10 años atrás) | **Ceftriaxona o Cefotaxima + Vancomicina** | Riesgo de reactividad cruzada < 1%. Si requiere cobertura de *Listeria* (> 50 años / inmunodeprimido), añadir **TMP-SMX**. |
+| **Urticaria leve aislada a cefalosporina** o reacción retardada leve a cefalosporina | **Meropenem + Vancomicina** | Meropenem provee suficiente cobertura para *Listeria* y *Pseudomonas aeruginosa* en el régimen empírico. |
+| **Alergia inmediata severa (Anafilaxia)** a penicilinas y/o cefalosporinas, o **SJS/TEN, DRESS, AGEP** | **Moxifloxacino + Vancomicina** | Si requiere cobertura de *Listeria*, añadir **TMP-SMX**. En inmunodeprimidos con necesidad de cobertura gramnegativa expandida, añadir **Aztreonam** (siempre que no haya alergia a ceftazidima). |
+| **Hipersensibilidad no mediada por IgE** (Nefritis intersticial, citopenia por fármaco, enfermedad del suero) | **Ceftriaxona o Cefotaxima + Vancomicina** | Estas reacciones suelen ser específicas de fármaco y no contraindican cefalosporinas de 3.ª gen. Añadir TMP-SMX si se requiere *Listeria*. |
+
+### Protocolo de dosificación y monitorización de Vancomicina en adultos con función renal normal (UpToDate / Rybak MJ et al. 2020)
+
+| Parámetro posológico | Recomendación clínica estricta en meningitis |
+|---|---|
+| **Dosis de carga (Loading dose)** | **20 a 35 mg/kg** (peso corporal real, redondeado a incrementos de 250 mg; **máximo 3.000 mg**). Administrar en paciente crítico con sospecha de meningitis bacteriana para alcanzar rápidamente niveles terapéuticos en LCR. |
+| **Dosis inicial de mantenimiento e intervalo** | **15 a 20 mg/kg cada 8 a 12 horas** (peso real, redondeado a 250 mg; dosis habitual de 2 g c/12h en adultos jóvenes con función renal normal). |
+| **Ajustes y monitorización sérica** | Monitorización obligatoria de concentración valle (*trough*) antes de la 4.ª dosis: meta estricta de **15 a 20 mcg/mL** (o meta de AUC/MIC 500–600 mg·h/L) para asegurar penetración suficiente de la barrera hematoencefálica inflamada. |
+
+
 ## Giro final: encefalitis y absceso (viñeta ficticia para 17:15)
 
 > Mujer de 52 años, 3 días de fiebre y cefalea. Su familia la trae porque «dice cosas raras»,
