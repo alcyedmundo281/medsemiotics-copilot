@@ -9,4 +9,10 @@ teaching_start_date: "2026-06-24"
 teaching_end_date: "2026-10-21"
 meeting_rules:
   - weekday: "wednesday"
-exceptions: []
+exceptions:
+  - date: "2026-09-23"
+    exception_type: "no_class"
+    notes: "Sin clase en esta fecha según el sílabo oficial."
+  - date: "2026-10-08"
+    exception_type: "makeup"
+    notes: "Sesión fuera del día habitual según el sílabo oficial."

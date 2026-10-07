@@ -294,7 +294,8 @@ def test_real_effective_schedule_uses_active_baseline_without_calendar_events() 
         )
         assert class_dates[0] == first
         assert class_dates[-1] == last
-        assert [date.fromisoformat(str(week["date"])) for week in weeks] == class_dates
+        # Syllabus order is topic order; a make-up session may be dated out of sequence.
+        assert sorted(date.fromisoformat(str(week["date"])) for week in weeks) == class_dates
 
     assert calendar_reader.list_events.call_count == 2
 

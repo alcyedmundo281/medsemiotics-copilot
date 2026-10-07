@@ -19,7 +19,7 @@ Run ``python scripts/sync_syllabus_v2_to_config.py`` to rewrite the files, or pa
 from __future__ import annotations
 
 import argparse
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -102,6 +102,22 @@ def render_schedule(course_code: str, official: Mapping[str, Any], source: str) 
     info = official["course_info"]
     start = date.fromisoformat(str(info["start_date"]))
     weekday = WEEKDAY_NAMES[start.weekday()]
+    # A syllabus week dated off the regular weekday is a make-up session; a regular
+    # weekday the syllabus does not use is a date without class.
+    end = date.fromisoformat(_yaml_date(info["end_date"]))
+    syllabus_days = {date.fromisoformat(str(week["date"])) for week in _weeks(official)}
+    exceptions: list[tuple[date, str, str]] = [
+        (day, "makeup", "Sesión fuera del día habitual según el sílabo oficial.")
+        for day in syllabus_days
+        if day.weekday() != start.weekday()
+    ]
+    regular_days = (start + timedelta(weeks=n) for n in range((end - start).days // 7 + 1))
+    exceptions.extend(
+        (day, "no_class", "Sin clase en esta fecha según el sílabo oficial.")
+        for day in regular_days
+        if day not in syllabus_days
+    )
+    exceptions.sort()
     lines = [
         GENERATED_HEADER.format(semester=SEMESTER_ID, source=source),
         "# Date-only baseline. Exact meeting times remain operational Calendar evidence.\n",
@@ -112,8 +128,19 @@ def render_schedule(course_code: str, official: Mapping[str, Any], source: str) 
         f"teaching_end_date: {_quoted(_yaml_date(info['end_date']))}\n",
         "meeting_rules:\n",
         f"  - weekday: {_quoted(weekday)}\n",
-        "exceptions: []\n",
     ]
+    if exceptions:
+        lines.append("exceptions:\n")
+        for day, kind, note in exceptions:
+            lines.extend(
+                [
+                    f"  - date: {_quoted(day.isoformat())}\n",
+                    f"    exception_type: {_quoted(kind)}\n",
+                    f"    notes: {_quoted(note)}\n",
+                ]
+            )
+    else:
+        lines.append("exceptions: []\n")
     return "".join(lines)
 
 
