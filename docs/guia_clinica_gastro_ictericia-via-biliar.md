@@ -2,7 +2,7 @@
 
 **Cátedra de Gastroenterología y Semiótica Digestiva — semestre 2026-2**
 
-Semana 14 · 2026-09-23 · Miércoles 16:00 - 17:30 (1 sesión semanal presencial/híbrida)
+Semana 14 · 2026-10-08 · Miércoles 16:00 - 17:30 (1 sesión semanal presencial/híbrida)
 
 Hospital de Especialidades Carlos Andrade Marín (HCAM) · Aula Lúdica
 
@@ -39,7 +39,7 @@ Hospital de Especialidades Carlos Andrade Marín (HCAM) · Aula Lúdica
 - Criterios de sospecha y gravedad de colangitis.
 - Tabla de causas de ictericia por grupo etario.
 
-Módulo interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia.html
+Módulo interactivo: https://powersemiotics.com/medsemiotics/gastroenterologia/ictericia-via-biliar.html
 
 ---
 
