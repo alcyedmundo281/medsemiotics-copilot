@@ -63,9 +63,9 @@ La evaluación se estructura en dos hemisemestres (50% cada uno) conforme al reg
 | :---: | :---: | :--- | :---: |
 | **10**| 26 Ago 2026 | Trastornos funcionales digestivos y dispepsia funcional | ✅ Ejecutada |
 | **11**| 02 Sep 2026 | Enfermedad Inflamatoria Intestinal I: Colitis Ulcerosa | ✅ Ejecutada |
-| **12**| **09 Sep 2026** | **Pancreatitis aguda y pancreatitis crónica** | 🔵 **ACTIVA (ESTE MIÉRCOLES)** |
-| **13**| 16 Sep 2026 | Hepatopatías crónicas, cirrosis e hipertensión portal | ⏳ Proyectada |
-| **14**| 23 Sep 2026 | Ictericia, colestasis y patología biliar litiásica | ⏳ Proyectada |
+| **12**| 09 Sep 2026 | Pancreatitis aguda y pancreatitis crónica | ✅ Ejecutada |
+| **13**| 16 Sep 2026 | Hepatopatías crónicas, cirrosis e hipertensión portal | ✅ Ejecutada |
+| **14**| **23 Sep 2026** | **Ictericia, colestasis y patología biliar litiásica** | 🔵 **ACTIVA (PRÓXIMA CLASE)** |
 | **15**| 30 Sep 2026 | Abdomen agudo médico vs quirúrgico y urgencias digestivas | ⏳ Proyectada |
 | **16**| 07 Oct 2026 | Enfermedad Inflamatoria Intestinal II: Enfermedad de Crohn | ✅ Ejecutada |
 | **17**| 14 Oct 2026 | Síndrome de Intestino Irritable y dolor visceral | ✅ Ejecutada |

@@ -118,7 +118,7 @@ schedule_18_weeks:
     date: "2026-09-09"
     topic_id: "pancreatitis-aguda-cronica"
     title: "Pancreatitis aguda (Etiología, criterios de severidad Balthazar/Atlanta) y pancreatitis crónica"
-    status: "projected"
+    status: "completed"
     hemisemestre: 2
     web_module: "https://powersemiotics.com/medsemiotics/gastroenterologia/pancreatitis_aguda/index.html"
 
@@ -126,7 +126,7 @@ schedule_18_weeks:
     date: "2026-09-16"
     topic_id: "cirrosis-hipertension-portal"
     title: "Hepatopatías crónicas, cirrosis hepática, ascitis e hipertensión portal"
-    status: "projected"
+    status: "completed"
     hemisemestre: 2
 
   - week: 14
@@ -135,6 +135,7 @@ schedule_18_weeks:
     title: "Síndromes ictéricos, colestasis y patología biliar litiásica (Colecistitis/Colangitis aguda)"
     status: "projected"
     hemisemestre: 2
+    web_module: "https://powersemiotics.com/medsemiotics/gastroenterologia/ictericia-via-biliar.html"
 
   - week: 15
     date: "2026-09-30"

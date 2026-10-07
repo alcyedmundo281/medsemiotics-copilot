@@ -2,7 +2,7 @@
 title: "Síndromes ictéricos, colestasis y patología biliar litiásica"
 subtitle: "Guía Docente y Razonamiento Clínico — GASTRO (2026-2)"
 author: "Cátedra de Gastroenterología y Semiótica Digestiva — UCE / HCAM"
-date: "2026-09-02"
+date: "2026-10-08"
 lang: es
 format:
   epub:

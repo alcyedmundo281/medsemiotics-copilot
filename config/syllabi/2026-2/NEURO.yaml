@@ -52,7 +52,7 @@ topics:
     planned_order: 12
     planned_week: 12
     required: true
-  - topic_id: "cefaleas-red-flags"
+  - topic_id: "polineuropatias"
     planned_order: 13
     planned_week: 13
     required: true

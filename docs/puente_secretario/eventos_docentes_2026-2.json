@@ -366,7 +366,7 @@
       "end_local": "17:30",
       "location": "Aula Lúdica",
       "web_module": "https://powersemiotics.com/medsemiotics/gastroenterologia/pancreatitis_aguda/index.html",
-      "status": "projected"
+      "status": "completed"
     },
     {
       "event_id": "medsemiotics-2026-2-NEURO-w13",
@@ -374,13 +374,13 @@
       "course_code": "NEURO",
       "course_name": "Cátedra de Neurología Clínica y Semiótica",
       "week": 13,
-      "topic_id": "cefaleas-red-flags",
-      "title": "Sem 13 - Cefaleas primarias (Migraña, Tensional, Cluster) y Banderas Rojas",
+      "topic_id": "polineuropatias",
+      "title": "Sem 13 - Neuropatías periféricas y polineuropatías",
       "date": "2026-09-15",
       "start_local": "16:00",
       "end_local": "17:30",
       "location": "Aula de Administración",
-      "web_module": "https://powersemiotics.com/medsemiotics/neurologia.html",
+      "web_module": "https://powersemiotics.com/medsemiotics/neurologia/neuropatias.html",
       "status": "completed"
     },
     {
@@ -396,7 +396,7 @@
       "end_local": "17:30",
       "location": "Aula Lúdica",
       "web_module": "https://powersemiotics.com/medsemiotics/gastroenterologia.html",
-      "status": "projected"
+      "status": "completed"
     },
     {
       "event_id": "medsemiotics-2026-2-NEURO-w14",
@@ -411,7 +411,7 @@
       "end_local": "17:30",
       "location": "Aula de Administración",
       "web_module": "https://powersemiotics.com/medsemiotics/neurologia/enfermedades_desmielinizantes.html",
-      "status": "projected"
+      "status": "completed"
     },
     {
       "event_id": "medsemiotics-2026-2-GASTRO-w14",
@@ -425,7 +425,7 @@
       "start_local": "16:00",
       "end_local": "17:30",
       "location": "Aula Lúdica",
-      "web_module": "https://powersemiotics.com/medsemiotics/gastroenterologia.html",
+      "web_module": "https://powersemiotics.com/medsemiotics/gastroenterologia/ictericia-via-biliar.html",
       "status": "projected"
     },
     {
@@ -441,7 +441,7 @@
       "end_local": "17:30",
       "location": "Aula de Administración",
       "web_module": "https://powersemiotics.com/medsemiotics/neurologia.html",
-      "status": "projected"
+      "status": "completed"
     },
     {
       "event_id": "medsemiotics-2026-2-GASTRO-w15",
@@ -470,7 +470,7 @@
       "start_local": "16:00",
       "end_local": "17:30",
       "location": "Aula de Administración",
-      "web_module": "https://powersemiotics.com/medsemiotics/neurologia.html",
+      "web_module": "https://powersemiotics.com/medsemiotics/neurologia/infecciones-snc.html",
       "status": "projected"
     },
     {

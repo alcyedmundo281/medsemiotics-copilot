@@ -1,0 +1,24 @@
+# Guía conservada fuera del catálogo activo: el docente confirmó polineuropatías
+# para el 15-09-2026. Cefaleas no tiene una nueva sesión asignada.
+guides:
+  - topic_id: "cefaleas-red-flags"
+    topic_title: "Cefaleas primarias y banderas rojas"
+    learning_objectives:
+      - "Clasificar migraña, cefalea tensional y cefalea en racimos por criterios clínicos."
+      - "Identificar las banderas rojas que obligan a estudio urgente de una cefalea secundaria."
+    critical_points:
+      - "Una cefalea en trueno es hemorragia subaracnoidea hasta demostrar lo contrario."
+      - "Banderas rojas: inicio súbito, comienzo después de los 50 años, cambio del patrón habitual, déficit focal o papiledema, fiebre o inmunosupresión, cáncer, embarazo y puerperio, desencadenada por Valsalva o por el cambio postural, y la que despierta de noche."
+      - "Un examen neurológico normal no descarta una cefalea secundaria cuando hay banderas rojas."
+    teaching_questions:
+      - "¿Cómo describe el paciente el inicio del dolor y por qué esa respuesta cambia la conducta?"
+      - "¿Qué busca en el fondo de ojo antes de decidir la neuroimagen?"
+      - "¿Qué elementos de la anamnesis separan migraña de cefalea tensional?"
+    common_pitfalls:
+      - "Etiquetar de migraña por el antecedente sin comparar el episodio actual con el patrón habitual."
+      - "Omitir el fondo de ojo."
+      - "Pedir neuroimagen indiscriminada y, a la vez, no pedirla ante una bandera roja."
+    material_notes:
+      - "Tabla de criterios de migraña, tensional y racimos."
+      - "Lista de banderas rojas."
+      - "Diagrama de decisión de neuroimagen."

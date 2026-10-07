@@ -79,3 +79,13 @@ assignments:
       - "Plan breve de comprobación clínica segura."
     rubric_id: "neuro-clinical-reasoning"
     suggested_due_days: 7
+  - assignment_id: "desmielinizantes-socratic-case"
+    topic_id: "desmielinizantes-em"
+    title: "Caso Clínico Socrático: Enfermedades Desmielinizantes del SNC"
+    prompt: "A partir de un caso sintético con déficit neurológico focal agudo y antecedentes visuales, aplique el marco KNOW -> REASON -> ACT para el diagnóstico sindrómico, topográfico y diferencial de esclerosis múltiple y neuromielitis óptica."
+    deliverables:
+      - "Guía de razonamiento socrático resuelta en equipo (preguntas 1 a 12)."
+      - "Ticket de salida individual completado (definición de brote, 2 alarmas hacia NMOSD y técnica del DPAR)."
+      - "Justificación clínica según criterios de McDonald 2024 y conducta terapéutica de urgencia."
+    rubric_id: "neuro-clinical-reasoning"
+    suggested_due_days: 7

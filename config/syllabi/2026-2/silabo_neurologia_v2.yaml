@@ -26,7 +26,7 @@ course_info:
 evaluation_scheme:
   primer_hemisemestre:
     porcentaje: 50
-    actividades_formativas: 20  # Informes clínicos HCAM, tareas (Rúbrica 6-6-4-4)
+    actividades_formativas: 20  # Informes clínicos HCAM y tareas; rúbrica según objetivos de cada actividad
     evaluacion_sumativa: 30     # Examen teórico-práctico (Escala NIHSS / ACV)
   segundo_hemisemestre:
     porcentaje: 50
@@ -126,10 +126,12 @@ schedule_18_weeks:
 
   - week: 13
     date: "2026-09-15"
-    topic_id: "cefaleas-red-flags"
-    title: "Cefaleas primarias (Migraña, Tensional, Cluster) y Banderas Rojas"
+    # Corrección docente: esta sesión correspondió a polineuropatías, no a cefaleas.
+    topic_id: "polineuropatias"
+    title: "Neuropatías periféricas y polineuropatías"
     status: "completed"
     hemisemestre: 2
+    web_module: "https://powersemiotics.com/medsemiotics/neurologia/neuropatias.html"
 
   # Reprogramación 2026-09-21: Desmielinizantes se adelanta del 29-sep al 22-sep y
   # Epilepsia pasa a la semana 15. Las semanas 16-18 no cambian.
@@ -137,7 +139,7 @@ schedule_18_weeks:
     date: "2026-09-22"
     topic_id: "desmielinizantes-em"
     title: "Enfermedades desmielinizantes del SNC (Esclerosis Múltiple y NMO)"
-    status: "projected"
+    status: "completed"
     hemisemestre: 2
     web_module: "https://powersemiotics.com/medsemiotics/neurologia/enfermedades_desmielinizantes.html"
 
@@ -145,7 +147,7 @@ schedule_18_weeks:
     date: "2026-09-29"
     topic_id: "epilepsia-crisis"
     title: "Epilepsia, crisis epilépticas focales/generalizadas y diagnóstico diferencial"
-    status: "projected"
+    status: "completed"
     hemisemestre: 2
 
   - week: 16
@@ -154,6 +156,7 @@ schedule_18_weeks:
     title: "Infecciones del SNC: Síndrome meníngeo, meningitis, encefalitis y abscesos"
     status: "projected"
     hemisemestre: 2
+    web_module: "https://powersemiotics.com/medsemiotics/neurologia/infecciones-snc.html"
 
   - week: 17
     date: "2026-10-13"
