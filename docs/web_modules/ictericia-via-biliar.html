@@ -1,0 +1,1110 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ictericia, Colestasis y Patología Biliar Litiásica — PowerSemiotics</title>
+    <link rel="stylesheet" href="../assets/vendor/fontawesome/css/all.min.css" />
+    <link href="../assets/fonts/fonts.css" rel="stylesheet" />
+    <link href="../assets/tailwind.css" rel="stylesheet" />
+    <style>
+      .module-section {
+        display: none;
+      }
+      .module-section.active {
+        display: block;
+        animation: fadeIn 0.45s ease-out;
+      }
+      .slide {
+        display: none;
+      }
+      .slide.active {
+        display: block;
+        animation: fadeIn 0.35s ease-out;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* 3D Flashcards */
+      .card-container {
+        perspective: 1000px;
+        height: 270px;
+      }
+      .card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+        transform-style: preserve-3d;
+        cursor: pointer;
+      }
+      .card-inner.flipped {
+        transform: rotateY(180deg);
+      }
+      .card-front, .card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem;
+        border-radius: 1rem;
+      }
+      .card-back {
+        transform: rotateY(180deg);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #cbd5e1;
+        border-radius: 20px;
+      }
+      .gradient-text {
+        background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    </style>
+  </head>
+  <body class="font-['Inter'] bg-slate-50 text-slate-800 bg-gradient-to-br from-slate-50 via-indigo-50/40 to-cyan-50/50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white/85 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-indigo-100/60">
+      <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="../gastroenterologia.html" class="text-base font-bold text-indigo-700 hover:text-indigo-900 transition-colors flex items-center gap-2">
+          <i class="fas fa-arrow-left"></i> Volver al Hub de Gastroenterología
+        </a>
+        <div class="flex items-center gap-3">
+          <span class="hidden md:inline-block px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-full border border-indigo-200">
+            Semana 14 · Semestre 2026-2
+          </span>
+          <a href="../index.html" class="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-700 to-cyan-600 hover:to-indigo-800 transition-colors">
+            Power Semiotics
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container mx-auto p-4 md:p-8">
+      <!-- Title & Hero -->
+      <div class="text-center mb-8 max-w-4xl mx-auto">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-100/80 text-cyan-900 text-xs font-bold uppercase tracking-wider mb-3 border border-cyan-200">
+          <i class="fas fa-notes-medical text-cyan-600"></i> Gastroenterología y Semiótica Digestiva · HCAM
+        </div>
+        <h1 class="text-3xl md:text-5xl font-black text-slate-900 mb-3 tracking-tight leading-tight">
+          Ictericia, Colestasis y <span class="gradient-text">Patología Biliar Litiásica</span>
+        </h1>
+        <p class="text-base md:text-lg text-slate-600 font-medium max-w-2xl mx-auto">
+          Patrones de ictericia, cociente R, colecistitis y colangitis aguda (Tokyo 2018), probabilidad de coledocolitiasis y el momento del drenaje biliar
+        </p>
+      </div>
+
+      <!-- Main Layout: Content + Sticky Sidebar -->
+      <div class="flex flex-col-reverse lg:flex-row gap-8 items-start max-w-7xl mx-auto">
+
+        <!-- Left: Interactive Content Panes -->
+        <main class="w-full lg:w-3/4">
+          <div class="bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200 shadow-xl shadow-slate-100 p-6 md:p-10">
+
+            <!-- SECTION 1: GUIA CLINICA Y TEORIA -->
+            <section id="section-guia" class="module-section active">
+              <div class="flex items-center gap-3 mb-6 border-b border-slate-200 pb-4">
+                <div class="bg-indigo-100 text-indigo-700 p-3 rounded-xl"><i class="fas fa-book-medical text-xl"></i></div>
+                <div>
+                  <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">1. Guía Clínica & Decisiones de Cabecera</h2>
+                  <p class="text-sm text-slate-500">Semiología de la ictericia, espectro litiásico y criterios de Tokyo 2018</p>
+                </div>
+              </div>
+
+              <div class="space-y-8 text-slate-700 leading-relaxed">
+
+                <!-- Alerta: Regla Cardinal -->
+                <div class="bg-gradient-to-r from-rose-50 to-amber-50 border-l-4 border-rose-500 rounded-xl p-5 shadow-sm">
+                  <h3 class="text-lg font-bold text-rose-900 flex items-center gap-2 mb-2">
+                    <i class="fas fa-exclamation-triangle text-rose-600"></i> Desmonte de Dogmas: la colangitis no se cura solo con antibiótico
+                  </h3>
+                  <p class="text-slate-700 text-sm md:text-base">
+                    En la colangitis aguda, el antibiótico trata la bacteriemia, <strong>no la obstrucción</strong>. Una vía biliar obstruida e infectada es un absceso en un tubo cerrado: <strong>el grado II exige drenaje temprano (24-48 h) y el grado III, drenaje urgente</strong>. Antes de pedir cualquier imagen, la anamnesis ya separa el patrón: <em>color de la orina y de las heces, dolor, fiebre, prurito</em>.
+                  </p>
+                </div>
+
+                <!-- Patrones de ictericia -->
+                <div>
+                  <h3 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                    <i class="fas fa-vials text-indigo-600"></i> Tres patrones de ictericia y el cociente R
+                  </h3>
+                  <p class="text-sm mb-3">R = (ALT / LSN) ÷ (FA / LSN). Se calcula con las mismas unidades y sus límites superiores normales.</p>
+                  <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                    <table class="w-full text-sm text-left">
+                      <thead class="bg-slate-100 text-slate-800 font-bold border-b border-slate-200">
+                        <tr>
+                          <th class="p-3.5">Patrón</th>
+                          <th class="p-3.5">Laboratorio</th>
+                          <th class="p-3.5 text-center">Cociente R</th>
+                          <th class="p-3.5">Causas típicas</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-100 text-slate-700">
+                        <tr class="hover:bg-slate-50 transition-colors">
+                          <td class="p-3.5 font-bold text-slate-800">Prehepático (hemolítico)</td>
+                          <td class="p-3.5 text-xs">Bilirrubina indirecta, orina sin bilis, ALT/FA normales, LDH alta, haptoglobina baja</td>
+                          <td class="p-3.5 text-center font-black text-indigo-600">—</td>
+                          <td class="p-3.5 text-xs">Hemólisis, Gilbert, eritropoyesis ineficaz</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                          <td class="p-3.5 font-bold text-slate-800">Hepatocelular</td>
+                          <td class="p-3.5 text-xs">ALT y AST muy elevadas, FA normal o discreta, INR alto si falla la síntesis</td>
+                          <td class="p-3.5 text-center font-black text-indigo-600">≥ 5</td>
+                          <td class="p-3.5 text-xs">Hepatitis viral, alcohol, fármacos, isquemia, autoinmune</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                          <td class="p-3.5 font-bold text-slate-800">Colestásico</td>
+                          <td class="p-3.5 text-xs">FA y GGT ≥ 2-3 × LSN, bilirrubina directa alta, transaminasas moderadas</td>
+                          <td class="p-3.5 text-center font-black text-indigo-600">≤ 2</td>
+                          <td class="p-3.5 text-xs">Coledocolitiasis, tumor de cabeza de páncreas, colangiocarcinoma, CBP, CEP</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                          <td class="p-3.5 font-bold text-slate-800">Mixto</td>
+                          <td class="p-3.5 text-xs">Ambos patrones elevados</td>
+                          <td class="p-3.5 text-center font-black text-indigo-600">2 - 5</td>
+                          <td class="p-3.5 text-xs">Colestasis por fármacos, hepatitis colestásica</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- Anamnesis y examen -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                    <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><i class="fas fa-comments text-cyan-600"></i> Anamnesis que cambia la conducta</h4>
+                    <ul class="text-sm list-disc pl-5 space-y-1.5">
+                      <li><strong>Coluria + acolia</strong>: bilirrubina conjugada que no llega al intestino. Orina clara con ictericia sugiere hiperbilirrubinemia indirecta.</li>
+                      <li><strong>Prurito</strong>: sales biliares; colestasis, a menudo crónica.</li>
+                      <li><strong>Cólico en hipocondrio derecho</strong>: litiasis. <strong>Ictericia indolora y progresiva</strong>: neoplasia hasta demostrar lo contrario.</li>
+                      <li><strong>Fiebre con escalofríos</strong>: infección de la vía biliar. <strong>Pérdida de peso</strong>: neoplasia.</li>
+                    </ul>
+                  </div>
+                  <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                    <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><i class="fas fa-hand-holding-medical text-cyan-600"></i> Exploración dirigida</h4>
+                    <ul class="text-sm list-disc pl-5 space-y-1.5">
+                      <li><strong>Murphy</strong> (inspiración interrumpida): colecistitis aguda.</li>
+                      <li><strong>Courvoisier-Terrier</strong> (vesícula palpable e indolora con ictericia): obstrucción distal, sospechar neoplasia.</li>
+                      <li><strong>Estigmas de hepatopatía crónica</strong>: origen hepatocelular crónico.</li>
+                      <li><strong>Fiebre, hipotensión, confusión</strong>: colangitis grave; actuar en la primera hora.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Espectro litiásico -->
+                <div>
+                  <h3 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                    <i class="fas fa-stream text-indigo-600"></i> El espectro de la patología biliar litiásica
+                  </h3>
+                  <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                    <table class="w-full text-sm text-left">
+                      <thead class="bg-slate-100 text-slate-800 font-bold border-b border-slate-200">
+                        <tr>
+                          <th class="p-3.5">Entidad</th>
+                          <th class="p-3.5">Clínica</th>
+                          <th class="p-3.5">Imagen</th>
+                          <th class="p-3.5">Conducta</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-100 text-slate-700">
+                        <tr class="hover:bg-slate-50 transition-colors">
+                          <td class="p-3.5 font-bold text-slate-800">Cólico biliar</td>
+                          <td class="p-3.5 text-xs">Dolor en HCD 30 min a 5 h tras comida grasa; sin fiebre; laboratorio normal</td>
+                          <td class="p-3.5 text-xs">Eco: litos con sombra acústica</td>
+                          <td class="p-3.5 text-xs">Colecistectomía electiva</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                          <td class="p-3.5 font-bold text-slate-800">Colecistitis aguda</td>
+                          <td class="p-3.5 text-xs">Dolor &gt; 6 h, fiebre, Murphy +, leucocitosis y PCR altas</td>
+                          <td class="p-3.5 text-xs">Pared &gt; 4 mm, líquido perivesicular, Murphy ecográfico</td>
+                          <td class="p-3.5 text-xs">Ayuno, líquidos, analgesia, antibiótico, colecistectomía temprana (idealmente &lt; 72 h)</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                          <td class="p-3.5 font-bold text-slate-800">Coledocolitiasis</td>
+                          <td class="p-3.5 text-xs">Dolor, ictericia intermitente, coluria, acolia; patrón colestásico</td>
+                          <td class="p-3.5 text-xs">Colédoco &gt; 6 mm; colangio-RM o ecoendoscopia si hay duda</td>
+                          <td class="p-3.5 text-xs">CPRE con extracción si la probabilidad es alta</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                          <td class="p-3.5 font-bold text-slate-800">Colangitis aguda</td>
+                          <td class="p-3.5 text-xs">Fiebre + ictericia + dolor (Charcot); con hipotensión y confusión, péntada de Reynolds</td>
+                          <td class="p-3.5 text-xs">Dilatación de la vía biliar</td>
+                          <td class="p-3.5 text-xs font-semibold text-rose-700">Antibiótico y drenaje biliar según gravedad</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                          <td class="p-3.5 font-bold text-slate-800">Pancreatitis biliar</td>
+                          <td class="p-3.5 text-xs">Dolor epigástrico en barra, lipasa ≥ 3 × LSN</td>
+                          <td class="p-3.5 text-xs">Eco para buscar litiasis</td>
+                          <td class="p-3.5 text-xs">CPRE solo si hay colangitis u obstrucción persistente</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- Tokyo -->
+                <div>
+                  <h3 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                    <i class="fas fa-clipboard-check text-indigo-600"></i> Criterios de Tokyo 2018: colangitis aguda
+                  </h3>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 text-sm">
+                      <h4 class="font-bold text-indigo-900 mb-1">A. Inflamación sistémica</h4>
+                      <p class="text-xs">Fiebre &gt; 38 °C y/o escalofríos; leucocitos &lt; 4.000 o &gt; 10.000; PCR ≥ 1 mg/dL.</p>
+                    </div>
+                    <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 text-sm">
+                      <h4 class="font-bold text-indigo-900 mb-1">B. Colestasis</h4>
+                      <p class="text-xs">Bilirrubina total ≥ 2 mg/dL; FA, GGT, AST o ALT &gt; 1,5 × LSN.</p>
+                    </div>
+                    <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 text-sm">
+                      <h4 class="font-bold text-indigo-900 mb-1">C. Imagen</h4>
+                      <p class="text-xs">Dilatación biliar o evidencia de etiología (litiasis, estenosis, stent).</p>
+                    </div>
+                  </div>
+                  <p class="text-sm mb-4"><strong>Sospecha:</strong> un ítem de A más uno de B o C. <strong>Diagnóstico definitivo:</strong> un ítem de A, uno de B y uno de C.</p>
+
+                  <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                    <table class="w-full text-sm text-left">
+                      <thead class="bg-slate-100 text-slate-800 font-bold border-b border-slate-200">
+                        <tr>
+                          <th class="p-3.5">Grado</th>
+                          <th class="p-3.5">Definición</th>
+                          <th class="p-3.5">Conducta</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-100 text-slate-700">
+                        <tr>
+                          <td class="p-3.5 font-bold text-emerald-700">I (leve)</td>
+                          <td class="p-3.5 text-xs">No cumple criterios de II ni de III</td>
+                          <td class="p-3.5 text-xs">Antibiótico; la mayoría responde en 24-48 h; tratar la causa de forma electiva</td>
+                        </tr>
+                        <tr>
+                          <td class="p-3.5 font-bold text-amber-700">II (moderada)</td>
+                          <td class="p-3.5 text-xs">Dos de: leucocitos &gt; 12.000 o &lt; 4.000; fiebre ≥ 39 °C; edad ≥ 75 años; bilirrubina ≥ 5 mg/dL; hipoalbuminemia</td>
+                          <td class="p-3.5 text-xs font-semibold">Drenaje biliar temprano (24-48 h)</td>
+                        </tr>
+                        <tr>
+                          <td class="p-3.5 font-bold text-rose-700">III (grave)</td>
+                          <td class="p-3.5 text-xs">Disfunción orgánica: hipotensión con vasopresores, alteración de conciencia, PaO₂/FiO₂ &lt; 300, creatinina &gt; 2 mg/dL u oliguria, INR &gt; 1,5, plaquetas &lt; 100.000</td>
+                          <td class="p-3.5 text-xs font-semibold text-rose-700">Soporte vital y drenaje biliar urgente</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- Colecistitis + ASGE -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                    <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><i class="fas fa-gallbladder text-cyan-600"></i> Colecistitis aguda (Tokyo 2018)</h4>
+                    <ul class="text-sm list-disc pl-5 space-y-1.5">
+                      <li><strong>A.</strong> Murphy, o dolor, masa o defensa en HCD.</li>
+                      <li><strong>B.</strong> Fiebre, PCR elevada, leucocitosis.</li>
+                      <li><strong>C.</strong> Imagen característica.</li>
+                      <li>Sospecha: A + B. Definitivo: A + B + C.</li>
+                      <li><strong>Alitiásica</strong>: paciente crítico o con ayuno y nutrición parenteral prolongados; mortalidad alta.</li>
+                    </ul>
+                  </div>
+                  <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                    <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><i class="fas fa-route text-cyan-600"></i> Probabilidad de coledocolitiasis (ASGE)</h4>
+                    <ul class="text-sm list-disc pl-5 space-y-1.5">
+                      <li><strong>Alta</strong> (lito en imagen, colangitis, o bilirrubina &gt; 4 mg/dL con colédoco dilatado): <strong>CPRE directa</strong>.</li>
+                      <li><strong>Intermedia</strong> (pruebas hepáticas anormales, edad &gt; 55, colédoco dilatado): ecoendoscopia o colangio-RM antes de CPRE.</li>
+                      <li><strong>Baja</strong>: colecistectomía con evaluación intraoperatoria si procede.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Imagen -->
+                <div>
+                  <h3 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                    <i class="fas fa-x-ray text-indigo-600"></i> Elección razonada de imagen
+                  </h3>
+                  <ul class="text-sm list-disc pl-5 space-y-1.5">
+                    <li><strong>Ecografía</strong>: primer estudio; detecta litiasis vesicular, pared engrosada, líquido perivesicular y dilatación biliar. Ve mal el colédoco distal.</li>
+                    <li><strong>Colangio-RM</strong>: no invasiva; define estenosis y litos en la probabilidad intermedia.</li>
+                    <li><strong>Ecoendoscopia</strong>: muy sensible para microlitiasis y coledocolitiasis pequeña, y para tumores ampulares o pancreáticos.</li>
+                    <li><strong>CPRE</strong>: es un procedimiento <em>terapéutico</em>, no una prueba diagnóstica. Riesgo de pancreatitis post-CPRE del 3-10%.</li>
+                    <li><strong>TC contrastada</strong>: sospecha de neoplasia, absceso o complicaciones. <strong>HIDA</strong>: colecistitis dudosa con ecografía no concluyente.</li>
+                  </ul>
+                </div>
+
+                <!-- Neoplasia -->
+                <div class="bg-gradient-to-r from-amber-50 to-rose-50 border-l-4 border-amber-500 rounded-xl p-5 shadow-sm">
+                  <h3 class="text-lg font-bold text-amber-900 flex items-center gap-2 mb-2">
+                    <i class="fas fa-search text-amber-600"></i> Señales de alarma de obstrucción maligna
+                  </h3>
+                  <p class="text-sm">
+                    Ictericia progresiva <strong>sin dolor</strong>, prurito, pérdida de peso y vesícula palpable no dolorosa (Courvoisier). Pensar en adenocarcinoma de cabeza de páncreas, colangiocarcinoma o ampuloma: TC pancreática bifásica o ecoendoscopia. <strong>No colocar stent sin estadificar</strong> si se plantea cirugía resectiva, salvo colangitis o prurito intratable.
+                  </p>
+                </div>
+
+                <p class="text-xs text-slate-500">
+                  Referencias: Kiriyama S, et al. Tokyo Guidelines 2018 (colangitis). <em>J Hepatobiliary Pancreat Sci</em> 2018;25:17-30 · Yokoe M, et al. Tokyo Guidelines 2018 (colecistitis). <em>J Hepatobiliary Pancreat Sci</em> 2018;25:41-54 · ASGE. Coledocolitiasis. <em>Gastrointest Endosc</em> 2019;89:1075-1105 · EASL. Colelitiasis. <em>J Hepatol</em> 2016;65:146-181.
+                </p>
+              </div>
+            </section>
+
+            <!-- SECTION 2: FLASHCARDS -->
+            <section id="section-flashcards" class="module-section">
+              <div class="flex items-center gap-3 mb-6 border-b border-slate-200 pb-4">
+                <div class="bg-yellow-100 text-yellow-600 p-3 rounded-xl"><i class="fas fa-bolt text-xl"></i></div>
+                <div>
+                  <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">2. Flashcards High Yield</h2>
+                  <p class="text-sm text-slate-500">Toca cada tarjeta para voltearla y poner a prueba tus conceptos clave de cabecera.</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="flashcards-grid">
+                <!-- Injected via JS -->
+              </div>
+            </section>
+
+            <!-- SECTION 3: PRESENTACION / DIAPOSITIVAS -->
+            <section id="section-presentacion" class="module-section">
+              <div class="flex items-center gap-3 mb-6 border-b border-slate-200 pb-4">
+                <div class="bg-purple-100 text-purple-600 p-3 rounded-xl"><i class="fas fa-chalkboard-teacher text-xl"></i></div>
+                <div>
+                  <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">3. Presentación Interactiva (Diapositivas)</h2>
+                  <p class="text-sm text-slate-500">Recorre los conceptos nucleares de la clase en formato de diapositivas interactivas.</p>
+                </div>
+              </div>
+
+              <div class="bg-slate-900 text-white rounded-2xl p-6 md:p-8 relative min-h-[360px] flex flex-col justify-between shadow-2xl">
+                <div id="slides-container" class="mb-6">
+                  <!-- Slides injected by JS -->
+                </div>
+
+                <div class="flex items-center justify-between border-t border-slate-800 pt-4">
+                  <button id="prev-slide-btn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold rounded-lg transition-colors flex items-center gap-2">
+                    <i class="fas fa-arrow-left"></i> Anterior
+                  </button>
+                  <span id="slide-indicator" class="text-xs text-slate-400 font-mono">1 / 8</span>
+                  <button id="next-slide-btn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-lg transition-colors flex items-center gap-2">
+                    Siguiente <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <!-- SECTION 4: HERRAMIENTAS CLINICAS -->
+            <section id="section-herramienta" class="module-section">
+              <div class="flex items-center gap-3 mb-6 border-b border-slate-200 pb-4">
+                <div class="bg-cyan-100 text-cyan-700 p-3 rounded-xl"><i class="fas fa-calculator text-xl"></i></div>
+                <div>
+                  <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">4. Herramientas Clínicas</h2>
+                  <p class="text-sm text-slate-500">Cociente R para clasificar el patrón y clasificador de colangitis aguda según Tokyo 2018.</p>
+                </div>
+              </div>
+
+              <!-- Tool 1: Cociente R -->
+              <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm mb-8">
+                <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
+                  <i class="fas fa-calculator text-indigo-600"></i> A. Calculadora del cociente R
+                </h3>
+                <p class="text-xs text-slate-500 mb-4">Introduce ALT, FA y sus límites superiores normales (LSN):</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs mb-4">
+                  <div>
+                    <label class="font-bold text-slate-700">ALT (U/L):</label>
+                    <input type="number" id="r-alt" value="148" class="w-full p-2 border border-slate-300 rounded-lg mt-1">
+                  </div>
+                  <div>
+                    <label class="font-bold text-slate-700">LSN de ALT:</label>
+                    <input type="number" id="r-alt-lsn" value="40" class="w-full p-2 border border-slate-300 rounded-lg mt-1">
+                  </div>
+                  <div>
+                    <label class="font-bold text-slate-700">FA (U/L):</label>
+                    <input type="number" id="r-fa" value="410" class="w-full p-2 border border-slate-300 rounded-lg mt-1">
+                  </div>
+                  <div>
+                    <label class="font-bold text-slate-700">LSN de FA:</label>
+                    <input type="number" id="r-fa-lsn" value="130" class="w-full p-2 border border-slate-300 rounded-lg mt-1">
+                  </div>
+                </div>
+                <div class="bg-indigo-50 rounded-xl p-3 border border-indigo-200 text-center mb-3">
+                  <span class="text-xs text-indigo-800 font-bold uppercase">Cociente R</span>
+                  <span id="r-value" class="block text-2xl font-black text-indigo-900">1.2</span>
+                </div>
+                <div id="r-result" class="p-3.5 rounded-lg text-xs font-semibold bg-amber-50 border border-amber-300 text-amber-900">
+                  Patrón colestásico (R ≤ 2).
+                </div>
+              </div>
+
+              <!-- Tool 2: Tokyo colangitis -->
+              <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
+                  <i class="fas fa-tasks text-cyan-600"></i> B. Clasificador de colangitis aguda (Tokyo 2018)
+                </h3>
+                <p class="text-xs text-slate-500 mb-4">Marca los hallazgos presentes. Es una ayuda educativa; no sustituye el juicio clínico ni el protocolo local.</p>
+
+                <h4 class="text-xs font-bold text-slate-700 uppercase mb-2">Diagnóstico</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm mb-4">
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                    <input type="checkbox" class="tk-diag h-4 w-4 text-indigo-600 rounded" value="A">
+                    <span>A. Inflamación sistémica (fiebre, leucocitos, PCR)</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                    <input type="checkbox" class="tk-diag h-4 w-4 text-indigo-600 rounded" value="B">
+                    <span>B. Colestasis (bilirrubina ≥ 2, FA/GGT/AST/ALT &gt; 1,5 × LSN)</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                    <input type="checkbox" class="tk-diag h-4 w-4 text-indigo-600 rounded" value="C">
+                    <span>C. Imagen (dilatación biliar o etiología)</span>
+                  </label>
+                </div>
+
+                <h4 class="text-xs font-bold text-slate-700 uppercase mb-2">Criterios de grado II (marca los que cumple)</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm mb-4">
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                    <input type="checkbox" class="tk-g2 h-4 w-4 text-indigo-600 rounded">
+                    <span>Leucocitos &gt; 12.000 o &lt; 4.000</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                    <input type="checkbox" class="tk-g2 h-4 w-4 text-indigo-600 rounded">
+                    <span>Fiebre ≥ 39 °C</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                    <input type="checkbox" class="tk-g2 h-4 w-4 text-indigo-600 rounded">
+                    <span>Edad ≥ 75 años</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                    <input type="checkbox" class="tk-g2 h-4 w-4 text-indigo-600 rounded">
+                    <span>Bilirrubina total ≥ 5 mg/dL</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                    <input type="checkbox" class="tk-g2 h-4 w-4 text-indigo-600 rounded">
+                    <span>Hipoalbuminemia marcada</span>
+                  </label>
+                </div>
+
+                <h4 class="text-xs font-bold text-slate-700 uppercase mb-2">Disfunción orgánica (grado III)</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm mb-4">
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                    <input type="checkbox" class="tk-g3 h-4 w-4 text-indigo-600 rounded">
+                    <span>Hipotensión que requiere vasopresores</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                    <input type="checkbox" class="tk-g3 h-4 w-4 text-indigo-600 rounded">
+                    <span>Alteración de la conciencia</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                    <input type="checkbox" class="tk-g3 h-4 w-4 text-indigo-600 rounded">
+                    <span>PaO₂/FiO₂ &lt; 300</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                    <input type="checkbox" class="tk-g3 h-4 w-4 text-indigo-600 rounded">
+                    <span>Oliguria o creatinina &gt; 2 mg/dL</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                    <input type="checkbox" class="tk-g3 h-4 w-4 text-indigo-600 rounded">
+                    <span>INR &gt; 1,5</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                    <input type="checkbox" class="tk-g3 h-4 w-4 text-indigo-600 rounded">
+                    <span>Plaquetas &lt; 100.000</span>
+                  </label>
+                </div>
+
+                <div id="tk-result" class="p-4 rounded-xl text-sm font-medium border bg-slate-100 text-slate-800 border-slate-300">
+                  Marca los hallazgos para clasificar.
+                </div>
+              </div>
+            </section>
+
+            <!-- SECTION 5: ABP CASO CLINICO -->
+            <section id="section-abp" class="module-section">
+              <div class="flex items-center gap-3 mb-6 border-b border-slate-200 pb-4">
+                <div class="bg-rose-100 text-rose-600 p-3 rounded-xl"><i class="fas fa-user-injured text-xl"></i></div>
+                <div>
+                  <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">5. Caso Clínico Socrático (ABP)</h2>
+                  <p class="text-sm text-slate-500">Mujer de 58 años con dolor en hipocondrio derecho, fiebre e ictericia. Análisis en 6 etapas.</p>
+                </div>
+              </div>
+
+              <!-- Viñeta inicial -->
+              <div class="bg-slate-50 border-l-4 border-indigo-500 rounded-r-xl p-5 mb-6 text-sm text-slate-700 leading-relaxed shadow-xs">
+                <h3 class="font-bold text-slate-900 text-base mb-2">Viñeta Clínica de Urgencias</h3>
+                <p>
+                  Mujer de 58 años, con obesidad y dos embarazos, que acude por dolor en hipocondrio derecho de 30 horas. Tuvo dos episodios previos de unas 3 horas, autolimitados, tras comidas copiosas. Hoy el dolor es continuo, con náusea, fiebre nocturna y escalofríos. Su familia notó «los ojos amarillos» ayer; orina «como té» y heces claras desde hace dos días. Sin alcohol ni hepatotóxicos conocidos. <strong>Signos vitales: T 38,9 °C, FC 108 lpm, PA 106/62 mmHg, FR 20 rpm, SpO₂ 96%, Glasgow 15.</strong>
+                </p>
+                <p class="text-xs text-slate-500 mt-2">Caso clínico ficticio con fines docentes.</p>
+              </div>
+
+              <div class="space-y-6" id="socratic-stages-container">
+                <!-- Socratic stages injected via JS -->
+              </div>
+            </section>
+
+            <!-- SECTION 6: AUTOEVALUACION QUIZ -->
+            <section id="section-autoevaluacion" class="module-section">
+              <div class="flex items-center gap-3 mb-6 border-b border-slate-200 pb-4">
+                <div class="bg-emerald-100 text-emerald-600 p-3 rounded-xl"><i class="fas fa-graduation-cap text-xl"></i></div>
+                <div>
+                  <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">6. Autoevaluación Interactiva (Quiz)</h2>
+                  <p class="text-sm text-slate-500">Preguntas de razonamiento clínico con justificación inmediata.</p>
+                </div>
+              </div>
+
+              <div id="quiz-container">
+                <div id="quiz-questions"></div>
+              </div>
+            </section>
+
+          </div>
+        </main>
+
+        <!-- Right: Sticky Sidebar Navigation -->
+        <aside class="w-full lg:w-1/4 lg:sticky lg:top-24 h-fit max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar self-start">
+          <div class="bg-white/90 backdrop-blur-xl border border-slate-200 p-5 rounded-2xl shadow-xl shadow-slate-100">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
+              <i class="fas fa-compass text-indigo-500"></i> Navegación del Módulo
+            </h3>
+
+            <nav id="module-nav" class="space-y-1.5 text-sm">
+              <a href="#guia" class="nav-link active flex items-center gap-3 p-3 rounded-xl transition-all font-semibold text-indigo-700 bg-indigo-50">
+                <i class="fas fa-book-medical text-indigo-600 w-5"></i>
+                <span>1. Guía de Conocimiento</span>
+              </a>
+              <a href="#flashcards" class="nav-link flex items-center gap-3 p-3 rounded-xl transition-all font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                <i class="fas fa-bolt text-yellow-500 w-5"></i>
+                <span>2. Flashcards High Yield</span>
+              </a>
+              <a href="#presentacion" class="nav-link flex items-center gap-3 p-3 rounded-xl transition-all font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                <i class="fas fa-chalkboard-teacher text-purple-500 w-5"></i>
+                <span>3. Presentación (Diapos)</span>
+              </a>
+              <a href="#herramienta" class="nav-link flex items-center gap-3 p-3 rounded-xl transition-all font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                <i class="fas fa-calculator text-cyan-500 w-5"></i>
+                <span>4. Herramientas Clínicas</span>
+              </a>
+              <a href="#abp" class="nav-link flex items-center gap-3 p-3 rounded-xl transition-all font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                <i class="fas fa-user-injured text-rose-500 w-5"></i>
+                <span>5. Caso Socrático (ABP)</span>
+              </a>
+              <a href="#autoevaluacion" class="nav-link flex items-center gap-3 p-3 rounded-xl transition-all font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                <i class="fas fa-graduation-cap text-emerald-500 w-5"></i>
+                <span>6. Autoevaluación</span>
+              </a>
+            </nav>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-20 py-8 text-center text-xs text-slate-500">
+      <div class="container mx-auto px-6 space-y-2">
+        <p class="font-medium text-slate-700">Cátedra de Gastroenterología y Semiótica Digestiva · Semestre 2026-2 · HCAM</p>
+        <p>PowerSemiotics Open Clinical Curriculum. Casos clínicos ficticios estructurados con fines formativos. No sustituye protocolos locales ni decisiones clínicas individualizadas.</p>
+      </div>
+    </footer>
+
+    <!-- Interactive JavaScript Scripts -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        initNavigation();
+        initFlashcards();
+        initSlides();
+        initClinicalTools();
+        initSocraticCase();
+        initQuiz();
+      });
+
+      // --- Navigation Tabs ---
+      function initNavigation() {
+        const links = document.querySelectorAll('#module-nav .nav-link');
+        const sections = document.querySelectorAll('.module-section');
+
+        function switchSection(targetId) {
+          sections.forEach(sec => {
+            sec.classList.remove('active');
+            if (sec.id === `section-${targetId}`) {
+              sec.classList.add('active');
+            }
+          });
+          links.forEach(l => {
+            l.classList.remove('active', 'font-semibold', 'text-indigo-700', 'bg-indigo-50');
+            l.classList.add('text-slate-600');
+            if (l.getAttribute('href') === `#${targetId}`) {
+              l.classList.add('active', 'font-semibold', 'text-indigo-700', 'bg-indigo-50');
+              l.classList.remove('text-slate-600');
+            }
+          });
+          window.scrollTo({ top: 180, behavior: 'smooth' });
+        }
+
+        links.forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').substring(1);
+            switchSection(targetId);
+          });
+        });
+
+        const hash = window.location.hash.substring(1);
+        if (hash && document.getElementById(`section-${hash}`)) {
+          switchSection(hash);
+        }
+      }
+
+      // --- 3D Flashcards ---
+      function initFlashcards() {
+        const flashcardsData = [
+          {
+            frontIcon: 'fa-tint',
+            frontTitle: 'Ictericia con orina clara',
+            frontText: 'Un paciente está ictérico pero su orina es clara y no hay acolia. ¿Qué parte del circuito está alterada?',
+            backTitle: 'Bilirrubina indirecta',
+            backText: 'La bilirrubina no conjugada no se filtra por el riñón. Piensa en hemólisis o síndrome de Gilbert. Confirma con fracciones, LDH y haptoglobina; no pidas imagen de entrada.'
+          },
+          {
+            frontIcon: 'fa-percentage',
+            frontTitle: 'El cociente R',
+            frontText: '¿Cómo se calcula y qué patrón define un R de 1,2?',
+            backTitle: 'R = (ALT/LSN) ÷ (FA/LSN)',
+            backText: 'R ≥ 5 es hepatocelular, R ≤ 2 es colestásico y entre 2 y 5 es mixto. Un R de 1,2 es colestásico: busca obstrucción de la vía biliar.'
+          },
+          {
+            frontIcon: 'fa-hand-paper',
+            frontTitle: 'Signo de Murphy',
+            frontText: '¿Qué maniobra lo define y qué entidad sugiere?',
+            backTitle: 'Colecistitis aguda',
+            backText: 'Inspiración que se interrumpe al palpar el reborde costal derecho. Debe explorarse siempre ante dolor de hipocondrio derecho. Si ya recibió analgésicos puede ser falso negativo.'
+          },
+          {
+            frontIcon: 'fa-thermometer-full',
+            frontTitle: 'Tríada de Charcot',
+            frontText: '¿Qué la compone y qué hace la péntada de Reynolds?',
+            backTitle: 'Fiebre + ictericia + dolor en HCD',
+            backText: 'Sugiere colangitis aguda. La péntada de Reynolds añade hipotensión y confusión: signo de gravedad (grado III) que exige drenaje urgente.'
+          },
+          {
+            frontIcon: 'fa-tools',
+            frontTitle: 'Colangitis moderada o grave',
+            frontText: '¿Basta con iniciar antibiótico y observar?',
+            backTitle: 'No: el drenaje es el tratamiento',
+            backText: 'Grado II: drenaje biliar temprano (24-48 h). Grado III: drenaje urgente con soporte vital. Primera elección: CPRE con esfinterotomía; alternativa: drenaje percutáneo transhepático.'
+          },
+          {
+            frontIcon: 'fa-search-plus',
+            frontTitle: 'Vesícula palpable e indolora',
+            frontText: 'Paciente de 68 años con ictericia indolora, pérdida de peso y vesícula palpable. ¿Qué sospechas?',
+            backTitle: 'Courvoisier-Terrier: neoplasia',
+            backText: 'Obstrucción distal por tumor de cabeza de páncreas, ampuloma o colangiocarcinoma. Pide TC pancreática bifásica o ecoendoscopia y no coloques stent sin estadificar si es resecable.'
+          },
+          {
+            frontIcon: 'fa-route',
+            frontTitle: 'Probabilidad alta de coledocolitiasis',
+            frontText: '¿Qué criterios la definen y cuál es el siguiente paso?',
+            backTitle: 'CPRE directa',
+            backText: 'Lito visible en imagen, colangitis, o bilirrubina &gt; 4 mg/dL con colédoco dilatado. Si la probabilidad es intermedia, primero ecoendoscopia o colangio-RM para evitar CPRE diagnósticas.'
+          },
+          {
+            frontIcon: 'fa-procedures',
+            frontTitle: 'Colecistitis alitiásica',
+            frontText: '¿En qué paciente la sospechas y por qué es peligrosa?',
+            backTitle: 'Paciente crítico, ayuno prolongado',
+            backText: 'Aparece en terapia intensiva, nutrición parenteral o ayuno prolongado. Tiene mortalidad alta y puede presentarse como fiebre sin foco; sospéchala aun sin litiasis.'
+          }
+        ];
+
+        const grid = document.getElementById('flashcards-grid');
+        grid.innerHTML = flashcardsData.map((c) => `
+          <div class="card-container" onclick="this.querySelector('.card-inner').classList.toggle('flipped')">
+            <div class="card-inner">
+              <div class="card-front bg-gradient-to-br from-white to-slate-50 border border-slate-200 shadow-md">
+                <i class="fas ${c.frontIcon} text-3xl text-indigo-600 mb-3"></i>
+                <h4 class="font-bold text-slate-800 text-base mb-2">${c.frontTitle}</h4>
+                <p class="text-xs text-slate-600">${c.frontText}</p>
+                <span class="mt-4 text-[10px] uppercase tracking-wider text-indigo-500 font-bold">Clic para voltear</span>
+              </div>
+              <div class="card-back bg-gradient-to-br from-indigo-900 to-slate-900 text-white shadow-xl">
+                <i class="fas fa-lightbulb text-2xl text-amber-400 mb-2"></i>
+                <h4 class="font-bold text-amber-300 text-sm mb-2">${c.backTitle}</h4>
+                <p class="text-xs text-slate-200 leading-relaxed">${c.backText}</p>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // --- Presentation Slides ---
+      function initSlides() {
+        const slidesData = [
+          {
+            badge: 'Diapositiva 1 · Pregunta detonante',
+            title: 'Dos pacientes amarillos: ¿cuál necesita imagen hoy?',
+            content: 'Uno tiene la orina clara y el otro orina como té. La ictericia se razona en tres pasos antes de pedir imagen: ¿bilirrubina directa o indirecta?, ¿patrón hepatocelular o colestásico?, ¿la vía biliar está dilatada?'
+          },
+          {
+            badge: 'Diapositiva 2 · Semiología',
+            title: 'Anamnesis y examen que ordenan el síndrome',
+            content: 'Coluria y acolia indican colestasis. El prurito orienta a sales biliares. El cólico señala litiasis; la ictericia indolora y progresiva con pérdida de peso, neoplasia. Murphy positivo sugiere colecistitis; vesícula palpable e indolora, Courvoisier.'
+          },
+          {
+            badge: 'Diapositiva 3 · Laboratorio',
+            title: 'El cociente R separa los patrones',
+            content: 'R = (ALT/LSN) ÷ (FA/LSN). R ≥ 5 es hepatocelular, R ≤ 2 es colestásico y 2-5 es mixto. La GGT confirma el origen hepático de una FA elevada. Las transaminasas moderadas no implican hepatitis si el R es bajo.'
+          },
+          {
+            badge: 'Diapositiva 4 · Espectro litiásico',
+            title: 'Del cólico a la colangitis',
+            content: 'Cólico biliar (sin fiebre, laboratorio normal) → colecistitis aguda (dolor persistente, Murphy, pared > 4 mm) → coledocolitiasis (ictericia, colédoco dilatado) → colangitis aguda (Charcot) → pancreatitis biliar. Cada escalón cambia la urgencia y el destino del paciente.'
+          },
+          {
+            badge: 'Diapositiva 5 · Tokyo 2018',
+            title: 'Diagnosticar y graduar la colangitis',
+            content: 'A: inflamación sistémica. B: colestasis. C: imagen. Sospecha = un ítem de A más B o C; definitivo = A + B + C. Grado II: dos de leucocitos anormales, fiebre ≥ 39 °C, edad ≥ 75, bilirrubina ≥ 5, hipoalbuminemia. Grado III: disfunción orgánica.'
+          },
+          {
+            badge: 'Diapositiva 6 · Imagen',
+            title: 'La imagen correcta para la pregunta correcta',
+            content: 'Ecografía primero. Colangio-RM o ecoendoscopia si la probabilidad de coledocolitiasis es intermedia. CPRE solo con intención terapéutica y probabilidad alta (riesgo de pancreatitis post-CPRE 3-10%). TC si se sospecha neoplasia o absceso.'
+          },
+          {
+            badge: 'Diapositiva 7 · Decisión',
+            title: 'La presión biliar es el fármaco que hay que bajar',
+            content: 'Colangitis grado I: antibiótico y observación. Grado II: drenaje en 24-48 h. Grado III: soporte vital y drenaje urgente. Antibiótico en la primera hora y hemocultivos antes de la primera dosis. La colecistectomía se programa después de controlar la colangitis.'
+          },
+          {
+            badge: 'Diapositiva 8 · Alarma',
+            title: 'Ictericia indolora: pensar en neoplasia',
+            content: 'Prurito, pérdida de peso y vesícula palpable no dolorosa: adenocarcinoma de cabeza de páncreas, colangiocarcinoma o ampuloma. TC pancreática bifásica o ecoendoscopia. No colocar stent sin estadificar si el tumor puede ser resecable, salvo colangitis o prurito intratable.'
+          }
+        ];
+
+        let currentSlide = 0;
+        const container = document.getElementById('slides-container');
+        const indicator = document.getElementById('slide-indicator');
+        const prevBtn = document.getElementById('prev-slide-btn');
+        const nextBtn = document.getElementById('next-slide-btn');
+
+        function renderSlide() {
+          const s = slidesData[currentSlide];
+          container.innerHTML = `
+            <div class="slide active">
+              <span class="inline-block px-2.5 py-1 bg-indigo-500/30 text-indigo-300 text-[11px] font-bold rounded-md uppercase tracking-wider mb-3">
+                ${s.badge}
+              </span>
+              <h3 class="text-xl md:text-2xl font-black text-white mb-3">${s.title}</h3>
+              <p class="text-slate-300 text-sm md:text-base leading-relaxed">${s.content}</p>
+            </div>
+          `;
+          indicator.textContent = `${currentSlide + 1} / ${slidesData.length}`;
+        }
+
+        prevBtn.addEventListener('click', () => {
+          if (currentSlide > 0) {
+            currentSlide--;
+            renderSlide();
+          }
+        });
+        nextBtn.addEventListener('click', () => {
+          if (currentSlide < slidesData.length - 1) {
+            currentSlide++;
+            renderSlide();
+          }
+        });
+
+        renderSlide();
+      }
+
+      // --- Clinical Tools ---
+      function initClinicalTools() {
+        // Tool 1: R ratio
+        const altEl = document.getElementById('r-alt');
+        const altLsnEl = document.getElementById('r-alt-lsn');
+        const faEl = document.getElementById('r-fa');
+        const faLsnEl = document.getElementById('r-fa-lsn');
+        const rValue = document.getElementById('r-value');
+        const rResult = document.getElementById('r-result');
+
+        function updateR() {
+          const alt = parseFloat(altEl.value);
+          const altLsn = parseFloat(altLsnEl.value);
+          const fa = parseFloat(faEl.value);
+          const faLsn = parseFloat(faLsnEl.value);
+          if (!(alt > 0 && altLsn > 0 && fa > 0 && faLsn > 0)) {
+            rValue.textContent = '—';
+            rResult.className = 'p-3.5 rounded-lg text-xs font-semibold bg-slate-100 border border-slate-300 text-slate-800';
+            rResult.textContent = 'Introduce valores positivos en los cuatro campos.';
+            return;
+          }
+          const r = (alt / altLsn) / (fa / faLsn);
+          rValue.textContent = r.toFixed(1);
+          if (r >= 5) {
+            rResult.className = 'p-3.5 rounded-lg text-xs font-semibold bg-rose-50 border border-rose-300 text-rose-900';
+            rResult.textContent = 'Patrón hepatocelular (R ≥ 5): hepatitis viral, alcohol, fármacos, isquemia o autoinmune. Revisa INR y albúmina.';
+          } else if (r <= 2) {
+            rResult.className = 'p-3.5 rounded-lg text-xs font-semibold bg-amber-50 border border-amber-300 text-amber-900';
+            rResult.textContent = 'Patrón colestásico (R ≤ 2): busca obstrucción de la vía biliar. Ecografía y valorar la probabilidad de coledocolitiasis.';
+          } else {
+            rResult.className = 'p-3.5 rounded-lg text-xs font-semibold bg-emerald-50 border border-emerald-300 text-emerald-900';
+            rResult.textContent = 'Patrón mixto (2 < R < 5): colestasis por fármacos, hepatitis colestásica o proceso infiltrativo. Correlaciona con la clínica.';
+          }
+        }
+        [altEl, altLsnEl, faEl, faLsnEl].forEach(el => el.addEventListener('input', updateR));
+        updateR();
+
+        // Tool 2: Tokyo cholangitis
+        const diag = Array.from(document.querySelectorAll('.tk-diag'));
+        const g2 = Array.from(document.querySelectorAll('.tk-g2'));
+        const g3 = Array.from(document.querySelectorAll('.tk-g3'));
+        const tkResult = document.getElementById('tk-result');
+
+        function updateTokyo() {
+          const hasA = diag.find(c => c.value === 'A').checked;
+          const hasB = diag.find(c => c.value === 'B').checked;
+          const hasC = diag.find(c => c.value === 'C').checked;
+          const nG2 = g2.filter(c => c.checked).length;
+          const anyG3 = g3.some(c => c.checked);
+
+          let dx;
+          if (hasA && hasB && hasC) {
+            dx = '<strong>Diagnóstico definitivo de colangitis aguda</strong> (A + B + C).';
+          } else if (hasA && (hasB || hasC)) {
+            dx = '<strong>Sospecha de colangitis aguda</strong> (A más B o C). Completa lo que falta.';
+          } else {
+            dx = 'No se cumple aún sospecha ni diagnóstico (se requiere A más B o C).';
+          }
+
+          let grade;
+          let cls;
+          if (!(hasA && (hasB || hasC))) {
+            grade = '';
+            cls = 'p-4 rounded-xl text-sm font-medium border bg-slate-100 text-slate-800 border-slate-300';
+          } else if (anyG3) {
+            grade = '<br><strong>Grado III (grave):</strong> soporte vital (UCI) y <strong>drenaje biliar urgente</strong>. Antibiótico en la primera hora y hemocultivos antes de la primera dosis.';
+            cls = 'p-4 rounded-xl text-sm font-medium border bg-rose-50 text-rose-950 border-rose-300';
+          } else if (nG2 >= 2) {
+            grade = '<br><strong>Grado II (moderada):</strong> antibiótico y <strong>drenaje biliar temprano</strong> (24-48 h). Observar solo con antibiótico es un error.';
+            cls = 'p-4 rounded-xl text-sm font-medium border bg-amber-50 text-amber-950 border-amber-300';
+          } else {
+            grade = '<br><strong>Grado I (leve):</strong> antibiótico y vigilancia; si no mejora en 24-48 h, reclasificar y valorar drenaje. Tratar la causa de forma electiva.';
+            cls = 'p-4 rounded-xl text-sm font-medium border bg-emerald-50 text-emerald-900 border-emerald-300';
+          }
+          tkResult.className = cls;
+          tkResult.innerHTML = dx + grade;
+        }
+        [...diag, ...g2, ...g3].forEach(cb => cb.addEventListener('change', updateTokyo));
+        updateTokyo();
+      }
+
+      // --- Socratic Case ---
+      function initSocraticCase() {
+        const stages = [
+          {
+            num: 1,
+            title: 'En la puerta de urgencias',
+            question: 'Antes de ver un solo laboratorio, ¿qué preguntas de anamnesis y qué signos físicos buscarías? Con estos signos vitales, ¿qué diagnóstico no puedes pasar por alto?',
+            clue: 'Pregunta por el color de la orina y de las heces, y por dolor, fiebre y prurito. Busca Murphy, estigmas de hepatopatía y vesícula palpable. Con fiebre alta, taquicardia, ictericia y dolor en HCD, el diagnóstico a no omitir es la colangitis aguda: es una urgencia con antibiótico y valoración de drenaje en las primeras horas.'
+          },
+          {
+            num: 2,
+            title: 'Exploración física',
+            question: 'Escleras ictéricas; abdomen blando con dolor y defensa leve en HCD; la inspiración se interrumpe al palpar el reborde costal derecho; sin estigmas de hepatopatía; excoriaciones por prurito. ¿Qué signo es ese y qué patrón de ictericia es más probable?',
+            clue: 'Es el signo de Murphy: apoya colecistitis aguda. La ausencia de estigmas crónicos, junto con el prurito, orienta a una ictericia colestásica obstructiva, no hepatocelular crónica. Una neoplasia se sospecharía con ictericia indolora, pérdida de peso y vesícula palpable no dolorosa.'
+          },
+          {
+            num: 3,
+            title: 'Laboratorio',
+            question: 'Leucocitos 17.800, PCR 18 mg/dL, bilirrubina total/directa 6,4/4,9, ALT 148 (LSN 40), FA 410 (LSN 130), GGT 520, INR 1,1, lipasa 95 (LSN 60). Calcula el cociente R. ¿Cambia la lipasa el diagnóstico?',
+            clue: 'R = (148/40) ÷ (410/130) = 3,7 ÷ 3,15 ≈ 1,2: patrón colestásico. Las transaminasas moderadas son daño hepatocelular secundario, no hepatitis. La lipasa de 95 es menor de 3 × LSN: no cumple criterio de pancreatitis, pero la coledocolitiasis puede complicarse con pancreatitis biliar, así que se vigila. La bilirrubina es 77% directa (4,9 de 6,4).'
+          },
+          {
+            num: 4,
+            title: 'Imagen',
+            question: 'La ecografía muestra múltiples litos vesiculares, pared de 5 mm, líquido perivesicular escaso, colédoco de 11 mm, vía intrahepática dilatada y colédoco distal no visualizado. ¿Qué dos diagnósticos coexisten y a qué estudio vas?',
+            clue: 'Colecistitis aguda litiásica (pared &gt; 4 mm, líquido perivesicular) y colangitis aguda por coledocolitiasis (colédoco dilatado, ictericia y fiebre). La probabilidad de coledocolitiasis es alta (colangitis clínica y bilirrubina &gt; 4 mg/dL con colédoco dilatado): se va directo a CPRE, sin colangio-RM previa, que retrasaría el drenaje en una paciente séptica.'
+          },
+          {
+            num: 5,
+            title: 'Clasificación y decisión',
+            question: 'Aplica Tokyo 2018: ¿diagnóstico definitivo? ¿Qué grado? Ordena las acciones de la primera hora. La residente propone ceftriaxona y observar 48 horas: ¿qué le respondes?',
+            clue: 'A (fiebre, leucocitos, PCR), B (bilirrubina y FA/GGT) y C (dilatación biliar) están presentes: diagnóstico definitivo. Grado II: cumple leucocitos &gt; 12.000 y bilirrubina ≥ 5 (fiebre 38,9 °C no alcanza 39 °C). Orden: acceso, hemocultivos antes del antibiótico, líquidos, analgesia, antibiótico de amplio espectro en la primera hora y solicitud de CPRE temprana (24-48 h). Observar solo con antibiótico es un error: el grado II exige drenaje.'
+          },
+          {
+            num: 6,
+            title: 'Seis horas después',
+            question: 'A pesar de antibiótico y 2 L de cristaloides: PA 84/50, somnolencia, FR 26, creatinina 2,3 mg/dL, diuresis 20 mL en 3 horas. ¿Qué cambió y qué vía de drenaje eliges?',
+            clue: 'Hipotensión refractaria, alteración de la conciencia y falla renal: grado III (grave). Requiere soporte vital (UCI, vasopresores si no responde a volumen) y drenaje biliar urgente. Primera elección: CPRE con esfinterotomía y extracción o stent/drenaje nasobiliar, con la mínima manipulación. Alternativas: drenaje percutáneo transhepático o drenaje guiado por ecoendoscopia. La colecistectomía urgente no es la prioridad. La lección: la presión biliar es el fármaco que hay que bajar.'
+          }
+        ];
+
+        const container = document.getElementById('socratic-stages-container');
+        container.innerHTML = stages.map(s => `
+          <div class="border border-slate-200 rounded-xl p-5 bg-white shadow-xs">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center">${s.num}</span>
+              <h4 class="font-bold text-slate-800 text-base">Etapa ${s.num}: ${s.title}</h4>
+            </div>
+            <p class="text-sm text-slate-700 font-medium mb-3 pl-10">${s.question}</p>
+            <div class="pl-10">
+              <button class="reveal-btn text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1.5 focus:outline-none">
+                <i class="fas fa-lightbulb"></i> <span>Ver Clave Docente & Perla Socrática</span>
+              </button>
+              <div class="clue-content hidden mt-3 p-3.5 bg-indigo-50/70 border border-indigo-200 rounded-lg text-xs text-indigo-950 leading-relaxed">
+                ${s.clue}
+              </div>
+            </div>
+          </div>
+        `).join('');
+
+        container.querySelectorAll('.reveal-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const clue = btn.nextElementSibling;
+            clue.classList.toggle('hidden');
+            btn.querySelector('span').textContent = clue.classList.contains('hidden')
+              ? 'Ver Clave Docente & Perla Socrática'
+              : 'Ocultar Clave';
+          });
+        });
+      }
+
+      // --- Quiz Section ---
+      function initQuiz() {
+        const quizData = [
+          {
+            question: 'Un varón de 24 años presenta ictericia leve tras un ayuno prolongado. Bilirrubina total 3,1 mg/dL con 2,8 indirecta; ALT, FA, hemograma y LDH normales; orina de color normal. ¿Cuál es la conducta adecuada?',
+            options: [
+              'CPRE urgente para descartar coledocolitiasis.',
+              'Colangio-RM y biopsia hepática.',
+              'Diagnóstico de síndrome de Gilbert; explicar el desencadenante sin imagen ni tratamiento.',
+              'Iniciar ceftriaxona por sospecha de colangitis.'
+            ],
+            correct: 2,
+            justification: 'Hiperbilirrubinemia indirecta aislada, con pruebas hepáticas, hemograma y LDH normales y sin coluria, es el cuadro típico del síndrome de Gilbert, que se desencadena con el ayuno. No necesita imagen ni tratamiento.'
+          },
+          {
+            question: 'ALT 320 U/L (LSN 40) y FA 150 U/L (LSN 130) en una paciente ictérica. ¿Qué cociente R y qué patrón corresponden?',
+            options: [
+              'R ≈ 6,9: patrón hepatocelular.',
+              'R ≈ 0,5: patrón colestásico.',
+              'R ≈ 3: patrón mixto.',
+              'No se puede calcular sin la bilirrubina.'
+            ],
+            correct: 0,
+            justification: 'R = (320/40) ÷ (150/130) = 8 ÷ 1,15 ≈ 6,9. Con R ≥ 5 el patrón es hepatocelular: hepatitis viral, fármacos, alcohol, isquemia o autoinmune. El cálculo solo requiere ALT, FA y sus LSN.'
+          },
+          {
+            question: 'Mujer de 45 años con dolor en HCD de 12 horas, fiebre 38,2 °C, Murphy positivo, sin ictericia. La ecografía muestra pared vesicular de 5 mm y líquido perivesicular. ¿Cuál es el diagnóstico y la conducta?',
+            options: [
+              'Cólico biliar: analgesia y alta con cita electiva.',
+              'Colecistitis aguda: ayuno, líquidos, analgesia, antibiótico y colecistectomía temprana.',
+              'Colangitis grado III: CPRE de emergencia.',
+              'Pancreatitis aguda: TC de abdomen inmediata.'
+            ],
+            correct: 1,
+            justification: 'Murphy, fiebre, pared &gt; 4 mm y líquido perivesicular definen colecistitis aguda. El tratamiento es de soporte, antibiótico y colecistectomía temprana (idealmente en menos de 72 h). Sin ictericia ni dilatación biliar no hay indicación de CPRE.'
+          },
+          {
+            question: 'En una colangitis aguda grado II de Tokyo 2018 (bilirrubina 6 mg/dL y leucocitos 15.000) la conducta correcta es:',
+            options: [
+              'Antibiótico y observación durante 5-7 días.',
+              'Antibiótico y drenaje biliar temprano (en 24-48 h).',
+              'Colecistectomía inmediata sin drenaje.',
+              'Esperar a que aparezca hipotensión para drenar.'
+            ],
+            correct: 1,
+            justification: 'El grado II (dos criterios: leucocitos anormales y bilirrubina ≥ 5) exige drenaje biliar temprano. El antibiótico trata la bacteriemia, pero no resuelve la obstrucción. Esperar a la hipotensión es dejar que progrese a grado III.'
+          },
+          {
+            question: 'Una paciente con colangitis tiene probabilidad alta de coledocolitiasis (litos visibles en el colédoco y bilirrubina de 6 mg/dL). ¿Cuál es el siguiente paso?',
+            options: [
+              'Colangio-RM antes de cualquier procedimiento.',
+              'CPRE directa con esfinterotomía y extracción.',
+              'Colecistectomía laparoscópica sin estudio de la vía biliar.',
+              'Gammagrafía HIDA.'
+            ],
+            correct: 1,
+            justification: 'Con probabilidad alta (lito en imagen, colangitis o bilirrubina &gt; 4 mg/dL con colédoco dilatado) se va a CPRE directa, que es diagnóstica y terapéutica a la vez. La colangio-RM se reserva para la probabilidad intermedia y retrasaría el drenaje en un paciente séptico.'
+          },
+          {
+            question: 'Varón de 68 años con ictericia progresiva de 3 semanas sin dolor, prurito, pérdida de 9 kg y vesícula palpable e indolora. ¿Cuál es la sospecha y el estudio inicial más adecuado?',
+            options: [
+              'Colecistitis aguda; ecografía y colecistectomía urgente.',
+              'Hepatitis viral aguda; serologías y observación.',
+              'Neoplasia de cabeza de páncreas o ampuloma; TC pancreática bifásica o ecoendoscopia.',
+              'Síndrome de Gilbert; tranquilizar al paciente.'
+            ],
+            correct: 2,
+            justification: 'La ictericia indolora y progresiva con pérdida de peso y signo de Courvoisier-Terrier sugiere obstrucción maligna distal. Se estudia con TC pancreática bifásica o ecoendoscopia, y no se coloca stent antes de estadificar si el tumor puede ser resecable, salvo colangitis o prurito intratable.'
+          }
+        ];
+
+        const container = document.getElementById('quiz-questions');
+        container.innerHTML = quizData.map((q, i) => `
+          <div class="question-block mb-8 p-5 md:p-7 border border-slate-200 rounded-2xl bg-white shadow-xs">
+            <div class="flex items-start gap-3 mb-4">
+              <span class="bg-indigo-100 text-indigo-700 font-black rounded-lg w-8 h-8 flex shrink-0 items-center justify-center text-sm">${i+1}</span>
+              <p class="font-bold text-slate-800 text-sm md:text-base leading-relaxed pt-0.5">${q.question}</p>
+            </div>
+            <div class="options-container space-y-2.5 pl-11">
+              ${q.options.map((opt, j) => `
+                <button class="option-btn w-full text-left p-3.5 border border-slate-200 rounded-xl hover:border-indigo-400 focus:outline-none transition-all text-xs md:text-sm font-medium text-slate-700 bg-slate-50 relative overflow-hidden group" data-correct="${j === q.correct}" data-feedback="${q.justification}">
+                  <span class="font-bold text-indigo-400 mr-2">${String.fromCharCode(65 + j)}.</span> ${opt}
+                </button>
+              `).join('')}
+            </div>
+            <div class="feedback mt-4 ml-11 rounded-xl text-xs md:text-sm transition-all font-medium border" style="display: none;"></div>
+          </div>
+        `).join('');
+
+        container.querySelectorAll('.option-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const isCorrect = btn.dataset.correct === 'true';
+            const feedback = btn.dataset.feedback;
+            const block = btn.closest('.question-block');
+            const feedbackEl = block.querySelector('.feedback');
+
+            block.querySelectorAll('.option-btn').forEach(opt => {
+              opt.disabled = true;
+              opt.classList.remove('hover:border-indigo-400', 'group');
+              opt.classList.add('opacity-60', 'cursor-default');
+              if (opt.dataset.correct === 'true') {
+                opt.classList.remove('bg-slate-50', 'border-slate-200', 'opacity-60');
+                opt.classList.add('bg-emerald-50', 'border-emerald-400', 'text-emerald-900', 'font-bold');
+              }
+            });
+
+            if (isCorrect) {
+              feedbackEl.innerHTML = `<div class="p-4 flex gap-3"><i class="fas fa-check-circle text-xl text-emerald-600 mt-0.5"></i><div><strong class="block text-emerald-800 font-bold mb-0.5">¡Correcto!</strong> <span class="text-emerald-950">${feedback}</span></div></div>`;
+              feedbackEl.className = 'feedback mt-4 ml-11 rounded-xl text-xs md:text-sm bg-emerald-50 border-emerald-300 font-medium block shadow-xs';
+            } else {
+              btn.classList.remove('opacity-60', 'bg-slate-50');
+              btn.classList.add('bg-rose-50', 'border-rose-400', 'text-rose-900', 'opacity-100');
+              feedbackEl.innerHTML = `<div class="p-4 flex gap-3"><i class="fas fa-times-circle text-xl text-rose-600 mt-0.5"></i><div><strong class="block text-rose-800 font-bold mb-0.5">Incorrecto</strong> <span class="text-rose-950">${feedback}</span></div></div>`;
+              feedbackEl.className = 'feedback mt-4 ml-11 rounded-xl text-xs md:text-sm bg-rose-50 border-rose-300 font-medium block shadow-xs';
+            }
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
