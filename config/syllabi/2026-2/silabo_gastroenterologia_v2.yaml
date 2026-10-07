@@ -130,7 +130,7 @@ schedule_18_weeks:
     hemisemestre: 2
 
   - week: 14
-    date: "2026-09-23"
+    date: "2026-10-08"
     topic_id: "ictericia-via-biliar"
     title: "Síndromes ictéricos, colestasis y patología biliar litiásica (Colecistitis/Colangitis aguda)"
     status: "projected"
