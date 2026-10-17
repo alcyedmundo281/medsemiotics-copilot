@@ -42,6 +42,9 @@ authorizer and 0.6F writer remain the only path to an external write.
 
 ## Explicitly out of scope
 
+This list records what loop 0.7A delivered. Native rubric creation later became permitted under
+named instructor approval; `AGENTS.md` states the current contract.
+
 - automatic assignment selection without faculty review;
 - native Google Classroom rubric creation;
 - student-visible publication, grading, points, submissions, or rosters;
