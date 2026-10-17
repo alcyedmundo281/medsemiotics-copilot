@@ -1,0 +1,19 @@
+# Line-ending policy for a repository edited on Windows and verified on Linux CI.
+#
+# Without this file the result depends on each machine's core.autocrlf, which is how two
+# generated catalogs (config/syllabi/2026-2/NEURO.yaml and config/teaching_logs/2026-2/NEURO.yaml)
+# once flipped from CRLF to LF and turned a 25-line change into a 450-line diff.
+
+# Store every text file with LF; check it out with the platform's own endings.
+* text=auto
+
+# Calendar exports: iCalendar mandates CRLF (RFC 5545), and scripts/export_calendar_ics.py
+# writes it deliberately. Keep that in the working copy on every platform.
+*.ics text eol=crlf
+
+# Shell scripts must keep LF even when checked out on Windows.
+*.sh text eol=lf
+
+# Published teaching material Git must never rewrite.
+*.pdf binary
+*.epub binary
