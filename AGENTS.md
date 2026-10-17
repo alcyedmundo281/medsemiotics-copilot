@@ -29,16 +29,26 @@ Calendar writer code stays for reference but must not be invoked.
 Teaching guide catalogs are public baseline content. A generated coaching brief remains a draft
 until an accountable person approves the separate publication request.
 
-Assignment and rubric catalogs are public baseline content. The instructor may explicitly
-authorize creating and assigning a task in Google Classroom, including its native grading rubric.
-Creating a rubric defines assessment criteria; it does not assign or publish student grades.
-Choose criterion weights from each assignment's learning objectives and keep its approved total.
-The 6-6-4-4 distribution is an example, not a fixed template or a default requirement.
-The privacy restriction prohibits committing student names, grades, submissions, or other personal
-data to this public repository; it does not prohibit instructor-authorized Classroom assignments.
-The existing catalog-backed API adapter supports only `DRAFT` plans. This is an implementation
-limit, not a blanket prohibition on authorized Classroom publication through a supported workflow.
-Do not silently extend that adapter, publish grades, access student data, or execute batches.
+Assignment and rubric catalogs are public baseline content. Catalog-backed Classroom output is one
+reviewable plan. Creating coursework in Classroom, with its native grading rubric, requires named
+instructor approval bound to one course and one catalog assignment. One approval authorizes one
+coursework item: it must not target individual students, access rosters, submissions, or grades,
+create more than one item, or run autonomously, and the applied-action ledger must record it.
+Criterion weights come from that assignment's learning objectives and keep its approved total; the
+6-6-4-4 distribution is one example, not a default.
+
+Creating a rubric defines assessment criteria; it never assigns or publishes a student grade.
+Grade publication stays prohibited, as does committing student names, grades, submissions, or
+other personal data to this public repository. That privacy rule restricts what this repository
+stores, not whether the instructor may authorize Classroom coursework.
+
+The catalog-backed adapter creates coursework only in `DRAFT`, and `coursework_draft_create` is the
+only coursework operation `src/medsemiotics/domain/classroom_access.py` declares. That is an
+implementation limit rather than a prohibition on authorized publication, but widening it is a
+reviewable change to this contract and to that access policy, never an implicit extension of the
+adapter. Creating coursework needs `classroom.coursework.students`, which carries grade authority
+at the OAuth level that no workflow here exercises; prefer `classroom.courseworkmaterials`
+whenever a material, rather than a graded assignment, meets the need.
 
 Student-visible Classroom materials are a separate capability using only
 `classroom.courseworkmaterials`. It may publish one folder-backed package to all students only
