@@ -21,7 +21,6 @@ from medsemiotics.domain.calendar import OperationalCalendarEvent
 from medsemiotics.integrations.google_calendar.secret_backed_auth import (
     CALENDAR_CLIENT_ID_SECRET,
 )
-from medsemiotics.services.schedule_repository import ScheduleRepository
 
 TOKEN = "backend-token-for-the-mobile-surface"
 AUTH = {"Authorization": f"Bearer {TOKEN}"}
@@ -42,9 +41,20 @@ def configure(
 
 
 SYNTHETIC_CALENDAR_ID = "synthetic-neuro@group.calendar.google.com"
-# A Tuesday well inside the synthetic baseline window written by ``_write_full_config``, so the
-# schedule endpoint always has a full window of planned dates ahead of it.
-SYNTHETIC_TODAY = date(2026, 3, 3)
+SYNTHETIC_TIMEZONE = ZoneInfo("America/Guayaquil")
+
+
+def _next_tuesday(from_date: date) -> date:
+    """Return the first Tuesday on or after ``from_date``."""
+    return from_date + timedelta(days=(1 - from_date.weekday()) % 7)
+
+
+# The synthetic baseline of ``_write_full_config`` follows the clock, so these endpoint tests keep
+# a class date ahead of them whatever day the suite runs on. The tracked teaching calendar ends
+# with its semester; depending on it made the suite fail once the last class date went by.
+SYNTHETIC_TODAY = _next_tuesday(datetime.now(SYNTHETIC_TIMEZONE).date())
+SYNTHETIC_WINDOW_START = SYNTHETIC_TODAY - timedelta(weeks=52)
+SYNTHETIC_WINDOW_END = SYNTHETIC_TODAY + timedelta(weeks=52)
 
 
 def _write_full_config(root: Path) -> None:
@@ -94,8 +104,8 @@ def _write_full_config(root: Path) -> None:
         'semester_id: "2026-2"\n'
         'course_code: "NEURO"\n'
         "enabled: true\n"
-        'teaching_start_date: "2026-01-06"\n'
-        'teaching_end_date: "2026-12-29"\n'
+        f'teaching_start_date: "{SYNTHETIC_WINDOW_START}"\n'
+        f'teaching_end_date: "{SYNTHETIC_WINDOW_END}"\n'
         'meeting_rules:\n  - weekday: "tuesday"\n'
         "exceptions: []\n",
         encoding="utf-8",
@@ -609,25 +619,6 @@ class FakeCalendarReader:
         return self.events
 
 
-def next_synthetic_class() -> date:
-    """Find the next class date of the synthetic Tuesday baseline written by ``full_config``."""
-    today = datetime.now(ZoneInfo("America/Guayaquil")).date()
-    return today + timedelta(days=(1 - today.weekday()) % 7)
-
-
-def next_baseline_class(offset: int = 0) -> date:
-    """Find an upcoming planned class date from the tracked NEURO baseline."""
-    today = datetime.now(ZoneInfo("America/Guayaquil")).date()
-    upcoming = [
-        candidate
-        for candidate in ScheduleRepository(CONFIG_ROOT / "schedules")
-        .get("2026-2", "NEURO")
-        .all_class_dates
-        if candidate >= today
-    ]
-    return upcoming[offset]
-
-
 def cancelled_event(class_date: date) -> OperationalCalendarEvent:
     """Build a Calendar event marking one baseline class as cancelled."""
     timezone = ZoneInfo("America/Guayaquil")
@@ -653,13 +644,14 @@ class TestEffectiveScheduleEndpoint:
         assert CALENDAR_CLIENT_ID_SECRET in detail
         assert "/schedule" in detail
 
-    def test_reconciles_the_baseline_with_calendar_evidence(self) -> None:
-        class_date = next_baseline_class()
+    def test_reconciles_the_baseline_with_calendar_evidence(self, full_config: Path) -> None:
+        class_date = SYNTHETIC_TODAY
         reader = FakeCalendarReader([cancelled_event(class_date)])
 
-        response = configure(calendar_reader_factory=lambda timezone: reader).get(  # noqa: ARG005
-            "/v1/courses/neuro/effective-schedule?days=30", headers=AUTH
-        )
+        response = configure(
+            config_root=full_config,
+            calendar_reader_factory=lambda timezone: reader,  # noqa: ARG005
+        ).get("/v1/courses/neuro/effective-schedule?days=30", headers=AUTH)
 
         assert response.status_code == 200
         payload = response.json()
@@ -755,7 +747,7 @@ class TestBriefEndpoint:
         assert CALENDAR_CLIENT_ID_SECRET in response.json()["detail"]
 
     def test_composes_a_draft_for_a_teaching_day(self, full_config: Path) -> None:
-        class_date = next_synthetic_class()
+        class_date = SYNTHETIC_TODAY
         reader = FakeCalendarReader([scheduled_event(class_date)])
 
         response = configure(
@@ -772,12 +764,15 @@ class TestBriefEndpoint:
         assert payload["coaching_tips"]
         assert payload["preview_body"]
 
-    def test_marks_every_brief_as_a_draft(self) -> None:
-        class_date = next_baseline_class()
+    def test_marks_every_brief_as_a_draft(self, full_config: Path) -> None:
+        class_date = SYNTHETIC_TODAY
         reader = FakeCalendarReader([scheduled_event(class_date)])
 
         payload = (
-            configure(calendar_reader_factory=lambda timezone: reader)  # noqa: ARG005
+            configure(
+                config_root=full_config,
+                calendar_reader_factory=lambda timezone: reader,  # noqa: ARG005
+            )
             .get(f"/v1/courses/NEURO/brief?date={class_date.isoformat()}", headers=AUTH)
             .json()
         )
@@ -787,16 +782,15 @@ class TestBriefEndpoint:
         assert "named human approval" in payload["note"]
         assert "cannot publish" in payload["note"]
 
-    def test_reports_a_day_without_class(self) -> None:
-        class_date = next_baseline_class()
-        non_class_date = class_date + timedelta(days=1)
-        while non_class_date.weekday() in {1, 3}:
-            non_class_date += timedelta(days=1)
+    def test_reports_a_day_without_class(self, full_config: Path) -> None:
+        # The synthetic baseline meets on Tuesdays, so the day after a class is never one.
+        non_class_date = SYNTHETIC_TODAY + timedelta(days=1)
         reader = FakeCalendarReader([])
 
-        response = configure(calendar_reader_factory=lambda timezone: reader).get(  # noqa: ARG005
-            f"/v1/courses/NEURO/brief?date={non_class_date.isoformat()}", headers=AUTH
-        )
+        response = configure(
+            config_root=full_config,
+            calendar_reader_factory=lambda timezone: reader,  # noqa: ARG005
+        ).get(f"/v1/courses/NEURO/brief?date={non_class_date.isoformat()}", headers=AUTH)
 
         assert response.status_code == 404
         assert "No effective class" in response.json()["detail"]
