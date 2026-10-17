@@ -42,6 +42,9 @@ def configure(
 
 
 SYNTHETIC_CALENDAR_ID = "synthetic-neuro@group.calendar.google.com"
+# A Tuesday well inside the synthetic baseline window written by ``_write_full_config``, so the
+# schedule endpoint always has a full window of planned dates ahead of it.
+SYNTHETIC_TODAY = date(2026, 3, 3)
 
 
 def _write_full_config(root: Path) -> None:
@@ -539,21 +542,37 @@ class TestCoordinationEndpoint:
 class TestScheduleEndpoint:
     """Verify planned class dates are served as planned, never as confirmed."""
 
-    def test_returns_upcoming_planned_dates(self) -> None:
-        response = configure().get("/v1/courses/neuro/schedule", headers=AUTH)
+    @pytest.fixture(autouse=True)
+    def pinned_today(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Serve the window from a fixed day so the suite does not depend on the clock."""
+        monkeypatch.setattr(api_module, "_today", lambda: SYNTHETIC_TODAY)
+
+    def test_returns_upcoming_planned_dates(self, full_config: Path) -> None:
+        response = configure(config_root=full_config).get(
+            "/v1/courses/neuro/schedule", headers=AUTH
+        )
 
         assert response.status_code == 200
         payload = response.json()
         assert payload["course_code"] == "NEURO"
         assert payload["enabled"] is True
-        assert len(payload["upcoming"]) <= 5
-        assert {entry["weekday"] for entry in payload["upcoming"]} <= {"tuesday", "thursday"}
+        assert [entry["date"] for entry in payload["upcoming"]] == [
+            str(SYNTHETIC_TODAY + timedelta(weeks=week)) for week in range(5)
+        ]
+        assert {entry["weekday"] for entry in payload["upcoming"]} == {"tuesday"}
         assert "Calendar evidence this backend does not read" in payload["note"]
 
-    def test_honours_the_requested_limit(self) -> None:
-        payload = configure().get("/v1/courses/NEURO/schedule?limit=2", headers=AUTH).json()
+    def test_honours_the_requested_limit(self, full_config: Path) -> None:
+        payload = (
+            configure(config_root=full_config)
+            .get("/v1/courses/NEURO/schedule?limit=2", headers=AUTH)
+            .json()
+        )
 
-        assert len(payload["upcoming"]) == 2
+        assert [entry["date"] for entry in payload["upcoming"]] == [
+            str(SYNTHETIC_TODAY),
+            str(SYNTHETIC_TODAY + timedelta(weeks=1)),
+        ]
 
     @pytest.mark.parametrize("limit", ["0", "51", "many"])
     def test_rejects_an_unusable_limit(self, limit: str) -> None:
